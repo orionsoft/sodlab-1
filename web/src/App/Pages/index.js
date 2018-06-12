@@ -15,8 +15,8 @@ export default class Component extends React.Component {
       const Component = DynamicComponent(() => import('./Auth'))
       return <Component />
     } else {
-      const Dashboard = DynamicComponent(() => import('./Dashboard'))
-      return <Dashboard />
+      const App = DynamicComponent(() => import('./App'))
+      return <App />
     }
   }
 }
