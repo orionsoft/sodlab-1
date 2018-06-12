@@ -1,0 +1,21 @@
+.shadow {
+  box-shadow: 0 18px 35px rgba(50, 50, 93, 0.1), 0 8px 15px rgba(0, 0, 0, 0.07);
+}
+
+.content {
+  padding: 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 18px 35px rgba(50, 50, 93, 0.1), 0 8px 15px rgba(0, 0, 0, 0.07);
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.divider {
+  background: #eee;
+  height: 1px;
+  width: 100%;
+  margin: 40px 0;
+}

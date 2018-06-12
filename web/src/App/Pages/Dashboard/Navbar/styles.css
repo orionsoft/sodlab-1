@@ -1,0 +1,24 @@
+:local(.container) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 46px;
+}
+
+:local(.container) > div {
+  height: 100%;
+}
+
+:local(.flex) {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+:local(.logo) {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}

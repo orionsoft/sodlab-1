@@ -1,0 +1,26 @@
+:local(.container) {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+:local(.content) {
+  composes: shadow from global;
+  width: 400px;
+  padding: 40px 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+:local(.photo) {
+  flex: 1;
+  background-color: #eee;
+  /* triangles */
+  /* background-image: url('https://images.unsplash.com/photo-1492546643178-96d64f3fd824?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c8b0ca61fa643ce14689caf7a5bd84d&auto=format&fit=crop&w=2851&q=80'); */
+  /* fibers */
+  background-image: url('https://images.unsplash.com/photo-1496096265110-f83ad7f96608?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=35840c5a386390076c95d47b745ae459&auto=format&fit=crop&w=2850&q=80');
+  background-size: cover;
+  background-position: center;
+}

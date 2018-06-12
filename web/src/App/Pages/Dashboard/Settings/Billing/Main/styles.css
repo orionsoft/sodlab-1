@@ -1,0 +1,17 @@
+:local(.container) {
+}
+
+:local(.card) {
+  padding: 20px;
+  max-width: 200px;
+  border-radius: 10px;
+  background: #eee;
+  margin-bottom: 20px;
+}
+
+:local(.last4) {
+  float: right;
+  display: block;
+  text-align: right;
+  margin-top: 22px;
+}

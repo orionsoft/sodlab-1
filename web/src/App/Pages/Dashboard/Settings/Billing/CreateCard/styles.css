@@ -1,0 +1,24 @@
+:local(.container) {
+}
+
+:local(.container) .StripeElement {
+  background-color: #fff;
+  padding: 10px 12px;
+  border: 1px solid #111;
+  box-shadow: 0 0 0 1px rgba(220, 220, 220, 0.2);
+  transition: box-shadow 150ms ease;
+}
+
+:local(.container) .StripeElement--focus {
+  border: 1px solid #0069ff;
+  box-shadow: 0 0 0 0.5px rgba(49, 49, 93, 0.03), 0 2px 5px 0 rgba(49, 49, 93, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.08);
+}
+
+:local(.container) .StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+:local(.container) .StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}

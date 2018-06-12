@@ -1,0 +1,10 @@
+:local(.container) {
+  display: inline-flex;
+  border-radius: 2px;
+  width: 48px;
+  height: 30px;
+  color: #333;
+}
+:local(.container) img {
+  max-width: 100%;
+}
