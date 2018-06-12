@@ -50,7 +50,7 @@ export default class List extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <div className="content no-padding">
+        <div className="paginated-list no-padding">
           <WithParams name={this.props.name}>
             {({params}) => (
               <Paginated

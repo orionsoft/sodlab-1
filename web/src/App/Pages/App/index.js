@@ -5,6 +5,7 @@ import Navbar from './Navbar'
 import {Route, Switch} from 'react-router-dom'
 import Settings from './Settings'
 import forceLogin from 'App/helpers/auth/forceLogin'
+import DynamicComponent from 'App/components/DynamicComponent'
 
 @forceLogin
 export default class Layout extends React.Component {
@@ -18,6 +19,7 @@ export default class Layout extends React.Component {
         <Navbar />
         <Switch>
           <Route path="/settings" component={Settings} />
+          <Route path="/admin" component={DynamicComponent(() => import('./Admin'))} />
         </Switch>
       </div>
     )

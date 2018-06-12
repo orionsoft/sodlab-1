@@ -16,3 +16,8 @@
 :local(.container) a:hover {
   background: #f3f3f3;
 }
+
+:local(.right) {
+  float: right;
+  margin-top: 15px;
+}

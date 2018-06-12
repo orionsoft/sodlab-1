@@ -1,9 +1,13 @@
+.paginated-list {
+  background: #eee;
+  border-radius: 10px;
+}
+
 .paginated-head {
   padding: 20px;
 }
 
 .paginated-error {
-  background-color: #fff;
 }
 
 .paginated-error-icon svg {
@@ -33,7 +37,7 @@
 }
 
 .paginated-table table {
-  border-top: 1px solid #999;
+  border-top: 1px solid #ddd;
   width: 100%;
   border-spacing: 0;
 }
@@ -44,11 +48,11 @@
 }
 
 .paginated-table tr {
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #ddd;
 }
 
 .paginated-table thead tr th {
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #ddd;
   position: relative;
   padding: 9px 10px;
   line-height: 22px;
@@ -102,7 +106,7 @@
 }
 
 .paginated-pagination-page-input {
-  background-color: #f6f9fc;
+  background-color: #fafafa;
   border-radius: 4px;
   height: 20px;
   width: 32px;
@@ -111,8 +115,7 @@
 
 .paginated-text-field-input {
   font-size: 14px;
-  background-color: #fff;
-  border: 1px solid #e6ebf1;
+  background-color: #fafafa;
   border-radius: 4px;
   padding: 4px 7px;
 }

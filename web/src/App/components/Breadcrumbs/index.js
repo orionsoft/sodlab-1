@@ -7,7 +7,8 @@ import RightIcon from 'react-icons/lib/md/keyboard-arrow-right'
 export default class Breadcrumbs extends React.Component {
   static propTypes = {
     past: PropTypes.object,
-    children: PropTypes.node
+    children: PropTypes.node,
+    right: PropTypes.object
   }
 
   getPast() {
@@ -33,12 +34,20 @@ export default class Breadcrumbs extends React.Component {
     })
   }
 
+  renderRight() {
+    if (!this.props.right) return
+    return <div className={styles.right}>{this.props.right}</div>
+  }
+
   render() {
     return (
-      <h1 className={styles.container}>
-        {this.renderPast()}
-        <span className="last">{this.props.children}</span>
-      </h1>
+      <div>
+        {this.renderRight()}
+        <h1 className={styles.container}>
+          {this.renderPast()}
+          <span className="last">{this.props.children}</span>
+        </h1>
+      </div>
     )
   }
 }
