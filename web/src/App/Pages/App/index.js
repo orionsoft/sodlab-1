@@ -6,6 +6,7 @@ import {Route, Switch} from 'react-router-dom'
 import Settings from './Settings'
 import forceLogin from 'App/helpers/auth/forceLogin'
 import DynamicComponent from 'App/components/DynamicComponent'
+import Environment from './Environment'
 
 @forceLogin
 export default class Layout extends React.Component {
@@ -19,6 +20,7 @@ export default class Layout extends React.Component {
         <Navbar />
         <Switch>
           <Route path="/settings" component={Settings} />
+          <Route path="/app" component={Environment} />
           <Route path="/admin" component={DynamicComponent(() => import('./Admin'))} />
         </Switch>
       </div>

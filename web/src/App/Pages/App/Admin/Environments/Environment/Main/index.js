@@ -4,7 +4,11 @@ import Breadcrumbs from '../Breadcrumbs'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
+import Button from 'orionsoft-parts/lib/components/Button'
+import {withRouter} from 'react-router'
+import autobind from 'autobind-decorator'
 
+@withRouter
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
     environment(environmentId: $environmentId) {
@@ -15,7 +19,14 @@ import PropTypes from 'prop-types'
 `)
 export default class Main extends React.Component {
   static propTypes = {
+    history: PropTypes.object,
     environment: PropTypes.object
+  }
+
+  @autobind
+  goToEnv() {
+    localStorage.setItem('debugEnvironment', this.props.environment._id)
+    this.props.history.replace('/app')
   }
 
   render() {
@@ -23,7 +34,7 @@ export default class Main extends React.Component {
     return (
       <div className={styles.container}>
         <Breadcrumbs />
-        main
+        <Button onClick={this.goToEnv}>Ir al Ambiente</Button>
       </div>
     )
   }

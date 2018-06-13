@@ -1,14 +1,13 @@
 import React from 'react'
 import styles from './styles.css'
+import {Route, Switch} from 'react-router-dom'
+import Home from './Home'
+import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-import {Route, Switch} from 'react-router-dom'
-import {withRouter} from 'react-router'
-import Collections from './Collections'
-import Main from './Main'
-import Forms from './Forms'
 
+@withEnvironmentId
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
     environment(environmentId: $environmentId) {
@@ -17,22 +16,21 @@ import Forms from './Forms'
     }
   }
 `)
-@withRouter
 export default class Environment extends React.Component {
   static propTypes = {
-    history: PropTypes.object,
     environment: PropTypes.object
   }
 
+  renderNoEnvironment() {
+    return <div className={styles.notFound}>No se encontró el ambiente</div>
+  }
+
   render() {
-    const {environment} = this.props
-    if (!environment) return null
+    if (!this.props.environment) return this.renderNoEnvironment()
     return (
       <div className={styles.container}>
         <Switch>
-          <Route path="/admin/environments/:environmentId" exact component={Main} />
-          <Route path="/admin/environments/:environmentId/collections" component={Collections} />
-          <Route path="/admin/environments/:environmentId/forms" component={Forms} />
+          <Route path="/app" exact component={Home} />
         </Switch>
       </div>
     )

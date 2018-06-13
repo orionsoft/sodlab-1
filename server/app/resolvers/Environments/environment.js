@@ -5,7 +5,8 @@ import Environments from 'app/collections/Environments'
 export default resolver({
   params: {
     environmentId: {
-      type: 'ID'
+      type: 'ID',
+      optional: true
     }
   },
   returns: Environment,
