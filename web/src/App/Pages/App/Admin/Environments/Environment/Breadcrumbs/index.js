@@ -31,7 +31,7 @@ export default class EnvironmenBreadcrumbs extends React.Component {
     const {environment} = this.props
     const getPath = path => `/admin/environments/${environment._id}${path}`
     const items = links.map((link, index) => {
-      return {label: index === 0 ? environment.name : link.title, value: getPath(link.path)}
+      return {label: link.title, value: getPath(link.path)}
     })
     const {pathname} = this.props.history.location
     const value = pickFromString(pathname, /^\/\w+\/\w+\/\w+(\/\w+)?/)
@@ -56,7 +56,8 @@ export default class EnvironmenBreadcrumbs extends React.Component {
     if (!environment) return null
     let past = {
       '/admin': 'Admin',
-      '/admin/environments': 'Ambientes'
+      '/admin/environments': 'Ambientes',
+      [`/admin/environments/${environment._id}`]: environment.name
     }
     past = {...past, poop: this.renderMenu()}
     return (
