@@ -12,6 +12,7 @@ export default class Breadcrumbs extends React.Component {
   }
 
   getPast() {
+    if (!this.props.past) return []
     return Object.keys(this.props.past).map(path => {
       const title = this.props.past[path]
       return {
@@ -22,13 +23,19 @@ export default class Breadcrumbs extends React.Component {
   }
 
   renderPast() {
-    return this.getPast().map(item => {
+    const past = this.getPast()
+    return past.map((item, index) => {
+      const isLast = index === past.length - 1
+      const renderArrow = this.props.children || !isLast
+      const renderLink = typeof item.title === 'string'
       return (
         <span key={item.path}>
-          <Link to={item.path}>{item.title}</Link>{' '}
-          <span className="bread-divider">
-            <RightIcon />
-          </span>
+          {renderLink ? <Link to={item.path}>{item.title}</Link> : item.title}{' '}
+          {renderArrow ? (
+            <span className="bread-divider">
+              <RightIcon />
+            </span>
+          ) : null}
         </span>
       )
     })
@@ -41,12 +48,12 @@ export default class Breadcrumbs extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.renderRight()}
-        <h1 className={styles.container}>
+      <div className={styles.container}>
+        <div className={styles.content}>
           {this.renderPast()}
-          <span className="last">{this.props.children}</span>
-        </h1>
+          {this.props.children ? <span className="last">{this.props.children}</span> : null}
+        </div>
+        <div className={styles.right}>{this.renderRight()}</div>
       </div>
     )
   }

@@ -5,6 +5,7 @@ import DateText from 'orionsoft-parts/lib/components/fields/DateText'
 import Toggle from 'orionsoft-parts/lib/components/fields/Toggle'
 import ObjectField from './fields/ObjectField'
 import isArray from 'lodash/isArray'
+import Blackbox from './fields/Blackbox'
 
 const singleFieldMap = {
   email: Text,
@@ -15,7 +16,8 @@ const singleFieldMap = {
   array: ArrayComponent,
   plainObject: ObjectField,
   boolean: Toggle,
-  date: DateText
+  date: DateText,
+  blackbox: Blackbox
 }
 
 const arrayFieldMap = {}

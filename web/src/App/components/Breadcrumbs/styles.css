@@ -1,23 +1,34 @@
 :local(.container) {
   margin-left: -10px;
+  display: flex;
+  align-items: center;
 }
 
-:local(.container) a {
+:local(.content) {
+  flex: 1;
+  font-size: 25px;
+  padding-top: 20px;
+  margin-bottom: 20px;
+  color: #000;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+:local(.content) a {
   color: #111;
   border-radius: 10px;
   padding: 5px 10px;
 }
 
-:local(.container) .last {
+:local(.content) .last {
   border-radius: 10px;
   padding: 5px 10px;
 }
 
-:local(.container) a:hover {
+:local(.content) a:hover {
   background: #f3f3f3;
 }
 
 :local(.right) {
-  float: right;
-  margin-top: 15px;
 }

@@ -1,0 +1,30 @@
+:local(.container) {
+}
+
+:local(.menu) {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+:local(.menuSelect) {
+  font-size: 16px;
+  font-weight: normal;
+  height: 43px;
+  min-width: 200px;
+}
+
+:local(.menuSelect) .Select-control {
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+:local(.menuSelect) .is-open .Select-control {
+  box-shadow: none;
+}
+
+:local(.menuSelect) .Select-menu-outer {
+  margin-top: 20px;
+  border: 1px solid #eee;
+}
