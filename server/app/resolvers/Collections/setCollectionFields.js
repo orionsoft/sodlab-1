@@ -16,10 +16,8 @@ export default resolver({
   mutation: true,
   role: 'admin',
   async resolve({collectionId, fields}, viewer) {
-    console.log(collectionId, fields)
     const collection = await Collections.findOne(collectionId)
-    console.log(collection)
-    collection.update({$set: {fields}})
+    await collection.update({$set: {fields}})
     return collection
   }
 })

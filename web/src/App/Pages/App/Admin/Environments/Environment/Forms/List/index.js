@@ -13,6 +13,10 @@ export default class List extends React.Component {
     match: PropTypes.object
   }
 
+  getFields() {
+    return [{name: 'name', title: 'Nombre'}]
+  }
+
   render() {
     const {environmentId} = this.props.match.params
     return (
@@ -28,8 +32,9 @@ export default class List extends React.Component {
         <PaginatedList
           title={null}
           name="forms"
-          params={{filter: {type: String}}}
           canUpdate
+          params={{environmentId}}
+          fields={this.getFields()}
           allowSearch
           basePath={`/admin/environments/${environmentId}/forms`}
         />

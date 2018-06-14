@@ -6,6 +6,15 @@ export default {
     type: 'ID'
   },
   name: {
-    type: String
+    type: String,
+    label: 'Nombre'
+  },
+  type: {
+    type: String,
+    label: 'Tipo',
+    allowedValues: ['create', 'update']
+  },
+  collectionId: {
+    type: 'ID'
   }
 }

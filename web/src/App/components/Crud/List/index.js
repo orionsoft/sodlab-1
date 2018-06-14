@@ -19,13 +19,15 @@ export default class List extends React.Component {
     singular: PropTypes.node,
     canCreate: PropTypes.bool,
     canUpdate: PropTypes.bool,
-    allowSearch: PropTypes.bool
+    allowSearch: PropTypes.bool,
+    params: PropTypes.object
   }
 
   static defaultProps = {
     title: 'List',
     fields: [{title: 'ID', name: '_id'}],
-    basePath: ''
+    basePath: '',
+    params: {}
   }
 
   @autobind
@@ -59,6 +61,7 @@ export default class List extends React.Component {
                 fields={this.props.fields}
                 onPress={this.onSelect}
                 params={params}
+                variables={this.props.params}
                 headCenterComponent={this.renderCenter}
                 headRightComponent={this.props.allowSearch ? undefined : () => <span />}
               />

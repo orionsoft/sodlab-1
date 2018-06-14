@@ -92,7 +92,11 @@ export default class Fetch extends React.Component {
     /**
      * Loading component
      */
-    loadingComponent: PropTypes.any
+    loadingComponent: PropTypes.any,
+    /**
+     * Variables
+     */
+    variables: PropTypes.object
   }
 
   static defaultProps = {
@@ -181,7 +185,8 @@ export default class Fetch extends React.Component {
       page: this.state.page,
       sortBy: this.state.sortBy || defaultSort.sortBy,
       sortType: this.state.sortType || defaultSort.sortType,
-      ...this.state.variables
+      ...this.state.variables,
+      ...this.props.variables
     }
     return variables
   }

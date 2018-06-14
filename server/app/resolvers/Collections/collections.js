@@ -9,10 +9,13 @@ export default createPaginatedResolver({
     filter: {
       type: String,
       optional: true
+    },
+    environmentId: {
+      type: 'ID'
     }
   },
-  async getCursor({filter}, viewer) {
-    const query = {}
+  async getCursor({filter, environmentId}, viewer) {
+    const query = {environmentId}
     if (filter) {
       query._id = {$regex: new RegExp(`^${escape(filter)}`)}
     }

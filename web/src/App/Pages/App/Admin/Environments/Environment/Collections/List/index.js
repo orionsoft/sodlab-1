@@ -28,7 +28,7 @@ export default class List extends React.Component {
         <PaginatedList
           title={null}
           name="collections"
-          params={{filter: {type: String}}}
+          params={{environmentId}}
           canUpdate
           allowSearch
           basePath={`/admin/environments/${environmentId}/collections`}
