@@ -10,7 +10,7 @@
     "start": "nodemon --exec babel-node ./app"
   },
   "dependencies": {
-    "@orion-js/app": "^0.0.8",
+    "@orion-js/app": "^0.0.16",
     "@orion-js/auth": "^0.0.8",
     "@orion-js/jobs": "^0.0.8",
     "@orion-js/schema": "^0.0.8",
