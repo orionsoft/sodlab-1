@@ -10,7 +10,21 @@ import Forgot from './Forgot'
 import Reset from './Reset'
 import Enroll from './Enroll'
 import {Route, Switch, withRouter} from 'react-router-dom'
+import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
+import gql from 'graphql-tag'
+import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
 
+@withEnvironmentId
+@withGraphQL(gql`
+  query getEnvironment($environmentId: ID) {
+    environment(environmentId: $environmentId) {
+      _id
+      name
+      logo
+      authBackgroundImage
+    }
+  }
+`)
 @withRouter
 export default class Auth extends React.Component {
   state = {isLoading: false, error: null}
@@ -20,7 +34,8 @@ export default class Auth extends React.Component {
     location: PropTypes.object,
     history: PropTypes.object,
     match: PropTypes.object,
-    params: PropTypes.object
+    params: PropTypes.object,
+    environment: PropTypes.object
   }
 
   @autobind
@@ -33,12 +48,26 @@ export default class Auth extends React.Component {
     }
   }
 
+  getBackgroundImage() {
+    const {environment} = this.props
+    if (environment && environment.authBackgroundImage) {
+      return environment.authBackgroundImage
+    }
+    return 'https://images.unsplash.com/photo-1496096265110-f83ad7f96608?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=35840c5a386390076c95d47b745ae459&auto=format&fit=crop&w=2850&q=80'
+  }
+
   renderLogo() {
+    const src = this.props.environment ? this.props.environment.logo : '/dark.svg'
     return (
       <div className={styles.logo}>
-        <Logo color="black" isLoading={this.state.isLoading} />
+        <Logo color="black" src={src} isLoading={this.state.isLoading} />
       </div>
     )
+  }
+
+  renderName() {
+    const name = this.props.environment ? this.props.environment.name : 'Sodlab'
+    return <div className={styles.name}>{name}</div>
   }
 
   render() {
@@ -65,7 +94,10 @@ export default class Auth extends React.Component {
             />
           </Switch>
         </div>
-        <div className={styles.photo} />
+        <div
+          className={styles.photo}
+          style={{backgroundImage: `url(${this.getBackgroundImage()})`}}
+        />
       </div>
     )
   }

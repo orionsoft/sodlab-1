@@ -4,5 +4,5 @@ import Environment from 'app/models/Environment'
 export default new Collection({
   name: 'environments',
   model: Environment,
-  indexes: []
+  indexes: [{keys: {url: 1}, options: {unique: true}}]
 })

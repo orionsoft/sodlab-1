@@ -8,6 +8,7 @@ import {withRouter} from 'react-router'
 import Collections from './Collections'
 import Main from './Main'
 import Forms from './Forms'
+import Configuration from './Configuration'
 
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
@@ -33,6 +34,10 @@ export default class Environment extends React.Component {
           <Route path="/admin/environments/:environmentId" exact component={Main} />
           <Route path="/admin/environments/:environmentId/collections" component={Collections} />
           <Route path="/admin/environments/:environmentId/forms" component={Forms} />
+          <Route
+            path="/admin/environments/:environmentId/configuration"
+            component={Configuration}
+          />
         </Switch>
       </div>
     )

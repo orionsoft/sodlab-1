@@ -10,18 +10,18 @@
     "start": "nodemon --exec babel-node ./app"
   },
   "dependencies": {
-    "@orion-js/app": "^0.0.16",
-    "@orion-js/auth": "^0.0.8",
-    "@orion-js/jobs": "^0.0.8",
-    "@orion-js/schema": "^0.0.8",
-    "aws-sdk": "^2.254.1",
+    "@orion-js/app": "^0.0.18",
+    "@orion-js/auth": "^0.0.19",
+    "@orion-js/jobs": "^0.0.19",
+    "@orion-js/schema": "^0.0.18",
+    "aws-sdk": "^2.258.1",
     "babel-plugin-module-resolver": "^3.1.1",
     "escape-string-regexp": "^1.0.5",
-    "luxon": "^1.2.0",
-    "nodemailer": "^4.6.5",
-    "request": "^2.86.0",
+    "luxon": "^1.2.1",
+    "nodemailer": "^4.6.7",
+    "request": "^2.87.0",
     "request-promise": "^4.2.2",
-    "stripe": "^6.1.0"
+    "stripe": "^6.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
