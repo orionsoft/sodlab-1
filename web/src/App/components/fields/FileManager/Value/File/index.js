@@ -9,7 +9,6 @@ import CloseIcon from 'react-icons/lib/md/close'
   gql`
     query getFileInfo($fileId: ID) {
       file: fileManagerFile(fileId: $fileId) {
-        _id
         name
         genericType
       }
