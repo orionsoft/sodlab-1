@@ -1,3 +1,5 @@
+import {File} from '@orion-js/file-manager'
+
 export default {
   _id: {
     type: 'ID',
@@ -29,7 +31,8 @@ export default {
     }
   },
   logo: {
-    type: String,
+    type: File,
+    fileType: 'image',
     label: 'Logo'
   },
   authBackgroundImage: {

@@ -1,0 +1,22 @@
+:local(.container) {
+  /* display: inline-flex;*/
+  display: flex;
+  background-color: #eee;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 5px 6px;
+  font-weight: bold;
+}
+
+:local(.name) {
+  flex: 1;
+}
+
+:local(.delete) {
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+:local(.loading) {
+  composes: container;
+}

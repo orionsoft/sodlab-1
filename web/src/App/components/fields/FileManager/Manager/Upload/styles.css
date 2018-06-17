@@ -1,0 +1,18 @@
+:local(.container) {
+}
+
+:local(.loading) {
+  background: #eee;
+  padding: 20px;
+}
+
+:local(.label) {
+  cursor: pointer;
+  display: block;
+  background: #eee;
+  padding: 20px;
+}
+
+:local(.input) {
+  display: none;
+}

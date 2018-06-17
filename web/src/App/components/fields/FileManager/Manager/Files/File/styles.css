@@ -1,0 +1,35 @@
+:local(.container) {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  cursor: pointer;
+}
+
+:local(.container):hover {
+  background-color: #eee;
+}
+
+:local(.preview) {
+  height: 100px;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+}
+
+:local(.imagePreview) {
+  composes: preview;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+:local(.name) {
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  white-space: pre-line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

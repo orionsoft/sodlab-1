@@ -1,0 +1,47 @@
+:local(.container) {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  max-height: 100%;
+}
+
+:local(.content) {
+  composes: shadow from global;
+  border-radius: 10px;
+  background-color: #fff;
+  height: 90%;
+  max-height: 600px;
+  max-width: 800px;
+  margin: 20px;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.header) {
+  display: flex;
+  margin: 20px;
+}
+
+:local(.title) {
+  flex: 1;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+:local(.header2) {
+  display: flex;
+  margin: 0 20px 20px 20px;
+}
+
+:local(.search) {
+  flex: 1;
+}

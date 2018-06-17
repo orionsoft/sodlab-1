@@ -6,6 +6,7 @@ import Toggle from 'orionsoft-parts/lib/components/fields/Toggle'
 import ObjectField from './fields/ObjectField'
 import isArray from 'lodash/isArray'
 import Blackbox from './fields/Blackbox'
+import FileManager from './fields/FileManager'
 
 const singleFieldMap = {
   email: Text,
@@ -17,14 +18,18 @@ const singleFieldMap = {
   plainObject: ObjectField,
   boolean: Toggle,
   date: DateText,
-  blackbox: Blackbox
+  blackbox: Blackbox,
+  file: FileManager
 }
 
 const arrayFieldMap = {}
 
-export default function(type) {
+export default function(type, field) {
   const fieldMap = isArray(type) ? arrayFieldMap : singleFieldMap
-  const typeId = isArray(type) ? type[0] : type
+  let typeId = isArray(type) ? type[0] : type
+  if (field.__graphQLType === 'FileInput') {
+    type = 'file'
+  }
   const fieldType = fieldMap[type]
   if (!fieldType) {
     const text = isArray(type) ? `[${typeId}]` : typeId

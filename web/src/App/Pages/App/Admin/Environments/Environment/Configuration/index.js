@@ -16,7 +16,9 @@ import gql from 'graphql-tag'
       _id
       name
       url
-      logo
+      logo {
+        _id
+      }
       authBackgroundImage
     }
   }
@@ -44,7 +46,7 @@ export default class Configuration extends React.Component {
           />
           <br />
           <Button onClick={() => this.refs.form.submit()} primary>
-            Crear formulario
+            Guardar
           </Button>
         </Section>
       </div>

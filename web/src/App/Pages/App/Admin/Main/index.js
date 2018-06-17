@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './styles.css'
 import links from '../links'
 import {Link} from 'react-router-dom'
+import Breadcrumbs from 'App/components/Breadcrumbs'
 
 export default class Main extends React.Component {
   static propTypes = {}
@@ -24,7 +25,7 @@ export default class Main extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <h1>Admin</h1>
+        <Breadcrumbs>Admin</Breadcrumbs>
         <div className="divider" />
         <div className="row">{this.renderLinks()}</div>
       </div>

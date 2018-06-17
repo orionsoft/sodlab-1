@@ -2,16 +2,18 @@ import {resolver} from '@orion-js/app'
 import Environment from 'app/models/Environment'
 import Environments from 'app/collections/Environments'
 
+const EnvironmentInput = Environment.clone({
+  name: 'EnvironmentConfig',
+  pickFields: ['name', 'url', 'logo', 'authBackgroundImage']
+})
+
 export default resolver({
   params: {
     environmentId: {
       type: 'ID'
     },
     config: {
-      type: Environment.clone({
-        name: 'EnvironmentConfig',
-        pickFields: ['name', 'url', 'logo', 'authBackgroundImage']
-      })
+      type: EnvironmentInput
     }
   },
   returns: Environment,

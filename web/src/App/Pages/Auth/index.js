@@ -20,7 +20,9 @@ import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
     environment(environmentId: $environmentId) {
       _id
       name
-      logo
+      logo {
+        url
+      }
       authBackgroundImage
     }
   }
@@ -57,7 +59,7 @@ export default class Auth extends React.Component {
   }
 
   renderLogo() {
-    const src = this.props.environment ? this.props.environment.logo : '/dark.svg'
+    const src = this.props.environment ? this.props.environment.logo.url : '/dark.svg'
     return (
       <div className={styles.logo}>
         <Logo color="black" src={src} isLoading={this.state.isLoading} />

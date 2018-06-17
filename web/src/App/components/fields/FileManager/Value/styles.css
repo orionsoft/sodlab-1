@@ -1,0 +1,14 @@
+:local(.container) {
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: inherit;
+  border: 1px solid #c2c2c2;
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+:local(.noValue) {
+  padding: 4px 0;
+  cursor: pointer;
+  color: #666;
+}
