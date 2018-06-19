@@ -18,10 +18,8 @@ export default class Register extends React.Component {
   }
 
   @autobind
-  onSuccess({userId, publicKey, secretKey}) {
-    localStorage.setItem('session.userId', userId)
-    localStorage.setItem('session.publicKey', publicKey)
-    localStorage.setItem('session.secretKey', secretKey)
+  onSuccess(session) {
+    localStorage.setItem('session', JSON.stringify(session))
     this.props.onLogin()
   }
 

@@ -26,7 +26,12 @@ export default class ResetPassword extends React.Component {
     },
     confirm: {
       type: String,
-      custom(confirm, {doc: {password}}) {
+      custom(
+        confirm,
+        {
+          doc: {password}
+        }
+      ) {
         if (confirm !== password) {
           return 'passwordsDontMatch'
         }
@@ -38,10 +43,8 @@ export default class ResetPassword extends React.Component {
   }
 
   @autobind
-  onSuccess({userId, publicKey, secretKey}) {
-    localStorage.setItem('session.userId', userId)
-    localStorage.setItem('session.publicKey', publicKey)
-    localStorage.setItem('session.secretKey', secretKey)
+  onSuccess(session) {
+    localStorage.setItem('session', JSON.stringify(session))
     this.props.showMessage('Your password has been changed')
     this.props.onLogin()
   }

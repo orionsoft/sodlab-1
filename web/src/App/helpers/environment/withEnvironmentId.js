@@ -18,7 +18,6 @@ const fetchEnvironment = async function(apollo, url) {
     `,
     variables: {url}
   })
-  console.log('did fetch env', data.environment)
   if (data.environment) {
     envId = data.environment._id
   }

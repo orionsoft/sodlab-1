@@ -2,11 +2,10 @@ import {BatchHttpLink} from 'apollo-link-batch-http'
 import baseURL from '../url'
 import fetch from 'unfetch'
 import JSSHA from 'jssha'
+import getSession from 'App/helpers/auth/getSession'
 
 const getAuthHeaders = function(body) {
-  const userId = localStorage.getItem('session.userId')
-  const publicKey = localStorage.getItem('session.publicKey')
-  const secretKey = localStorage.getItem('session.secretKey')
+  const {userId, publicKey, secretKey} = getSession()
   if (!userId || !publicKey || !secretKey) return {}
 
   const nonce = new Date().getTime()

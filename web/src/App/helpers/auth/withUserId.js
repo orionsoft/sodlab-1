@@ -1,10 +1,11 @@
 import React from 'react'
 import autobind from 'autobind-decorator'
+import getSession from './getSession'
 
 export default function(ComposedComponent) {
   class WithUserId extends React.Component {
     state = {
-      userId: localStorage.getItem('session.userId')
+      userId: getSession().userId
     }
 
     componentDidMount() {
@@ -17,7 +18,7 @@ export default function(ComposedComponent) {
 
     @autobind
     check() {
-      const userId = localStorage.getItem('session.userId')
+      const {userId} = getSession()
       if (this.state.userId !== userId) {
         this.setState({userId})
       }

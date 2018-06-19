@@ -4,7 +4,6 @@ import Logo from './Logo'
 import autobind from 'autobind-decorator'
 import PropTypes from 'prop-types'
 import Login from './Login'
-import Register from './Register'
 import VerifyEmail from './VerifyEmail'
 import Forgot from './Forgot'
 import Reset from './Reset'
@@ -13,6 +12,7 @@ import {Route, Switch, withRouter} from 'react-router-dom'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
+import sleep from 'orionsoft-parts/lib/helpers/sleep'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -31,7 +31,7 @@ import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
 `)
 @withRouter
 export default class Auth extends React.Component {
-  state = {isLoading: false, error: null}
+  state = {loading: false, error: null}
 
   static propTypes = {
     children: PropTypes.any,
@@ -39,11 +39,14 @@ export default class Auth extends React.Component {
     history: PropTypes.object,
     match: PropTypes.object,
     params: PropTypes.object,
-    environment: PropTypes.object
+    environment: PropTypes.object,
+    userId: PropTypes.string
   }
 
   @autobind
-  onLogin() {
+  async onLogin() {
+    this.setState({loading: true})
+    await sleep(300)
     const {location} = this.props
     if (location.state && location.state.nextPathname) {
       this.props.history.replace(location.state.nextPathname)
@@ -64,7 +67,7 @@ export default class Auth extends React.Component {
     const src = this.props.environment ? this.props.environment.logo.url : '/dark.svg'
     return (
       <div className={styles.logo}>
-        <Logo color="black" src={src} isLoading={this.state.isLoading} />
+        <Logo color="black" src={src} />
       </div>
     )
   }
@@ -75,14 +78,14 @@ export default class Auth extends React.Component {
   }
 
   render() {
-    const otherProps = {onLogin: this.onLogin}
+    const otherProps = {onLogin: this.onLogin, loading: this.state.loading}
     return (
       <div className={styles.container} style={{minHeight: window.innerHeight}}>
         <div className={styles.content}>
           {this.renderLogo()}
           <Switch>
             <Route path="/login" render={() => <Login {...otherProps} />} />
-            <Route path="/register" render={() => <Register {...otherProps} />} />
+            {/* <Route path="/register" render={() => <Register {...otherProps} />} /> */}
             <Route
               path="/verify-email/:token"
               render={({match}) => <VerifyEmail token={match.params.token} {...otherProps} />}

@@ -13,39 +13,33 @@ import {Link} from 'react-router-dom'
 export default class Login extends React.Component {
   static propTypes = {
     onLogin: PropTypes.func,
-    userId: PropTypes.string
+    userId: PropTypes.string,
+    loading: PropTypes.bool
   }
 
   @autobind
-  onSuccess({userId, publicKey, secretKey}) {
-    localStorage.setItem('session.userId', userId)
-    localStorage.setItem('session.publicKey', publicKey)
-    localStorage.setItem('session.secretKey', secretKey)
+  onSuccess(session) {
     this.props.onLogin()
+    localStorage.setItem('session', JSON.stringify(session))
   }
 
   render() {
-    if (this.props.userId) return <LoggedIn />
+    if (!this.props.loading && this.props.userId) return <LoggedIn />
     return (
       <div>
         <AutoForm mutation="loginWithPassword" ref="form" onSuccess={this.onSuccess}>
           <div className="label">Email</div>
           <Field fieldName="email" type={Text} placeholder="Email" />
-          <div className="label">Password</div>
-          <Field fieldName="password" type={Text} fieldType="password" placeholder="Password" />
+          <div className="label">Contraseña</div>
+          <Field fieldName="password" type={Text} fieldType="password" placeholder="Contraseña" />
           <div className="description">
-            <Link to="/forgot">Forgot my password</Link>
+            <Link to="/forgot">Olvidé mi contraseña</Link>
           </div>
         </AutoForm>
         <br />
-        <Button onClick={() => this.refs.form.submit()} primary>
-          Login
+        <Button onClick={() => this.refs.form.submit()} primary loading={this.props.loading}>
+          Entrar
         </Button>
-        <br />
-        <br />
-        <div>
-          If you don{"'"}t have an account, <Link to="/register">Register</Link>
-        </div>
       </div>
     )
   }
