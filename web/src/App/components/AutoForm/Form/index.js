@@ -62,6 +62,7 @@ export default class AutoFormForm extends React.Component {
 
   @autobind
   async onSubmit(data) {
+    console.log(data)
     try {
       const errors = await this.validate(data)
       if (errors) {
@@ -83,7 +84,10 @@ export default class AutoFormForm extends React.Component {
     this.setState({validationErrors: null})
     try {
       const cleaned = await this.props.clean(this.props.schema, doc)
-      const validationErrors = await this.props.validate(this.props.schema, cleaned)
+      const validationErrors = await this.props.validate(
+        this.props.schema,
+        cleaned
+      )
       this.setState({validationErrors, doc})
       if (validationErrors) {
         console.log('validationErrors:', validationErrors)
@@ -117,6 +121,7 @@ export default class AutoFormForm extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div className={styles.container}>
         <Form
@@ -124,7 +129,8 @@ export default class AutoFormForm extends React.Component {
           state={this.props.doc}
           errorMessages={this.getErrorMessages()}
           onChange={this.onChange}
-          onSubmit={this.onSubmit}>
+          onSubmit={this.onSubmit}
+        >
           {this.props.children}
         </Form>
       </div>

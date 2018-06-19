@@ -11,6 +11,7 @@ import Forms from './Forms'
 import Configuration from './Configuration'
 import Views from './Views'
 import Links from './Links/index'
+import Roles from './Roles'
 
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
@@ -33,11 +34,31 @@ export default class Environment extends React.Component {
     return (
       <div className={styles.container}>
         <Switch>
-          <Route path="/admin/environments/:environmentId" exact component={Main} />
-          <Route path="/admin/environments/:environmentId/collections" component={Collections} />
-          <Route path="/admin/environments/:environmentId/forms" component={Forms} />
-          <Route path="/admin/environments/:environmentId/views" component={Views} />
-          <Route path="/admin/environments/:environmentId/links" component={Links} />
+          <Route
+            path="/admin/environments/:environmentId"
+            exact
+            component={Main}
+          />
+          <Route
+            path="/admin/environments/:environmentId/collections"
+            component={Collections}
+          />
+          <Route
+            path="/admin/environments/:environmentId/forms"
+            component={Forms}
+          />
+          <Route
+            path="/admin/environments/:environmentId/roles"
+            component={Roles}
+          />
+          <Route
+            path="/admin/environments/:environmentId/views"
+            component={Views}
+          />
+          <Route
+            path="/admin/environments/:environmentId/links"
+            component={Links}
+          />
           <Route
             path="/admin/environments/:environmentId/configuration"
             component={Configuration}

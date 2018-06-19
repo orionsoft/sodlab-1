@@ -6,10 +6,9 @@ import Collections from './Collections'
 import Forms from './Forms'
 import FileManager from './FileManager'
 import Views from './Views'
-import Links from './Links'
+import Roles from './Roles'
 
 export default {
-  ...Links,
   ...Views,
   ...FileManager,
   ...Forms,
@@ -17,5 +16,6 @@ export default {
   ...Environments,
   ...ExposeSchemaResolvers,
   ...Auth,
-  ...Users
+  ...Users,
+  ...Roles
 }
