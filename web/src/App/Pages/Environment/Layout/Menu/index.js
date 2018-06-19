@@ -16,22 +16,37 @@ import {withRouter} from 'react-router'
       _id
       name
     }
+    links(limit: null, environmentId: $environmentId) {
+      items {
+        title
+        path
+      }
+    }
   }
 `)
 @withRouter
 export default class Menu extends React.Component {
   static propTypes = {
     location: PropTypes.object,
-    environment: PropTypes.object
+    environment: PropTypes.object,
+    links: PropTypes.object
   }
 
-  renderLink({title, path}) {
-    const active = this.props.location.pathname.startsWith(path)
+  renderLink({title, path}, useFullToCheck) {
+    const active = useFullToCheck
+      ? this.props.location.pathname === path
+      : this.props.location.pathname.startsWith(path)
     return (
-      <Link to={path} className={active ? styles.itemActive : styles.menuItem}>
+      <Link key={path} to={path} className={active ? styles.itemActive : styles.menuItem}>
         {title}
       </Link>
     )
+  }
+
+  renderLinks() {
+    return this.props.links.items.map(link => {
+      return this.renderLink(link, true)
+    })
   }
 
   render() {
@@ -42,9 +57,7 @@ export default class Menu extends React.Component {
           {environment.name}
         </Link>
         <div className={styles.divider} />
-        {this.renderLink({title: 'Mi cuenta', path: '/settings'})}
-        {this.renderLink({title: 'Mi cuenta', path: '/settings'})}
-        {this.renderLink({title: 'Mi cuenta', path: '/settings'})}
+        {this.renderLinks()}
         <div className={styles.divider} />
         {this.renderLink({title: 'Mi cuenta', path: '/settings'})}
         <div className={styles.logout} onClick={logout}>

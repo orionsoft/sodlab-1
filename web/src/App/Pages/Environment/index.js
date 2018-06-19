@@ -39,7 +39,7 @@ export default class Environment extends React.Component {
           key={view._id}
           path={view.path}
           exact
-          component={({match}) => <View params={match.params} view={view} />}
+          component={({match}) => <View params={match.params} viewId={view._id} />}
         />
       )
     })

@@ -2,18 +2,57 @@ import React from 'react'
 import styles from './styles.css'
 import Container from 'orionsoft-parts/lib/components/Container'
 import PropTypes from 'prop-types'
+import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
+import gql from 'graphql-tag'
+import Form from './Form'
 
+@withGraphQL(gql`
+  query getView($viewId: ID) {
+    view(viewId: $viewId) {
+      _id
+      title
+      items {
+        sizeSmall
+        sizeLarge
+        sizeMedium
+        type
+        formId
+      }
+    }
+  }
+`)
 export default class View extends React.Component {
   static propTypes = {
     params: PropTypes.object,
     view: PropTypes.object
   }
 
+  renderItem(item) {
+    if (item.type === 'form') {
+      return <Form formId={item.formId} params={this.props.params} />
+    }
+  }
+
+  renderItems() {
+    if (!this.props.view.items) return
+    return this.props.view.items.map((item, index) => {
+      return (
+        <div
+          key={index}
+          className={`col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`}>
+          <div className={styles.item}>{this.renderItem(item)}</div>
+        </div>
+      )
+    })
+  }
+
   render() {
+    const {view} = this.props
     return (
       <div className={styles.container}>
         <Container>
-          <pre>{JSON.stringify(this.props, null, 2)}</pre>
+          <h1>{view.title}</h1>
+          <div className="row">{this.renderItems()}</div>
         </Container>
       </div>
     )

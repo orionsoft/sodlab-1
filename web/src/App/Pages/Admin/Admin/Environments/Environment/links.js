@@ -9,5 +9,5 @@ export default [
   {title: 'Estilos', path: '/design'},
   {title: 'Roles', path: '/roles'},
   {title: 'Hooks', path: '/hooks'},
-  {title: 'Menu', path: '/menu'}
+  {title: 'Links', path: '/links'}
 ]

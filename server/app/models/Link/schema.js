@@ -1,11 +1,13 @@
-import ViewItem from './ViewItem'
-
 export default {
   _id: {
     type: 'ID'
   },
   environmentId: {
     type: 'ID'
+  },
+  title: {
+    type: String,
+    label: 'Nombre'
   },
   path: {
     type: String,
@@ -14,20 +16,7 @@ export default {
       if (!path.startsWith('/')) return 'invalidPath'
     }
   },
-  name: {
-    type: String,
-    label: 'Nombre'
-  },
-  title: {
-    type: String,
-    label: 'Título'
-  },
   createdAt: {
     type: Date
-  },
-  items: {
-    label: 'Items',
-    type: [ViewItem],
-    optional: true
   }
 }

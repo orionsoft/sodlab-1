@@ -7,7 +7,7 @@ import AutoForm from 'App/components/AutoForm'
 import Fields from 'App/components/AutoForm/Fields'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
-import schemaToField from '../../schemaToField'
+import schemaToField from 'App/components/schemaToField'
 
 @withGraphQL(gql`
   query getForm($formId: ID) {
@@ -39,6 +39,7 @@ export default class Form extends React.Component {
     const params = {data: {type: this.props.form.serializedParams}}
     return (
       <div className={styles.container}>
+        <div className={styles.title}>{this.props.form.name}</div>
         <AutoForm
           mutation="submitForm"
           ref="form"

@@ -20,6 +20,7 @@ import autobind from 'autobind-decorator'
     view(viewId: $viewId) {
       _id
       name
+      title
       path
       items {
         sizeSmall
@@ -84,7 +85,6 @@ export default class View extends React.Component {
 
   @autobind
   renderItem(item) {
-    console.log(item)
     return (
       <div className={styles.content}>
         <div className="label">Tamaño</div>
@@ -143,6 +143,8 @@ export default class View extends React.Component {
               <div className="description">Debe empezar con /</div>
               <div className="label">Nombre</div>
               <Field fieldName="name" type={Text} />
+              <div className="label">Título</div>
+              <Field fieldName="title" type={Text} />
 
               <div className="label">Contenido</div>
               <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />

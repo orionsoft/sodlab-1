@@ -1,3 +1,7 @@
 :local(.container) {
+}
 
+:local(.item) {
+  composes: shadow from global;
+  border-radius: 10px;
 }
