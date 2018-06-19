@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
-import Home from './Home'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
@@ -9,6 +8,8 @@ import PropTypes from 'prop-types'
 import Settings from '../Admin/Settings'
 import Styles from './Styles'
 import Layout from './Layout'
+import View from './View'
+import NotFound from './NotFound'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -17,23 +18,48 @@ import Layout from './Layout'
       _id
       name
     }
+    views(limit: null, environmentId: $environmentId) {
+      items {
+        _id
+        path
+      }
+    }
   }
 `)
 export default class Environment extends React.Component {
   static propTypes = {
-    environment: PropTypes.object
+    environment: PropTypes.object,
+    views: PropTypes.object
+  }
+
+  renderViews() {
+    return this.props.views.items.map(view => {
+      return (
+        <Route
+          key={view._id}
+          path={view.path}
+          exact
+          component={({match}) => <View params={match.params} view={view} />}
+        />
+      )
+    })
+  }
+
+  renderSwitch() {
+    return (
+      <Switch>
+        <Route path="/settings" component={Settings} />
+        {this.renderViews()}
+        <Route path="*" component={NotFound} />
+      </Switch>
+    )
   }
 
   render() {
     if (!this.props.environment) return null
     return (
       <div className={styles.container}>
-        <Layout>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/settings" component={Settings} />
-          </Switch>
-        </Layout>
+        <Layout>{this.renderSwitch()}</Layout>
         <Styles />
       </div>
     )

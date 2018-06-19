@@ -1,0 +1,7 @@
+:local(.container) {
+  margin-top: 20px;
+}
+
+:local(.text) {
+  font-size: 20px;
+}

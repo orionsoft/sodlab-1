@@ -8,6 +8,12 @@ import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import ObjectField from 'App/components/fields/ObjectField'
+import Text from 'orionsoft-parts/lib/components/fields/Text'
+import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
+import Select from 'orionsoft-parts/lib/components/fields/Select'
+import {Field} from 'simple-react-form'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getForm($viewId: ID, $environmentId: ID) {
@@ -15,8 +21,15 @@ import Button from 'orionsoft-parts/lib/components/Button'
       _id
       name
       path
+      items {
+        sizeSmall
+        sizeMedium
+        sizeLarge
+        type
+        formId
+      }
     }
-    collections(environmentId: $environmentId) {
+    forms(limit: null, environmentId: $environmentId) {
       items {
         value: _id
         label: name
@@ -29,11 +42,80 @@ export default class View extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
     view: PropTypes.object,
-    collections: PropTypes.object
+    collections: PropTypes.object,
+    forms: PropTypes.object
   }
 
-  getFormTypes() {
-    return [{label: 'Crear', value: 'create'}, {label: 'Actualizar', value: 'update'}]
+  getSizeOptions() {
+    return [
+      {label: 'Completo', value: '12'},
+      {label: 'Mitad', value: '6'},
+      {label: '1/3', value: '4'},
+      {label: '1/4', value: '4'},
+      {label: '1/6', value: '2'}
+    ]
+  }
+
+  getTypes() {
+    return [
+      {label: 'Formulario', value: 'form', result: 'forms'},
+      {label: 'Tabla', value: 'table', result: 'tables'},
+      {label: 'Gráfico', value: 'chart', result: 'chart'},
+      {label: 'Indicador', value: 'indicator', result: 'indicator'}
+    ]
+  }
+
+  renderComponentSelector(item) {
+    if (!item.type) return null
+    const option = this.getTypes().find(type => item.type === type.value)
+    const result = this.props[option.result] || {}
+    const items = result.items || []
+    return (
+      <div className="col-xs-12 col-sm-6">
+        <div className="label">{option.label}</div>
+        {items.length ? (
+          <Field fieldName={`${item.type}Id`} type={Select} options={items} />
+        ) : (
+          `No hay ${option.label}`
+        )}
+      </div>
+    )
+  }
+
+  @autobind
+  renderItem(item) {
+    console.log(item)
+    return (
+      <div className={styles.content}>
+        <div className="label">Tamaño</div>
+        <br />
+        <div className="row">
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Móvil</div>
+            <Field fieldName="sizeSmall" type={Select} options={this.getSizeOptions()} />
+          </div>
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Mediano</div>
+            <Field fieldName="sizeMedium" type={Select} options={this.getSizeOptions()} />
+          </div>
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Largo</div>
+            <Field fieldName="sizeLarge" type={Select} options={this.getSizeOptions()} />
+          </div>
+        </div>
+        <div className="description">El tamaño depende de kakkasd</div>
+        <div className="divider" />
+        <div className="label">Contenido</div>
+        <br />
+        <div className="row">
+          <div className="col-xs-12 col-sm-6">
+            <div className="label">Tipo</div>
+            <Field fieldName="type" type={Select} options={this.getTypes()} />
+          </div>
+          {this.renderComponentSelector(item)}
+        </div>
+      </div>
+    )
   }
 
   render() {
@@ -54,8 +136,18 @@ export default class View extends React.Component {
             doc={{
               viewId: this.props.view._id,
               view: this.props.view
-            }}
-          />
+            }}>
+            <Field fieldName="view" type={ObjectField}>
+              <div className="label">Ruta</div>
+              <Field fieldName="path" type={Text} />
+              <div className="description">Debe empezar con /</div>
+              <div className="label">Nombre</div>
+              <Field fieldName="name" type={Text} />
+
+              <div className="label">Contenido</div>
+              <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
+            </Field>
+          </AutoForm>
           <br />
           <Button onClick={() => this.refs.form.submit()} primary>
             Guardar

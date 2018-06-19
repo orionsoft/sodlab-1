@@ -75,7 +75,7 @@ export default class AutoForm extends React.Component {
                   setRef={form => (this.form = form)}
                   doc={this.props.doc}
                   mutate={mutate}
-                  onChange={this.onChange}
+                  onChange={this.props.onChange}
                   params={params}
                   schema={this.props.schema || params}
                   onSuccess={this.props.onSuccess}

@@ -1,3 +1,5 @@
+import ViewItem from './ViewItem'
+
 export default {
   _id: {
     type: 'ID'
@@ -18,5 +20,10 @@ export default {
   },
   createdAt: {
     type: Date
+  },
+  items: {
+    label: 'Items',
+    type: [ViewItem],
+    optional: true
   }
 }

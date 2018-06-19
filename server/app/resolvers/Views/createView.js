@@ -19,16 +19,20 @@ export default resolver({
         const view = await Views.findOne({path, environmentId: doc.environmentId})
         if (view) return 'notUnique'
       }
+    },
+    name: {
+      type: String,
+      label: 'Nombre'
     }
   },
   returns: View,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, path}, viewer) {
+  async resolve({environmentId, path, name}, viewer) {
     const viewId = await Views.insert({
       path,
       environmentId,
-      name: path,
+      name,
       createdAt: new Date()
     })
     return await Views.findOne(viewId)
