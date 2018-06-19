@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import Form from './Form'
+import Table from './Table'
 
 @withGraphQL(gql`
   query getView($viewId: ID) {
@@ -17,6 +18,7 @@ import Form from './Form'
         sizeMedium
         type
         formId
+        tableId
       }
     }
   }
@@ -29,7 +31,10 @@ export default class View extends React.Component {
 
   renderItem(item) {
     if (item.type === 'form') {
-      return <Form formId={item.formId} params={this.props.params} />
+      return <Form formId={item.formId} routeParams={this.props.params} />
+    }
+    if (item.type === 'table') {
+      return <Table tableId={item.tableId} routeParams={this.props.params} />
     }
   }
 

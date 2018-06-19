@@ -1,8 +1,8 @@
 import {Collection} from '@orion-js/app'
-import Link from 'app/models/Link'
+import Table from 'app/models/Table'
 
 export default new Collection({
-  name: 'links',
-  model: Link,
+  name: 'tables',
+  model: Table,
   indexes: []
 })

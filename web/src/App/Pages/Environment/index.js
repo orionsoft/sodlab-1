@@ -10,7 +10,9 @@ import Styles from './Styles'
 import Layout from './Layout'
 import View from './View'
 import NotFound from './NotFound'
+import forceLogin from 'App/helpers/auth/forceLogin'
 
+@forceLogin
 @withEnvironmentId
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {

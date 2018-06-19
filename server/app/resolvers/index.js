@@ -7,8 +7,10 @@ import Forms from './Forms'
 import FileManager from './FileManager'
 import Views from './Views'
 import Links from './Links'
+import Tables from './Tables'
 
 export default {
+  ...Tables,
   ...Links,
   ...Views,
   ...FileManager,

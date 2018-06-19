@@ -14,6 +14,8 @@ import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
+import cloneDeep from 'lodash/cloneDeep'
+import range from 'lodash/range'
 
 @withGraphQL(gql`
   query getForm($viewId: ID, $environmentId: ID) {
@@ -28,12 +30,19 @@ import autobind from 'autobind-decorator'
         sizeLarge
         type
         formId
+        tableId
       }
     }
     forms(limit: null, environmentId: $environmentId) {
       items {
         value: _id
         label: name
+      }
+    }
+    tables(limit: null, environmentId: $environmentId) {
+      items {
+        value: _id
+        label: title
       }
     }
   }
@@ -44,17 +53,12 @@ export default class View extends React.Component {
     showMessage: PropTypes.func,
     view: PropTypes.object,
     collections: PropTypes.object,
-    forms: PropTypes.object
+    forms: PropTypes.object,
+    tables: PropTypes.object
   }
 
   getSizeOptions() {
-    return [
-      {label: 'Completo', value: '12'},
-      {label: 'Mitad', value: '6'},
-      {label: '1/3', value: '4'},
-      {label: '1/4', value: '4'},
-      {label: '1/6', value: '2'}
-    ]
+    return range(12).map(index => ({label: `${12 - index}/12`, value: 12 - index}))
   }
 
   getTypes() {
@@ -135,7 +139,7 @@ export default class View extends React.Component {
             onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
             doc={{
               viewId: this.props.view._id,
-              view: this.props.view
+              view: cloneDeep(this.props.view)
             }}>
             <Field fieldName="view" type={ObjectField}>
               <div className="label">Ruta</div>
