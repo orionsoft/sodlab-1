@@ -8,6 +8,7 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import Settings from '../Admin/Settings'
 import Styles from './Styles'
+import Layout from './Layout'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -24,12 +25,15 @@ export default class Environment extends React.Component {
   }
 
   render() {
+    if (!this.props.environment) return null
     return (
       <div className={styles.container}>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/settings" component={Settings} />
-        </Switch>
+        <Layout>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/settings" component={Settings} />
+          </Switch>
+        </Layout>
         <Styles />
       </div>
     )

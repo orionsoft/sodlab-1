@@ -1,0 +1,8 @@
+:local(.container) {
+  flex: 1;
+  display: flex;
+}
+
+:local(.content) {
+  flex: 1;
+}
