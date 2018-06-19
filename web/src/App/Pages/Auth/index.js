@@ -23,7 +23,9 @@ import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
       logo {
         url
       }
-      authBackgroundImage
+      authBackgroundImage {
+        url
+      }
     }
   }
 `)
@@ -53,7 +55,7 @@ export default class Auth extends React.Component {
   getBackgroundImage() {
     const {environment} = this.props
     if (environment && environment.authBackgroundImage) {
-      return environment.authBackgroundImage
+      return environment.authBackgroundImage.url
     }
     return 'https://images.unsplash.com/photo-1496096265110-f83ad7f96608?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=35840c5a386390076c95d47b745ae459&auto=format&fit=crop&w=2850&q=80'
   }

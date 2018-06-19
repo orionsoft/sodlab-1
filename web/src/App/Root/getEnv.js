@@ -1,5 +1,5 @@
 const isBeta = window.location.hostname.includes('beta')
-const isProduction = !isBeta && window.location.hostname.includes('waveshosting.')
+const isProduction = !isBeta && window.location.hostname.includes('sodlab.')
 
 const forceProd = false
 

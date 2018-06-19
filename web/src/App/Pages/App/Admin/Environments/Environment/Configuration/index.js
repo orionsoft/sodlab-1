@@ -19,7 +19,9 @@ import gql from 'graphql-tag'
       logo {
         _id
       }
-      authBackgroundImage
+      authBackgroundImage {
+        _id
+      }
     }
   }
 `)

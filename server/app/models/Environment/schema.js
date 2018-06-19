@@ -33,10 +33,13 @@ export default {
   logo: {
     type: File,
     fileType: 'image',
-    label: 'Logo'
+    label: 'Logo',
+    optional: true
   },
   authBackgroundImage: {
-    type: String,
-    label: 'Imagen de fondo en el Login'
+    type: File,
+    label: 'Imagen de fondo en el Login',
+    fileType: 'image',
+    optional: true
   }
 }

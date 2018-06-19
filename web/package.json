@@ -9,7 +9,7 @@
     "react-dev-utils": "^4.0.0"
   },
   "dependencies": {
-    "@orion-js/schema": "^0.0.8",
+    "@orion-js/schema": "^0.0.26",
     "apollo-client-preset": "^1.0.8",
     "apollo-link-batch-http": "^1.2.1",
     "apollo-link-error": "^1.0.7",
