@@ -18,28 +18,22 @@ export default class List extends React.Component {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
-        <Breadcrumbs>Crear Rol</Breadcrumbs>
+        <Breadcrumbs>Crear rol</Breadcrumbs>
         <Section
           title="Crear rol"
           description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
-          top
-        >
+          top>
           <AutoForm
             mutation="createRole"
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
             onSuccess={col =>
-              this.props.history.push(
-                `/admin/environments/${environmentId}/roles/${col._id}`
-              )
+              this.props.history.push(`/admin/environments/${environmentId}/roles/${col._id}`)
             }
           />
           <br />
-          <Button
-            to={`/admin/environments/${environmentId}/roles`}
-            style={{marginRight: 10}}
-          >
+          <Button to={`/admin/environments/${environmentId}/roles`} style={{marginRight: 10}}>
             Cancelar
           </Button>
           <Button onClick={() => this.refs.form.submit()} primary>

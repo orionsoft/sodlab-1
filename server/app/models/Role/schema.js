@@ -8,5 +8,8 @@ export default {
   name: {
     type: String,
     label: 'Nombre de Rol'
+  },
+  createdAt: {
+    type: Date
   }
 }

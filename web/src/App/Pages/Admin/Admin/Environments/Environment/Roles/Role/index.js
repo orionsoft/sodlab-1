@@ -10,20 +10,13 @@ import ObjectField from 'App/components/fields/ObjectField'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
-import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field} from 'simple-react-form'
 
 @withGraphQL(gql`
-  query getRole($roleId: ID, $environmentId: ID) {
+  query getRole($roleId: ID) {
     role(roleId: $roleId) {
       _id
       name
-    }
-    collections(environmentId: $environmentId) {
-      items {
-        value: _id
-        label: name
-      }
     }
   }
 `)
@@ -35,13 +28,6 @@ export default class Form extends React.Component {
     collections: PropTypes.object
   }
 
-  getFormTypes() {
-    return [
-      {label: 'Crear', value: 'create'},
-      {label: 'Actualizar', value: 'update'}
-    ]
-  }
-
   render() {
     if (!this.props.role) return
     return (
@@ -51,20 +37,16 @@ export default class Form extends React.Component {
           top
           title={`Editar rol ${this.props.role.name}`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
-          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit."
-        >
+          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
             mutation="updateRole"
             ref="form"
             only="role"
-            onSuccess={() =>
-              this.props.showMessage('Los campos fueron guardados')
-            }
+            onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
             doc={{
               roleId: this.props.role._id,
               role: this.props.role
-            }}
-          >
+            }}>
             <Field fieldName="role" type={ObjectField}>
               <div className="label">Nombre</div>
               <Field fieldName="name" type={Text} />

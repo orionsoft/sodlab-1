@@ -17,7 +17,7 @@ export default createPaginatedResolver({
   async getCursor({filter, environmentId}, viewer) {
     const query = {environmentId}
     if (filter) {
-      query._id = {$regex: new RegExp(`^${escape(filter)}`)}
+      query.name = {$regex: new RegExp(`^${escape(filter)}`)}
     }
     return Roles.find(query)
   }
