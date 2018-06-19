@@ -10,7 +10,7 @@ export default resolver({
     form: {
       type: Form.clone({
         name: 'UpdateForm',
-        omitFields: ['_id', 'environmentId']
+        omitFields: ['_id', 'environmentId', 'createdAt']
       })
     }
   },

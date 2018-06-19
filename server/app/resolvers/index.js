@@ -5,8 +5,10 @@ import Environments from './Environments'
 import Collections from './Collections'
 import Forms from './Forms'
 import FileManager from './FileManager'
+import Views from './Views'
 
 export default {
+  ...Views,
   ...FileManager,
   ...Forms,
   ...Collections,
