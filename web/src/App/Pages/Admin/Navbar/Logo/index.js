@@ -8,7 +8,7 @@ export default class Logo extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <Link to="/dashboard">
+        <Link to="/admin">
           <img src="/dark.svg" alt="Logo" />
         </Link>
       </div>

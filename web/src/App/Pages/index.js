@@ -42,6 +42,7 @@ export default class Component extends React.Component {
       return false
     } else {
       console.log('Should check if the user has access to this env')
+      return false
     }
   }
 
@@ -59,9 +60,20 @@ export default class Component extends React.Component {
       const Component = DynamicComponent(() => import('./Auth'))
       return <Component />
     } else {
-      const App = DynamicComponent(() => import('./App'))
       if (this.shouldRenderNotAllowed()) return this.renderNotAllowed()
-      return <App />
+
+      const isInAdmin = includes(adminHosts, window.location.host)
+      if (isInAdmin && this.props.location.pathname === '/') {
+        this.props.history.replace('/admin')
+      }
+
+      if (isInAdmin) {
+        const Admin = DynamicComponent(() => import('./Admin'))
+        return <Admin />
+      } else {
+        const Environment = DynamicComponent(() => import('./Environment'))
+        return <Environment />
+      }
     }
   }
 }

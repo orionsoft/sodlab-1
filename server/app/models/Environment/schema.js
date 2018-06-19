@@ -41,5 +41,11 @@ export default {
     label: 'Imagen de fondo en el Login',
     fileType: 'image',
     optional: true
+  },
+  fontName: {
+    type: String,
+    optional: true,
+    label: 'Tipografía',
+    allowedValues: ['Roboto', 'Open Sans', 'Lato']
   }
 }

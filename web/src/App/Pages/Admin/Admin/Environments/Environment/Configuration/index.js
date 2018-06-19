@@ -22,6 +22,7 @@ import gql from 'graphql-tag'
       authBackgroundImage {
         _id
       }
+      fontName
     }
   }
 `)

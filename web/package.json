@@ -41,6 +41,7 @@
     "react-stripe-elements": "^2.0.0",
     "rxjs": "^6.2.0",
     "simple-react-form": "^2.0.1",
+    "styled-jsx": "^2.2.6",
     "unfetch": "^3.0.0"
   },
   "scripts": {

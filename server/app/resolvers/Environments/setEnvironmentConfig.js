@@ -4,7 +4,7 @@ import Environments from 'app/collections/Environments'
 
 const EnvironmentInput = Environment.clone({
   name: 'EnvironmentConfig',
-  pickFields: ['name', 'url', 'logo', 'authBackgroundImage']
+  pickFields: ['name', 'url', 'logo', 'authBackgroundImage', 'fontName']
 })
 
 export default resolver({
