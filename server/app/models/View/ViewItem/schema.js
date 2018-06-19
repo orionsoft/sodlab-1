@@ -15,5 +15,9 @@ export default {
   formId: {
     type: 'ID',
     optional: true
+  },
+  tableId: {
+    type: 'ID',
+    optional: true
   }
 }

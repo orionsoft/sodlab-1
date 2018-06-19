@@ -6,9 +6,13 @@ import Collections from './Collections'
 import Forms from './Forms'
 import FileManager from './FileManager'
 import Views from './Views'
+import Links from './Links'
+import Tables from './Tables'
 import Roles from './Roles'
 
 export default {
+  ...Tables,
+  ...Links,
   ...Views,
   ...FileManager,
   ...Forms,

@@ -20,7 +20,8 @@ export default class List extends React.Component {
     canCreate: PropTypes.bool,
     canUpdate: PropTypes.bool,
     allowSearch: PropTypes.bool,
-    params: PropTypes.object
+    params: PropTypes.object,
+    onSelect: PropTypes.func
   }
 
   static defaultProps = {
@@ -31,8 +32,12 @@ export default class List extends React.Component {
   }
 
   @autobind
-  onSelect({_id, amount}) {
-    this.props.history.push(`${this.props.basePath}/${_id}`)
+  onSelect(item) {
+    if (this.props.onSelect) {
+      this.props.onSelect(item)
+    } else {
+      this.props.history.push(`${this.props.basePath}/${item._id}`)
+    }
   }
 
   @autobind

@@ -11,6 +11,7 @@ import Forms from './Forms'
 import Configuration from './Configuration'
 import Views from './Views'
 import Links from './Links/index'
+import Tables from './Tables'
 import Roles from './Roles'
 
 @withGraphQL(gql`
@@ -48,16 +49,20 @@ export default class Environment extends React.Component {
             component={Forms}
           />
           <Route
-            path="/admin/environments/:environmentId/roles"
-            component={Roles}
-          />
-          <Route
             path="/admin/environments/:environmentId/views"
             component={Views}
           />
           <Route
             path="/admin/environments/:environmentId/links"
             component={Links}
+          />
+          <Route
+            path="/admin/environments/:environmentId/tables"
+            component={Tables}
+          />
+          <Route
+            path="/admin/environments/:environmentId/roles"
+            component={Roles}
           />
           <Route
             path="/admin/environments/:environmentId/configuration"

@@ -5,15 +5,12 @@ export default {
   environmentId: {
     type: 'ID'
   },
-  name: {
+  title: {
     type: String,
-    label: 'Nombre'
+    label: 'Título'
   },
-  type: {
-    type: String,
-    label: 'Tipo',
-    optional: true,
-    allowedValues: ['create', 'update']
+  createdAt: {
+    type: Date
   },
   collectionId: {
     type: 'ID',
