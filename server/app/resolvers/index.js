@@ -8,6 +8,7 @@ import FileManager from './FileManager'
 import Views from './Views'
 import Links from './Links'
 import Tables from './Tables'
+import Roles from './Roles'
 
 export default {
   ...Tables,
@@ -19,5 +20,6 @@ export default {
   ...Environments,
   ...ExposeSchemaResolvers,
   ...Auth,
-  ...Users
+  ...Users,
+  ...Roles
 }
