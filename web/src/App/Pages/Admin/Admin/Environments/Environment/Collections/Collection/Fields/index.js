@@ -14,7 +14,6 @@ import {withRouter} from 'react-router'
 @withMessage
 export default class Fields extends React.Component {
   static propTypes = {
-    router: PropTypes.object,
     history: PropTypes.object,
     showMessage: PropTypes.func,
     collection: PropTypes.object,
