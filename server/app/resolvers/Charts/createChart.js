@@ -1,7 +1,7 @@
 import {resolver} from '@orion-js/app'
+import Chart from 'app/models/Chart'
+import Charts from 'app/collections/Charts'
 import Environments from 'app/collections/Environments'
-import Tables from 'app/collections/Tables'
-import Table from 'app/models/Table'
 
 export default resolver({
   params: {
@@ -17,15 +17,15 @@ export default resolver({
       label: 'Título'
     }
   },
-  returns: Table,
+  returns: Chart,
   mutation: true,
   role: 'admin',
   async resolve({environmentId, title}, viewer) {
-    const tableId = await Tables.insert({
+    const chartId = await Charts.insert({
       environmentId,
       title,
       createdAt: new Date()
     })
-    return await Tables.findOne(tableId)
+    return await Charts.findOne(chartId)
   }
 })

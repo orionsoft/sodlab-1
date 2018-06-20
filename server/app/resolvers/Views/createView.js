@@ -23,16 +23,21 @@ export default resolver({
     name: {
       type: String,
       label: 'Nombre'
+    },
+    title: {
+      type: String,
+      label: 'Título'
     }
   },
   returns: View,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, path, name}, viewer) {
+  async resolve({environmentId, path, name, title}, viewer) {
     const viewId = await Views.insert({
       path,
       environmentId,
       name,
+      title,
       createdAt: new Date()
     })
     return await Views.findOne(viewId)
