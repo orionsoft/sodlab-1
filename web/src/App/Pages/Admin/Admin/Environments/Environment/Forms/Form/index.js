@@ -12,6 +12,7 @@ import Button from 'orionsoft-parts/lib/components/Button'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field} from 'simple-react-form'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getForm($formId: ID, $environmentId: ID) {
@@ -33,12 +34,21 @@ import {Field} from 'simple-react-form'
 export default class Form extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
+    history: PropTypes.object,
     form: PropTypes.object,
-    collections: PropTypes.object
+    collections: PropTypes.object,
+    match: PropTypes.object
   }
 
   getFormTypes() {
     return [{label: 'Crear', value: 'create'}, {label: 'Actualizar', value: 'update'}]
+  }
+
+  @autobind
+  onSuccess() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Los campos fueron guardados')
+    this.props.history.push(`/admin/environments/${environmentId}/forms`)
   }
 
   render() {
@@ -55,7 +65,7 @@ export default class Form extends React.Component {
             mutation="updateForm"
             ref="form"
             only="form"
-            onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
+            onSuccess={this.onSuccess}
             doc={{
               formId: this.props.form._id,
               form: this.props.form
