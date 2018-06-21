@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import withUserId from 'App/helpers/auth/withUserId'
 import LoggedIn from '../LoggedIn'
 import {Link} from 'react-router-dom'
+import setSession from 'App/helpers/auth/setSession'
 
 @withUserId
 export default class Register extends React.Component {
@@ -19,7 +20,7 @@ export default class Register extends React.Component {
 
   @autobind
   onSuccess(session) {
-    localStorage.setItem('session', JSON.stringify(session))
+    setSession(session)
     this.props.onLogin()
   }
 

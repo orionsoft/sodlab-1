@@ -1,33 +1,18 @@
 import React from 'react'
-import autobind from 'autobind-decorator'
-import getSession from './getSession'
+import withSession from './withSession'
+import PropTypes from 'prop-types'
 
 export default function(ComposedComponent) {
   class WithUserId extends React.Component {
-    state = {
-      userId: getSession().userId
-    }
-
-    componentDidMount() {
-      this.interval = setInterval(this.check, 300)
-    }
-
-    componentWillUnmount() {
-      clearInterval(this.interval)
-    }
-
-    @autobind
-    check() {
-      const {userId} = getSession()
-      if (this.state.userId !== userId) {
-        this.setState({userId})
-      }
+    static propTypes = {
+      session: PropTypes.object
     }
 
     render() {
-      return <ComposedComponent {...this.props} userId={this.state.userId} />
+      const {userId} = this.props.session
+      return <ComposedComponent {...this.props} userId={userId} />
     }
   }
 
-  return WithUserId
+  return withSession(WithUserId)
 }

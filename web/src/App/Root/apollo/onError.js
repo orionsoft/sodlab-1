@@ -1,4 +1,5 @@
 import {onError} from 'apollo-link-error'
+import setSession from 'App/helpers/auth/setSession'
 
 export default onError(({graphQLErrors, networkError, response, operation}) => {
   // console.error('on error')
@@ -7,8 +8,7 @@ export default onError(({graphQLErrors, networkError, response, operation}) => {
   }
   if (networkError) {
     if (networkError.statusCode === 400 && networkError.result.error === 'AuthError') {
-      localStorage.setItem('session', '')
-      global.apolloClient.resetStore()
+      setSession(null)
     } else {
       console.error('Network error', JSON.stringify(networkError, null, 2))
     }
