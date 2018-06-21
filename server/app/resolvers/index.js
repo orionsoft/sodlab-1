@@ -10,8 +10,10 @@ import Links from './Links'
 import Tables from './Tables'
 import Roles from './Roles'
 import Charts from './Charts'
+import Filters from './Filters'
 
 export default {
+  ...Filters,
   ...Charts,
   ...Tables,
   ...Links,
