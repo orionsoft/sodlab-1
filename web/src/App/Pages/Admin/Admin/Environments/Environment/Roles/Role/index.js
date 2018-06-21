@@ -47,7 +47,7 @@ export default class Form extends React.Component {
   }
 
   render() {
-    if (!this.props.role) return
+    if (!this.props.role) return null
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.role.name}</Breadcrumbs>
@@ -71,18 +71,24 @@ export default class Form extends React.Component {
             </Field>
           </AutoForm>
           <br />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
-          </Button>
-          <MutationButton
-            label="Eliminar"
-            title="¿Eliminar rol?"
-            confirmText="Confirmar"
-            mutation="removeRole"
-            only="role"
-            onSuccess={this.removeRole}
-            params={{roleId: this.props.role._id}}
-          />
+          <div className={styles.buttonContainer}>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
+            </div>
+            <div>
+              <MutationButton
+                label="Eliminar"
+                title="¿Confirma que desea eliminar este rol?"
+                confirmText="Confirmar"
+                mutation="removeRole"
+                onSuccess={this.removeRole}
+                params={{roleId: this.props.role._id}}
+                danger
+              />
+            </div>
+          </div>
         </Section>
       </div>
     )

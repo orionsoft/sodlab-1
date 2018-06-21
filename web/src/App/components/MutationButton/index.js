@@ -40,8 +40,6 @@ export default class FormModal extends React.Component {
     try {
       this.errorMessage = null
       const result = await this.mutate(this.props.params)
-      console.log('result', result)
-      console.log(this.props.onSuccess(result))
       this.props.onSuccess(result)
     } catch (error) {
       if (error.graphQLErrors) {
@@ -108,7 +106,6 @@ export default class FormModal extends React.Component {
   }
 
   render() {
-    console.log('mutationbutton', this.props)
     return this.renderButton()
   }
 }
