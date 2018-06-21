@@ -39,6 +39,13 @@ export default class Form extends React.Component {
     this.props.history.push(`/admin/environments/${environmentId}/roles`)
   }
 
+  @autobind
+  onSuccess() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Los campos fueron guardados')
+    this.props.history.push(`/admin/environments/${environmentId}/roles`)
+  }
+
   render() {
     if (!this.props.role) return
     return (
@@ -53,7 +60,7 @@ export default class Form extends React.Component {
             mutation="updateRole"
             ref="form"
             only="role"
-            onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
+            onSuccess={this.onSuccess}
             doc={{
               roleId: this.props.role._id,
               role: this.props.role

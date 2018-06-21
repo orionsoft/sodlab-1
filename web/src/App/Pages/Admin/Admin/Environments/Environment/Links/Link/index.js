@@ -8,6 +8,7 @@ import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getForm($linkId: ID, $environmentId: ID) {
@@ -28,9 +29,18 @@ import Button from 'orionsoft-parts/lib/components/Button'
 export default class Link extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
+    history: PropTypes.object,
     link: PropTypes.object,
     collections: PropTypes.object,
-    forms: PropTypes.object
+    forms: PropTypes.object,
+    match: PropTypes.object
+  }
+
+  @autobind
+  onSuccess() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Los campos fueron guardados')
+    this.props.history.push(`/admin/environments/${environmentId}/links`)
   }
 
   render() {
@@ -47,7 +57,7 @@ export default class Link extends React.Component {
             mutation="updateLink"
             ref="form"
             only="link"
-            onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
+            onSuccess={this.onSuccess}
             doc={{
               linkId: this.props.link._id,
               link: this.props.link
