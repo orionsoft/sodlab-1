@@ -12,16 +12,11 @@ export default createPaginatedResolver({
     }
   },
   async getCursor({filter}, viewer) {
-    const finalquery = {}
-    const queryname = {}
-    const queryemail = {}
+    const query = {}
     if (filter) {
-      queryname.profile = {firstName: {$regex: new RegExp(`^${escape(filter)}`)}}
-      queryemail.emails = {
-        $elemMatch: {address: {$regex: new RegExp(`^${escape(filter)}`)}}
-      }
-      finalquery.$or = [queryname, queryemail]
+      const regex = {$regex: new RegExp(`^${escape(filter)}`)}
+      query.$or = [{'profile.firstName': regex}, {'emails.address': regex}]
     }
-    return Users.find(finalquery)
+    return Users.find(query)
   }
 })
