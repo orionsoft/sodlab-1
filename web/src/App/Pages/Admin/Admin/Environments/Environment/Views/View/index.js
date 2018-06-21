@@ -51,10 +51,12 @@ import range from 'lodash/range'
 export default class View extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
+    history: PropTypes.object,
     view: PropTypes.object,
     collections: PropTypes.object,
     forms: PropTypes.object,
-    tables: PropTypes.object
+    tables: PropTypes.object,
+    match: PropTypes.object
   }
 
   getSizeOptions() {
@@ -122,6 +124,13 @@ export default class View extends React.Component {
     )
   }
 
+  @autobind
+  onSuccess() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Los campos fueron guardados')
+    this.props.history.push(`/admin/environments/${environmentId}/views`)
+  }
+
   render() {
     if (!this.props.view) return
     return (
@@ -136,7 +145,7 @@ export default class View extends React.Component {
             mutation="updateView"
             ref="form"
             only="view"
-            onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
+            onSuccess={this.onSuccess}
             doc={{
               viewId: this.props.view._id,
               view: cloneDeep(this.props.view)
