@@ -9,8 +9,10 @@ import AutoForm from 'App/components/AutoForm'
 import ObjectField from 'App/components/fields/ObjectField'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import {Field} from 'simple-react-form'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getRole($roleId: ID) {
@@ -24,8 +26,17 @@ import {Field} from 'simple-react-form'
 export default class Form extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
+    history: PropTypes.object,
     role: PropTypes.object,
-    collections: PropTypes.object
+    collections: PropTypes.object,
+    match: PropTypes.object
+  }
+
+  @autobind
+  removeRole() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('El rol fue eliminado')
+    this.props.history.push(`/admin/environments/${environmentId}/roles`)
   }
 
   render() {
@@ -56,6 +67,15 @@ export default class Form extends React.Component {
           <Button onClick={() => this.refs.form.submit()} primary>
             Guardar
           </Button>
+          <MutationButton
+            label="Eliminar"
+            title="¿Eliminar rol?"
+            confirmText="Confirmar"
+            mutation="removeRole"
+            only="role"
+            onSuccess={this.removeRole}
+            params={{roleId: this.props.role._id}}
+          />
         </Section>
       </div>
     )
