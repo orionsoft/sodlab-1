@@ -61,7 +61,7 @@ export default class Hook extends React.Component {
           </Button>
           <MutationButton
             label="Eliminar"
-            title="¿Confirma que desea eliminar este estilo?"
+            title="¿Confirma que desea eliminar este hook?"
             confirmText="Confirmar"
             mutation="removeHook"
             onSuccess={() => this.remove()}

@@ -62,7 +62,7 @@ export default class Filter extends React.Component {
             </Button>
             <MutationButton
               label="Eliminar"
-              title="¿Confirma que desea eliminar este estilo?"
+              title="¿Confirma que desea eliminar este filtro?"
               confirmText="Confirmar"
               mutation="removeFilter"
               onSuccess={() => this.remove()}
