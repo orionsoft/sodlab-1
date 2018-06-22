@@ -25,7 +25,7 @@ export default class Chart extends React.Component {
   }
 
   render() {
-    if (!this.props.getChart) return
+    if (!this.props.getChart) return null
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.getChart.title}</Breadcrumbs>
@@ -33,14 +33,16 @@ export default class Chart extends React.Component {
           top
           title={`Editar gráfico ${this.props.getChart.title}`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
-        ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
+        ipsum voluptate. Amet consequat admodum. Quem fabulas offendit."
+        >
           <AutoForm
             mutation="updateChart"
             ref="form"
             only="chart"
             onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
             doc={{
-              chartId: this.props.getChart._id
+              chartId: this.props.getChart._id,
+              chart: this.props.getChart
             }}
           />
           <br />

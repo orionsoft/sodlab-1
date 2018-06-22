@@ -3,6 +3,7 @@ import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
 import Create from './Create'
 import List from './List'
+import Filter from './Filter'
 
 export default class Filters extends React.Component {
   static propTypes = {}
@@ -13,6 +14,7 @@ export default class Filters extends React.Component {
         <Switch>
           <Route path="/admin/environments/:environmentId/filters" exact component={List} />
           <Route path="/admin/environments/:environmentId/filters/create" component={Create} />
+          <Route path="/admin/environments/:environmentId/filters/:filterId" component={Filter} />
         </Switch>
       </div>
     )
