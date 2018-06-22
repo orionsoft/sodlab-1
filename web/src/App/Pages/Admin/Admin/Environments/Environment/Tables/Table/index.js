@@ -12,6 +12,7 @@ import {Field} from 'simple-react-form'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ObjectField from 'App/components/fields/ObjectField'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getForm($tableId: ID, $environmentId: ID) {
@@ -33,9 +34,18 @@ import ObjectField from 'App/components/fields/ObjectField'
 export default class Link extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
+    history: PropTypes.object,
     table: PropTypes.object,
     collections: PropTypes.object,
-    forms: PropTypes.object
+    forms: PropTypes.object,
+    match: PropTypes.object
+  }
+
+  @autobind
+  onSuccess() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Los campos fueron guardados')
+    this.props.history.push(`/admin/environments/${environmentId}/tables`)
   }
 
   render() {
@@ -52,7 +62,7 @@ export default class Link extends React.Component {
             mutation="updateTable"
             ref="form"
             only="table"
-            onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
+            onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
               table: this.props.table

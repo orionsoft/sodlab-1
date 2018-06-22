@@ -11,6 +11,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import {Field} from 'simple-react-form'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getRole($roleId: ID) {
@@ -24,8 +25,17 @@ import {Field} from 'simple-react-form'
 export default class Form extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
+    history: PropTypes.object,
     role: PropTypes.object,
-    collections: PropTypes.object
+    collections: PropTypes.object,
+    match: PropTypes.object
+  }
+
+  @autobind
+  onSuccess() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Los campos fueron guardados')
+    this.props.history.push(`/admin/environments/${environmentId}/roles`)
   }
 
   render() {
@@ -42,7 +52,7 @@ export default class Form extends React.Component {
             mutation="updateRole"
             ref="form"
             only="role"
-            onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
+            onSuccess={this.onSuccess}
             doc={{
               roleId: this.props.role._id,
               role: this.props.role

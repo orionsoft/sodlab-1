@@ -19,15 +19,17 @@ import Indexes from './Indexes'
 `)
 export default class Collection extends React.Component {
   static propTypes = {
-    collection: PropTypes.object
+    collection: PropTypes.object,
+    match: PropTypes.object
   }
 
   render() {
     if (!this.props.collection) return
+    const {params} = this.props.match
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.collection.name}</Breadcrumbs>
-        <Fields collection={this.props.collection} />
+        <Fields collection={this.props.collection} params={params} />
         <Indexes collection={this.props.collection} />
       </div>
     )
