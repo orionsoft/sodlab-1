@@ -20,7 +20,7 @@ export default class List extends React.Component {
       <div className={styles.container}>
         <Breadcrumbs
           right={
-            <Button to={`/admin/environments/${environmentId}/hooks/create`}>Crear diseño</Button>
+            <Button to={`/admin/environments/${environmentId}/hooks/create`}>Crear hook</Button>
           }
         />
         <br />

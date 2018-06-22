@@ -6,12 +6,20 @@ import AutoForm from 'App/components/AutoForm'
 import Section from 'App/components/Section'
 import {withRouter} from 'react-router'
 import Breadcrumbs from '../../Breadcrumbs'
+import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 
 @withRouter
+@withMessage
 export default class Create extends React.Component {
   static propTypes = {
+    showMessage: PropTypes.func,
     history: PropTypes.object,
     match: PropTypes.object
+  }
+
+  success(environmentId) {
+    this.props.showMessage('Elemento creado satisfactoriamente!')
+    this.props.history.push(`/admin/environments/${environmentId}/filters`)
   }
 
   render() {
@@ -22,16 +30,13 @@ export default class Create extends React.Component {
         <Section
           title="Crear filtro"
           description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
-          top
-        >
+          top>
           <AutoForm
             mutation="createFilter"
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
-            onSuccess={col =>
-              this.props.history.push(`/admin/environments/${environmentId}/filters`)
-            }
+            onSuccess={() => this.success(environmentId)}
           />
           <br />
           <Button to={`/admin/environments/${environmentId}/filters`} style={{marginRight: 10}}>

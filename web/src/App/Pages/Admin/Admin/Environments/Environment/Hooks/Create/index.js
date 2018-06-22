@@ -6,12 +6,20 @@ import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import {withRouter} from 'react-router'
 import Breadcrumbs from '../../Breadcrumbs'
+import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 
 @withRouter
+@withMessage
 export default class Create extends React.Component {
   static propTypes = {
+    showMessage: PropTypes.func,
     history: PropTypes.object,
     match: PropTypes.object
+  }
+
+  success(environmentId) {
+    this.props.showMessage('Elemento creado satisfactoriamente!')
+    this.props.history.push(`/admin/environments/${environmentId}/hooks`)
   }
 
   render() {
@@ -28,7 +36,7 @@ export default class Create extends React.Component {
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
-            onSuccess={col => this.props.history.push(`/admin/environments/${environmentId}/hooks`)}
+            onSuccess={() => this.success(environmentId)}
           />
           <br />
           <Button to={`/admin/environments/${environmentId}/hooks`} style={{marginRight: 10}}>

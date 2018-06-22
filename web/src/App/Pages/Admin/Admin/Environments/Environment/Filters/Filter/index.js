@@ -8,6 +8,8 @@ import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
+import {withRouter} from 'react-router'
 
 @withGraphQL(gql`
   query filter($filterId: ID) {
@@ -17,11 +19,20 @@ import Button from 'orionsoft-parts/lib/components/Button'
     }
   }
 `)
+@withRouter
 @withMessage
 export default class Filter extends React.Component {
   static propTypes = {
+    history: PropTypes.object,
     filter: PropTypes.object,
-    showMessage: PropTypes.object
+    showMessage: PropTypes.func,
+    match: PropTypes.object
+  }
+
+  remove() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Elemento eliminado satisfactoriamente!')
+    this.props.history.push(`/admin/environments/${environmentId}/filters`)
   }
 
   render() {
@@ -34,8 +45,7 @@ export default class Filter extends React.Component {
             top
             title={`Editar filtro ${this.props.filter.name}`}
             description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
-          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit."
-          >
+          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
             <AutoForm
               mutation="updateFilter"
               ref="form"
@@ -50,6 +60,15 @@ export default class Filter extends React.Component {
             <Button onClick={() => this.refs.form.submit()} primary>
               Guardar
             </Button>
+            <MutationButton
+              label="Eliminar"
+              title="¿Confirma que desea eliminar este estilo?"
+              confirmText="Confirmar"
+              mutation="removeFilter"
+              onSuccess={() => this.remove()}
+              params={{filterId: this.props.filter._id}}
+              danger
+            />
           </Section>
         </div>
       </div>

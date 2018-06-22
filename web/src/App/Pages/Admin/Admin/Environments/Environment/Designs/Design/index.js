@@ -8,6 +8,8 @@ import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
+import {withRouter} from 'react-router'
 
 @withGraphQL(gql`
   query design($designId: ID) {
@@ -17,11 +19,20 @@ import Button from 'orionsoft-parts/lib/components/Button'
     }
   }
 `)
+@withRouter
 @withMessage
 export default class Design extends React.Component {
   static propTypes = {
+    history: PropTypes.object,
     design: PropTypes.object,
-    showMessage: PropTypes.object
+    showMessage: PropTypes.func,
+    match: PropTypes.object
+  }
+
+  remove() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Elemento eliminado satisfactoriamente!')
+    this.props.history.push(`/admin/environments/${environmentId}/designs`)
   }
 
   render() {
@@ -31,10 +42,9 @@ export default class Design extends React.Component {
         <Breadcrumbs>{this.props.design.name}</Breadcrumbs>
         <Section
           top
-          title={`Editar diseño ${this.props.design.name}`}
+          title={`Editar estilo ${this.props.design.name}`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
-        ipsum voluptate. Amet consequat admodum. Quem fabulas offendit."
-        >
+        ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
             mutation="updateDesign"
             ref="form"
@@ -49,6 +59,15 @@ export default class Design extends React.Component {
           <Button onClick={() => this.refs.form.submit()} primary>
             Guardar
           </Button>
+          <MutationButton
+            label="Eliminar"
+            title="¿Confirma que desea eliminar este estilo?"
+            confirmText="Confirmar"
+            mutation="removeDesign"
+            onSuccess={() => this.remove()}
+            params={{designId: this.props.design._id}}
+            danger
+          />
         </Section>
       </div>
     )
