@@ -1,5 +1,6 @@
 import Environments from 'app/collections/Environments'
 import {resolver} from '@orion-js/app'
+import postRemoveEnvironment from 'app/helpers/resolvers/environments/postRemoveEnvironment'
 
 export default resolver({
   params: {
@@ -11,6 +12,7 @@ export default resolver({
   mutation: true,
   role: 'admin',
   async resolve({environmentId}, viewer) {
+    await postRemoveEnvironment(environmentId)
     await Environments.remove(environmentId)
     return true
   }
