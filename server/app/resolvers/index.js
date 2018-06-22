@@ -11,8 +11,10 @@ import Tables from './Tables'
 import Roles from './Roles'
 import Charts from './Charts'
 import Filters from './Filters'
+import Designs from './Designs'
 
 export default {
+  ...Designs,
   ...Filters,
   ...Charts,
   ...Tables,

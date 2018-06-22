@@ -10,7 +10,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 
 @withGraphQL(gql`
-  query getFilter($filterId: ID) {
+  query filter($filterId: ID) {
     filter(filterId: $filterId) {
       _id
       name
@@ -32,7 +32,7 @@ export default class Filter extends React.Component {
           <Breadcrumbs>{this.props.filter.name}</Breadcrumbs>
           <Section
             top
-            title={`Editar gráfico ${this.props.filter.name}`}
+            title={`Editar filtro ${this.props.filter.name}`}
             description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
           ipsum voluptate. Amet consequat admodum. Quem fabulas offendit."
           >
