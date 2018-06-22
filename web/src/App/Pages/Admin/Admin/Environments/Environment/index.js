@@ -16,6 +16,7 @@ import Roles from './Roles'
 import Charts from './Charts'
 import Filters from './Filters'
 import Designs from './Designs'
+import Hooks from './Hooks'
 
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
@@ -82,6 +83,10 @@ export default class Environment extends React.Component {
           <Route
             path="/admin/environments/:environmentId/designs"
             component={Designs}
+          />
+          <Route
+            path="/admin/environments/:environmentId/hooks"
+            component={Hooks}
           />
         </Switch>
       </div>

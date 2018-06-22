@@ -12,8 +12,10 @@ import Roles from './Roles'
 import Charts from './Charts'
 import Filters from './Filters'
 import Designs from './Designs'
+import Hooks from './Hooks'
 
 export default {
+  ...Hooks,
   ...Designs,
   ...Filters,
   ...Charts,

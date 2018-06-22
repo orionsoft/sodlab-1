@@ -2,14 +2,11 @@ export default {
   _id: {
     type: 'ID'
   },
-  title: {
+  name: {
     type: String,
-    label: 'Título'
+    label: 'Nombre'
   },
   environmentId: {
     type: 'ID'
-  },
-  createdAt: {
-    type: Date
   }
 }

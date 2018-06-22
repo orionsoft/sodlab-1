@@ -8,5 +8,8 @@ export default {
   },
   environmentId: {
     type: 'ID'
+  },
+  createdAt: {
+    type: Date
   }
 }
