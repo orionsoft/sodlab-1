@@ -6,12 +6,20 @@ import AutoForm from 'App/components/AutoForm'
 import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
 import Breadcrumbs from '../../Breadcrumbs'
+import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 
 @withRouter
+@withMessage
 export default class List extends React.Component {
   static propTypes = {
+    showMessage: PropTypes.func,
     history: PropTypes.object,
     match: PropTypes.object
+  }
+
+  success(environmentId) {
+    this.props.showMessage('Elemento creado satisfactoriamente!')
+    this.props.history.push(`/admin/environments/${environmentId}/roles`)
   }
 
   render() {
@@ -28,9 +36,7 @@ export default class List extends React.Component {
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
-            onSuccess={col =>
-              this.props.history.push(`/admin/environments/${environmentId}/roles/${col._id}`)
-            }
+            onSuccess={() => this.success(environmentId)}
           />
           <br />
           <Button to={`/admin/environments/${environmentId}/roles`} style={{marginRight: 10}}>
