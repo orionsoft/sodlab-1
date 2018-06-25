@@ -13,7 +13,7 @@ import autobind from 'autobind-decorator'
       title
       collectionId
       fields {
-        name: fieldName
+        fieldName
         label
       }
       collection {
@@ -44,7 +44,7 @@ export default class Table extends React.Component {
       return {
         title: field.label,
         name: 'data',
-        render: ({data}) => data[field.name]
+        render: ({data}) => data[field.fieldName]
       }
     })
   }
