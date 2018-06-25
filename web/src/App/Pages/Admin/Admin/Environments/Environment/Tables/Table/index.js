@@ -24,7 +24,7 @@ import cloneDeep from 'lodash/cloneDeep'
       environmentId
       collectionId
       fields {
-        value: fieldName
+        fieldName
         label: label
       }
     }
