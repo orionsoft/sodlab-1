@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import setSession from './setSession'
 
 export default async function() {
   await global.apolloClient.mutate({
@@ -8,5 +9,5 @@ export default async function() {
       }
     `
   })
-  await global.apolloClient.resetStore()
+  await setSession(null)
 }

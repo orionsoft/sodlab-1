@@ -1,5 +1,6 @@
 import getSession from './getSession'
 
 export default function() {
-  return !!getSession().userId
+  const {userId, publicKey, secretKey} = getSession()
+  return userId && publicKey && secretKey
 }
