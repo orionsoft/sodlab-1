@@ -37,10 +37,9 @@ export default class Table extends React.Component {
   }
 
   getFields() {
-    const fields =
-      this.props.table.fields && this.props.table.fields.length
-        ? this.props.table.fields
-        : this.props.table.collection.fields
+    const fields = this.props.table.fields.length
+      ? this.props.table.fields
+      : this.props.table.collection.fields
     return fields.map(field => {
       return {
         title: field.label,
