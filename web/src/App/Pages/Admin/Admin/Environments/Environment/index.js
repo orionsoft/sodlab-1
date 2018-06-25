@@ -15,7 +15,6 @@ import Tables from './Tables'
 import Roles from './Roles'
 import Charts from './Charts'
 import Filters from './Filters'
-import Designs from './Designs'
 import Hooks from './Hooks'
 
 @withGraphQL(gql`
@@ -39,55 +38,20 @@ export default class Environment extends React.Component {
     return (
       <div className={styles.container}>
         <Switch>
-          <Route
-            path="/admin/environments/:environmentId"
-            exact
-            component={Main}
-          />
-          <Route
-            path="/admin/environments/:environmentId/collections"
-            component={Collections}
-          />
-          <Route
-            path="/admin/environments/:environmentId/forms"
-            component={Forms}
-          />
-          <Route
-            path="/admin/environments/:environmentId/views"
-            component={Views}
-          />
-          <Route
-            path="/admin/environments/:environmentId/links"
-            component={Links}
-          />
-          <Route
-            path="/admin/environments/:environmentId/tables"
-            component={Tables}
-          />
-          <Route
-            path="/admin/environments/:environmentId/roles"
-            component={Roles}
-          />
+          <Route path="/admin/environments/:environmentId" exact component={Main} />
+          <Route path="/admin/environments/:environmentId/collections" component={Collections} />
+          <Route path="/admin/environments/:environmentId/forms" component={Forms} />
+          <Route path="/admin/environments/:environmentId/views" component={Views} />
+          <Route path="/admin/environments/:environmentId/links" component={Links} />
+          <Route path="/admin/environments/:environmentId/tables" component={Tables} />
+          <Route path="/admin/environments/:environmentId/roles" component={Roles} />
           <Route
             path="/admin/environments/:environmentId/configuration"
             component={Configuration}
           />
-          <Route
-            path="/admin/environments/:environmentId/charts"
-            component={Charts}
-          />
-          <Route
-            path="/admin/environments/:environmentId/filters"
-            component={Filters}
-          />
-          <Route
-            path="/admin/environments/:environmentId/designs"
-            component={Designs}
-          />
-          <Route
-            path="/admin/environments/:environmentId/hooks"
-            component={Hooks}
-          />
+          <Route path="/admin/environments/:environmentId/charts" component={Charts} />
+          <Route path="/admin/environments/:environmentId/filters" component={Filters} />
+          <Route path="/admin/environments/:environmentId/hooks" component={Hooks} />
         </Switch>
       </div>
     )
