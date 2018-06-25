@@ -22,6 +22,7 @@ import autobind from 'autobind-decorator'
       name
       type
       collectionId
+      environmentId
     }
     collections(environmentId: $environmentId) {
       items {
@@ -94,11 +95,11 @@ export default class Form extends React.Component {
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button onClick={() => this.refs.form.submit()} primary>
-                Guardar
+              <Button
+                to={`/admin/environments/${this.props.form.environmentId}/forms`}
+                style={{marginRight: 10}}>
+                Cancelar
               </Button>
-            </div>
-            <div>
               <MutationButton
                 label="Eliminar"
                 title="¿Confirma que desea eliminar este formulario?"
@@ -108,6 +109,11 @@ export default class Form extends React.Component {
                 params={{formId: this.props.form._id}}
                 danger
               />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
             </div>
           </div>
         </Section>

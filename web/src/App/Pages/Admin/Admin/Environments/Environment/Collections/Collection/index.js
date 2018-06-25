@@ -15,6 +15,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
     collection(collectionId: $collectionId) {
       _id
       name
+      environmentId
       ...adminCollectionFieldsUpdateFragment
     }
   }
@@ -44,6 +45,10 @@ export default class Collection extends React.Component {
         <Breadcrumbs>{this.props.collection.name}</Breadcrumbs>
         <Fields collection={this.props.collection} params={params} />
         <Indexes collection={this.props.collection} />
+        <br />
+        <br />
+        <br />
+        <br />
         <div className={styles.removeButton}>
           <MutationButton
             label="Eliminar"

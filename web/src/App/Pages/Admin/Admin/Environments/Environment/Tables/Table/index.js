@@ -89,14 +89,11 @@ export default class Link extends React.Component {
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button onClick={() => this.refs.form.submit()} primary>
-                Guardar
-              </Button>
-              <Button to={`/admin/environments/${this.props.table.environmentId}/tables`}>
+              <Button
+                to={`/admin/environments/${this.props.table.environmentId}/tables`}
+                style={{marginRight: 10}}>
                 Cancelar
               </Button>
-            </div>
-            <div>
               <MutationButton
                 label="Eliminar"
                 title="¿Confirma que desea eliminar esta tabla?"
@@ -106,6 +103,11 @@ export default class Link extends React.Component {
                 params={{tableId: this.props.table._id}}
                 danger
               />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
             </div>
           </div>
         </Section>

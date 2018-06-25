@@ -17,6 +17,7 @@ import autobind from 'autobind-decorator'
       _id
       path
       title
+      environmentId
     }
     forms(limit: null, environmentId: $environmentId) {
       items {
@@ -74,11 +75,11 @@ export default class Link extends React.Component {
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button onClick={() => this.refs.form.submit()} primary>
-                Guardar
+              <Button
+                to={`/admin/environments/${this.props.link.environmentId}/links`}
+                style={{marginRight: 10}}>
+                Cancelar
               </Button>
-            </div>
-            <div>
               <MutationButton
                 label="Eliminar"
                 title="¿Confirma que desea eliminar este link?"
@@ -88,6 +89,11 @@ export default class Link extends React.Component {
                 params={{linkId: this.props.link._id}}
                 danger
               />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
             </div>
           </div>
         </Section>

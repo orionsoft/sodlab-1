@@ -23,6 +23,7 @@ import range from 'lodash/range'
     view(viewId: $viewId) {
       _id
       name
+      environmentId
       title
       path
       items {
@@ -174,11 +175,11 @@ export default class View extends React.Component {
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button onClick={() => this.refs.form.submit()} primary>
-                Guardar
+              <Button
+                to={`/admin/environments/${this.props.view.environmentId}/views`}
+                style={{marginRight: 10}}>
+                Cancelar
               </Button>
-            </div>
-            <div>
               <MutationButton
                 label="Eliminar"
                 title="¿Confirma que desea eliminar esta vista?"
@@ -188,6 +189,11 @@ export default class View extends React.Component {
                 params={{viewId: this.props.view._id}}
                 danger
               />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
             </div>
           </div>
         </Section>

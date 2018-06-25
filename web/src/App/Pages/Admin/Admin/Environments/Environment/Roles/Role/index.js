@@ -19,6 +19,7 @@ import autobind from 'autobind-decorator'
     role(roleId: $roleId) {
       _id
       name
+      environmentId
     }
   }
 `)
@@ -73,11 +74,11 @@ export default class Form extends React.Component {
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button onClick={() => this.refs.form.submit()} primary>
-                Guardar
+              <Button
+                to={`/admin/environments/${this.props.role.environmentId}/roles`}
+                style={{marginRight: 10}}>
+                Cancelar
               </Button>
-            </div>
-            <div>
               <MutationButton
                 label="Eliminar"
                 title="¿Confirma que desea eliminar este rol?"
@@ -87,6 +88,11 @@ export default class Form extends React.Component {
                 params={{roleId: this.props.role._id}}
                 danger
               />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
             </div>
           </div>
         </Section>
