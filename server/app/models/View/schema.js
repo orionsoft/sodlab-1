@@ -20,7 +20,8 @@ export default {
   },
   title: {
     type: String,
-    label: 'Título'
+    label: 'Título',
+    optional: true
   },
   createdAt: {
     type: Date

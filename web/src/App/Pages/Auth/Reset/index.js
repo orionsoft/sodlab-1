@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import withUserId from 'App/helpers/auth/withUserId'
 import LoggedIn from '../LoggedIn'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
+import setSession from 'App/helpers/auth/setSession'
 
 @withUserId
 @withMessage
@@ -44,7 +45,7 @@ export default class ResetPassword extends React.Component {
 
   @autobind
   onSuccess(session) {
-    localStorage.setItem('session', JSON.stringify(session))
+    setSession(session)
     this.props.showMessage('Your password has been changed')
     this.props.onLogin()
   }

@@ -12,7 +12,6 @@ import {Route, Switch, withRouter} from 'react-router-dom'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
-import sleep from 'orionsoft-parts/lib/helpers/sleep'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -46,7 +45,6 @@ export default class Auth extends React.Component {
   @autobind
   async onLogin() {
     this.setState({loading: true})
-    await sleep(300)
     const {location} = this.props
     if (location.state && location.state.nextPathname) {
       this.props.history.replace(location.state.nextPathname)
