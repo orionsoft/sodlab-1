@@ -9,7 +9,7 @@ export default async function(collectionId) {
     if (err) return false
     return true
   })
-  await Forms.remove({collectionId: collectionId})
-  await Tables.remove({collectionId: collectionId})
+  await Forms.remove({collectionId})
+  await Tables.remove({collectionId})
   return true
 }

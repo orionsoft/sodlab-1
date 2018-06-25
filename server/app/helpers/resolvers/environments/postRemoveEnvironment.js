@@ -5,10 +5,10 @@ import Links from 'app/collections/Links'
 import Roles from 'app/collections/Roles'
 
 export default async function(environmentId) {
-  await Collections.remove({environmentId: environmentId})
-  await Forms.remove({environmentId: environmentId})
-  await Tables.remove({environmentId: environmentId})
-  await Links.remove({environmentId: environmentId})
-  await Roles.remove({environmentId: environmentId})
+  await Collections.remove({environmentId})
+  await Forms.remove({environmentId})
+  await Tables.remove({environmentId})
+  await Links.remove({environmentId})
+  await Roles.remove({environmentId})
   return true
 }
