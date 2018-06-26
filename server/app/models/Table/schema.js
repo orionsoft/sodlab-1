@@ -1,3 +1,5 @@
+import TableField from './TableField'
+
 export default {
   _id: {
     type: 'ID'
@@ -14,6 +16,12 @@ export default {
   },
   collectionId: {
     type: 'ID',
+    optional: true
+  },
+  fields: {
+    label: 'Campos de tabla',
+    type: [TableField],
+    defaultValue: [],
     optional: true
   }
 }

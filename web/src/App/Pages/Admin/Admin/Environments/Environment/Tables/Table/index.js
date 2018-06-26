@@ -11,9 +11,11 @@ import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import {Field} from 'simple-react-form'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ObjectField from 'App/components/fields/ObjectField'
 import autobind from 'autobind-decorator'
+import cloneDeep from 'lodash/cloneDeep'
 
 @withGraphQL(gql`
   query getForm($tableId: ID, $environmentId: ID) {
@@ -22,11 +24,19 @@ import autobind from 'autobind-decorator'
       title
       environmentId
       collectionId
+      fields {
+        fieldName
+        label
+      }
     }
     collections(environmentId: $environmentId) {
       items {
         value: _id
         label: name
+        fields {
+          value: name
+          label
+        }
       }
     }
   }
@@ -42,11 +52,52 @@ export default class Link extends React.Component {
     match: PropTypes.object
   }
 
+  state = {}
+
+  componentDidMount() {
+    this.setState(cloneDeep(this.props.table))
+  }
+
   @autobind
   onSuccess() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Los campos fueron guardados')
     this.props.history.push(`/admin/environments/${environmentId}/tables`)
+  }
+
+  @autobind
+  renderFields(fields) {
+    return (
+      <div className={styles.content}>
+        <div className="row">
+          <div className="col-xs-12 col-sm-6">
+            <div className="label">Campo</div>
+            <Field fieldName="fieldName" type={Select} options={fields} />
+          </div>
+          <div className="col-xs-12 col-sm-6">
+            <div className="label">Etiqueta</div>
+            <Field fieldName="label" type={Text} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  @autobind
+  getCollection(collectionId) {
+    let collection = this.props.collections.items.find(
+      collection => collection.value === collectionId
+    )
+    return (
+      <Field fieldName="fields" type={ArrayComponent}>
+        {this.renderFields(collection.fields)}
+      </Field>
+    )
+  }
+
+  @autobind
+  onChangeAutoForm(event) {
+    this.setState(event.table)
   }
 
   @autobind
@@ -73,8 +124,9 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
-              table: this.props.table
-            }}>
+              table: this.state
+            }}
+            onChange={this.onChangeAutoForm}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
@@ -84,6 +136,7 @@ export default class Link extends React.Component {
                 type={Select}
                 options={this.props.collections.items}
               />
+              {this.state.collectionId && this.getCollection(this.state.collectionId)}
             </Field>
           </AutoForm>
           <br />

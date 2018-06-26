@@ -13,6 +13,10 @@ import ItemValue from '../ItemValue'
       _id
       title
       collectionId
+      fields {
+        fieldName
+        label
+      }
       collection {
         fields {
           name
@@ -35,10 +39,14 @@ export default class Table extends React.Component {
   }
 
   getFields() {
-    return this.props.table.collection.fields.map(field => {
+    const fields = this.props.table.fields.length
+      ? this.props.table.fields
+      : this.props.table.collection.fields
+    return fields.map(field => {
       return {
         title: field.label,
         name: 'data',
+        render: ({data}) => data[field.fieldName]
         render: ({data}) => <ItemValue value={data[field.name]} field={field} />
       }
     })
