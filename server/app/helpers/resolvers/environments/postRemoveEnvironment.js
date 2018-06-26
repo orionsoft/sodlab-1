@@ -7,20 +7,12 @@ import Roles from 'app/collections/Roles'
 export default async function(environmentId) {
   let collections = await Collections.find({environmentId}).toArray()
   await collections.map(async collection => {
-    const collectionDB = await collection.db()
-    await collectionDB.rawCollection
-      .drop()
-      .then(quote => {
-        console.log(quote)
-      })
-      .catch(error => {
-        console.error('Collection not found', error)
-      })
+    await collection.drop()
+    await Collections.remove({environmentId})
+    await Forms.remove({environmentId})
+    await Tables.remove({environmentId})
+    await Links.remove({environmentId})
+    await Roles.remove({environmentId})
+    return true
   })
-  await Collections.remove({environmentId})
-  await Forms.remove({environmentId})
-  await Tables.remove({environmentId})
-  await Links.remove({environmentId})
-  await Roles.remove({environmentId})
-  return true
 }
