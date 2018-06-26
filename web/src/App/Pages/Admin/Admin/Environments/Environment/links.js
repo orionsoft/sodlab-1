@@ -1,6 +1,6 @@
 export default [
   {title: 'Configuración', path: '/configuration'},
-  {title: 'Colleciones', path: '/collections'},
+  {title: 'Collecciones', path: '/collections'},
   {title: 'Vistas', path: '/views'},
   {title: 'Tablas', path: '/tables'},
   {title: 'Formularios', path: '/forms'},
