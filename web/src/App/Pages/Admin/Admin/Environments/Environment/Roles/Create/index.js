@@ -17,7 +17,7 @@ export default class List extends React.Component {
     match: PropTypes.object
   }
 
-  success(environmentId) {
+  onSuccess(environmentId) {
     this.props.showMessage('Elemento creado satisfactoriamente!')
     this.props.history.push(`/admin/environments/${environmentId}/roles`)
   }
@@ -36,7 +36,7 @@ export default class List extends React.Component {
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
-            onSuccess={() => this.success(environmentId)}
+            onSuccess={() => this.onSuccess(environmentId)}
           />
           <br />
           <Button to={`/admin/environments/${environmentId}/roles`} style={{marginRight: 10}}>
