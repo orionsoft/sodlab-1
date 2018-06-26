@@ -12,8 +12,8 @@ import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
 
 @withGraphQL(gql`
-  query getChart($chartId: ID) {
-    getChart(chartId: $chartId) {
+  query chart($chartId: ID) {
+    chart(chartId: $chartId) {
       _id
       title
     }
@@ -24,7 +24,7 @@ import {withRouter} from 'react-router'
 export default class Chart extends React.Component {
   static propTypes = {
     history: PropTypes.object,
-    getChart: PropTypes.object,
+    chart: PropTypes.object,
     showMessage: PropTypes.func,
     match: PropTypes.object
   }
@@ -36,13 +36,13 @@ export default class Chart extends React.Component {
   }
 
   render() {
-    if (!this.props.getChart) return null
+    if (!this.props.chart) return null
     return (
       <div className={styles.container}>
-        <Breadcrumbs>{this.props.getChart.title}</Breadcrumbs>
+        <Breadcrumbs>{this.props.chart.title}</Breadcrumbs>
         <Section
           top
-          title={`Editar gráfico ${this.props.getChart.title}`}
+          title={`Editar gráfico ${this.props.chart.title}`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
         ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
@@ -51,8 +51,8 @@ export default class Chart extends React.Component {
             only="chart"
             onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
             doc={{
-              chartId: this.props.getChart._id,
-              chart: this.props.getChart
+              chartId: this.props.chart._id,
+              chart: this.props.chart
             }}
           />
           <br />
@@ -65,7 +65,7 @@ export default class Chart extends React.Component {
             confirmText="Confirmar"
             mutation="removeChart"
             onSuccess={() => this.remove()}
-            params={{chartId: this.props.getChart._id}}
+            params={{chartId: this.props.chart._id}}
             danger
           />
         </Section>
