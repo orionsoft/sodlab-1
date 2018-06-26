@@ -9,8 +9,10 @@ import Views from './Views'
 import Links from './Links'
 import Tables from './Tables'
 import Roles from './Roles'
+import Info from './Info'
 
 export default {
+  ...Info,
   ...Tables,
   ...Links,
   ...Views,
