@@ -46,7 +46,6 @@ export default class Table extends React.Component {
       return {
         title: field.label,
         name: 'data',
-        render: ({data}) => data[field.fieldName]
         render: ({data}) => <ItemValue value={data[field.name]} field={field} />
       }
     })
