@@ -16,6 +16,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
     environment(environmentId: $environmentId) {
       _id
       name
+      url
     }
   }
 `)
@@ -29,8 +30,7 @@ export default class Main extends React.Component {
 
   @autobind
   goToEnv() {
-    localStorage.setItem('debugEnvironment', this.props.environment._id)
-    this.props.history.replace('/app')
+    window.open('http://' + this.props.environment.url)
   }
 
   @autobind
