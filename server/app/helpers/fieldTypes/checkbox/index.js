@@ -1,6 +1,6 @@
 export default {
   name: 'Checkbox',
-  dbType: Boolean,
+  rootType: Boolean,
   optionsSchema: {
     trueLabel: {
       label: 'Texto en positivo',

@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import PaginatedList from 'App/components/Crud/List'
 import autobind from 'autobind-decorator'
+import ItemValue from '../ItemValue'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -17,6 +18,7 @@ import autobind from 'autobind-decorator'
           name
           label
           type
+          options
         }
       }
     }
@@ -37,7 +39,7 @@ export default class Table extends React.Component {
       return {
         title: field.label,
         name: 'data',
-        render: ({data}) => data[field.name]
+        render: ({data}) => <ItemValue value={data[field.name]} field={field} />
       }
     })
   }

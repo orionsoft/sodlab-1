@@ -1,7 +1,7 @@
-import Text from 'orionsoft-parts/lib/components/fields/Text'
-import Toggle from 'orionsoft-parts/lib/components/fields/Toggle'
+import checkbox from './checkbox'
+import string from './string'
 
 export default {
-  string: Text,
-  checkbox: Toggle
+  string,
+  checkbox
 }

@@ -1,6 +1,6 @@
 export default {
   name: 'Texto',
-  dbType: String,
+  rootType: String,
   optionsSchema: {
     min: {
       label: 'Largo mínimo',

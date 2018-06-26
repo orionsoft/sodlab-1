@@ -7,8 +7,9 @@ import AutoForm from 'App/components/AutoForm'
 import Fields from 'App/components/AutoForm/Fields'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
-import schemaToField from 'App/components/schemaToField'
+import fieldTypes from 'App/components/fieldTypes'
 import autobind from 'autobind-decorator'
+import schemaToField from 'App/components/schemaToField'
 
 @withGraphQL(gql`
   query getForm($formId: ID) {
@@ -44,6 +45,12 @@ export default class Form extends React.Component {
     this.props.showMessage('Se completó con exito')
   }
 
+  @autobind
+  schemaToField(type, field) {
+    if (!field.fieldType) return schemaToField(type, field)
+    return fieldTypes[field.fieldType].field
+  }
+
   render() {
     const params = {data: {type: this.props.form.serializedParams}}
     return (
@@ -55,7 +62,9 @@ export default class Form extends React.Component {
           only="data"
           doc={{formId: this.props.form._id, data: this.state.data}}
           onSuccess={this.onSuccess}>
-          {({parent}) => <Fields schemaToField={schemaToField} parent={parent} params={params} />}
+          {({parent}) => (
+            <Fields schemaToField={this.schemaToField} parent={parent} params={params} />
+          )}
         </AutoForm>
         <br />
         {this.renderSubmitButton()}
