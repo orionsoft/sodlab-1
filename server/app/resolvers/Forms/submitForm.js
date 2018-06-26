@@ -1,4 +1,5 @@
 import {resolver} from '@orion-js/app'
+import {validate} from '@orion-js/schema'
 import Item from 'app/models/Item'
 import Forms from 'app/collections/Forms'
 
@@ -23,6 +24,16 @@ export default resolver({
   async resolve({formId, itemId, data}, viewer) {
     const form = await Forms.findOne(formId)
     const collection = await form.collectionDb()
+
+    const schema = await form.schema()
+    try {
+      await validate(schema, data)
+    } catch (error) {
+      if (error.isValidationError) {
+        throw error.prependKey('data')
+      }
+      throw error
+    }
 
     if (form.type === 'create') {
       const newItemId = await collection.insert({data})

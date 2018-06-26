@@ -60,7 +60,8 @@ export default class Form extends React.Component {
           mutation="submitForm"
           ref="form"
           only="data"
-          doc={{formId: this.props.form._id, data: this.state.data}}
+          getErrorFieldLabel={() => 'Este campo'}
+          doc={{formId: this.props.form._id, data: this.state.data || {}}}
           onSuccess={this.onSuccess}>
           {({parent}) => (
             <Fields schemaToField={this.schemaToField} parent={parent} params={params} />

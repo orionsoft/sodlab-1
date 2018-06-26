@@ -10,7 +10,7 @@ export default class ItemValue extends React.Component {
 
   render() {
     const ViewComponent = fieldTypes[this.props.field.type].view
-    if (!ViewComponent) return this.props.value
+    if (!ViewComponent) return this.props.value || ''
 
     return <ViewComponent value={this.props.value} options={this.props.field.options} />
   }

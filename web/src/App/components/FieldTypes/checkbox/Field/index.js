@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 export default class Checkbox extends React.Component {
   static propTypes = {
     fieldOptions: PropTypes.object,
-    value: PropTypes.object,
+    value: PropTypes.bool,
     onChange: PropTypes.func,
     trueLabel: PropTypes.string,
     falseLabel: PropTypes.string
