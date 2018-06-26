@@ -8,6 +8,7 @@ import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
 import ObjectField from 'App/components/fields/ObjectField'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
@@ -22,6 +23,7 @@ import range from 'lodash/range'
     view(viewId: $viewId) {
       _id
       name
+      environmentId
       title
       path
       items {
@@ -131,8 +133,15 @@ export default class View extends React.Component {
     this.props.history.push(`/admin/environments/${environmentId}/views`)
   }
 
+  @autobind
+  removeView() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('La vista fue eliminada')
+    this.props.history.push(`/admin/environments/${environmentId}/views`)
+  }
+
   render() {
-    if (!this.props.view) return
+    if (!this.props.view) return null
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.view.name}</Breadcrumbs>
@@ -164,9 +173,29 @@ export default class View extends React.Component {
             </Field>
           </AutoForm>
           <br />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
-          </Button>
+          <div className={styles.buttonContainer}>
+            <div>
+              <Button
+                to={`/admin/environments/${this.props.view.environmentId}/views`}
+                style={{marginRight: 10}}>
+                Cancelar
+              </Button>
+              <MutationButton
+                label="Eliminar"
+                title="¿Confirma que desea eliminar esta vista?"
+                confirmText="Confirmar"
+                mutation="removeView"
+                onSuccess={this.removeView}
+                params={{viewId: this.props.view._id}}
+                danger
+              />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
+            </div>
+          </div>
         </Section>
       </div>
     )

@@ -8,6 +8,7 @@ import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
 import {Field} from 'simple-react-form'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
@@ -99,8 +100,15 @@ export default class Link extends React.Component {
     this.setState(event.table)
   }
 
+  @autobind
+  removeTable() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('La tabla fueron guardados')
+    this.props.history.push(`/admin/environments/${environmentId}/tables`)
+  }
+
   render() {
-    if (!this.props.table) return
+    if (!this.props.table) return null
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.table.title}</Breadcrumbs>
@@ -132,14 +140,29 @@ export default class Link extends React.Component {
             </Field>
           </AutoForm>
           <br />
-          <Button
-            to={`/admin/environments/${this.props.table.environmentId}/tables`}
-            style={{marginRight: 10}}>
-            Cancelar
-          </Button>
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
-          </Button>
+          <div className={styles.buttonContainer}>
+            <div>
+              <Button
+                to={`/admin/environments/${this.props.table.environmentId}/tables`}
+                style={{marginRight: 10}}>
+                Cancelar
+              </Button>
+              <MutationButton
+                label="Eliminar"
+                title="¿Confirma que desea eliminar esta tabla?"
+                confirmText="Confirmar"
+                mutation="removeTable"
+                onSuccess={this.removeTable}
+                params={{tableId: this.props.table._id}}
+                danger
+              />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
+            </div>
+          </div>
         </Section>
       </div>
     )

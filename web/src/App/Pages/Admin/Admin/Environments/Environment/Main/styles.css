@@ -1,3 +1,8 @@
 :local(.container) {
+}
 
+:local(.buttonContainer) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

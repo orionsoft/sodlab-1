@@ -58,9 +58,11 @@ export default class Fields extends React.Component {
             }}
           />
           <br />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
-          </Button>
+          <div style={{textAlign: 'right'}}>
+            <Button onClick={() => this.refs.form.submit()} primary>
+              Guardar
+            </Button>
+          </div>
         </Section>
       </div>
     )
