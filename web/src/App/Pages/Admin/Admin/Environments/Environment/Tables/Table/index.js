@@ -19,6 +19,7 @@ import autobind from 'autobind-decorator'
     table(tableId: $tableId) {
       _id
       title
+      name
       environmentId
       collectionId
     }
@@ -70,6 +71,8 @@ export default class Link extends React.Component {
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
+              <div className="label">Nombre</div>
+              <Field fieldName="name" type={Text} />
               <div className="label">Colección</div>
               <Field
                 fieldName="collectionId"

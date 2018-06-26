@@ -9,6 +9,10 @@ export default {
     type: String,
     label: 'Nombre'
   },
+  title: {
+    type: String,
+    label: 'Título'
+  },
   type: {
     type: String,
     label: 'Tipo',

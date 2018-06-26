@@ -15,15 +15,20 @@ export default resolver({
     title: {
       type: String,
       label: 'Título'
+    },
+    name: {
+      type: String,
+      label: 'Nombre'
     }
   },
   returns: Table,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, title}, viewer) {
+  async resolve({environmentId, title, name}, viewer) {
     const linkId = await Tables.insert({
       environmentId,
       title,
+      name,
       createdAt: new Date()
     })
     return await Tables.findOne(linkId)

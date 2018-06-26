@@ -14,6 +14,7 @@ import autobind from 'autobind-decorator'
   query getForm($formId: ID) {
     form(formId: $formId) {
       _id
+      title
       name
       type
       serializedParams
@@ -48,7 +49,7 @@ export default class Form extends React.Component {
     const params = {data: {type: this.props.form.serializedParams}}
     return (
       <div className={styles.container}>
-        <div className={styles.title}>{this.props.form.name}</div>
+        <div className={styles.title}>{this.props.form.title}</div>
         <AutoForm
           mutation="submitForm"
           ref="form"

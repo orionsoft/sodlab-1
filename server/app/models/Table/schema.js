@@ -9,6 +9,10 @@ export default {
     type: String,
     label: 'Título'
   },
+  name: {
+    type: String,
+    label: 'Nombre'
+  },
   createdAt: {
     type: Date
   },

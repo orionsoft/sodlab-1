@@ -14,7 +14,7 @@ export default class List extends React.Component {
   }
 
   getFields() {
-    return [{name: 'title', title: 'Título'}]
+    return [{name: 'name', title: 'Nombre'}]
   }
 
   render() {

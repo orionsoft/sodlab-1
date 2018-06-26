@@ -12,6 +12,10 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
+    title: {
+      type: String,
+      label: 'Título'
+    },
     name: {
       type: String,
       label: 'Nombre'
@@ -20,9 +24,10 @@ export default resolver({
   returns: Form,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, name}, viewer) {
+  async resolve({environmentId, name, title}, viewer) {
     const formId = await Forms.insert({
       name,
+      title,
       environmentId,
       createdAt: new Date()
     })
