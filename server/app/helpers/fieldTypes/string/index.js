@@ -25,7 +25,5 @@ export default {
         return 'stringTooLong'
       }
     }
-
-    return 'invalid'
   }
 }
