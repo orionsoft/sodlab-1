@@ -9,6 +9,7 @@ import AutoForm from 'App/components/AutoForm'
 import ObjectField from 'App/components/fields/ObjectField'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field} from 'simple-react-form'
@@ -21,6 +22,7 @@ import autobind from 'autobind-decorator'
       name
       type
       collectionId
+      environmentId
     }
     collections(environmentId: $environmentId) {
       items {
@@ -51,8 +53,15 @@ export default class Form extends React.Component {
     this.props.history.push(`/admin/environments/${environmentId}/forms`)
   }
 
+  @autobind
+  removeForm() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('El formulario fue eliminado')
+    this.props.history.push(`/admin/environments/${environmentId}/forms`)
+  }
+
   render() {
-    if (!this.props.form) return
+    if (!this.props.form) return null
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.form.name}</Breadcrumbs>
@@ -84,9 +93,29 @@ export default class Form extends React.Component {
             </Field>
           </AutoForm>
           <br />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
-          </Button>
+          <div className={styles.buttonContainer}>
+            <div>
+              <Button
+                to={`/admin/environments/${this.props.form.environmentId}/forms`}
+                style={{marginRight: 10}}>
+                Cancelar
+              </Button>
+              <MutationButton
+                label="Eliminar"
+                title="¿Confirma que desea eliminar este formulario?"
+                confirmText="Confirmar"
+                mutation="removeForm"
+                onSuccess={this.removeForm}
+                params={{formId: this.props.form._id}}
+                danger
+              />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
+            </div>
+          </div>
         </Section>
       </div>
     )

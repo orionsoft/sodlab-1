@@ -8,6 +8,7 @@ import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
 import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
@@ -16,6 +17,7 @@ import autobind from 'autobind-decorator'
       _id
       path
       title
+      environmentId
     }
     forms(limit: null, environmentId: $environmentId) {
       items {
@@ -43,8 +45,15 @@ export default class Link extends React.Component {
     this.props.history.push(`/admin/environments/${environmentId}/links`)
   }
 
+  @autobind
+  removeLink() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('El link fue eliminado')
+    this.props.history.push(`/admin/environments/${environmentId}/links`)
+  }
+
   render() {
-    if (!this.props.link) return
+    if (!this.props.link) return null
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.link.title}</Breadcrumbs>
@@ -64,9 +73,29 @@ export default class Link extends React.Component {
             }}
           />
           <br />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
-          </Button>
+          <div className={styles.buttonContainer}>
+            <div>
+              <Button
+                to={`/admin/environments/${this.props.link.environmentId}/links`}
+                style={{marginRight: 10}}>
+                Cancelar
+              </Button>
+              <MutationButton
+                label="Eliminar"
+                title="¿Confirma que desea eliminar este link?"
+                confirmText="Confirmar"
+                mutation="removeLink"
+                onSuccess={this.removeLink}
+                params={{linkId: this.props.link._id}}
+                danger
+              />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
+            </div>
+          </div>
         </Section>
       </div>
     )

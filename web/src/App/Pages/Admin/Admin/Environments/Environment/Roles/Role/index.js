@@ -9,6 +9,7 @@ import AutoForm from 'App/components/AutoForm'
 import ObjectField from 'App/components/fields/ObjectField'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
@@ -18,6 +19,7 @@ import autobind from 'autobind-decorator'
     role(roleId: $roleId) {
       _id
       name
+      environmentId
     }
   }
 `)
@@ -32,6 +34,13 @@ export default class Form extends React.Component {
   }
 
   @autobind
+  removeRole() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('El rol fue eliminado')
+    this.props.history.push(`/admin/environments/${environmentId}/roles`)
+  }
+
+  @autobind
   onSuccess() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Los campos fueron guardados')
@@ -39,7 +48,7 @@ export default class Form extends React.Component {
   }
 
   render() {
-    if (!this.props.role) return
+    if (!this.props.role) return null
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.role.name}</Breadcrumbs>
@@ -63,9 +72,29 @@ export default class Form extends React.Component {
             </Field>
           </AutoForm>
           <br />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
-          </Button>
+          <div className={styles.buttonContainer}>
+            <div>
+              <Button
+                to={`/admin/environments/${this.props.role.environmentId}/roles`}
+                style={{marginRight: 10}}>
+                Cancelar
+              </Button>
+              <MutationButton
+                label="Eliminar"
+                title="¿Confirma que desea eliminar este rol?"
+                confirmText="Confirmar"
+                mutation="removeRole"
+                onSuccess={this.removeRole}
+                params={{roleId: this.props.role._id}}
+                danger
+              />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
+            </div>
+          </div>
         </Section>
       </div>
     )
