@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './styles.css'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
-import BackIcon from 'react-icons/lib/md/backspace'
+import BackIcon from 'react-icons/lib/md/arrow-back'
 import OpenIcon from 'react-icons/lib/md/open-in-new'
 import {withRouter} from 'react-router'
 

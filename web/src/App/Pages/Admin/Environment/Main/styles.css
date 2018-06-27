@@ -1,8 +1,20 @@
 :local(.container) {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-:local(.buttonContainer) {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+:local(.logo) {
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+:local(.logo) img {
+  max-height: 100%;
+}
+
+:local(.name) {
+  font-size: 20px;
 }

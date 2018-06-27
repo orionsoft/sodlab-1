@@ -6,3 +6,8 @@
 :local(.content) {
   flex: 1;
 }
+
+:local(.innerContent) {
+  display: flex;
+  flex-direction: column;
+}

@@ -16,7 +16,11 @@ export default class Layout extends React.Component {
       <div className={styles.container} style={{minHeight: window.innerHeight}}>
         <Menu links={links} environment={this.props.environment} />
         <div className={styles.content}>
-          <Container>{this.props.children}</Container>
+          <Container>
+            <div className={styles.innerContent} style={{minHeight: window.innerHeight}}>
+              {this.props.children}
+            </div>
+          </Container>
         </div>
       </div>
     )
