@@ -1,0 +1,43 @@
+:local(.container) {
+  background-color: #111;
+  color: #fff;
+  width: 200px;
+}
+
+:local(.title) {
+  display: block;
+  color: #fff;
+  font-size: 20px;
+  margin: 20px;
+}
+
+:local(.divider) {
+  background-color: rgba(255, 255, 255, 0.1);
+  height: 1px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+:local(.menuItem) {
+  cursor: pointer;
+  display: block;
+  color: #fff;
+  padding: 10px 20px;
+  opacity: 0.7;
+}
+
+:local(.menuItem):hover {
+  opacity: 1;
+}
+
+:local(.itemActive) {
+  composes: menuItem;
+  opacity: 1;
+}
+
+:local(.logout) {
+  composes: menuItem;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}

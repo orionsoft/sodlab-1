@@ -27,24 +27,24 @@ export default class AutoFormField extends React.Component {
   }
 
   renderField(field) {
-    const {type} = field
+    const {type, fieldOptions = {}} = field
     if (isArray(type) && isPlainObject(type[0])) {
       const Component = this.props.schemaToField('array', field)
       return (
-        <Field fieldName={this.props.fieldName} type={Component}>
+        <Field fieldName={this.props.fieldName} type={Component} {...fieldOptions}>
           {this.renderObjectFields(type[0])}
         </Field>
       )
     } else if (isPlainObject(type)) {
       const Component = this.props.schemaToField('plainObject', field)
       return (
-        <Field fieldName={this.props.fieldName} type={Component}>
+        <Field fieldName={this.props.fieldName} type={Component} {...fieldOptions}>
           {this.renderObjectFields(type)}
         </Field>
       )
     } else {
       const Component = this.props.schemaToField(type, field)
-      return <Field fieldName={this.props.fieldName} type={Component} />
+      return <Field fieldName={this.props.fieldName} type={Component} {...fieldOptions} />
     }
   }
 

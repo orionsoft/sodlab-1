@@ -39,7 +39,7 @@ export default class View extends React.Component {
   }
 
   renderItems() {
-    if (!this.props.view.items) return
+    if (!this.props.view.items) return null
     return this.props.view.items.map((item, index) => {
       return (
         <div

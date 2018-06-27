@@ -1,0 +1,13 @@
+:local(.container) {
+}
+
+:local(.container) label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+:local(.label) {
+  margin-left: 5px;
+  user-select: none;
+}

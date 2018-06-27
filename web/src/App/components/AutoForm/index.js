@@ -17,6 +17,7 @@ export default class AutoForm extends React.Component {
     onChange: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     fragment: PropTypes.any,
+    getErrorFieldLabel: PropTypes.func,
     onSuccess: PropTypes.func,
     onValidationError: PropTypes.func,
     clean: PropTypes.func,
@@ -79,6 +80,7 @@ export default class AutoForm extends React.Component {
                   params={params}
                   schema={this.props.schema || params}
                   onSuccess={this.props.onSuccess}
+                  getErrorFieldLabel={this.props.getErrorFieldLabel}
                   onValidationError={this.props.onValidationError}
                   clean={this.props.clean}
                   validate={this.props.validate}>

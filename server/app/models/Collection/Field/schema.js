@@ -1,3 +1,6 @@
+import fieldTypes from 'app/helpers/fieldTypes'
+import {validate, clean} from '@orion-js/schema'
+
 export default {
   name: {
     type: 'ID',
@@ -10,11 +13,28 @@ export default {
   },
   type: {
     type: String,
-    allowedValues: ['string'],
+    allowedValues: Object.keys(fieldTypes),
     label: 'Tipo'
   },
   options: {
     type: 'blackbox',
-    optional: true
+    optional: true,
+    async custom(options, {currentDoc, keys}) {
+      if (!currentDoc.type) return
+      try {
+        const fieldType = fieldTypes[currentDoc.type]
+        await validate(fieldType.optionsSchema, options)
+      } catch (error) {
+        if (error.isValidationError) {
+          throw error.prependKey(keys.join('.'))
+        }
+        throw error
+      }
+    },
+    autoValue(options, {currentDoc}) {
+      if (!currentDoc.type) return {}
+      const fieldType = fieldTypes[currentDoc.type]
+      return clean(fieldType.optionsSchema, options)
+    }
   }
 }
