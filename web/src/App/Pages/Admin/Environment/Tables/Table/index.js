@@ -24,19 +24,24 @@ import cloneDeep from 'lodash/cloneDeep'
       title
       environmentId
       collectionId
+      filterId
       fields {
         fieldName
         label
       }
-    }
-    collections(environmentId: $environmentId) {
-      items {
-        value: _id
-        label: name
+      collection {
+        _id
         fields {
           value: name
           label
         }
+      }
+    }
+    filters(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+        collectionId
       }
     }
   }
@@ -49,13 +54,25 @@ export default class Link extends React.Component {
     table: PropTypes.object,
     collections: PropTypes.object,
     forms: PropTypes.object,
-    match: PropTypes.object
+    match: PropTypes.object,
+    filters: PropTypes.object
   }
 
   state = {}
 
   componentDidMount() {
     this.setState(cloneDeep(this.props.table))
+  }
+
+  getFilters() {
+    return this.props.filters.items.filter(filter => filter.collectionId)
+  }
+
+  @autobind
+  removeTable() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('La tabla fueron guardados')
+    this.props.history.push(`/${environmentId}/tables`)
   }
 
   @autobind
@@ -65,46 +82,22 @@ export default class Link extends React.Component {
     this.props.history.push(`/${environmentId}/tables`)
   }
 
-  @autobind
-  renderFields(fields) {
+  renderCollectionFields() {
+    let {collection} = this.props.table
     return (
-      <div className={styles.content}>
+      <Field fieldName="fields" type={ArrayComponent}>
         <div className="row">
           <div className="col-xs-12 col-sm-6">
             <div className="label">Campo</div>
-            <Field fieldName="fieldName" type={Select} options={fields} />
+            <Field fieldName="fieldName" type={Select} options={collection.fields} />
           </div>
           <div className="col-xs-12 col-sm-6">
             <div className="label">Etiqueta</div>
             <Field fieldName="label" type={Text} />
           </div>
         </div>
-      </div>
-    )
-  }
-
-  @autobind
-  getCollection(collectionId) {
-    let collection = this.props.collections.items.find(
-      collection => collection.value === collectionId
-    )
-    return (
-      <Field fieldName="fields" type={ArrayComponent}>
-        {this.renderFields(collection.fields)}
       </Field>
     )
-  }
-
-  @autobind
-  onChangeAutoForm(event) {
-    this.setState(event.table)
-  }
-
-  @autobind
-  removeTable() {
-    const {environmentId} = this.props.match.params
-    this.props.showMessage('La tabla fueron guardados')
-    this.props.history.push(`/${environmentId}/tables`)
   }
 
   render() {
@@ -124,27 +117,21 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
-              table: this.state
-            }}
-            onChange={this.onChangeAutoForm}>
+              table: this.props.table
+            }}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
-              <div className="label">Colección</div>
-              <Field
-                fieldName="collectionId"
-                type={Select}
-                options={this.props.collections.items}
-              />
-              {this.state.collectionId && this.getCollection(this.state.collectionId)}
+              <div className="label">Filtro</div>
+              <Field fieldName="filterId" type={Select} options={this.getFilters()} />
+              <div className="label">Que campos mostrar</div>
+              {this.renderCollectionFields()}
             </Field>
           </AutoForm>
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button
-                to={`/${this.props.table.environmentId}/tables`}
-                style={{marginRight: 10}}>
+              <Button to={`/${this.props.table.environmentId}/tables`} style={{marginRight: 10}}>
                 Cancelar
               </Button>
               <MutationButton

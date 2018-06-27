@@ -15,6 +15,9 @@ export default {
     type: Date
   },
   collectionId: {
+    type: 'ID'
+  },
+  filterId: {
     type: 'ID',
     optional: true
   },
