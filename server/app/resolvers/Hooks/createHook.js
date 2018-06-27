@@ -1,7 +1,7 @@
 import {resolver} from '@orion-js/app'
+import Hook from 'app/models/Hook'
+import Hooks from 'app/collections/Hooks'
 import Environments from 'app/collections/Environments'
-import Tables from 'app/collections/Tables'
-import Table from 'app/models/Table'
 
 export default resolver({
   params: {
@@ -12,20 +12,20 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
-    title: {
+    name: {
       type: String,
-      label: 'Título'
+      label: 'Nombre'
     }
   },
-  returns: Table,
+  returns: Hook,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, title}, viewer) {
-    const tableId = await Tables.insert({
+  async resolve({environmentId, name}, viewer) {
+    const hookId = await Hooks.insert({
       environmentId,
-      title,
+      name,
       createdAt: new Date()
     })
-    return await Tables.findOne(tableId)
+    return await Hooks.findOne(hookId)
   }
 })

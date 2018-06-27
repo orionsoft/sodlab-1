@@ -1,7 +1,7 @@
 import {resolver} from '@orion-js/app'
+import Filter from 'app/models/Filter'
+import Filters from 'app/collections/Filters'
 import Environments from 'app/collections/Environments'
-import Tables from 'app/collections/Tables'
-import Table from 'app/models/Table'
 
 export default resolver({
   params: {
@@ -12,20 +12,20 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
-    title: {
+    name: {
       type: String,
-      label: 'Título'
+      label: 'Nombre'
     }
   },
-  returns: Table,
+  returns: Filter,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, title}, viewer) {
-    const tableId = await Tables.insert({
+  async resolve({environmentId, name}, viewer) {
+    const filterId = Filters.insert({
       environmentId,
-      title,
+      name,
       createdAt: new Date()
     })
-    return await Tables.findOne(tableId)
+    return await Filters.findOne(filterId)
   }
 })
