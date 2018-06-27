@@ -71,10 +71,10 @@ export default class Table extends React.Component {
           title={table.title}
           name="tableResult"
           canUpdate={false}
-          params={{collectionId: table.collectionId}}
+          params={{tableId: table._id}}
           fields={this.getFields()}
           onSelect={this.onSelect}
-          allowSearch
+          allowSearch={false}
         />
       </div>
     )

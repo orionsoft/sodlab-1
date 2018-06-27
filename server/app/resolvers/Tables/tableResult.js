@@ -1,30 +1,23 @@
 import {createPaginatedResolver} from '@orion-js/app'
-import escape from 'escape-string-regexp'
 import Item from 'app/models/Item'
-import Collections from 'app/collections/Collections'
+import Tables from 'app/collections/Tables'
 
 export default createPaginatedResolver({
   returns: Item,
   params: {
-    filter: {
-      type: String,
-      optional: true
-    },
-    collectionId: {
+    tableId: {
       type: String
     }
   },
-  async getCursor({filter, collectionId}, viewer) {
-    const collection = await Collections.findOne(collectionId)
+  async getCursor({tableId}, viewer) {
+    const table = await Tables.findOne(tableId)
+    if (!table) throw new Error('collection not found')
+    const collection = await table.collection()
     if (!collection) throw new Error('collection not found')
-
-    const query = {}
-    if (filter) {
-      query._id = {$regex: new RegExp(`^${escape(filter)}`)}
-    }
-
+    const filter = await table.filter()
+    const query = filter ? await filter.createQuery() : {}
+    console.log(JSON.stringify(query, null, 2))
     const db = await collection.db()
-
     return db.find(query)
   }
 })

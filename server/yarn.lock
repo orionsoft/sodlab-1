@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@orion-js/app@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.0.34.tgz#7702e9fdd1de9df638b20246a8be05cdb42ad6c7"
+"@orion-js/app@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.0.35.tgz#d48e6b12ce83e4499618baecfb0e11f48859072b"
   dependencies:
     "@orion-js/schema" "^0.0.34"
     apollo-server-core "^1.3.6"
@@ -17,33 +17,33 @@
     path-match "^1.2.4"
     path-to-regexp "^2.2.0"
 
-"@orion-js/auth@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.0.34.tgz#0bc80e648a7cb628db1a0ec44892beb1378742bb"
+"@orion-js/auth@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.0.35.tgz#2b58c218d10799a1d6f169e963e6c4f2230ba6f5"
   dependencies:
     bcryptjs "^2.4.3"
     jssha "^2.3.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/file-manager@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.0.34.tgz#caface0ea2f0e94995e2f344ad7ba880199f0f84"
+"@orion-js/file-manager@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.0.35.tgz#28263a42eb9e6bb472cb2a13b6a429617a83f3ed"
   dependencies:
     aws-sdk "^2.258.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/jobs@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.0.34.tgz#6d9234799c8617e2f7d184b55e36a225357829e6"
+"@orion-js/jobs@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.0.35.tgz#5f3a1a7bfd6c259352cb439d46afec48ebb274b9"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/mailing@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.0.34.tgz#f167377b9709b3375380a550ddca492709b743e6"
+"@orion-js/mailing@^0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.0.35.tgz#71f55ed050bc5e9bdf09a4cfb8c13a462491e0c0"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
@@ -233,9 +233,9 @@ aws-sdk@^2.258.1:
     uuid "3.1.0"
     xml2js "0.4.17"
 
-aws-sdk@^2.263.1:
-  version "2.263.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.263.1.tgz#217e2459ebff3702cc72260bcafca0bf16edc4cd"
+aws-sdk@^2.265.1:
+  version "2.265.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.265.1.tgz#a3b742954a074ebfc1148e8c48bfe73d2f57c2ee"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
