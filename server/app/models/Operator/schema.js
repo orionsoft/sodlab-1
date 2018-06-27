@@ -5,7 +5,7 @@ export default {
   name: {
     type: String
   },
-  allowedOperatorsIds: {
-    type: [String]
+  inputType: {
+    type: String
   }
 }

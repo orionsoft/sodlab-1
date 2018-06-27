@@ -1,25 +1,27 @@
 import {resolver} from '@orion-js/app'
-import Filter from 'app/models/Filter'
+import Condition from 'app/models/Filter/Condition'
 import Filters from 'app/collections/Filters'
+import Filter from 'app/models/Filter'
 
 export default resolver({
   params: {
     filterId: {
       type: 'ID'
     },
-    filter: {
-      type: Filter.clone({
-        name: 'UpdateFilterBasic',
-        pickFields: ['name']
-      })
+    conditions: {
+      type: [
+        Condition.clone({
+          name: 'UpdateFilterCondition'
+        })
+      ]
     }
   },
   returns: Filter,
   mutation: true,
   role: 'admin',
-  async resolve({filterId, filter: filterData}, viewer) {
+  async resolve({filterId, conditions}, viewer) {
     const filter = await Filters.findOne(filterId)
-    await filter.update({$set: filterData})
+    await filter.update({$set: {conditions}})
     return filter
   }
 })

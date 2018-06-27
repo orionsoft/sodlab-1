@@ -15,17 +15,23 @@ export default resolver({
     name: {
       type: String,
       label: 'Nombre'
+    },
+    collectionId: {
+      type: String,
+      label: 'Collección'
     }
   },
   returns: Filter,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, name}, viewer) {
-    const filterId = Filters.insert({
+  async resolve({environmentId, name, collectionId}, viewer) {
+    const filterId = await Filters.insert({
       environmentId,
       name,
+      collectionId,
       createdAt: new Date()
     })
+    console.log(filterId, 'hello world')
     return await Filters.findOne(filterId)
   }
 })

@@ -1,3 +1,13 @@
 .os-input-text {
   box-shadow: none;
 }
+
+.Select-input,
+.Select-control {
+  height: 38px;
+}
+
+.Select-value,
+.Select-placeholder {
+  line-height: 38px !important;
+}

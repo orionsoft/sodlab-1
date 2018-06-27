@@ -4,10 +4,10 @@ import FieldType from 'app/models/FieldType'
 
 export default resolver({
   returns: FieldType,
-  async resolve(field) {
+  async resolve(operator) {
     return {
-      _id: field.type,
-      ...fieldTypes[field.type]
+      _id: operator.inputType,
+      ...fieldTypes[operator.inputType]
     }
   }
 })

@@ -1,1 +1,3 @@
-export default {}
+import collection from './collection'
+export default {
+  collection,}

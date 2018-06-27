@@ -1,6 +1,7 @@
 export default {
   name: 'Texto',
   rootType: String,
+  allowedOperatorsIds: ['exists', 'stringStartsWith'],
   optionsSchema: {
     min: {
       label: 'Largo mínimo',

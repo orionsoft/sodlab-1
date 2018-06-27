@@ -11,7 +11,7 @@ export default class List extends React.Component {
   }
 
   getFields() {
-    return [{title: 'Nombre', name: 'name'}]
+    return [{title: 'Nombre', name: 'name'}, {title: 'Colección', name: 'collection.name'}]
   }
 
   render() {
@@ -19,9 +19,7 @@ export default class List extends React.Component {
     return (
       <div className={styles.container}>
         <Breadcrumbs
-          right={
-            <Button to={`/${environmentId}/filters/create`}>Crear filtro</Button>
-          }
+          right={<Button to={`/${environmentId}/filters/create`}>Crear filtro</Button>}
         />
         <br />
         <PaginatedList

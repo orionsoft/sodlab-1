@@ -1,6 +1,7 @@
 export default {
   name: 'Checkbox',
   rootType: Boolean,
+  allowedOperatorsIds: ['exists', 'booleanIs'],
   optionsSchema: {
     trueLabel: {
       label: 'Texto en positivo',

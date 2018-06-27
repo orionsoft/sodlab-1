@@ -8,13 +8,18 @@ import {Field} from 'simple-react-form'
 
 export default class FieldTypeOptions extends React.Component {
   static propTypes = {
-    fieldType: PropTypes.object
+    fieldType: PropTypes.object,
+    fieldName: PropTypes.string
+  }
+
+  static defaultProps = {
+    fieldName: 'options'
   }
 
   render() {
     return (
       <div className={styles.container}>
-        <Field fieldName="options" type={ObjectField}>
+        <Field fieldName={this.props.fieldName} type={ObjectField}>
           <Fields schemaToField={schemaToField} params={this.props.fieldType.optionsParams} />
         </Field>
       </div>
