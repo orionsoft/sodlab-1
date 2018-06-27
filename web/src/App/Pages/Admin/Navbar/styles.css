@@ -22,3 +22,7 @@
   display: flex;
   align-items: center;
 }
+
+:local(.separator) {
+  height: 46px;
+}
