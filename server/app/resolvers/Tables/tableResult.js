@@ -16,7 +16,6 @@ export default createPaginatedResolver({
     if (!collection) throw new Error('collection not found')
     const filter = await table.filter()
     const query = filter ? await filter.createQuery() : {}
-    console.log(JSON.stringify(query, null, 2))
     const db = await collection.db()
     return db.find(query)
   }

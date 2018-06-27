@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@orion-js/app@^0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.0.35.tgz#d48e6b12ce83e4499618baecfb0e11f48859072b"
+"@orion-js/app@^0.0.36":
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.0.36.tgz#42aee91319c0e831bbf2656d5fda89e04f3e455e"
   dependencies:
     "@orion-js/schema" "^0.0.34"
     apollo-server-core "^1.3.6"
@@ -17,33 +17,33 @@
     path-match "^1.2.4"
     path-to-regexp "^2.2.0"
 
-"@orion-js/auth@^0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.0.35.tgz#2b58c218d10799a1d6f169e963e6c4f2230ba6f5"
+"@orion-js/auth@^0.0.36":
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.0.36.tgz#af8bfd3a8d0cfb17b59c1d59dbc17d6c22d592a5"
   dependencies:
     bcryptjs "^2.4.3"
     jssha "^2.3.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/file-manager@^0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.0.35.tgz#28263a42eb9e6bb472cb2a13b6a429617a83f3ed"
+"@orion-js/file-manager@^0.0.36":
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.0.36.tgz#ec11b399c436df16c4ecb0b804b5d579027c2b66"
   dependencies:
     aws-sdk "^2.258.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/jobs@^0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.0.35.tgz#5f3a1a7bfd6c259352cb439d46afec48ebb274b9"
+"@orion-js/jobs@^0.0.36":
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.0.36.tgz#93a2afafede5aebc6b82ccd7c51da722751eca0d"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/mailing@^0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.0.35.tgz#71f55ed050bc5e9bdf09a4cfb8c13a462491e0c0"
+"@orion-js/mailing@^0.0.36":
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.0.36.tgz#f240dd6f364af91c40281c93c16c1b7e0b356577"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
