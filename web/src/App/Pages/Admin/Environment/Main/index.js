@@ -39,7 +39,7 @@ export default class Main extends React.Component {
       <div className={styles.container}>
         {this.props.environment.logo ? (
           <div className={styles.logo}>
-            <img src={this.props.environment.logo.url} />
+            <img src={this.props.environment.logo.url} alt="logo" />
           </div>
         ) : (
           <div className={styles.name}>{this.props.environment.name}</div>
