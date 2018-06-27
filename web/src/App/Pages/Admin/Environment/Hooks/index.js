@@ -12,9 +12,9 @@ export default class Views extends React.Component {
     return (
       <div className={styles.container}>
         <Switch>
-          <Route path="/admin/environments/:environmentId/hooks" exact component={List} />
-          <Route path="/admin/environments/:environmentId/hooks/create" component={Create} />
-          <Route path="/admin/environments/:environmentId/hooks/:hookId" component={Hook} />
+          <Route path="/:environmentId/hooks" exact component={List} />
+          <Route path="/:environmentId/hooks/create" component={Create} />
+          <Route path="/:environmentId/hooks/:hookId" component={Hook} />
         </Switch>
       </div>
     )

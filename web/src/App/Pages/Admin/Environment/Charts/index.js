@@ -12,9 +12,9 @@ export default class Charts extends React.Component {
     return (
       <div className={styles.container}>
         <Switch>
-          <Route path="/admin/environments/:environmentId/charts" exact component={List} />
-          <Route path="/admin/environments/:environmentId/charts/create" component={Create} />
-          <Route path="/admin/environments/:environmentId/charts/:chartId" component={Chart} />
+          <Route path="/:environmentId/charts" exact component={List} />
+          <Route path="/:environmentId/charts/create" component={Create} />
+          <Route path="/:environmentId/charts/:chartId" component={Chart} />
         </Switch>
       </div>
     )

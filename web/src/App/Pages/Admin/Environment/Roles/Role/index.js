@@ -74,15 +74,14 @@ export default class Form extends React.Component {
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button
-                to={`/${this.props.role.environmentId}/roles`}
-                style={{marginRight: 10}}>
+              <Button to={`/${this.props.role.environmentId}/roles`} style={{marginRight: 10}}>
                 Cancelar
               </Button>
               <MutationButton
                 label="Eliminar"
-                title="¿Confirma que desea eliminar este rol?"
-                confirmText="Confirmar"
+                title="Eliminar Rol"
+                message="¿Quieres eliminar este rol?"
+                confirmText="Eliminar"
                 mutation="removeRole"
                 onSuccess={this.removeRole}
                 params={{roleId: this.props.role._id}}

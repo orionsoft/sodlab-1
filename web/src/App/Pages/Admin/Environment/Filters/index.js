@@ -12,9 +12,9 @@ export default class Filters extends React.Component {
     return (
       <div className={styles.container}>
         <Switch>
-          <Route path="/admin/environments/:environmentId/filters" exact component={List} />
-          <Route path="/admin/environments/:environmentId/filters/create" component={Create} />
-          <Route path="/admin/environments/:environmentId/filters/:filterId" component={Filter} />
+          <Route path="/:environmentId/filters" exact component={List} />
+          <Route path="/:environmentId/filters/create" component={Create} />
+          <Route path="/:environmentId/filters/:filterId" component={Filter} />
         </Switch>
       </div>
     )

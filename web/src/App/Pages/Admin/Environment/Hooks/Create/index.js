@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './styles.css'
-import Section from 'App/components/Section'
 import Button from 'orionsoft-parts/lib/components/Button'
+import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import {withRouter} from 'react-router'
 import Breadcrumbs from '../../Breadcrumbs'
@@ -19,31 +19,31 @@ export default class Create extends React.Component {
 
   success(environmentId) {
     this.props.showMessage('Elemento creado satisfactoriamente!')
-    this.props.history.push(`/admin/environments/${environmentId}/charts`)
+    this.props.history.push(`/${environmentId}/hooks`)
   }
 
   render() {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
-        <Breadcrumbs>Crear gráfico</Breadcrumbs>
+        <Breadcrumbs>Crear hook</Breadcrumbs>
         <Section
-          title="Crear gráfico"
+          title="Crear hook"
           description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
           top>
           <AutoForm
-            mutation="createChart"
+            mutation="createHook"
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
             onSuccess={() => this.success(environmentId)}
           />
           <br />
-          <Button to={`/admin/environments/${environmentId}/charts`} style={{marginRight: 10}}>
+          <Button to={`/${environmentId}/hooks`} style={{marginRight: 10}}>
             Cancelar
           </Button>
           <Button onClick={() => this.refs.form.submit()} primary>
-            Crear gráfico
+            Crear hook
           </Button>
         </Section>
       </div>

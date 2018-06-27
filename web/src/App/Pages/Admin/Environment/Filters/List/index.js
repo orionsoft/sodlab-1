@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './styles.css'
 import PaginatedList from 'App/components/Crud/List'
 import Breadcrumbs from '../../Breadcrumbs'
+import styles from './styles.css'
 import Button from 'orionsoft-parts/lib/components/Button'
 
 export default class List extends React.Component {
@@ -11,7 +11,7 @@ export default class List extends React.Component {
   }
 
   getFields() {
-    return [{title: 'Título', name: 'name'}]
+    return [{title: 'Nombre', name: 'name'}]
   }
 
   render() {
@@ -20,18 +20,18 @@ export default class List extends React.Component {
       <div className={styles.container}>
         <Breadcrumbs
           right={
-            <Button to={`/admin/environments/${environmentId}/hooks/create`}>Crear hook</Button>
+            <Button to={`/${environmentId}/filters/create`}>Crear filtro</Button>
           }
         />
         <br />
         <PaginatedList
           title={null}
-          name="hooks"
+          name="filters"
           params={{environmentId}}
           canUpdate
           fields={this.getFields()}
           allowSearch
-          basePath={`/admin/environments/${environmentId}/hooks`}
+          basePath={`/${environmentId}/filters`}
         />
       </div>
     )

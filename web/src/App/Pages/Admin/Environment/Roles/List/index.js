@@ -14,20 +14,14 @@ export default class List extends React.Component {
   }
 
   getFields() {
-    return [{name: 'name'}]
+    return [{title: 'Nombre', name: 'name'}]
   }
 
   render() {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
-        <Breadcrumbs
-          right={
-            <Button to={`/${environmentId}/roles/create`}>
-              Crear rol
-            </Button>
-          }
-        />
+        <Breadcrumbs right={<Button to={`/${environmentId}/roles/create`}>Crear rol</Button>} />
         <br />
         <PaginatedList
           title={null}

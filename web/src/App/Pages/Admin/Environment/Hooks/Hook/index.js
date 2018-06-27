@@ -16,6 +16,7 @@ import {withRouter} from 'react-router'
     hook(hookId: $hookId) {
       _id
       name
+      environmentId
     }
   }
 `)
@@ -32,7 +33,7 @@ export default class Hook extends React.Component {
   remove() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento eliminado satisfactoriamente!')
-    this.props.history.push(`/admin/environments/${environmentId}/hooks`)
+    this.props.history.push(`/${environmentId}/hooks`)
   }
 
   render() {
@@ -56,18 +57,22 @@ export default class Hook extends React.Component {
             }}
           />
           <br />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
+          <Button to={`/${this.props.hook.environmentId}/hooks`} style={{marginRight: 10}}>
+            Cancelar
           </Button>
           <MutationButton
             label="Eliminar"
-            title="¿Confirma que desea eliminar este hook?"
-            confirmText="Confirmar"
+            title="Eliminar Hook"
+            message="¿Quieres eliminar este hook?"
+            confirmText="Eliminar"
             mutation="removeHook"
             onSuccess={() => this.remove()}
             params={{hookId: this.props.hook._id}}
             danger
           />
+          <Button onClick={() => this.refs.form.submit()} primary>
+            Guardar
+          </Button>
         </Section>
       </div>
     )

@@ -16,6 +16,7 @@ import {withRouter} from 'react-router'
     filter(filterId: $filterId) {
       _id
       name
+      environmentId
     }
   }
 `)
@@ -32,7 +33,7 @@ export default class Filter extends React.Component {
   remove() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento eliminado satisfactoriamente!')
-    this.props.history.push(`/admin/environments/${environmentId}/filters`)
+    this.props.history.push(`/${environmentId}/filters`)
   }
 
   render() {
@@ -57,18 +58,22 @@ export default class Filter extends React.Component {
               }}
             />
             <br />
-            <Button onClick={() => this.refs.form.submit()} primary>
-              Guardar
+            <Button to={`/${this.props.filter.environmentId}/filters`} style={{marginRight: 10}}>
+              Cancelar
             </Button>
             <MutationButton
               label="Eliminar"
-              title="¿Confirma que desea eliminar este filtro?"
-              confirmText="Confirmar"
+              title="Eliminar filtro"
+              message="¿Quieres eliminar este filtro?"
+              confirmText="Eliminar"
               mutation="removeFilter"
               onSuccess={() => this.remove()}
               params={{filterId: this.props.filter._id}}
               danger
             />
+            <Button onClick={() => this.refs.form.submit()} primary>
+              Guardar
+            </Button>
           </Section>
         </div>
       </div>

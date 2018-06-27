@@ -20,7 +20,7 @@ export default class List extends React.Component {
       <div className={styles.container}>
         <Breadcrumbs
           right={
-            <Button to={`/admin/environments/${environmentId}/charts/create`}>Crear gráfico</Button>
+            <Button to={`/${environmentId}/charts/create`}>Crear gráfico</Button>
           }
         />
         <br />
@@ -31,7 +31,7 @@ export default class List extends React.Component {
           canUpdate
           fields={this.getFields()}
           allowSearch
-          basePath={`/admin/environments/${environmentId}/charts`}
+          basePath={`/${environmentId}/charts`}
         />
       </div>
     )

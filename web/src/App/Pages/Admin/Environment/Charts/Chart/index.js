@@ -16,6 +16,7 @@ import {withRouter} from 'react-router'
     chart(chartId: $chartId) {
       _id
       title
+      environmentId
     }
   }
 `)
@@ -32,7 +33,7 @@ export default class Chart extends React.Component {
   remove() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento eliminado satisfactoriamente!')
-    this.props.history.push(`/admin/environments/${environmentId}/charts`)
+    this.props.history.push(`/${environmentId}/charts`)
   }
 
   render() {
@@ -56,18 +57,22 @@ export default class Chart extends React.Component {
             }}
           />
           <br />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
+          <Button to={`/${this.props.chart.environmentId}/charts`} style={{marginRight: 10}}>
+            Cancelar
           </Button>
           <MutationButton
             label="Eliminar"
-            title="¿Confirma que desea eliminar este gráfico?"
-            confirmText="Confirmar"
+            title="Eliminar gráfico"
+            message="¿Quieres eliminar este gráfico?"
+            confirmText="Eliminar"
             mutation="removeChart"
             onSuccess={() => this.remove()}
             params={{chartId: this.props.chart._id}}
             danger
           />
+          <Button onClick={() => this.refs.form.submit()} primary>
+            Guardar
+          </Button>
         </Section>
       </div>
     )
