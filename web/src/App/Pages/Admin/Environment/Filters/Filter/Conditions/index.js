@@ -131,6 +131,11 @@ export default class Conditions extends React.Component {
     return this.props.operators.find(operator => operator._id === operatorId)
   }
 
+  async checkIsValid(operator, rule) {
+    if (!operator.fieldType.optionsParams) return true
+    return await isValid(operator.fieldType.optionsParams, rule.operatorInputOptions || {})
+  }
+
   async mapRules(rules, conditionIndex) {
     const promises = rules.map(async (rule, ruleIndex) => {
       const previousRule = this.safeGetRule(this.state.conditions, conditionIndex, ruleIndex)
@@ -145,9 +150,7 @@ export default class Conditions extends React.Component {
       const operator = this.getOperator(rule.operatorId)
       return {
         ...rule,
-        isValid:
-          operator &&
-          (await isValid(operator.fieldType.optionsParams, rule.operatorInputOptions || {}))
+        isValid: operator && (await this.checkIsValid(operator, rule))
       }
     })
     return await Promise.all(promises)

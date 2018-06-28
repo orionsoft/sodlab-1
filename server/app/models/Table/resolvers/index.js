@@ -1,7 +1,7 @@
 import collection from './collection'
-import filter from './filter'
+import filters from './filters'
 
 export default {
-  filter,
+  filters,
   collection
 }

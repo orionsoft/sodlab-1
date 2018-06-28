@@ -7,7 +7,12 @@
   height: 38px;
 }
 
-.Select-value,
-.Select-placeholder {
+.Select--single .Select-value,
+.Select--single .Select-placeholder {
   line-height: 38px !important;
+}
+
+.Select--multi .Select-value {
+  margin-bottom: 5px;
+  vertical-align: center;
 }

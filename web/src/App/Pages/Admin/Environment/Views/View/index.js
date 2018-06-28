@@ -62,7 +62,7 @@ export default class View extends React.Component {
   }
 
   getSizeOptions() {
-    return range(12).map(index => ({label: `${12 - index}/12`, value: 12 - index}))
+    return range(12).map(index => ({label: `${12 - index}/12`, value: String(12 - index)}))
   }
 
   getTypes() {
@@ -175,9 +175,7 @@ export default class View extends React.Component {
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button
-                to={`/${this.props.view.environmentId}/views`}
-                style={{marginRight: 10}}>
+              <Button to={`/${this.props.view.environmentId}/views`} style={{marginRight: 10}}>
                 Cancelar
               </Button>
               <MutationButton

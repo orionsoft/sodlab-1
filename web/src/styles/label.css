@@ -20,3 +20,9 @@
   font-size: 14px;
   color: #999999;
 }
+
+.error {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: red;
+}

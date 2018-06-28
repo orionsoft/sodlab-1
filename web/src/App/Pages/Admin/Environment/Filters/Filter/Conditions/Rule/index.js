@@ -48,11 +48,13 @@ export default class Item extends React.Component {
     if (!rule.operatorId) return null
     const operator = operators.find(operator => operator._id === rule.operatorId)
     if (!operator) return null
+    if (!operator.fieldType.optionsParams) return null
     return (
-      <div className={styles.inputOptions}>
-        <div className="description">Opciones del operador</div>
-        <FieldTypeOptions fieldName="operatorInputOptions" fieldType={operator.fieldType} />
-      </div>
+      <FieldTypeOptions
+        label="Opciones del operador"
+        fieldName="operatorInputOptions"
+        fieldType={operator.fieldType}
+      />
     )
   }
 
@@ -68,7 +70,7 @@ export default class Item extends React.Component {
     const FieldComponent = fieldTypes[operator.inputType].field
     return (
       <div className={styles.fixedValue}>
-        <div className="description">Valor fijo</div>
+        <div className="description">Valor</div>
         <Field fieldName="fixed.value" type={FieldComponent} {...rule.operatorInputOptions} />
       </div>
     )

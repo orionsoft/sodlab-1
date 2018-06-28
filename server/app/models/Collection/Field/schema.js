@@ -23,7 +23,8 @@ export default {
       if (!currentDoc.type) return
       try {
         const fieldType = fieldTypes[currentDoc.type]
-        await validate(fieldType.optionsSchema, options)
+        if (!fieldType.optionsSchema) return
+        await validate(fieldType.optionsSchema, options || {})
       } catch (error) {
         if (error.isValidationError) {
           throw error.prependKey(keys.join('.'))
@@ -32,8 +33,9 @@ export default {
       }
     },
     autoValue(options, {currentDoc}) {
-      if (!currentDoc.type) return {}
+      if (!currentDoc.type) return null
       const fieldType = fieldTypes[currentDoc.type]
+      if (!fieldType.optionsSchema) return null
       return clean(fieldType.optionsSchema, options)
     }
   }

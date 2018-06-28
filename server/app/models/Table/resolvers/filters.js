@@ -3,8 +3,9 @@ import Filter from 'app/models/Filter'
 import Filters from 'app/collections/Filters'
 
 export default resolver({
-  returns: Filter,
+  returns: [Filter],
   async resolve(table, params, viewer) {
-    return await Filters.findOne(table.filterId)
+    if (!table.filtersIds || !table.filtersIds.length) return []
+    return await Filters.find({_id: {$in: table.filtersIds}}).toArray()
   }
 })

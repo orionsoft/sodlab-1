@@ -17,8 +17,12 @@ export default {
   collectionId: {
     type: 'ID'
   },
-  filterId: {
-    type: 'ID',
+  allowsNoFilter: {
+    type: Boolean,
+    defaultValue: true
+  },
+  filtersIds: {
+    type: [String],
     optional: true
   },
   fields: {

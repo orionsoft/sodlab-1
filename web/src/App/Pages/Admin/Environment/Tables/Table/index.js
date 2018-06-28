@@ -16,6 +16,7 @@ import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ObjectField from 'App/components/fields/ObjectField'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 
 @withGraphQL(gql`
   query getForm($tableId: ID, $environmentId: ID) {
@@ -24,7 +25,8 @@ import cloneDeep from 'lodash/cloneDeep'
       title
       environmentId
       collectionId
-      filterId
+      filtersIds
+      allowsNoFilter
       fields {
         fieldName
         label
@@ -117,13 +119,15 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
-              table: this.props.table
+              table: cloneDeep(this.props.table)
             }}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
-              <div className="label">Filtro</div>
-              <Field fieldName="filterId" type={Select} options={this.getFilters()} />
+              <div className="label">Filtros</div>
+              <Field fieldName="filtersIds" type={Select} multi options={this.getFilters()} />
+              <div className="label">Se puede usar sin filtro</div>
+              <Field fieldName="allowsNoFilter" type={Checkbox} label="Se puede usar sin filtro" />
               <div className="label">Que campos mostrar</div>
               {this.renderCollectionFields()}
             </Field>
