@@ -1,5 +1,5 @@
 import {resolver} from '@orion-js/app'
-import {validate} from '@orion-js/schema'
+import {validate, clean} from '@orion-js/schema'
 import Item from 'app/models/Item'
 import Forms from 'app/collections/Forms'
 
@@ -21,11 +21,12 @@ export default resolver({
   },
   returns: Item,
   mutation: true,
-  async resolve({formId, itemId, data}, viewer) {
+  async resolve({formId, itemId, data: rawData}, viewer) {
     const form = await Forms.findOne(formId)
     const collection = await form.collectionDb()
 
     const schema = await form.schema()
+    const data = await clean(schema, rawData)
     try {
       await validate(schema, data)
     } catch (error) {
