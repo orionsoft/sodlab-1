@@ -1,0 +1,14 @@
+:local(.container) {
+}
+
+:local(.content) {
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #eee;
+}
+
+:local(.buttonContainer) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

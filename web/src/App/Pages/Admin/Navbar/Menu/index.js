@@ -75,8 +75,8 @@ export default class User extends React.Component {
   }
 
   renderAdmin() {
-    if (!this.props.me.roles) return
-    if (!includes(this.props.me.roles, 'admin')) return
+    if (!this.props.me.roles) return null
+    if (!includes(this.props.me.roles, 'admin')) return null
     return (
       <Link to="/admin" className={styles.menuLink}>
         <AdminIcon size={20} />
@@ -86,8 +86,8 @@ export default class User extends React.Component {
   }
 
   renderMenu() {
-    if (!this.props.me) return
-    if (!this.state.open) return
+    if (!this.props.me) return null
+    if (!this.state.open) return null
     return (
       <div className={styles.menu} key="menu">
         <Link to="/settings" className={styles.account}>

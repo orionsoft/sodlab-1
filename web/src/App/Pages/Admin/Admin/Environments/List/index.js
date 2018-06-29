@@ -21,13 +21,7 @@ export default class List extends React.Component {
           Ambientes
         </Breadcrumbs>
         <div className="divider" />
-        <PaginatedList
-          title={null}
-          name="environments"
-          canUpdate
-          allowSearch
-          basePath="/admin/environments"
-        />
+        <PaginatedList title={null} name="environments" canUpdate allowSearch basePath="" />
       </div>
     )
   }

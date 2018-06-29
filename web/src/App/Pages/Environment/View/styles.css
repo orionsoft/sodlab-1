@@ -2,6 +2,7 @@
 }
 
 :local(.item) {
-  composes: shadow from global;
-  border-radius: 10px;
+  composes: content from global;
+  padding: 0;
+  background: #fff;
 }

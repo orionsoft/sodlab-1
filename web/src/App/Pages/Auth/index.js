@@ -62,7 +62,10 @@ export default class Auth extends React.Component {
   }
 
   renderLogo() {
-    const src = this.props.environment ? this.props.environment.logo.url : '/dark.svg'
+    const src =
+      this.props.environment && this.props.environment.logo
+        ? this.props.environment.logo.url
+        : '/dark.svg'
     return (
       <div className={styles.logo}>
         <Logo color="black" src={src} />

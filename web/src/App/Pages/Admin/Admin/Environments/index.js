@@ -19,10 +19,6 @@ export default class Environments extends React.Component {
             path="/admin/environments/create"
             component={DynamicComponent(() => import('./Create'))}
           />
-          <Route
-            path="/admin/environments/:environmentId"
-            component={DynamicComponent(() => import('./Environment'))}
-          />
         </Switch>
       </div>
     )

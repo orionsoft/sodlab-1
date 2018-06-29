@@ -1,3 +1,18 @@
 .os-input-text {
   box-shadow: none;
 }
+
+.Select-input,
+.Select-control {
+  height: 38px;
+}
+
+.Select--single .Select-value,
+.Select--single .Select-placeholder {
+  line-height: 38px !important;
+}
+
+.Select--multi .Select-value {
+  margin-bottom: 5px;
+  vertical-align: center;
+}
