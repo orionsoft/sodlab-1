@@ -22,7 +22,7 @@ export default class List extends React.Component {
   onSuccess() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento creado satisfactoriamente!')
-    this.props.history.push(`/environments/${environmentId}/roles`)
+    this.props.history.push(`/${environmentId}/roles`)
   }
 
   render() {
