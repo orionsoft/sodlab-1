@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@orion-js/schema@^0.0.39":
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.0.39.tgz#524738725597216fe4d6655154d1e4792ddd9291"
+"@orion-js/schema@^0.0.41":
+  version "0.0.41"
+  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.0.41.tgz#13210b6dfe9bfd1e2e3fdd8bfe305a8e1a6fb60a"
   dependencies:
     lodash "^4.17.10"
 
@@ -6308,9 +6308,9 @@ simple-react-form@^2.0.0:
     autobind-decorator "^2.1.0"
     lodash "^4.17.4"
 
-simple-react-form@^2.1.4:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/simple-react-form/-/simple-react-form-2.1.4.tgz#66ba8680b91b2688c2e9f06bc6075553a25a7bad"
+simple-react-form@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/simple-react-form/-/simple-react-form-2.1.5.tgz#ca3636e52b23664b4dbac9468ac32b60269ec813"
   dependencies:
     autobind-decorator "^2.1.0"
     lodash "^4.17.10"

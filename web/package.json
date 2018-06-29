@@ -9,7 +9,7 @@
     "react-dev-utils": "^4.0.0"
   },
   "dependencies": {
-    "@orion-js/schema": "^0.0.39",
+    "@orion-js/schema": "^0.0.41",
     "apollo-client-preset": "^1.0.8",
     "apollo-link-batch-http": "^1.2.1",
     "apollo-link-error": "^1.0.7",
@@ -40,7 +40,7 @@
     "react-select": "^1.2.1",
     "react-stripe-elements": "^2.0.0",
     "rxjs": "^6.2.1",
-    "simple-react-form": "^2.1.4",
+    "simple-react-form": "^2.1.5",
     "styled-jsx": "^2.2.7",
     "unfetch": "^3.0.0"
   },

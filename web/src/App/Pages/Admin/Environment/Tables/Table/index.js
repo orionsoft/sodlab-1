@@ -9,7 +9,7 @@ import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
-import {Field} from 'simple-react-form'
+import {Field, WithValue} from 'simple-react-form'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
@@ -17,6 +17,7 @@ import ObjectField from 'App/components/fields/ObjectField'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
+import FieldOptions from './FieldOptions'
 
 @withGraphQL(gql`
   query getForm($tableId: ID, $environmentId: ID) {
@@ -28,11 +29,14 @@ import Checkbox from 'App/components/fieldTypes/checkbox/Field'
       filtersIds
       allowsNoFilter
       fields {
+        type
         fieldName
         label
+        options
       }
       collection {
         _id
+        environmentId
         fields {
           value: name
           label
@@ -84,19 +88,39 @@ export default class Link extends React.Component {
     this.props.history.push(`/${environmentId}/tables`)
   }
 
-  renderCollectionFields() {
+  renderFieldOptions() {
     let {collection} = this.props.table
+    return (
+      <WithValue>
+        {field => (
+          <FieldOptions
+            field={field}
+            collection={collection}
+            environmentId={collection.environmentId}
+          />
+        )}
+      </WithValue>
+    )
+  }
+
+  renderCollectionFields() {
+    const typeOptions = [
+      {value: 'field', label: 'Campo'},
+      {value: 'selectIconButton', label: 'Seleccionar variable'},
+      {value: 'routeIconButton', label: 'Ir a una ruta'}
+    ]
     return (
       <Field fieldName="fields" type={ArrayComponent}>
         <div className="row">
-          <div className="col-xs-12 col-sm-6">
-            <div className="label">Campo</div>
-            <Field fieldName="fieldName" type={Select} options={collection.fields} />
+          <div className="col-xs-12 col-sm-12 col-md-4">
+            <div className="label">Tipo</div>
+            <Field fieldName="type" type={Select} options={typeOptions} />
           </div>
-          <div className="col-xs-12 col-sm-6">
+          <div className="col-xs-12 col-sm-6 col-md-4">
             <div className="label">Etiqueta</div>
             <Field fieldName="label" type={Text} />
           </div>
+          {this.renderFieldOptions()}
         </div>
       </Field>
     )

@@ -5,9 +5,9 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import PaginatedList from 'App/components/Crud/List'
 import autobind from 'autobind-decorator'
-import ItemValue from '../ItemValue'
 import {Form, Field} from 'simple-react-form'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import TableField from './Field'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -23,6 +23,8 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
       fields {
         fieldName
         label
+        type
+        options
       }
       collection {
         fields {
@@ -37,7 +39,9 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 `)
 export default class Table extends React.Component {
   static propTypes = {
-    table: PropTypes.object
+    table: PropTypes.object,
+    state: PropTypes.object,
+    setEnvironment: PropTypes.func
   }
 
   state = {filterId: null}
@@ -65,27 +69,36 @@ export default class Table extends React.Component {
     if (table.allowsNoFilter) return null
   }
 
+  getCollectionField(fieldName) {
+    return this.props.table.collection.fields.find(field => field.name === fieldName)
+  }
+
+  renderField({field, doc}) {
+    const collectionField = this.getCollectionField(field.fieldName)
+    try {
+      return (
+        <TableField
+          state={this.props.state}
+          setEnvironment={this.props.setEnvironment}
+          doc={doc}
+          field={field}
+          collectionField={collectionField}
+        />
+      )
+    } catch (e) {
+      return e.message
+    }
+  }
+
   getFields() {
     const tableFields = this.props.table.fields
-    const fields = this.props.table.collection.fields
-      .filter(field => {
-        if (!tableFields.length) return true
-        return !!tableFields.find(tbf => tbf.fieldName === field.name)
-      })
-      .map(collectionField => {
-        const tableField = tableFields.length
-          ? tableFields.find(tbf => tbf.fieldName === collectionField.name)
-          : null
-        return {
-          ...collectionField,
-          label: tableField ? tableField.label || collectionField.label : collectionField.label
-        }
-      })
-    return fields.map(field => {
+    if (!tableFields.length) return [{title: 'ID', value: '_id'}]
+
+    return tableFields.map(field => {
       return {
         title: field.label,
         name: 'data',
-        render: ({data}) => <ItemValue value={data[field.name]} field={field} />
+        render: doc => this.renderField({field, doc})
       }
     })
   }

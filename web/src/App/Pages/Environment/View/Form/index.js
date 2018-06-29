@@ -1,15 +1,9 @@
 import React from 'react'
-import styles from './styles.css'
+import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
-import PropTypes from 'prop-types'
-import AutoForm from 'App/components/AutoForm'
-import Fields from 'App/components/AutoForm/Fields'
-import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
-import Button from 'orionsoft-parts/lib/components/Button'
-import fieldTypes from 'App/components/fieldTypes'
-import autobind from 'autobind-decorator'
-import schemaToField from 'App/components/schemaToField'
+import FormContent from './Form'
+import styles from './styles.css'
 
 @withGraphQL(gql`
   query getForm($formId: ID) {
@@ -18,57 +12,45 @@ import schemaToField from 'App/components/schemaToField'
       name
       type
       serializedParams
+      updateVariableName
     }
   }
 `)
-@withMessage
 export default class Form extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    parameters: PropTypes.object
   }
 
   state = {}
 
-  renderSubmitButton() {
-    const text = this.props.form.type === 'create' ? 'Crear' : 'Guardar'
-    return (
-      <Button onClick={() => this.refs.form.submit()} primary>
-        {text}
-      </Button>
-    )
+  getItemId() {
+    if (this.props.form.type === 'create') return null
+    return this.props.parameters[this.props.form.updateVariableName]
   }
 
-  @autobind
-  onSuccess() {
-    this.setState({data: {}})
-    this.props.showMessage('Se completó con exito')
+  renderNoItem() {
+    return <div className={styles.noItem}>Selecciona un documento</div>
   }
 
-  @autobind
-  schemaToField(type, field) {
-    if (!field.fieldType) return schemaToField(type, field)
-    return fieldTypes[field.fieldType].field
+  renderForm() {
+    const props = {
+      form: this.props.form,
+      formId: this.props.form._id,
+      data: this.state.data || {},
+      itemId: this.getItemId()
+    }
+    if (props.form.type === 'update' && !props.itemId) return this.renderNoItem()
+    return <FormContent {...props} />
   }
 
   render() {
-    const params = {data: {type: this.props.form.serializedParams}}
+    if (!this.props.form) return null
     return (
       <div className={styles.container}>
         <div className={styles.title}>{this.props.form.name}</div>
-        <AutoForm
-          mutation="submitForm"
-          ref="form"
-          only="data"
-          getErrorFieldLabel={() => 'Este campo'}
-          doc={{formId: this.props.form._id, data: this.state.data || {}}}
-          onSuccess={this.onSuccess}>
-          {({parent}) => (
-            <Fields schemaToField={this.schemaToField} parent={parent} params={params} />
-          )}
-        </AutoForm>
-        <br />
-        {this.renderSubmitButton()}
+        {this.renderForm()}
       </div>
     )
   }

@@ -40,8 +40,15 @@ export default resolver({
       const newItemId = await collection.insert({data})
       return {_id: newItemId, data}
     } else if (form.type === 'update') {
+      if (!itemId) {
+        throw new Error('Item id is required')
+      }
       const item = await collection.findOne(itemId)
-      return item.update({$set: {data}})
+      if (!item) {
+        throw new Error('Item not found')
+      }
+      await item.update({$set: {data}})
+      return item
     }
   }
 })

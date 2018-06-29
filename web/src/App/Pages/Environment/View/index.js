@@ -29,12 +29,27 @@ export default class View extends React.Component {
     view: PropTypes.object
   }
 
+  state = {}
+
+  getParameters() {
+    return {
+      ...this.props.params,
+      ...this.state
+    }
+  }
+
   renderItem(item) {
+    const props = {
+      routeParams: this.props.params,
+      state: this.state,
+      parameters: this.getParameters(),
+      setEnvironment: changes => this.setState(changes)
+    }
     if (item.type === 'form') {
-      return <Form formId={item.formId} routeParams={this.props.params} />
+      return <Form {...props} formId={item.formId} />
     }
     if (item.type === 'table') {
-      return <Table tableId={item.tableId} routeParams={this.props.params} />
+      return <Table {...props} tableId={item.tableId} />
     }
   }
 

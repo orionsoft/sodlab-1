@@ -12,7 +12,7 @@ import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
-import {Field} from 'simple-react-form'
+import {Field, WithValue} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
@@ -23,6 +23,7 @@ import autobind from 'autobind-decorator'
       type
       collectionId
       environmentId
+      updateVariableName
     }
     collections(environmentId: $environmentId) {
       items {
@@ -43,7 +44,7 @@ export default class Form extends React.Component {
   }
 
   getFormTypes() {
-    return [{label: 'Crear', value: 'create'}, {label: 'Actualizar', value: 'update'}]
+    return [{label: 'Crear', value: 'create'}, {label: 'Editar', value: 'update'}]
   }
 
   @autobind
@@ -58,6 +59,24 @@ export default class Form extends React.Component {
     const {environmentId} = this.props.match.params
     this.props.showMessage('El formulario fue eliminado')
     this.props.history.push(`/${environmentId}/forms`)
+  }
+
+  getUpdateVariableTypes() {
+    return [{label: 'Parametro', value: 'parameter'}, {label: 'Editable', value: 'editable'}]
+  }
+
+  renderUpdateOptions(form) {
+    return (
+      <div style={{marginTop: 15}}>
+        <div className="label">Nombre de la variable</div>
+        <Field fieldName="updateVariableName" type={Text} />
+      </div>
+    )
+  }
+
+  renderExtraOptions(form) {
+    if (form.type === 'update') return this.renderUpdateOptions(form)
+    return null
   }
 
   render() {
@@ -90,14 +109,13 @@ export default class Form extends React.Component {
                 type={Select}
                 options={this.props.collections.items}
               />
+              <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
             </Field>
           </AutoForm>
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button
-                to={`/${this.props.form.environmentId}/forms`}
-                style={{marginRight: 10}}>
+              <Button to={`/${this.props.form.environmentId}/forms`} style={{marginRight: 10}}>
                 Cancelar
               </Button>
               <MutationButton
