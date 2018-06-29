@@ -19,6 +19,7 @@ import autobind from 'autobind-decorator'
   query getForm($formId: ID, $environmentId: ID) {
     form(formId: $formId) {
       _id
+      title
       name
       type
       collectionId
@@ -99,6 +100,8 @@ export default class Form extends React.Component {
               form: this.props.form
             }}>
             <Field fieldName="form" type={ObjectField}>
+              <div className="label">Título</div>
+              <Field fieldName="title" type={Text} />
               <div className="label">Nombre</div>
               <Field fieldName="name" type={Text} />
               <div className="label">Tipo</div>

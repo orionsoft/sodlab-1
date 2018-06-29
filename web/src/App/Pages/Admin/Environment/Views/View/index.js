@@ -44,7 +44,7 @@ import range from 'lodash/range'
     tables(limit: null, environmentId: $environmentId) {
       items {
         value: _id
-        label: title
+        label: name
       }
     }
   }

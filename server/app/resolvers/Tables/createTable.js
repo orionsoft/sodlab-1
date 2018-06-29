@@ -18,16 +18,21 @@ export default resolver({
     title: {
       type: String,
       label: 'Título'
+    },
+    name: {
+      type: String,
+      label: 'Nombre'
     }
   },
   returns: Table,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, collectionId, title}, viewer) {
+  async resolve({environmentId, collectionId, title, name}, viewer) {
     const tableId = await Tables.insert({
       environmentId,
       collectionId,
       title,
+      name,
       createdAt: new Date()
     })
     return await Tables.findOne(tableId)

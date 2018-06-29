@@ -24,6 +24,7 @@ import FieldOptions from './FieldOptions'
     table(tableId: $tableId) {
       _id
       title
+      name
       environmentId
       collectionId
       filtersIds

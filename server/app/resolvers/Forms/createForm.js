@@ -15,14 +15,19 @@ export default resolver({
     name: {
       type: String,
       label: 'Nombre'
+    },
+    title: {
+      type: String,
+      label: 'Título'
     }
   },
   returns: Form,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, name}, viewer) {
+  async resolve({environmentId, name, title}, viewer) {
     const formId = await Forms.insert({
       name,
+      title,
       environmentId,
       createdAt: new Date()
     })
