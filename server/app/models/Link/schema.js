@@ -7,7 +7,7 @@ export default {
   },
   title: {
     type: String,
-    label: 'Nombre'
+    label: 'Titulo'
   },
   path: {
     type: String,

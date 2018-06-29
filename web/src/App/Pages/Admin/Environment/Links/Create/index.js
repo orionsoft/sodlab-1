@@ -6,12 +6,23 @@ import AutoForm from 'App/components/AutoForm'
 import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
 import Breadcrumbs from '../../Breadcrumbs'
+import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
+import autobind from 'autobind-decorator'
 
 @withRouter
+@withMessage
 export default class Create extends React.Component {
   static propTypes = {
+    showMessage: PropTypes.func,
     history: PropTypes.object,
     match: PropTypes.object
+  }
+
+  @autobind
+  onSuccess() {
+    const {environmentId} = this.props.match.params
+    this.props.showMessage('Elemento creado satisfactoriamente!')
+    this.props.history.push(`/${environmentId}/links`)
   }
 
   render() {
@@ -28,9 +39,7 @@ export default class Create extends React.Component {
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
-            onSuccess={col =>
-              this.props.history.push(`/${environmentId}/links/${col._id}`)
-            }
+            onSuccess={this.onSuccess}
           />
           <br />
           <Button to={`/${environmentId}/links`} style={{marginRight: 10}}>

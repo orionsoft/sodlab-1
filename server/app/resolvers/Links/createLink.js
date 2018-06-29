@@ -12,13 +12,13 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
-    path: {
-      type: String,
-      label: 'Ruta'
-    },
     title: {
       type: String,
       label: 'Título'
+    },
+    path: {
+      type: String,
+      label: 'Ruta'
     }
   },
   returns: Link,
