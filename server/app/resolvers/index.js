@@ -9,8 +9,16 @@ import Views from './Views'
 import Links from './Links'
 import Tables from './Tables'
 import Roles from './Roles'
+import Charts from './Charts'
+import Filters from './Filters'
+import Hooks from './Hooks'
+import Info from './Info'
 
 export default {
+  ...Hooks,
+  ...Filters,
+  ...Charts,
+  ...Info,
   ...Tables,
   ...Links,
   ...Views,

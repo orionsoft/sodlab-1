@@ -22,5 +22,9 @@ export default {
   collectionId: {
     type: 'ID',
     optional: true
+  },
+  updateVariableName: {
+    type: String,
+    optional: true
   }
 }

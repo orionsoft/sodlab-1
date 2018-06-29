@@ -37,7 +37,7 @@ export default class Profile extends React.Component {
   state = {}
 
   render() {
-    if (!this.props.me) return
+    if (!this.props.me) return null
     return (
       <div className={styles.container}>
         <Section top title="Perfil" description="Edita tus datos personales">

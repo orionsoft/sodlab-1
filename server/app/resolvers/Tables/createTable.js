@@ -12,6 +12,9 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
+    collectionId: {
+      type: 'ID'
+    },
     title: {
       type: String,
       label: 'Título'
@@ -24,13 +27,14 @@ export default resolver({
   returns: Table,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, title, name}, viewer) {
-    const linkId = await Tables.insert({
+  async resolve({environmentId, collectionId, title, name}, viewer) {
+    const tableId = await Tables.insert({
       environmentId,
+      collectionId,
       title,
       name,
       createdAt: new Date()
     })
-    return await Tables.findOne(linkId)
+    return await Tables.findOne(tableId)
   }
 })

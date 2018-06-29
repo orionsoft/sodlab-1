@@ -9,17 +9,20 @@ export default class Navbar extends React.Component {
 
   render() {
     return (
-      <div className={styles.container}>
-        <Container>
-          <div className={styles.flex}>
-            <div className={styles.logo}>
-              <Logo />
+      <div>
+        <div className={styles.container}>
+          <Container>
+            <div className={styles.flex}>
+              <div className={styles.logo}>
+                <Logo />
+              </div>
+              <div className={styles.menu}>
+                <Menu />
+              </div>
             </div>
-            <div className={styles.menu}>
-              <Menu />
-            </div>
-          </div>
-        </Container>
+          </Container>
+        </div>
+        <div className={styles.separator} />
       </div>
     )
   }

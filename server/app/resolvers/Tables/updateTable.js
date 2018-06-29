@@ -10,7 +10,7 @@ export default resolver({
     table: {
       type: Table.clone({
         name: 'UpdateTable',
-        omitFields: ['_id', 'environmentId', 'createdAt']
+        omitFields: ['_id', 'environmentId', 'createdAt', 'collectionId']
       })
     }
   },

@@ -1,0 +1,24 @@
+:local(.container) {
+}
+
+:local(.inputOptions) {
+  margin-top: 10px;
+  padding: 10px;
+  background: #eee;
+  border-radius: 5px;
+}
+
+:local(.inputOptions) .description {
+  margin-bottom: 15px;
+}
+
+:local(.fixedValue) {
+  margin-top: 10px;
+  padding: 10px;
+  background: #eee;
+  border-radius: 5px;
+}
+
+:local(.fixedValue) .description {
+  margin-bottom: 15px;
+}
