@@ -14,18 +14,18 @@ export default class List extends React.Component {
   }
 
   getFields() {
-    return [{name: 'name', title: 'Nombre'}]
+    return [
+      {name: 'name', title: 'Nombre'},
+      {name: 'title', title: 'Título'},
+      {name: 'collection.name', title: 'Colección'}
+    ]
   }
 
   render() {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
-        <Breadcrumbs
-          right={
-            <Button to={`/${environmentId}/tables/create`}>Crear Tabla</Button>
-          }
-        />
+        <Breadcrumbs right={<Button to={`/${environmentId}/tables/create`}>Crear Tabla</Button>} />
         <br />
         <PaginatedList
           title={null}

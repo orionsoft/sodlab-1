@@ -45,6 +45,8 @@ export default class Create extends React.Component {
             omit="environmentId"
             doc={{environmentId}}
             onSuccess={col => this.props.history.push(`/${environmentId}/tables/${col._id}`)}>
+            <div className="label">Name</div>
+            <Field fieldName="name" type={Text} />
             <div className="label">Título</div>
             <Field fieldName="title" type={Text} />
             <div className="label">Colección</div>

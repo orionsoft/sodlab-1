@@ -13,8 +13,22 @@ export default class List extends React.Component {
     match: PropTypes.object
   }
 
+  getTypeLabel(type) {
+    const typeLabels = {
+      create: 'Crear',
+      update: 'Editar'
+    }
+    console.log(type)
+    return typeLabels[type]
+  }
+
   getFields() {
-    return [{name: 'name', title: 'Nombre'}]
+    return [
+      {name: 'name', title: 'Nombre'},
+      {name: 'title', title: 'Título'},
+      {name: 'collection.name', title: 'Colección'},
+      {name: 'type', title: 'Tipo', render: doc => this.getTypeLabel(doc.type)}
+    ]
   }
 
   render() {
@@ -22,11 +36,7 @@ export default class List extends React.Component {
     return (
       <div className={styles.container}>
         <Breadcrumbs
-          right={
-            <Button to={`/${environmentId}/forms/create`}>
-              Crear formulario
-            </Button>
-          }
+          right={<Button to={`/${environmentId}/forms/create`}>Crear formulario</Button>}
         />
         <br />
         <PaginatedList

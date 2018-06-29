@@ -12,13 +12,13 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
-    title: {
-      type: String,
-      label: 'Título'
-    },
     name: {
       type: String,
       label: 'Nombre'
+    },
+    title: {
+      type: String,
+      label: 'Título'
     }
   },
   returns: Form,
