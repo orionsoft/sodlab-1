@@ -15,13 +15,17 @@ export default resolver({
     name: {
       type: String,
       label: 'Nombre'
+    },
+    url: {
+      type: String,
+      label: 'URL'
     }
   },
   returns: Environment,
   mutation: true,
   role: 'admin',
-  async resolve({_id, name}, viewer) {
-    const envId = await Environments.insert({_id, name, createdAt: new Date()})
+  async resolve({_id, name, url}, viewer) {
+    const envId = await Environments.insert({_id, name, url, createdAt: new Date()})
     return await Environments.findOne(envId)
   }
 })

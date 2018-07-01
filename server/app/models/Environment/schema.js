@@ -19,7 +19,6 @@ export default {
     type: String,
     label: 'URL para acceder al ambiente',
     description: 'No incluir ni http',
-    optional: true,
     custom(url) {
       // es tipo localhost:3010
       if (url.includes(':30')) {

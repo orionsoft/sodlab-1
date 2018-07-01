@@ -27,7 +27,7 @@ export default class List extends React.Component {
           <AutoForm
             mutation="createEnvironment"
             ref="form"
-            onSuccess={env => this.props.history.push(`/admin/environments/${env._id}`)}
+            onSuccess={env => this.props.history.push(`/${env._id}`)}
           />
           <br />
           <Button to="/admin/environments" style={{marginRight: 10}}>
