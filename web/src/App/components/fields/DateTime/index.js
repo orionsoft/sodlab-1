@@ -40,6 +40,7 @@ export default class DateTime extends React.Component {
             onChange={date => {
               onChange(date && date[0] && date[0].getTime())
             }}
+            options={this.getOptions()}
             data-enable-time={enableTime}
           />
         </div>
