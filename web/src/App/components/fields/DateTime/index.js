@@ -32,15 +32,18 @@ export default class DateTime extends React.Component {
     const {onChange, value, enableTime} = this.props
 
     return (
-      <div className="os-input-container">
-        <Flatpickr
-          className="os-input-text"
-          value={value}
-          onChange={date => {
-            onChange(date && date[0] && date[0].getTime())
-          }}
-          data-enable-time={enableTime}
-        />
+      <div>
+        <div className="os-input-container">
+          <Flatpickr
+            className="os-input-text"
+            value={value}
+            onChange={date => {
+              onChange(date && date[0] && date[0].getTime())
+            }}
+            options={this.getOptions()}
+            data-enable-time={enableTime}
+          />
+        </div>
         <div className="error">{this.props.errorMessage}</div>
       </div>
     )
