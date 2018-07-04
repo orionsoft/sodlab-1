@@ -58,6 +58,7 @@ export default class Table extends React.Component {
 
   componentDidMount() {
     this.setDefaultFilter()
+    this.checkFilterOptionsSchema()
   }
 
   setDefaultFilter() {
@@ -97,7 +98,6 @@ export default class Table extends React.Component {
 
   needsFilter() {
     const {table} = this.props
-    if (table.allowsNoFilter) return null
     if (table.allowsNoFilter) return null
   }
 
