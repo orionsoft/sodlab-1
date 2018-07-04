@@ -147,6 +147,8 @@ export default class Link extends React.Component {
               table: cloneDeep(this.props.table)
             }}>
             <Field fieldName="table" type={ObjectField}>
+              <div className="label">Nombre</div>
+              <Field fieldName="name" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
               <div className="label">Filtros</div>

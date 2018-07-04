@@ -25,6 +25,7 @@ const fragment = gql`
         fieldName
         operatorId
         type
+        optional
         fixed
         parameterName
         editableLabel

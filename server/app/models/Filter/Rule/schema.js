@@ -10,6 +10,10 @@ export default {
   operatorId: {
     type: String
   },
+  optional: {
+    type: Boolean,
+    optional: true
+  },
   operatorInputOptions: {
     type: 'blackbox',
     optional: true

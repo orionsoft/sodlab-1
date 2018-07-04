@@ -1,13 +1,16 @@
 import {resolver} from '@orion-js/app'
+import isNil from 'lodash/isNil'
 
 export default resolver({
   returns: 'blackbox',
   private: true,
-  async resolve(rule, params, viewer) {
+  async resolve(rule, {filterOptions}, viewer) {
     const operator = await rule.operator()
-    // el unico que sirve por ahora es type fixed
-    const value = rule.fixed.value
-    const query = await operator.getQuery({value})
+
+    const value = rule.type === 'fixed' ? rule.fixed.value : filterOptions[rule.parameterName]
+    if (isNil(value)) return
+
+    const query = await operator.getQuery({value}, viewer)
     return {[`data.${rule.fieldName}`]: query}
   }
 })
