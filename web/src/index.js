@@ -1,5 +1,6 @@
 import 'babel-polyfill'
 import 'react-hot-loader/patch'
+import 'flatpickr/dist/themes/light.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
