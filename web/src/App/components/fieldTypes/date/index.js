@@ -1,7 +1,7 @@
 import View from './View'
-import Field from './Field'
+import DateTime from 'App/components/fields/DateTime'
 
 export default {
-  field: Field,
+  field: DateTime,
   view: View
 }

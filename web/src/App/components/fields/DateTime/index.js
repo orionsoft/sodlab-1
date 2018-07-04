@@ -3,11 +3,17 @@ import PropTypes from 'prop-types'
 import Flatpickr from 'react-flatpickr'
 import moment from 'moment'
 
-export default class Date extends React.Component {
+export default class DateTime extends React.Component {
   static propTypes = {
     value: PropTypes.object,
     onChange: PropTypes.func,
-    errorMessage: PropTypes.string
+    errorMessage: PropTypes.string,
+    format: PropTypes.string,
+    enableTime: PropTypes.bool
+  }
+
+  static defaultProps = {
+    format: 'DD/MM/YYYY'
   }
 
   state = {
@@ -17,24 +23,23 @@ export default class Date extends React.Component {
   getOptions() {
     return {
       formatDate: date => {
-        return moment(date).format('DD/MM/YYYY')
+        return moment(date).format(this.props.format)
       }
     }
   }
 
   render() {
-    const {onChange, value} = this.props
+    const {onChange, value, enableTime} = this.props
 
     return (
       <div className="os-input-container">
         <Flatpickr
+          className="os-input-text"
           value={value}
           onChange={date => {
             onChange(date && date[0] && date[0].getTime())
           }}
-          className="os-input-text"
-          dateFormat="F j, Y"
-          options={this.getOptions()}
+          data-enable-time={enableTime}
         />
         <div className="error">{this.props.errorMessage}</div>
       </div>
