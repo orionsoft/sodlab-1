@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import {withRouter} from 'react-router'
+import autobind from 'autobind-decorator'
 
 @withMessage
 @withGraphQL(gql`
@@ -28,13 +29,16 @@ export default class Basic extends React.Component {
     filter: PropTypes.object
   }
 
-  remove() {
+  @autobind
+  onRemove() {
     const {environmentId} = this.props.filter
     this.props.showMessage('Elemento eliminado satisfactoriamente!')
     this.props.history.push(`/${environmentId}/filters`)
   }
 
   render() {
+    if (!this.props.filter) return null
+
     return (
       <div className={styles.container}>
         <Section
@@ -62,7 +66,7 @@ export default class Basic extends React.Component {
             message="¿Quieres eliminar este filtro?"
             confirmText="Eliminar"
             mutation="removeFilter"
-            onSuccess={() => this.remove()}
+            onSuccess={this.onRemove}
             params={{filterId: this.props.filter._id}}
             danger
           />

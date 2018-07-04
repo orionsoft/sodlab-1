@@ -13,22 +13,23 @@ export default class List extends React.Component {
     match: PropTypes.object
   }
 
+  getFields() {
+    return [{name: 'name', title: 'Nombre'}, {name: '_id', title: 'Identificador'}]
+  }
+
   render() {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
         <Breadcrumbs
-          right={
-            <Button to={`/${environmentId}/collections/create`}>
-              Crear colección
-            </Button>
-          }
+          right={<Button to={`/${environmentId}/collections/create`}>Crear colección</Button>}
         />
         <br />
         <PaginatedList
           title={null}
           name="collections"
           params={{environmentId}}
+          fields={this.getFields()}
           canUpdate
           allowSearch
           basePath={`/${environmentId}/collections`}

@@ -35,10 +35,10 @@ export default class Create extends React.Component {
   }
 
   @autobind
-  success() {
+  onSuccess(filter) {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento creado satisfactoriamente!')
-    this.props.history.push(`/${environmentId}/filters`)
+    this.props.history.push(`/${environmentId}/filters/${filter._id}`)
   }
 
   render() {
@@ -55,7 +55,7 @@ export default class Create extends React.Component {
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
-            onSuccess={this.success}>
+            onSuccess={this.onSuccess}>
             <div className="label">Nombre</div>
             <Field fieldName="name" type={Text} />
             <div className="label">Colección</div>

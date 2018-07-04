@@ -9,6 +9,7 @@ import styles from './styles.css'
   query getForm($formId: ID) {
     form(formId: $formId) {
       _id
+      title
       name
       type
       serializedParams
@@ -49,7 +50,7 @@ export default class Form extends React.Component {
     if (!this.props.form) return null
     return (
       <div className={styles.container}>
-        <div className={styles.title}>{this.props.form.name}</div>
+        <div className={styles.title}>{this.props.form.title}</div>
         {this.renderForm()}
       </div>
     )
