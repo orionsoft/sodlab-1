@@ -33,6 +33,7 @@
     "react-apollo": "^2.1.8",
     "react-apollo-decorators": "^1.4.27",
     "react-dom": "^16.4.1",
+    "react-flatpickr": "^3.6.4",
     "react-hot-loader": "4.3.3",
     "react-icons": "^2.2.7",
     "react-loadable": "^5.3.1",
