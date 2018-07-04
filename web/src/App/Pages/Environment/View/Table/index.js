@@ -8,6 +8,9 @@ import autobind from 'autobind-decorator'
 import {Form, Field} from 'simple-react-form'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import TableField from './Field'
+import FilterOptions from './FilterOptions'
+import isEqual from 'lodash/isEqual'
+import {clean, validate} from '@orion-js/schema'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -19,6 +22,7 @@ import TableField from './Field'
       filters {
         _id
         name
+        schema: serializedSchema
       }
       fields {
         fieldName
@@ -41,7 +45,8 @@ export default class Table extends React.Component {
   static propTypes = {
     table: PropTypes.object,
     state: PropTypes.object,
-    setEnvironment: PropTypes.func
+    setEnvironment: PropTypes.func,
+    parameters: PropTypes.object
   }
 
   state = {filterId: null}
@@ -61,6 +66,33 @@ export default class Table extends React.Component {
     if (!table.filters) return
     if (table.filters.length !== 1) return
     this.setState({filterId: table.filters[0]._id})
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.filterId !== prevState.filterId) {
+      // eslint-disable-next-line
+      this.setState({options: null})
+      this.checkFilterOptionsSchema()
+    }
+    if (!isEqual(this.state.options, prevState.options)) this.checkFilterOptionsSchema()
+  }
+
+  async checkFilterOptionsSchema() {
+    if (!this.state.filterId) {
+      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+    }
+    const filter = this.props.table.filters.find(f => f._id === this.state.filterId)
+    if (!filter || !filter.schema) {
+      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+    }
+
+    const cleaned = await clean(filter.schema, this.state.options || {})
+    try {
+      await validate(filter.schema, cleaned)
+      this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+    } catch (error) {
+      this.setState({filterOptionsAreValid: false, optionValidationErrors: error.validationErrors})
+    }
   }
 
   needsFilter() {
@@ -107,7 +139,7 @@ export default class Table extends React.Component {
     return <div className={styles.needToSelectFilter}>Debes seleccionar un filtro</div>
   }
 
-  renderFilterOptions() {
+  renderFilterForm() {
     const {table} = this.props
     const options = []
     for (const filter of table.filters) {
@@ -125,15 +157,34 @@ export default class Table extends React.Component {
     )
   }
 
+  renderFilterOptions() {
+    if (!this.state.filterId) return
+    const filter = this.props.table.filters.find(f => f._id === this.state.filterId)
+    if (!filter) return
+    return (
+      <FilterOptions
+        options={this.state.options || {}}
+        filter={filter}
+        validationErrors={this.state.optionValidationErrors}
+        onChange={options => this.setState({options})}
+      />
+    )
+  }
+
   renderPaginated() {
     const {table} = this.props
     if (!table.allowsNoFilter && !this.state.filterId) return this.renderSelectFilter()
+    if (!this.state.filterOptionsAreValid) return
     return (
       <PaginatedList
         title={null}
         name="tableResult"
         canUpdate={false}
-        params={{tableId: table._id, filterId: this.state.filterId}}
+        params={{
+          tableId: table._id,
+          filterId: this.state.filterId,
+          filterOptions: {...this.state.options, ...this.props.parameters}
+        }}
         fields={this.getFields()}
         onSelect={this.onSelect}
         allowSearch={false}
@@ -147,6 +198,7 @@ export default class Table extends React.Component {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.title}>{table.title}</div>
+          {this.renderFilterForm()}
           {this.renderFilterOptions()}
         </div>
         {this.renderPaginated()}

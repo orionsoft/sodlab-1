@@ -1,6 +1,6 @@
 export default {
   name: 'Existe',
-  inputType: 'checkbox',
+  inputType: 'boolean',
   async resolve(value) {
     return {$exists: value}
   }

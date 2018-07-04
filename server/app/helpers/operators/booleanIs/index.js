@@ -1,6 +1,6 @@
 export default {
   name: 'El valor es',
-  inputType: 'checkbox',
+  inputType: 'boolean',
   async resolve(value) {
     return value || {$ne: true}
   }

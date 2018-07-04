@@ -2,9 +2,11 @@ import React from 'react'
 import styles from './styles.css'
 import {Field} from 'simple-react-form'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Text from 'orionsoft-parts/lib/components/fields/Text'
 import PropTypes from 'prop-types'
 import includes from 'lodash/includes'
 import fieldTypes from 'App/components/fieldTypes'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import FieldTypeOptions from 'App/Pages/Admin/Environment/Collections/Collection/Fields/FieldTypeOptions'
 
 export default class Item extends React.Component {
@@ -58,6 +60,26 @@ export default class Item extends React.Component {
     )
   }
 
+  renderEditableLabel() {
+    const {rule} = this.props
+    if (rule.type !== 'editable') return
+
+    return (
+      <div className={styles.fixedValue}>
+        <div className="row">
+          <div className="col-xs-12 col-sm-6">
+            <div className="description">Título</div>
+            <Field fieldName="editableLabel" type={Text} />
+          </div>
+          <div className="col-xs-12 col-sm-6">
+            <div className="description">Variable</div>
+            <Field fieldName="parameterName" type={Text} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   renderFixedValue() {
     const {rule, operators} = this.props
     if (rule.type !== 'fixed') return
@@ -76,11 +98,23 @@ export default class Item extends React.Component {
     )
   }
 
+  renderParameterOptions() {
+    const {rule} = this.props
+    if (rule.type !== 'parameter') return
+    return (
+      <div className={styles.fixedValue}>
+        <div className="description">Variable</div>
+        <Field fieldName="parameterName" type={Text} />
+      </div>
+    )
+  }
   render() {
     return (
       <div className={styles.container}>
         <div className="label">Tipo</div>
         <Field fieldName="type" type={Select} options={this.getTypes()} />
+        <div className="label">Opcional</div>
+        <Field fieldName="optional" type={Checkbox} label="Opcional" />
         <br />
         <div className="row">
           <div className="col-xs-12 col-sm-6">
@@ -92,8 +126,10 @@ export default class Item extends React.Component {
             <Field fieldName="operatorId" type={Select} options={this.getOperators()} />
           </div>
         </div>
+        {this.renderEditableLabel()}
         {this.renderOperationFieldOptions()}
         {this.renderFixedValue()}
+        {this.renderParameterOptions()}
       </div>
     )
   }
