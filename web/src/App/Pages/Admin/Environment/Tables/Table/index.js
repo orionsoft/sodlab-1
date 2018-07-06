@@ -72,7 +72,9 @@ export default class Link extends React.Component {
   }
 
   getFilters() {
-    return this.props.filters.items.filter(filter => filter.collectionId)
+    return this.props.filters.items.filter(
+      filter => filter.collectionId === this.props.table.collectionId
+    )
   }
 
   @autobind
