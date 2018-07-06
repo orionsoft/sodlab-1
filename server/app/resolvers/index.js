@@ -1,4 +1,4 @@
-import {ExposeSchemaResolvers} from '@orion-js/app'
+import {resolversSchemas} from '@orion-js/graphql'
 import Auth from './Auth'
 import Users from './Users'
 import Environments from './Environments'
@@ -26,7 +26,7 @@ export default {
   ...Forms,
   ...Collections,
   ...Environments,
-  ...ExposeSchemaResolvers,
+  ...resolversSchemas,
   ...Auth,
   ...Users,
   ...Roles

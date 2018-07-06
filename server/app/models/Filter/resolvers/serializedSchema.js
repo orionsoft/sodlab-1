@@ -1,4 +1,5 @@
-import {resolver, serializeSchema} from '@orion-js/app'
+import {resolver} from '@orion-js/app'
+import {serializeSchema} from '@orion-js/graphql'
 
 export default resolver({
   returns: 'blackbox',
