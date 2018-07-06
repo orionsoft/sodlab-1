@@ -9,6 +9,10 @@ export default class View extends React.Component {
   }
 
   render() {
-    return <div className={styles.container}>{moment(this.props.value).format('DD/MM/YYYY')}</div>
+    return (
+      <div className={styles.container}>
+        {this.props.value && moment(this.props.value).format('DD/MM/YYYY')}
+      </div>
+    )
   }
 }
