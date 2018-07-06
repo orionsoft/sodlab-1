@@ -78,7 +78,7 @@ export default class Link extends React.Component {
   @autobind
   removeTable() {
     const {environmentId} = this.props.match.params
-    this.props.showMessage('La tabla fueron guardados')
+    this.props.showMessage('La tabla fue eliminada')
     this.props.history.push(`/${environmentId}/tables`)
   }
 
