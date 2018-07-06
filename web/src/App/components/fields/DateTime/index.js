@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Flatpickr from 'react-flatpickr'
+import {Spanish} from 'flatpickr/dist/l10n/es'
 import moment from 'moment'
 
 export default class DateTime extends React.Component {
@@ -9,11 +10,13 @@ export default class DateTime extends React.Component {
     onChange: PropTypes.func,
     errorMessage: PropTypes.string,
     format: PropTypes.string,
-    enableTime: PropTypes.bool
+    enableTime: PropTypes.bool,
+    locale: PropTypes.any
   }
 
   static defaultProps = {
-    format: 'DD/MM/YYYY'
+    format: 'DD/MM/YYYY',
+    locale: Spanish
   }
 
   state = {
@@ -22,6 +25,7 @@ export default class DateTime extends React.Component {
 
   getOptions() {
     return {
+      locale: this.props.locale,
       formatDate: date => {
         return moment(date).format(this.props.format)
       }
