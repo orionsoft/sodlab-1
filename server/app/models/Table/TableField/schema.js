@@ -20,13 +20,14 @@ export default {
   },
   options: {
     type: 'blackbox',
-    defaultValue: {},
+    optional: true,
     async custom(options, {currentDoc, keys}) {
       if (['field'].includes(currentDoc.type)) return
 
       try {
         const optionsSchema = optionsSchemas[currentDoc.type] || {}
-        await validate(optionsSchema, options)
+        const optionsToValidate = options || {}
+        await validate(optionsSchema, optionsToValidate)
       } catch (error) {
         if (error.isValidationError) {
           throw error.prependKey(keys.join('.'))
