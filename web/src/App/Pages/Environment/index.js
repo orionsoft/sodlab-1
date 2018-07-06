@@ -11,6 +11,7 @@ import Layout from './Layout'
 import View from './View'
 import NotFound from './NotFound'
 import forceLogin from 'App/helpers/auth/forceLogin'
+import Watch from './Watch'
 
 @forceLogin
 @withEnvironmentId
@@ -63,6 +64,7 @@ export default class Environment extends React.Component {
       <div className={styles.container}>
         <Layout>{this.renderSwitch()}</Layout>
         <Styles />
+        {/* <Watch environmentId={this.props.environment._id} /> */}
       </div>
     )
   }

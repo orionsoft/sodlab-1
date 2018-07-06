@@ -9,7 +9,7 @@
     "react-dev-utils": "^4.0.0"
   },
   "dependencies": {
-    "@orion-js/graphql-client": "^0.3.0",
+    "@orion-js/graphql-client": "^0.3.1",
     "@orion-js/schema": "^0.0.42",
     "autobind-decorator": "^2.1.0",
     "babel-polyfill": "^6.26.0",
