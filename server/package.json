@@ -7,15 +7,15 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --exec babel-node ./app"
+    "reinstall": "rm -rf node_modules/ && yarn"
   },
   "dependencies": {
-    "@orion-js/app": "^0.1.0",
-    "@orion-js/auth": "^0.1.0",
-    "@orion-js/file-manager": "^0.1.0",
-    "@orion-js/graphql": "^0.1.0",
-    "@orion-js/jobs": "^0.1.0",
-    "@orion-js/mailing": "^0.1.0",
+    "@orion-js/app": "^0.2.3",
+    "@orion-js/auth": "^0.2.3",
+    "@orion-js/file-manager": "^0.2.3",
+    "@orion-js/graphql": "^0.2.3",
+    "@orion-js/jobs": "^0.2.3",
+    "@orion-js/mailing": "^0.2.3",
     "@orion-js/schema": "^0.0.42",
     "aws-sdk": "^2.269.1",
     "babel-plugin-module-resolver": "^3.1.1",
