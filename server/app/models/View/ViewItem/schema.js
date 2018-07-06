@@ -14,10 +14,20 @@ export default {
   },
   formId: {
     type: 'ID',
-    optional: true
+    optional: true,
+    async custom(formId, {currentDoc}) {
+      if (currentDoc.type === 'form' && !formId) {
+        return 'required'
+      }
+    }
   },
   tableId: {
     type: 'ID',
-    optional: true
+    optional: true,
+    async custom(tableId, {currentDoc}) {
+      if (currentDoc.type === 'table' && !tableId) {
+        return 'required'
+      }
+    }
   }
 }
