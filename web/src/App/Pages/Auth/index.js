@@ -44,7 +44,6 @@ export default class Auth extends React.Component {
 
   @autobind
   async onLogin() {
-    this.setState({loading: true})
     const {location} = this.props
     if (location.state && location.state.nextPathname) {
       this.props.history.replace(location.state.nextPathname)
