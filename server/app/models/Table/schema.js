@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty'
 import TableField from './TableField'
 
 export default {
@@ -23,11 +24,21 @@ export default {
   },
   allowsNoFilter: {
     type: Boolean,
-    defaultValue: true
+    defaultValue: true,
+    async custom(allowsNoFilter, {currentDoc}) {
+      if (!allowsNoFilter && isEmpty(currentDoc.filtersIds)) {
+        return 'needFilter'
+      }
+    }
   },
   filtersIds: {
     type: [String],
-    optional: true
+    optional: true,
+    async custom(filtersIds, {currentDoc}) {
+      if (isEmpty(filtersIds) && !currentDoc.allowsNoFilter) {
+        return 'needFilter'
+      }
+    }
   },
   fields: {
     label: 'Campos de tabla',
