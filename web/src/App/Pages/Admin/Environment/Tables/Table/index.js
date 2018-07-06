@@ -72,13 +72,15 @@ export default class Link extends React.Component {
   }
 
   getFilters() {
-    return this.props.filters.items.filter(filter => filter.collectionId)
+    return this.props.filters.items.filter(
+      filter => filter.collectionId === this.props.table.collectionId
+    )
   }
 
   @autobind
   removeTable() {
     const {environmentId} = this.props.match.params
-    this.props.showMessage('La tabla fueron guardados')
+    this.props.showMessage('La tabla fue eliminada')
     this.props.history.push(`/${environmentId}/tables`)
   }
 
