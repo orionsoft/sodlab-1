@@ -63,8 +63,8 @@ export default class Environment extends React.Component {
     return (
       <div className={styles.container}>
         <Layout>{this.renderSwitch()}</Layout>
+        <Watch environmentId={this.props.environment._id} />
         <Styles />
-        {/* <Watch environmentId={this.props.environment._id} /> */}
       </div>
     )
   }

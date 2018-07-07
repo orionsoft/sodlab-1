@@ -21,14 +21,17 @@ export default class List extends React.Component {
     canUpdate: PropTypes.bool,
     allowSearch: PropTypes.bool,
     params: PropTypes.object,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    setRef: PropTypes.func,
+    queryFunctionName: PropTypes.string
   }
 
   static defaultProps = {
     title: 'List',
     fields: [{title: 'ID', name: '_id'}],
     basePath: '',
-    params: {}
+    params: {},
+    setRef: () => {}
   }
 
   @autobind
@@ -61,7 +64,9 @@ export default class List extends React.Component {
           <WithParams name={this.props.name}>
             {({params}) => (
               <Paginated
+                ref={paginated => this.props.setRef(paginated)}
                 headTitle={this.props.title}
+                queryFunctionName={this.props.queryFunctionName}
                 queryName={this.props.name}
                 fields={this.props.fields}
                 onPress={this.onSelect}

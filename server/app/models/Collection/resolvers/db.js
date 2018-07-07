@@ -11,7 +11,8 @@ export default resolver({
     cache[collection._id] = new Collection({
       name: collection._id,
       model: Item,
-      indexes: []
+      indexes: [],
+      hooks: await collection.hooks()
     })
 
     return cache[collection._id]

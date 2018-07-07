@@ -11,6 +11,7 @@ import TableField from './Field'
 import FilterOptions from './FilterOptions'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
+import Watch from './Watch'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -18,6 +19,7 @@ import {clean, validate} from '@orion-js/schema'
       _id
       title
       collectionId
+      environmentId
       allowsNoFilter
       filters {
         _id
@@ -178,7 +180,9 @@ export default class Table extends React.Component {
     return (
       <PaginatedList
         title={null}
+        setRef={ref => (this.paginated = ref)}
         name="tableResult"
+        queryFunctionName={`paginated_${table.collectionId}`}
         canUpdate={false}
         params={{
           tableId: table._id,
@@ -202,6 +206,11 @@ export default class Table extends React.Component {
           {this.renderFilterOptions()}
         </div>
         {this.renderPaginated()}
+        <Watch
+          environmentId={table.environmentId}
+          parent={this}
+          collectionId={table.collectionId}
+        />
       </div>
     )
   }

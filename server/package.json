@@ -10,12 +10,12 @@
     "reinstall": "rm -rf node_modules/ && yarn"
   },
   "dependencies": {
-    "@orion-js/app": "^0.2.3",
-    "@orion-js/auth": "^0.2.3",
-    "@orion-js/file-manager": "^0.2.3",
-    "@orion-js/graphql": "^0.3.1",
-    "@orion-js/jobs": "^0.2.3",
-    "@orion-js/mailing": "^0.2.3",
+    "@orion-js/app": "^0.4.1",
+    "@orion-js/auth": "^0.4.1",
+    "@orion-js/file-manager": "^0.4.1",
+    "@orion-js/graphql": "^0.4.2",
+    "@orion-js/jobs": "^0.4.1",
+    "@orion-js/mailing": "^0.4.1",
     "@orion-js/schema": "^0.0.42",
     "aws-sdk": "^2.270.1",
     "babel-plugin-module-resolver": "^3.1.1",

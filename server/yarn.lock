@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@orion-js/app@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.2.3.tgz#751641c6fa1860a93d465b2ad8e9addbd9314b13"
+"@orion-js/app@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.4.1.tgz#984035793069d18de7449ef1b8ece76ff2d43e62"
   dependencies:
     "@orion-js/schema" "^0.0.42"
     babel-polyfill "^6.26.0"
@@ -15,43 +15,44 @@
     path-match "^1.2.4"
     path-to-regexp "^2.2.0"
 
-"@orion-js/auth@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.2.3.tgz#1fb708208eb130c291f5cbe69296fa57424819ff"
+"@orion-js/auth@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.4.1.tgz#046ef2957e1694a1639bdec3bec81a5c7e66fd89"
   dependencies:
     bcryptjs "^2.4.3"
     jssha "^2.3.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/file-manager@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.2.3.tgz#4dbf2101167dd83481afb99f3e3d845807ce3bd6"
+"@orion-js/file-manager@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.4.1.tgz#2742f656f1bdb31ef7b223fe4c5f885856f34a26"
   dependencies:
     aws-sdk "^2.258.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/graphql@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.3.1.tgz#ddd2f154ce87e4f218e96beb8c6e40ac4a099382"
+"@orion-js/graphql@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.4.2.tgz#b76ad9946db7e9fb1d55d8db098aef99efc3e893"
   dependencies:
     apollo-server-core "^1.3.6"
+    deep-sort-object "^1.0.2"
     graphql "^0.13.2"
     graphql-subscriptions "^0.5.8"
     lodash "^4.17.10"
     subscriptions-transport-ws "^0.9.12"
 
-"@orion-js/jobs@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.2.3.tgz#270fcf9db05356ed6f4849bca2625d8226556c37"
+"@orion-js/jobs@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.4.1.tgz#b0d843a9bf6172e1055007e1f41a76194c8ef4c1"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/mailing@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.2.3.tgz#8ce447e5c7fbeac5de9366b3c9025fa7fa26c2ae"
+"@orion-js/mailing@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.4.1.tgz#a82b2b59d4883b8048287c3e1a1206b100bb4b16"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
@@ -1044,6 +1045,12 @@ deep-is@0.1.x, deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
 
+deep-sort-object@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/deep-sort-object/-/deep-sort-object-1.0.2.tgz#3892dcef5dfd0efc2d6fa96beabccb33cd8ef91f"
+  dependencies:
+    is-plain-object "^2.0.1"
+
 define-properties@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.2.tgz#83a73f2fea569898fb737193c8f873caf6d45c94"
@@ -1824,6 +1831,12 @@ is-path-inside@^1.0.0:
   dependencies:
     path-is-inside "^1.0.1"
 
+is-plain-object@^2.0.1:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
+  dependencies:
+    isobject "^3.0.1"
+
 is-posix-bracket@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
@@ -1875,6 +1888,10 @@ isobject@^2.0.0:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-2.1.0.tgz#f065561096a3f1da2ef46272f815c840d87e0c89"
   dependencies:
     isarray "1.0.0"
+
+isobject@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
 isstream@~0.1.2:
   version "0.1.2"

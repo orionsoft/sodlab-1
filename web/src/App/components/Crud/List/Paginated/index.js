@@ -37,6 +37,7 @@ export default class Fetch extends React.Component {
      * Name of the query. Ex: backendEvents, producers
      */
     queryName: PropTypes.string.isRequired,
+    queryFunctionName: PropTypes.string,
     /**
      * Fields to display
      */
@@ -152,7 +153,9 @@ export default class Fetch extends React.Component {
   }
 
   getQuery(props) {
-    return `query paginated_${props.queryName} (${getArguments(props.params)}) {
+    return `query ${props.queryFunctionName || 'paginated_' + props.queryName} (${getArguments(
+      props.params
+    )}) {
       result: ${props.queryName} (
         ${getParams(props.params)}
       ) {

@@ -5,7 +5,7 @@ import moment from 'moment'
 
 export default class View extends React.Component {
   static propTypes = {
-    value: PropTypes.bool
+    value: PropTypes.any
   }
 
   render() {
