@@ -13,8 +13,11 @@ export default resolver({
   async resolve(filter, {filterOptions}, viewer) {
     const schema = await filter.schema({includeParameters: true})
 
-    const cleaned = await clean(schema, filterOptions || {})
-    await validate(schema, cleaned)
+    let cleaned = filterOptions
+    if (schema) {
+      cleaned = await clean(schema, filterOptions || {})
+      await validate(schema, cleaned)
+    }
 
     const promises = filter.conditions.map(async condition => {
       return await condition.createQuery({filterOptions: cleaned}, viewer)
