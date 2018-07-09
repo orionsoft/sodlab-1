@@ -16,8 +16,8 @@ export default class Checkbox extends React.Component {
   render() {
     const {onChange, value, trueLabel, falseLabel, label} = this.props
     const options = [
-      {value: 'true', label: trueLabel || label},
-      {value: 'false', label: falseLabel || `No ${label}`}
+      {value: true, label: trueLabel || label},
+      {value: false, label: falseLabel || `No ${label}`}
     ]
     return (
       <div className={styles.container}>

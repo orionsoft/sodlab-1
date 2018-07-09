@@ -11,5 +11,9 @@ export default {
   viewPath: {
     type: String,
     label: 'viewPath'
+  },
+  variableMap: {
+    type: 'blackbox',
+    optional: true
   }
 }
