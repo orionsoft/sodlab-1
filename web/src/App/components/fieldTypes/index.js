@@ -5,10 +5,14 @@ import boolean from './boolean'
 import date from './date'
 import datetime from './datetime'
 import hyperlink from './hyperlink'
+import rut from './rut'
+import phone from './phone'
 import email from './email'
 
 export default {
   email,
+  phone,
+  rut,
   hyperlink,
   string,
   checkbox,
