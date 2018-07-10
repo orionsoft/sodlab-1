@@ -19,7 +19,7 @@ export default class Watch extends React.Component {
     client: PropTypes.object,
     environmentId: PropTypes.string,
     parent: PropTypes.any,
-    collectionId: PropTypes.object
+    collectionId: PropTypes.string
   }
 
   @autobind
