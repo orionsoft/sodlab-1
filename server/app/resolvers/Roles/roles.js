@@ -1,9 +1,9 @@
-import {createPaginatedResolver} from '@orion-js/app'
+import {paginatedResolver} from '@orion-js/app'
 import escape from 'escape-string-regexp'
 import Role from 'app/models/Role'
 import Roles from 'app/collections/Roles'
 
-export default createPaginatedResolver({
+export default paginatedResolver({
   returns: Role,
   params: {
     filter: {

@@ -1,9 +1,9 @@
-import {createPaginatedResolver} from '@orion-js/app'
+import {paginatedResolver} from '@orion-js/app'
 import escape from 'escape-string-regexp'
 import Chart from 'app/models/Chart'
 import Charts from 'app/collections/Charts'
 
-export default createPaginatedResolver({
+export default paginatedResolver({
   returns: Chart,
   params: {
     filter: {

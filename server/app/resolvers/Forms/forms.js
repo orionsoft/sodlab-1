@@ -1,9 +1,9 @@
-import {createPaginatedResolver} from '@orion-js/app'
+import {paginatedResolver} from '@orion-js/app'
 import escape from 'escape-string-regexp'
 import Form from 'app/models/Form'
 import Forms from 'app/collections/Forms'
 
-export default createPaginatedResolver({
+export default paginatedResolver({
   returns: Form,
   params: {
     filter: {
