@@ -16,5 +16,9 @@ export default {
   notABoolean: ({label, value}) => `${label} no es un valor verdadero o falso`,
   notAnEmail: ({label, value}) => `${label} no es un email`,
   notUnique: ({label, value}) => `${label} no es único`,
-  notFound: ({label, value}) => `${label} no se encontró`
+  notFound: ({label, value}) => `${label} no se encontró`,
+  invalidNumber: ({label, value}) => `${label} es un número inválido`,
+  invalidRut: ({label, value}) => `${label} es un RUT inválido`,
+  invalidEmail: ({label, value}) => `${label} es un email inválido`,
+  invalidLink: ({label, value}) => `${label} es un link inválido`
 }

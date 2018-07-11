@@ -5,7 +5,7 @@ export default {
   optionsSchema: null,
   validate(value, options) {
     if (!/https?:.*/.test(value)) {
-      return 'invalid link'
+      return 'invalidLink'
     }
   }
 }

@@ -24,7 +24,7 @@ export default {
     var v = s > 0 ? '' + (s - 1) : 'K'
 
     if (v !== rut.slice(-1)) {
-      return 'invalid rut'
+      return 'invalidRut'
     }
   }
 }

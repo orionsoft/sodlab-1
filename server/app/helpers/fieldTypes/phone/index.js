@@ -5,9 +5,9 @@ export default {
   optionsSchema: {},
   validate(value, options) {
     let number = value.toString()
-    const re = /^\d{9}$/
+    const re = /^[+]*[(][0-9]{3}[)]\d{8}$/
     if (!re.test(number)) {
-      return 'invalid number'
+      return 'invalidNumber'
     }
   }
 }
