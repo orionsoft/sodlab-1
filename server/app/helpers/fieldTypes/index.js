@@ -7,6 +7,7 @@ import datetime from './datetime'
 import hyperlink from './hyperlink'
 import email from './email'
 import oneOf from './oneOf'
+import manyOf from './manyOf'
 
 export default {
   email,
@@ -17,5 +18,6 @@ export default {
   boolean,
   date,
   datetime,
-  oneOf
+  oneOf,
+  manyOf
 }

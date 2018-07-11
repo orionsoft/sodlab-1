@@ -10,6 +10,7 @@ import select from './select'
 import collectionSelect from './collectionSelect'
 import collectionFieldSelect from './collectionFieldSelect'
 import oneOf from './oneOf'
+import manyOf from './manyOf'
 
 export default {
   email,
@@ -23,5 +24,6 @@ export default {
   select,
   collectionSelect,
   collectionFieldSelect,
-  oneOf
+  oneOf,
+  manyOf
 }

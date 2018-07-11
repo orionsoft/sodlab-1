@@ -13,7 +13,7 @@ export default class Layout extends React.Component {
 
   render() {
     return (
-      <div className={styles.container} style={{minHeight: window.innerHeight}}>
+      <div className={styles.container}>
         <Menu links={links} environment={this.props.environment} />
         <div className={styles.content}>
           <Container>

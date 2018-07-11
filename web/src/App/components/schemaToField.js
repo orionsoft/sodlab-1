@@ -27,7 +27,10 @@ const arrayFieldMap = {}
 
 export default function(type, field) {
   if (field.fieldType) {
-    return fieldTypes[field.fieldType].field
+    const fieldTypeData = fieldTypes[field.fieldType]
+    if (fieldTypeData) {
+      return fieldTypes[field.fieldType].field
+    }
   }
   const fieldMap = isArray(type) ? arrayFieldMap : singleFieldMap
   let typeId = isArray(type) ? type[0] : type

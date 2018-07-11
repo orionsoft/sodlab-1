@@ -52,6 +52,9 @@ export default class Form extends React.Component {
   @autobind
   schemaToField(type, field) {
     if (!field.fieldType) return schemaToField(type, field)
+    if (!fieldTypes[field.fieldType]) {
+      throw new Error('Field type not found for ' + field.fieldType)
+    }
     return fieldTypes[field.fieldType].field
   }
 
