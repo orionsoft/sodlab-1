@@ -54,9 +54,7 @@ export default class Table extends React.Component {
   state = {filterId: null}
 
   @autobind
-  onSelect(item) {
-    console.log(item)
-  }
+  onSelect(item) {}
 
   componentDidMount() {
     this.setDefaultFilter()
@@ -116,6 +114,7 @@ export default class Table extends React.Component {
           setEnvironment={this.props.setEnvironment}
           doc={doc}
           field={field}
+          table={this.props.table}
           collectionField={collectionField}
         />
       )

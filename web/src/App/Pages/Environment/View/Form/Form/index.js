@@ -86,7 +86,12 @@ export default class Form extends React.Component {
           doc={{formId: this.props.form._id, data: this.getData() || {}, itemId: this.getItemId()}}
           onSuccess={this.onSuccess}>
           {({parent}) => (
-            <Fields schemaToField={this.schemaToField} parent={parent} params={params} />
+            <Fields
+              schemaToField={this.schemaToField}
+              parent={parent}
+              params={params}
+              passProps={{formId: this.props.form._id}}
+            />
           )}
         </AutoForm>
         <br />

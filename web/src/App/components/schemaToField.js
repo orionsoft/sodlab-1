@@ -7,6 +7,7 @@ import ObjectField from './fields/ObjectField'
 import isArray from 'lodash/isArray'
 import Blackbox from './fields/Blackbox'
 import FileManager from './fields/FileManager'
+import fieldTypes from './fieldTypes'
 
 const singleFieldMap = {
   email: Text,
@@ -25,6 +26,9 @@ const singleFieldMap = {
 const arrayFieldMap = {}
 
 export default function(type, field) {
+  if (field.fieldType) {
+    return fieldTypes[field.fieldType].field
+  }
   const fieldMap = isArray(type) ? arrayFieldMap : singleFieldMap
   let typeId = isArray(type) ? type[0] : type
   if (field.__graphQLType === 'FileInput') {

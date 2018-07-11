@@ -4,8 +4,10 @@ import table from './table'
 import tables from './tables'
 import tableResult from './tableResult'
 import removeTable from './removeTable'
+import tableRelationLabel from './tableRelationLabel'
 
 export default {
+  tableRelationLabel,
   tableResult,
   tables,
   table,
