@@ -17,7 +17,7 @@ export default {
   notAnEmail: ({label, value}) => `${label} is not an email`,
   notUnique: ({label, value}) => `${label} is not unique`,
   notFound: ({label, value}) => `${label} not found`,
-  invalidNumber: ({label, value}) => `${label} inv`,
+  invalidNumber: ({label, value}) => `${label} invalid phone number`,
   invalidRut: ({label, value}) => `${label} it's an invalid rut`,
   invalidEmail: ({label, value}) => `${label} it's an invalid email`,
   invalidLink: ({label, value}) => `${label} it's an invalid link`,
