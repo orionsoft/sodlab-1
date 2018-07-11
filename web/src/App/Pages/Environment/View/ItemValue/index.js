@@ -14,6 +14,8 @@ export default class ItemValue extends React.Component {
     const ViewComponent = fieldType.view
     if (!ViewComponent) return this.props.value || ''
 
-    return <ViewComponent value={this.props.value} options={this.props.field.options} />
+    return (
+      <ViewComponent {...this.props} value={this.props.value} options={this.props.field.options} />
+    )
   }
 }

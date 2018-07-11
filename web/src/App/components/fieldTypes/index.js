@@ -6,6 +6,11 @@ import date from './date'
 import datetime from './datetime'
 import hyperlink from './hyperlink'
 import email from './email'
+import select from './select'
+import collectionSelect from './collectionSelect'
+import collectionFieldSelect from './collectionFieldSelect'
+import oneOf from './oneOf'
+import manyOf from './manyOf'
 
 export default {
   email,
@@ -15,5 +20,10 @@ export default {
   number,
   boolean,
   date,
-  datetime
+  datetime,
+  select,
+  collectionSelect,
+  collectionFieldSelect,
+  oneOf,
+  manyOf
 }

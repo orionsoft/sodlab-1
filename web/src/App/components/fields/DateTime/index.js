@@ -6,7 +6,7 @@ import moment from 'moment'
 
 export default class DateTime extends React.Component {
   static propTypes = {
-    value: PropTypes.object,
+    value: PropTypes.any,
     onChange: PropTypes.func,
     errorMessage: PropTypes.string,
     format: PropTypes.string,

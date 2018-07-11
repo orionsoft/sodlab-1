@@ -52,6 +52,9 @@ export default class Form extends React.Component {
   @autobind
   schemaToField(type, field) {
     if (!field.fieldType) return schemaToField(type, field)
+    if (!fieldTypes[field.fieldType]) {
+      throw new Error('Field type not found for ' + field.fieldType)
+    }
     return fieldTypes[field.fieldType].field
   }
 
@@ -86,7 +89,12 @@ export default class Form extends React.Component {
           doc={{formId: this.props.form._id, data: this.getData() || {}, itemId: this.getItemId()}}
           onSuccess={this.onSuccess}>
           {({parent}) => (
-            <Fields schemaToField={this.schemaToField} parent={parent} params={params} />
+            <Fields
+              schemaToField={this.schemaToField}
+              parent={parent}
+              params={params}
+              passProps={{formId: this.props.form._id}}
+            />
           )}
         </AutoForm>
         <br />

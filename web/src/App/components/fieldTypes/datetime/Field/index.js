@@ -7,6 +7,6 @@ export default class CustomDateTime extends React.Component {
   }
 
   render() {
-    return <DateTime {...this.props} format="DD/MM/YYYY HH:mm" enableTime={true} />
+    return <DateTime {...this.props} format="DD/MM/YYYY HH:mm" enableTime />
   }
 }
