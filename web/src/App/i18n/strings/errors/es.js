@@ -20,5 +20,6 @@ export default {
   invalidNumber: ({label, value}) => `${label} es un número inválido`,
   invalidRut: ({label, value}) => `${label} es un RUT inválido`,
   invalidEmail: ({label, value}) => `${label} es un email inválido`,
-  invalidLink: ({label, value}) => `${label} es un link inválido`
+  invalidLink: ({label, value}) => `${label} es un link inválido`,
+  invalidPercentage: ({label, value}) => `${label} es un porcentaje inválido`
 }

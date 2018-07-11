@@ -8,8 +8,10 @@ import hyperlink from './hyperlink'
 import rut from './rut'
 import phone from './phone'
 import email from './email'
+import percentage from './percentage'
 
 export default {
+  percentage,
   email,
   phone,
   rut,
