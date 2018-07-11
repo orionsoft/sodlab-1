@@ -1,5 +1,5 @@
 import {resolver} from '@orion-js/app'
-import Field from 'app/models/Collection/Field'
+import Field from 'app/models/Field'
 import Collections from 'app/collections/Collections'
 import Collection from 'app/models/Collection'
 
