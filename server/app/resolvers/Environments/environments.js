@@ -1,9 +1,9 @@
-import {createPaginatedResolver} from '@orion-js/app'
+import {paginatedResolver} from '@orion-js/app'
 import Environment from 'app/models/Environment'
 import Environments from 'app/collections/Environments'
 import escape from 'escape-string-regexp'
 
-export default createPaginatedResolver({
+export default paginatedResolver({
   returns: Environment,
   params: {
     filter: {

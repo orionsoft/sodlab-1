@@ -1,6 +1,7 @@
 :local(.container) {
   flex: 1;
   display: flex;
+  min-height: 100vh;
 }
 
 :local(.content) {

@@ -8,6 +8,11 @@ import hyperlink from './hyperlink'
 import rut from './rut'
 import phone from './phone'
 import email from './email'
+import select from './select'
+import collectionSelect from './collectionSelect'
+import collectionFieldSelect from './collectionFieldSelect'
+import oneOf from './oneOf'
+import manyOf from './manyOf'
 import percentage from './percentage'
 import currency from './currency'
 
@@ -23,5 +28,10 @@ export default {
   number,
   boolean,
   date,
-  datetime
+  datetime,
+  select,
+  collectionSelect,
+  collectionFieldSelect,
+  oneOf,
+  manyOf
 }

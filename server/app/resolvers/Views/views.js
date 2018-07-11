@@ -1,9 +1,9 @@
-import {createPaginatedResolver} from '@orion-js/app'
+import {paginatedResolver} from '@orion-js/app'
 import escape from 'escape-string-regexp'
 import View from 'app/models/View'
 import Views from 'app/collections/Views'
 
-export default createPaginatedResolver({
+export default paginatedResolver({
   returns: View,
   params: {
     filter: {

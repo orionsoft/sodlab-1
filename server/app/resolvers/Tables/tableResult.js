@@ -1,9 +1,9 @@
-import {createPaginatedResolver} from '@orion-js/app'
+import {paginatedResolver} from '@orion-js/app'
 import Item from 'app/models/Item'
 import Tables from 'app/collections/Tables'
 import Filters from 'app/collections/Filters'
 
-export default createPaginatedResolver({
+export default paginatedResolver({
   returns: Item,
   params: {
     tableId: {

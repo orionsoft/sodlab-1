@@ -13,12 +13,20 @@ export default class Field extends React.Component {
     collectionField: PropTypes.object,
     doc: PropTypes.object,
     setEnvironment: PropTypes.func,
-    state: PropTypes.object
+    state: PropTypes.object,
+    table: PropTypes.object
   }
 
   renderTypeField() {
     const {doc, field, collectionField} = this.props
-    return <ItemValue value={doc.data[field.fieldName]} field={collectionField} />
+    return (
+      <ItemValue
+        value={doc.data[field.fieldName]}
+        field={collectionField}
+        tableField={field}
+        table={this.props.table}
+      />
+    )
   }
 
   renderTypeSelectIconButton() {

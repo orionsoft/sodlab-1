@@ -1,9 +1,9 @@
-import {createPaginatedResolver} from '@orion-js/app'
+import {paginatedResolver} from '@orion-js/app'
 import escape from 'escape-string-regexp'
 import Hook from 'app/models/Hook'
 import Hooks from 'app/collections/Hooks'
 
-export default createPaginatedResolver({
+export default paginatedResolver({
   returns: Hook,
   params: {
     filter: {
