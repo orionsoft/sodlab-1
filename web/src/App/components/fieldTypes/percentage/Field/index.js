@@ -1,7 +1,7 @@
 import React from 'react'
 import Percentage from 'App/components/fields/Percentage'
 
-export default class CustomPhoneNumber extends React.Component {
+export default class CustomPercentage extends React.Component {
   static propTypes = {
     ...Percentage.propTypes
   }

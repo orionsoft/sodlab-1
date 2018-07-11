@@ -9,8 +9,10 @@ import rut from './rut'
 import phone from './phone'
 import email from './email'
 import percentage from './percentage'
+import currency from './currency'
 
 export default {
+  currency,
   percentage,
   email,
   phone,

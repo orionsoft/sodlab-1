@@ -8,15 +8,6 @@ if (!numeral) {
   throw new Error('Numeral is required in global variable')
 }
 
-const propTypes = {
-  /**
-   * True to save values in numbers from 0 to 100
-   */
-  fullNumber: PropTypes.bool
-}
-
-const defaultProps = {}
-
 export default class PercentageComponent extends React.Component {
   static propTypes = {
     onChange: PropTypes.func,
@@ -28,17 +19,22 @@ export default class PercentageComponent extends React.Component {
     passProps: PropTypes.object
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: this.formatValue(props.value)
+  state = {value: ''}
+
+  componentDidMount() {
+    if (this.props.value) {
+      this.setState({
+        value: this.formatValue(this.props.value)
+      })
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      value: this.formatValue(nextProps.value)
-    })
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.value) {
+      this.setState({
+        value: this.formatValue(nextProps.value)
+      })
+    }
   }
 
   unformatValue(label) {
@@ -83,6 +79,3 @@ export default class PercentageComponent extends React.Component {
     )
   }
 }
-
-PercentageComponent.propTypes = propTypes
-PercentageComponent.defaultProps = defaultProps

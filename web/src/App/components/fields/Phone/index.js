@@ -14,8 +14,9 @@ export default class Phone extends React.Component {
   }
 
   getElementValidation(element) {
+    if (element === ')') return true
     const newElement = numeral._.stringToNumber(element)
-    if (newElement) return newElement
+    if (newElement || newElement === 0) return true
     return false
   }
 
