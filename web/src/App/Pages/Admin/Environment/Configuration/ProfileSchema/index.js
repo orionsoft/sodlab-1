@@ -29,7 +29,7 @@ import FieldTypeOptions from 'App/components/FieldTypeOptions'
     }
   }
 `)
-export default class Profiles extends React.Component {
+export default class ProfileSchema extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
     environment: PropTypes.object,
@@ -96,7 +96,7 @@ export default class Profiles extends React.Component {
           <AutoForm
             mutation="setEnvironmentProfileSchema"
             ref="form"
-            fragment={Profiles.fragment}
+            fragment={ProfileSchema.fragment}
             onSuccess={this.onSuccess}
             onChange={this.onChange}
             getErrorFieldLabel={this.getErrorFieldLabel}
