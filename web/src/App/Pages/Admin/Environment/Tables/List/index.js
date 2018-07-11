@@ -34,6 +34,7 @@ export default class List extends React.Component {
           params={{environmentId}}
           fields={this.getFields()}
           allowSearch
+          extraFields={['collection._id']}
           basePath={`/${environmentId}/tables`}
         />
       </div>

@@ -29,6 +29,7 @@ export default class List extends React.Component {
           canUpdate
           fields={this.getFields()}
           allowSearch
+          extraFields={['collection._id']}
           basePath={`/${environmentId}/filters`}
         />
       </div>

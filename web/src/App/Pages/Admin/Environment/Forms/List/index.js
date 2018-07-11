@@ -18,7 +18,6 @@ export default class List extends React.Component {
       create: 'Crear',
       update: 'Editar'
     }
-    console.log(type)
     return typeLabels[type]
   }
 
@@ -46,6 +45,7 @@ export default class List extends React.Component {
           params={{environmentId}}
           fields={this.getFields()}
           allowSearch
+          extraFields={['collection._id']}
           basePath={`/${environmentId}/forms`}
         />
       </div>

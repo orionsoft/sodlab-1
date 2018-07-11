@@ -23,7 +23,8 @@ export default class List extends React.Component {
     params: PropTypes.object,
     onSelect: PropTypes.func,
     setRef: PropTypes.func,
-    queryFunctionName: PropTypes.string
+    queryFunctionName: PropTypes.string,
+    extraFields: PropTypes.object
   }
 
   static defaultProps = {
@@ -74,6 +75,7 @@ export default class List extends React.Component {
                 variables={this.props.params}
                 headCenterComponent={this.renderCenter}
                 headRightComponent={this.props.allowSearch ? undefined : () => <span />}
+                extraFields={this.props.extraFields}
               />
             )}
           </WithParams>

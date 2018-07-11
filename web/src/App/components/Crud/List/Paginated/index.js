@@ -1,15 +1,14 @@
 import React from 'react'
 import Data from './Data'
-import {graphql} from 'react-apollo'
 import gql from 'graphql-tag'
 import getQueryFields from './getQueryFields'
 import {getArguments, getParams} from './getParams'
 import Head from './Head'
 import autobind from 'autobind-decorator'
-import debounce from './debounce'
 import isEqual from 'lodash/isEqual'
 import PropTypes from 'prop-types'
 import LoadingIndicator from './LoadingIndicator'
+import {Query} from 'react-apollo'
 
 export default class Fetch extends React.Component {
   static propTypes = {
@@ -116,7 +115,6 @@ export default class Fetch extends React.Component {
       limit: this.props.defaultLimit,
       variables: {}
     }
-    this.createChild(props)
   }
 
   // public reload function
@@ -125,31 +123,11 @@ export default class Fetch extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const newQuery = this.getQuery(nextProps)
-    const currentQuery = this.getQuery(this.props)
-    if (newQuery !== currentQuery) {
-      this.createChild(nextProps)
-    }
-
     const newVariables = this.getVariables(nextProps)
     const currentVariables = this.getVariables(this.props)
     if (!isEqual(newVariables, currentVariables) && this.state.page !== 1) {
       this.setState({page: 1})
     }
-  }
-
-  createChild(props) {
-    const queryContainer = graphql(gql([this.getQuery(props)]), {
-      options: ({variables}) => {
-        return {
-          variables,
-          fetchPolicy: 'network-only',
-          pollInterval: this.props.pollInterval ? this.props.pollInterval : null
-        }
-      }
-    })
-    const child = queryContainer(Data)
-    this.Child = debounce(child)
   }
 
   getQuery(props) {
@@ -220,21 +198,29 @@ export default class Fetch extends React.Component {
           variables={variables}
           setVariable={this.setVariable}
         />
-        <this.Child
-          ref="child"
-          selectedItemId={this.props.selectedItemId}
+        <Query
+          fetchPolicy="network-only"
+          query={gql([this.getQuery(this.props)])}
           variables={variables}
-          onPress={this.props.onPress}
-          fields={this.props.fields}
-          sortBy={variables.sortBy}
-          sortType={variables.sortType}
-          setSort={this.setSort}
-          page={variables.page}
-          setPage={page => this.setState({page})}
-          limit={variables.limit}
-          setLimit={limit => this.setState({limit})}
-          loadingComponent={this.props.loadingComponent}
-        />
+          pollInterval={this.props.pollInterval}>
+          {data => (
+            <Data
+              ref="child"
+              data={data}
+              selectedItemId={this.props.selectedItemId}
+              onPress={this.props.onPress}
+              fields={this.props.fields}
+              sortBy={variables.sortBy}
+              sortType={variables.sortType}
+              setSort={this.setSort}
+              page={variables.page}
+              setPage={page => this.setState({page})}
+              limit={variables.limit}
+              setLimit={limit => this.setState({limit})}
+              loadingComponent={this.props.loadingComponent}
+            />
+          )}
+        </Query>
       </div>
     )
   }

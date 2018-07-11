@@ -27,13 +27,11 @@ export default class Data extends React.Component {
   }
 
   renderError() {
-    let message = 'Error'
-    if (
-      this.props.data.error &&
-      this.props.data.error.graphQLErrors &&
-      this.props.data.error.graphQLErrors[0]
-    ) {
-      message = this.props.data.error.graphQLErrors[0].message
+    const error = this.props.data.error
+    if (!error) console.log(error)
+    let message = error.message
+    if (error && error.graphQLErrors && error.graphQLErrors[0]) {
+      message = error.graphQLErrors[0].message
     }
     return <Message message={message} />
   }
@@ -41,7 +39,7 @@ export default class Data extends React.Component {
   renderTable() {
     if (this.props.debouncing) return this.renderLoading()
     if (this.props.data.loading) return this.renderLoading()
-    if (!this.props.data.result.items || this.props.data.result.items.length === 0) {
+    if (!this.props.data.data.result.items || this.props.data.data.result.items.length === 0) {
       return this.renderNotFound()
     }
     return (
@@ -52,7 +50,7 @@ export default class Data extends React.Component {
           setSort={this.props.setSort}
           onSelect={this.props.onPress}
           selectedItemId={this.props.selectedItemId}
-          items={this.props.data.result.items}
+          items={this.props.data.data.result.items}
           fields={this.props.fields}
         />
       </div>
@@ -60,20 +58,21 @@ export default class Data extends React.Component {
   }
 
   render() {
-    if (!this.props.data.result) {
+    if (this.props.data.error) {
+      return this.renderError()
+    } else if (!this.props.data.data.result) {
       if (
         (this.props.data.networkStatus === 1 && Object.keys(this.props.data).length === 10) ||
         this.props.data.networkStatus === 2
       ) {
         return this.renderLoading()
-      } else {
-        return this.renderError()
       }
+      return ''
     }
     return (
       <div className="paginated-container box">
         {this.renderTable()}
-        <Pagination {...this.props} result={this.props.data.result} />
+        <Pagination {...this.props} result={this.props.data.data.result} />
       </div>
     )
   }
