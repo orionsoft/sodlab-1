@@ -13,12 +13,10 @@ import collectionSelect from './collectionSelect'
 import collectionFieldSelect from './collectionFieldSelect'
 import oneOf from './oneOf'
 import manyOf from './manyOf'
-import percentage from './percentage'
 import currency from './currency'
 
 export default {
   currency,
-  percentage,
   email,
   phone,
   rut,

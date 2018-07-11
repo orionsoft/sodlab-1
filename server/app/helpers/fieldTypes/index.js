@@ -10,12 +10,10 @@ import phone from './phone'
 import email from './email'
 import oneOf from './oneOf'
 import manyOf from './manyOf'
-import percentage from './percentage'
 import currency from './currency'
 
 export default {
   currency,
-  percentage,
   email,
   phone,
   rut,
