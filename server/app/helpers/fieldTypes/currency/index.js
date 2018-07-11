@@ -1,5 +1,5 @@
 export default {
-  name: 'Currency',
+  name: 'Moneda',
   rootType: Number,
   allowedOperatorsIds: ['exists'],
   optionsSchema: {},

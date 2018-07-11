@@ -1,5 +1,5 @@
 export default {
-  name: 'Phone',
+  name: 'Teléfono',
   rootType: String,
   allowedOperatorsIds: ['exists'],
   optionsSchema: {},

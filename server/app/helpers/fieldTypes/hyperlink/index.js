@@ -1,5 +1,5 @@
 export default {
-  name: 'Hyperlink',
+  name: 'Hipervínculo',
   rootType: String,
   allowedOperatorsIds: ['exists'],
   optionsSchema: null,
