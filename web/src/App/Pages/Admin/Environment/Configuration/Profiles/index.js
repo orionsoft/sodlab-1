@@ -90,7 +90,7 @@ export default class Profiles extends React.Component {
       <div className={styles.container}>
         <Section
           top
-          title="Campos"
+          title="Perfil"
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
         ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
