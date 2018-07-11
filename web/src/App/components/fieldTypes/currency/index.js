@@ -1,7 +1,7 @@
-import Field from './Field'
+import Currency from 'App/components/fields/Currency'
 import View from './View'
 
 export default {
-  field: Field,
+  field: Currency,
   view: View
 }

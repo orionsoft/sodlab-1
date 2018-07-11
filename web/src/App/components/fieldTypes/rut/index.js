@@ -1,5 +1,5 @@
-import Field from './Field'
+import Rut from 'App/components/fields/Rut'
 
 export default {
-  field: Field
+  field: Rut
 }
