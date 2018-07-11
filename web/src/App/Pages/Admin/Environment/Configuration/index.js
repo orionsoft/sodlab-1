@@ -8,6 +8,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
+import ProfileSchema from './ProfileSchema'
 
 @withMessage
 @withGraphQL(gql`
@@ -23,8 +24,10 @@ import gql from 'graphql-tag'
         _id
       }
       fontName
+      ...adminEnvironmentProfilesUpdateFragment
     }
   }
+  ${ProfileSchema.fragment}
 `)
 export default class Configuration extends React.Component {
   static propTypes = {
@@ -52,6 +55,7 @@ export default class Configuration extends React.Component {
             Guardar
           </Button>
         </Section>
+        <ProfileSchema environment={this.props.environment} />
       </div>
     )
   }

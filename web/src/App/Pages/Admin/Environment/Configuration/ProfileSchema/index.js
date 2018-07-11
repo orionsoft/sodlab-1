@@ -1,19 +1,19 @@
 import React from 'react'
 import styles from './styles.css'
 import Section from 'App/components/Section'
-import Button from 'orionsoft-parts/lib/components/Button'
 import AutoForm from 'App/components/AutoForm'
-import gql from 'graphql-tag'
-import PropTypes from 'prop-types'
-import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
-import clone from 'lodash/clone'
-import autobind from 'autobind-decorator'
-import {withRouter} from 'react-router'
-import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
-import Text from 'orionsoft-parts/lib/components/fields/Text'
-import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Button from 'orionsoft-parts/lib/components/Button'
 import {Field} from 'simple-react-form'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
+import gql from 'graphql-tag'
+import PropTypes from 'prop-types'
+import clone from 'lodash/clone'
+import {withRouter} from 'react-router'
+import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
+import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Text from 'orionsoft-parts/lib/components/fields/Text'
+import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
+import autobind from 'autobind-decorator'
 import FieldTypeOptions from 'App/components/FieldTypeOptions'
 
 @withRouter
@@ -29,19 +29,18 @@ import FieldTypeOptions from 'App/components/FieldTypeOptions'
     }
   }
 `)
-export default class Fields extends React.Component {
+export default class ProfileSchema extends React.Component {
   static propTypes = {
-    history: PropTypes.object,
     showMessage: PropTypes.func,
-    collection: PropTypes.object,
-    params: PropTypes.object,
+    environment: PropTypes.object,
+    history: PropTypes.object,
     fieldTypes: PropTypes.object
   }
 
   static fragment = gql`
-    fragment adminCollectionFieldsUpdateFragment on Collection {
+    fragment adminEnvironmentProfilesUpdateFragment on Environment {
       _id
-      fields {
+      profileSchema {
         name
         type
         label
@@ -49,12 +48,9 @@ export default class Fields extends React.Component {
       }
     }
   `
-
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.params
     this.props.showMessage('Los campos fueron guardados')
-    this.props.history.push(`/${environmentId}/collections`)
   }
 
   getErrorFieldLabel() {
@@ -94,28 +90,26 @@ export default class Fields extends React.Component {
       <div className={styles.container}>
         <Section
           top
-          title="Campos"
+          title="Perfil"
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
-          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
+        ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
-            mutation="setCollectionFields"
+            mutation="setEnvironmentProfileSchema"
             ref="form"
-            fragment={Fields.fragment}
+            fragment={ProfileSchema.fragment}
             onSuccess={this.onSuccess}
             onChange={this.onChange}
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
-              collectionId: this.props.collection._id,
-              fields: clone(this.props.collection.fields)
+              environmentId: this.props.environment._id,
+              profileSchema: clone(this.props.environment.profileSchema)
             }}>
-            <Field fieldName="fields" type={ArrayComponent} renderItem={this.renderItems} />
+            <Field fieldName="profileSchema" type={ArrayComponent} renderItem={this.renderItems} />
           </AutoForm>
           <br />
-          <div style={{textAlign: 'right'}}>
-            <Button onClick={() => this.refs.form.submit()} primary>
-              Guardar
-            </Button>
-          </div>
+          <Button onClick={() => this.refs.form.submit()} primary>
+            Guardar
+          </Button>
         </Section>
       </div>
     )

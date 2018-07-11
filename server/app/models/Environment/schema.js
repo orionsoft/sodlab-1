@@ -1,4 +1,5 @@
 import {File} from '@orion-js/file-manager'
+import Field from 'app/models/Field'
 
 export default {
   _id: {
@@ -20,6 +21,7 @@ export default {
     label: 'URL para acceder al ambiente',
     description: 'No incluir ni http',
     custom(url) {
+      if (!url) return
       // es tipo localhost:3010
       if (url.includes(':30')) {
       } else if (/https?:.*/.test(url)) {
@@ -46,5 +48,9 @@ export default {
     optional: true,
     label: 'Tipografía',
     allowedValues: ['Roboto', 'Open Sans', 'Lato']
+  },
+  profileSchema: {
+    type: [Field],
+    optional: true
   }
 }

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import includes from 'lodash/includes'
 import fieldTypes from 'App/components/fieldTypes'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
-import FieldTypeOptions from 'App/Pages/Admin/Environment/Collections/Collection/Fields/FieldTypeOptions'
+import FieldTypeOptions from 'App/components/FieldTypeOptions'
 
 export default class Item extends React.Component {
   static propTypes = {

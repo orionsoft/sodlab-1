@@ -1,4 +1,4 @@
-import Field from './Field'
+import Field from 'app/models/Field'
 
 export default {
   _id: {
