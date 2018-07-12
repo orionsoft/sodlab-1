@@ -33,7 +33,7 @@ export default class Rut extends React.Component {
             maxLength="12"
             type="text"
             className="os-input-text"
-            value={this.props.value}
+            value={this.props.value || ''}
             onChange={event => this.onInputChange(event.target.value)}
           />
         </div>

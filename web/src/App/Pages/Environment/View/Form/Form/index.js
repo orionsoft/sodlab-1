@@ -10,6 +10,7 @@ import autobind from 'autobind-decorator'
 import schemaToField from 'App/components/schemaToField'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
+import translate from 'App/i18n/translate'
 
 @withGraphQL(gql`
   query getFormItem($formId: ID, $itemId: ID) {
@@ -85,7 +86,7 @@ export default class Form extends React.Component {
           mutation="submitForm"
           ref="form"
           only="data"
-          getErrorFieldLabel={() => 'Este campo'}
+          getErrorFieldLabel={() => translate('general.thisField')}
           doc={{formId: this.props.form._id, data: this.getData() || {}, itemId: this.getItemId()}}
           onSuccess={this.onSuccess}>
           {({parent}) => (

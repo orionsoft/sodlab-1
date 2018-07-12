@@ -16,10 +16,10 @@ export default {
   notABoolean: ({label, value}) => `${label} is not a boolean`,
   notAnEmail: ({label, value}) => `${label} is not an email`,
   notUnique: ({label, value}) => `${label} is not unique`,
-  notFound: ({label, value}) => `${label} not found`,
-  invalidNumber: ({label, value}) => `${label} invalid phone number`,
-  invalidRut: ({label, value}) => `${label} it's an invalid rut`,
-  invalidEmail: ({label, value}) => `${label} it's an invalid email`,
-  invalidLink: ({label, value}) => `${label} it's an invalid link`,
-  invalidPercentage: ({label, value}) => `${label} it's an invalid percentage`
+  notFound: ({label, value}) => `${label} is not found`,
+  invalidNumber: ({label, value}) => `${label} is invalid phone number`,
+  invalidRut: ({label, value}) => `${label} is an invalid rut`,
+  invalidEmail: ({label, value}) => `${label} is an invalid email`,
+  invalidLink: ({label, value}) => `${label} is an invalid link`,
+  invalidPercentage: ({label, value}) => `${label} is an invalid percentage`
 }
