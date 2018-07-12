@@ -4,7 +4,8 @@
 }
 
 .paginated-container,
-.paginated-table-items {
+.paginated-table-items,
+.paginated-error {
   min-height: 446px;
   box-sizing: border-box;
   flex: 1;
