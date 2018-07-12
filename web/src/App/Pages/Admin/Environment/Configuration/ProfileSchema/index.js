@@ -15,6 +15,7 @@ import Text from 'orionsoft-parts/lib/components/fields/Text'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import autobind from 'autobind-decorator'
 import FieldTypeOptions from 'App/components/FieldTypeOptions'
+import translate from 'App/i18n/translate'
 
 @withRouter
 @withMessage
@@ -54,7 +55,7 @@ export default class ProfileSchema extends React.Component {
   }
 
   getErrorFieldLabel() {
-    return 'Este campo'
+    return translate('general.thisField')
   }
 
   @autobind
