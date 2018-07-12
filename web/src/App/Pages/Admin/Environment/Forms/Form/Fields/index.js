@@ -23,6 +23,7 @@ export default class Fields extends React.Component {
   @autobind
   onSuccess() {
     this.props.showMessage('Los campos se guardaron correctamente')
+    this.setState({reseted: null})
   }
 
   @autobind
