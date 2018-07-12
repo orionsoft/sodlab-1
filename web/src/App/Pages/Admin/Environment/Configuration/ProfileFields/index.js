@@ -41,7 +41,7 @@ export default class ProfileSchema extends React.Component {
   static fragment = gql`
     fragment adminEnvironmentProfilesUpdateFragment on Environment {
       _id
-      profileSchema {
+      profileFields {
         name
         type
         label
@@ -58,6 +58,10 @@ export default class ProfileSchema extends React.Component {
     return translate('general.thisField')
   }
 
+  getFieldTypes() {
+    return clone(this.props.fieldTypes).sort((a, b) => (a.label > b.label ? 1 : -1))
+  }
+
   @autobind
   renderItems(field) {
     return (
@@ -72,7 +76,7 @@ export default class ProfileSchema extends React.Component {
         </div>
         <div className="col-xs-12 col-md-4">
           <div className="label">Tipo</div>
-          <Field fieldName="type" type={Select} options={this.props.fieldTypes} />
+          <Field fieldName="type" type={Select} options={this.getFieldTypes()} />
         </div>
         <div className="col-xs-12">
           {field.type ? (
@@ -103,9 +107,9 @@ export default class ProfileSchema extends React.Component {
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
               environmentId: this.props.environment._id,
-              profileSchema: clone(this.props.environment.profileSchema)
+              profileFields: clone(this.props.environment.profileFields)
             }}>
-            <Field fieldName="profileSchema" type={ArrayComponent} renderItem={this.renderItems} />
+            <Field fieldName="profileFields" type={ArrayComponent} renderItem={this.renderItems} />
           </AutoForm>
           <br />
           <Button onClick={() => this.refs.form.submit()} primary>

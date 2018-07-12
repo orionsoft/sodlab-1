@@ -13,10 +13,11 @@ import Charts from './Charts'
 import Filters from './Filters'
 import Hooks from './Hooks'
 import Info from './Info'
+import EnvironmentUsers from './EnvironmentUsers'
 import Kpis from './Kpis'
 
 export default {
-  ...Kpis,
+  ...EnvironmentUsers,
   ...Hooks,
   ...Filters,
   ...Charts,
@@ -31,5 +32,6 @@ export default {
   ...resolversSchemas,
   ...Auth,
   ...Users,
-  ...Roles
+  ...Roles,
+  ...Kpis
 }

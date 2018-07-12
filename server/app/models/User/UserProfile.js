@@ -5,6 +5,7 @@ export default new Model({
   schema: {
     firstName: {
       type: String,
+      optional: true,
       min: 2,
       label: {
         en: 'First name',
@@ -13,6 +14,7 @@ export default new Model({
     },
     lastName: {
       type: String,
+      optional: true,
       min: 2,
       label: {
         en: 'Last name',

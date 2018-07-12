@@ -8,16 +8,16 @@ export default resolver({
     environmentId: {
       type: 'ID'
     },
-    profileSchema: {
+    profileFields: {
       type: [Field]
     }
   },
   returns: Environment,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, profileSchema}, viewer) {
+  async resolve({environmentId, profileFields}, viewer) {
     const environment = await Environments.findOne(environmentId)
-    await environment.update({$set: {profileSchema}})
+    await environment.update({$set: {profileFields}})
     return environment
   }
 })
