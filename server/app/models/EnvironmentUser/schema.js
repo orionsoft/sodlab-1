@@ -8,6 +8,9 @@ export default {
   environmentId: {
     type: 'ID'
   },
+  email: {
+    type: String
+  },
   profile: {
     type: 'blackbox',
     optional: true

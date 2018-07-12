@@ -1,5 +1,1 @@
-import email from './email'
-
-export default {
-  email
-}
+export default {}

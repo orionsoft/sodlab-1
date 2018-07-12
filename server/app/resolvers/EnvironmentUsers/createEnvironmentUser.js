@@ -35,6 +35,7 @@ export default resolver({
     const environmentUserId = await EnvironmentUsers.insert({
       userId,
       environmentId,
+      lowerCaseEmail,
       createdAt: new Date()
     })
     return await EnvironmentUsers.findOne(environmentUserId)

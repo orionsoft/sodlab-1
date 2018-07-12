@@ -9,5 +9,5 @@ export default {
   setEnvironmentUserProfile,
   environmentUser,
   environmentUsers,
-  createEnvironmentUser,
+  createEnvironmentUser
 }
