@@ -56,12 +56,18 @@ export default class Field extends React.Component {
     return <IconButton onPress={onClick} icon={icon} tooltip={field.options.tooltip} size={18} />
   }
 
+  renderDeleteDocumentByUser() {
+    console.log(this.props.doc)
+    return 'holi'
+  }
+
   render() {
     const {field} = this.props
     if (!field.type) return null
     if (field.type === 'field') return this.renderTypeField()
     if (field.type === 'selectIconButton') return this.renderTypeSelectIconButton()
     if (field.type === 'routeIconButton') return this.renderTypeRouteIconButton()
+    if (field.type === 'deleteRowByUser') return this.renderDeleteDocumentByUser()
 
     return 'undefined type ' + field.type
   }
