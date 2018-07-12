@@ -58,6 +58,10 @@ export default class ProfileSchema extends React.Component {
     return translate('general.thisField')
   }
 
+  getFieldTypes() {
+    return clone(this.props.fieldTypes).sort((a, b) => (a.label > b.label ? 1 : -1))
+  }
+
   @autobind
   renderItems(field) {
     return (
@@ -72,7 +76,7 @@ export default class ProfileSchema extends React.Component {
         </div>
         <div className="col-xs-12 col-md-4">
           <div className="label">Tipo</div>
-          <Field fieldName="type" type={Select} options={this.props.fieldTypes} />
+          <Field fieldName="type" type={Select} options={this.getFieldTypes()} />
         </div>
         <div className="col-xs-12">
           {field.type ? (
