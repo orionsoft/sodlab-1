@@ -7,7 +7,7 @@ export default resolver({
     const collection = await form.collection()
     const schema = {}
 
-    for (const field of form.fields) {
+    for (const field of form.fields || []) {
       const collectionField = await collection.field({name: field.fieldName})
       if (!collectionField) continue
       schema[field.fieldName] = await field.schema({collectionField})
