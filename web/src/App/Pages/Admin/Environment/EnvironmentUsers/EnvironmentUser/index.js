@@ -31,6 +31,7 @@ import translate from 'App/i18n/translate'
 @withMessage
 export default class EnvironmentUser extends React.Component {
   static propTypes = {
+    router: PropTypes.object,
     showMessage: PropTypes.func,
     history: PropTypes.object,
     environmentUser: PropTypes.object,
@@ -96,7 +97,7 @@ export default class EnvironmentUser extends React.Component {
           <div className={styles.buttonContainer}>
             <div>
               <Button
-                to={`/${this.props.environmentUser.environmentId}/users`}
+                to={`/${this.props.match.params.environmentId}/users`}
                 style={{marginRight: 10}}>
                 Cancelar
               </Button>
