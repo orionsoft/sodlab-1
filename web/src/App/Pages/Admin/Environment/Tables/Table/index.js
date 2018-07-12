@@ -110,7 +110,8 @@ export default class Link extends React.Component {
     const typeOptions = [
       {value: 'field', label: 'Campo'},
       {value: 'selectIconButton', label: 'Seleccionar variable'},
-      {value: 'routeIconButton', label: 'Ir a una ruta'}
+      {value: 'routeIconButton', label: 'Ir a una ruta'},
+      {value: 'deleteRowByUser', label: 'Eliminar documento'}
     ]
     return (
       <Field fieldName="fields" type={ArrayComponent}>
