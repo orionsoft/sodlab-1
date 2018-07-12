@@ -5,7 +5,7 @@ export default {
   optionsSchema: {},
   validate(value, options) {
     if (!/\S+@\S+\.\S+/.test(value)) {
-      return 'invalid email'
+      return 'invalidEmail'
     }
   }
 }

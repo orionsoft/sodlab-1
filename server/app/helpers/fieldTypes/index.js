@@ -5,12 +5,18 @@ import boolean from './boolean'
 import date from './date'
 import datetime from './datetime'
 import hyperlink from './hyperlink'
+import rut from './rut'
+import phone from './phone'
 import email from './email'
 import oneOf from './oneOf'
 import manyOf from './manyOf'
+import currency from './currency'
 
 export default {
+  currency,
   email,
+  phone,
+  rut,
   hyperlink,
   checkbox,
   string,
