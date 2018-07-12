@@ -93,7 +93,10 @@ export default class FormModal extends React.Component {
             mutation={this.props.mutation}>
             {mutate =>
               this.props.children ? (
-                React.cloneElement(this.props.children, {onClick: () => this.open(mutate)})
+                React.cloneElement(this.props.children, {
+                  onClick: () => this.open(mutate),
+                  onPress: () => this.open(mutate)
+                })
               ) : (
                 <Button
                   disabled={this.props.disabled}

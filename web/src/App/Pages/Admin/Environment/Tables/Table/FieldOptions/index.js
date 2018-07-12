@@ -5,7 +5,7 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import iconOptions from 'App/components/Icon/options'
 import RouteIconButton from './RouteIconButton'
-import DeleteRow from './DeleteRow'
+import DeleteDocument from './DeleteDocument'
 
 export default class FieldOptions extends React.Component {
   static propTypes = {
@@ -53,7 +53,7 @@ export default class FieldOptions extends React.Component {
   }
 
   renderDeleteOption() {
-    return <DeleteRow {...this.props} />
+    return <DeleteDocument {...this.props} />
   }
 
   render() {

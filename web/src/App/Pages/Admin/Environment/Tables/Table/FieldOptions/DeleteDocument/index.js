@@ -4,7 +4,7 @@ import iconOptions from 'App/components/Icon/options'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 
-export default class DeleteRow extends React.Component {
+export default class DeleteDocument extends React.Component {
   static propTypes = {}
 
   render() {
