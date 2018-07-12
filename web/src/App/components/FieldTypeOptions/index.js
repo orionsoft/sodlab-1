@@ -20,7 +20,7 @@ export default class FieldTypeOptions extends React.Component {
   }
 
   render() {
-    if (!this.props.fieldType.optionsParams) return null
+    if (!this.props.fieldType || !this.props.fieldType.optionsParams) return null
     return (
       <WithValue>
         {field => (
