@@ -107,6 +107,7 @@ export default class Table extends React.Component {
 
   renderField({field, doc}) {
     const collectionField = this.getCollectionField(field.fieldName)
+    const {collectionId} = this.props.table
     try {
       return (
         <TableField
@@ -116,6 +117,7 @@ export default class Table extends React.Component {
           field={field}
           table={this.props.table}
           collectionField={collectionField}
+          collectionId={collectionId}
         />
       )
     } catch (e) {

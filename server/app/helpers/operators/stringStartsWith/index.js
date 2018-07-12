@@ -1,4 +1,5 @@
 import escape from 'escape-string-regexp'
+
 export default {
   name: 'Empieza con',
   inputType: 'string',
