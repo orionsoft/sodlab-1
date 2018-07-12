@@ -1,7 +1,7 @@
 export default {
   name: 'Moneda',
   rootType: Number,
-  allowedOperatorsIds: ['exists'],
+  allowedOperatorsIds: ['exists', 'equalNumber'],
   optionsSchema: {},
   validate(value, options) {}
 }
