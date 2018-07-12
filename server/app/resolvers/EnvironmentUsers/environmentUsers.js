@@ -17,7 +17,7 @@ export default paginatedResolver({
   async getCursor({filter, environmentId}, viewer) {
     const query = {environmentId}
     if (filter) {
-      query._id = {$regex: new RegExp(`^${escape(filter)}`)}
+      query.email = {$regex: new RegExp(`^${escape(filter)}`)}
     }
     return EnvironmentUsers.find(query)
   }
