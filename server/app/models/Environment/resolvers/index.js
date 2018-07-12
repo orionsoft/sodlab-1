@@ -1,4 +1,6 @@
-import schema from './schema'
+import profileSchema from './profileSchema'
+import serializedProfileSchema from './serializedProfileSchema'
 export default {
-  schema
+  profileSchema,
+  serializedProfileSchema
 }

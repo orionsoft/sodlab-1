@@ -41,7 +41,7 @@ export default class ProfileSchema extends React.Component {
   static fragment = gql`
     fragment adminEnvironmentProfilesUpdateFragment on Environment {
       _id
-      profileSchema {
+      profileFields {
         name
         type
         label
@@ -107,9 +107,9 @@ export default class ProfileSchema extends React.Component {
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
               environmentId: this.props.environment._id,
-              profileSchema: clone(this.props.environment.profileSchema)
+              profileFields: clone(this.props.environment.profileFields)
             }}>
-            <Field fieldName="profileSchema" type={ArrayComponent} renderItem={this.renderItems} />
+            <Field fieldName="profileFields" type={ArrayComponent} renderItem={this.renderItems} />
           </AutoForm>
           <br />
           <Button onClick={() => this.refs.form.submit()} primary>

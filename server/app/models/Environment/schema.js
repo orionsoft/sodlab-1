@@ -49,7 +49,7 @@ export default {
     label: 'Tipografía',
     allowedValues: ['Roboto', 'Open Sans', 'Lato']
   },
-  profileSchema: {
+  profileFields: {
     type: [Field],
     optional: true
   }

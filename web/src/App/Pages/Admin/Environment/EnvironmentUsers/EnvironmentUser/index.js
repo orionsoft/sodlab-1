@@ -16,12 +16,14 @@ import schemaToField from 'App/components/schemaToField'
 import translate from 'App/i18n/translate'
 
 @withGraphQL(gql`
-  query getEnviromentUser($environmentUserId: ID) {
+  query getEnviromentUser($environmentUserId: ID, $environmentId: ID) {
     environmentUser(environmentUserId: $environmentUserId) {
       _id
       email
-      environmentId
       profile
+    }
+    environment(environmentId: $environmentId) {
+      _id
       serializedProfileSchema
     }
   }
@@ -32,6 +34,7 @@ export default class EnvironmentUser extends React.Component {
     showMessage: PropTypes.func,
     history: PropTypes.object,
     environmentUser: PropTypes.object,
+    environment: PropTypes.object,
     params: PropTypes.object,
     match: PropTypes.object
   }
@@ -61,7 +64,7 @@ export default class EnvironmentUser extends React.Component {
 
   render() {
     if (!this.props.environmentUser) return null
-    const params = {profile: {type: this.props.environmentUser.serializedProfileSchema}}
+    const params = {profile: {type: this.props.environment.serializedProfileSchema}}
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.environmentUser.email}</Breadcrumbs>
