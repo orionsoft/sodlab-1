@@ -5,8 +5,10 @@ import numberGreaterThan from './numberGreaterThan'
 import equalNumber from './equalNumber'
 import numberLessThan from './numberLessThan'
 import numberGreaterEqual from './numberGreaterEqual'
+import numberLessEqual from './numberLessEqual'
 
 export default {
+  numberLessEqual,
   numberGreaterEqual,
   numberLessThan,
   numberGreaterThan,
