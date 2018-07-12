@@ -16,6 +16,7 @@ import {Field} from 'simple-react-form'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import FieldTypeOptions from 'App/components/FieldTypeOptions'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
+import translate from 'App/i18n/translate'
 
 @withRouter
 @withMessage
@@ -59,7 +60,7 @@ export default class Fields extends React.Component {
   }
 
   getErrorFieldLabel() {
-    return 'Este campo'
+    return translate('general.thisField')
   }
 
   @autobind
@@ -76,7 +77,7 @@ export default class Fields extends React.Component {
         </div>
         <div className="col-xs-8 col-md-4">
           <div className="label">Tipo</div>
-          <Field fieldName="type" type={Select} options={this.props.fieldTypes} />
+          <Field fieldName="type" type={Select} options={this.getFieldTypes()} />
         </div>
         <div className="col-xs-4 col-md-2">
           <div className="label">Opcional</div>
@@ -92,6 +93,10 @@ export default class Fields extends React.Component {
         </div>
       </div>
     )
+  }
+
+  getFieldTypes() {
+    return clone(this.props.fieldTypes).sort((a, b) => (a.label > b.label ? 1 : -1))
   }
 
   render() {
