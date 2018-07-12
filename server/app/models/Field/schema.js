@@ -16,6 +16,13 @@ export default {
     allowedValues: Object.keys(fieldTypes),
     label: 'Tipo'
   },
+  optional: {
+    type: Boolean,
+    label: 'Opcional',
+    fieldType: 'checkbox',
+    fieldOptions: {label: 'Opcional'},
+    defaultValue: false
+  },
   options: {
     type: 'blackbox',
     optional: true,

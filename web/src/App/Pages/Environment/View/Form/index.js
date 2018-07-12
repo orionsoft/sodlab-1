@@ -40,7 +40,8 @@ export default class Form extends React.Component {
       form: this.props.form,
       formId: this.props.form._id,
       data: this.state.data || {},
-      itemId: this.getItemId()
+      itemId: this.getItemId(),
+      parameters: this.props.parameters || {}
     }
     if (props.form.type === 'update' && !props.itemId) return this.renderNoItem()
     return <FormContent {...props} />

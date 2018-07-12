@@ -4,6 +4,7 @@ import {serializeSchema} from '@orion-js/graphql'
 export default resolver({
   returns: 'blackbox',
   async resolve(form, params, viewer) {
-    return serializeSchema(await form.schema())
+    const schema = await form.schema()
+    return serializeSchema(schema)
   }
 })

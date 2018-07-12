@@ -5,6 +5,14 @@ export default resolver({
   private: true,
   async resolve(form, params, viewer) {
     const collection = await form.collection()
-    return await collection.schema()
+    const schema = {}
+
+    for (const field of form.fields) {
+      const collectionField = await collection.field({name: field.fieldName})
+      if (!collectionField) continue
+      schema[field.fieldName] = await field.schema({collectionField})
+    }
+
+    return schema
   }
 })

@@ -1,3 +1,4 @@
+import Field from './Field'
 export default {
   _id: {
     type: 'ID'
@@ -25,6 +26,10 @@ export default {
   },
   updateVariableName: {
     type: String,
+    optional: true
+  },
+  fields: {
+    type: [Field],
     optional: true
   }
 }
