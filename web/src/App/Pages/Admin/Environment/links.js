@@ -8,5 +8,6 @@ export default [
   {title: 'Roles', path: '/roles'},
   {title: 'Hooks', path: '/hooks'},
   {title: 'Links', path: '/links'},
-  {title: 'Configuración', path: '/configuration'}
+  {title: 'Configuración', path: '/configuration'},
+  {title: 'Usuarios', path: '/users'}
 ]

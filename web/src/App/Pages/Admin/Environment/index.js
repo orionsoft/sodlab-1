@@ -17,6 +17,7 @@ import Layout from './Layout'
 import Charts from './Charts'
 import Filters from './Filters'
 import Hooks from './Hooks'
+import EnvironmentUsers from './EnvironmentUsers'
 
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
@@ -52,6 +53,7 @@ export default class Environment extends React.Component {
             <Route path="/:environmentId/tables" component={Tables} />
             <Route path="/:environmentId/roles" component={Roles} />
             <Route path="/:environmentId/configuration" component={Configuration} />
+            <Route path="/:environmentId/users" component={EnvironmentUsers} />
           </Switch>
         </Layout>
       </div>

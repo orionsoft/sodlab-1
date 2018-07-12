@@ -13,8 +13,10 @@ import Charts from './Charts'
 import Filters from './Filters'
 import Hooks from './Hooks'
 import Info from './Info'
+import EnvironmentUsers from './EnvironmentUsers'
 
 export default {
+  ...EnvironmentUsers,
   ...Hooks,
   ...Filters,
   ...Charts,
