@@ -43,7 +43,7 @@ export default class Data extends React.Component {
       return this.renderNotFound()
     }
     return (
-      <div ref="items">
+      <div ref="items" className="paginated-table-items">
         <Table
           sortBy={this.props.sortBy}
           sortType={this.props.sortType}

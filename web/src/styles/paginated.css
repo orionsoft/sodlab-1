@@ -3,6 +3,22 @@
   border-radius: 10px;
 }
 
+.paginated-container,
+.paginated-table-items {
+  min-height: 446px;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.paginated-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+  height: 446px;
+}
+
 .paginated-head {
   padding: 20px;
 }
