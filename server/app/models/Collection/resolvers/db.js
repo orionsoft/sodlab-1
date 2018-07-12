@@ -9,7 +9,7 @@ export default resolver({
     if (cache[collection._id]) return cache[collection._id]
 
     cache[collection._id] = new Collection({
-      name: collection._id,
+      name: `col_${collection._id}`,
       model: Item,
       indexes: [],
       hooks: await collection.hooks()
