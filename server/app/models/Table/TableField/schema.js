@@ -4,7 +4,7 @@ import optionsSchemas from './optionsSchemas'
 export default {
   type: {
     type: String,
-    allowedValues: ['field', 'selectIconButton', 'routeIconButton']
+    allowedValues: ['field', 'selectIconButton', 'routeIconButton', 'deleteRowByUser']
   },
   fieldName: {
     type: String,
