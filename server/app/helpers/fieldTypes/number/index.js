@@ -1,7 +1,7 @@
 export default {
   name: 'Número',
   rootType: Number,
-  allowedOperatorsIds: ['exists', 'numberGreaterThan'],
+  allowedOperatorsIds: ['exists', 'equalNumber', 'numberGreaterThan'],
   optionsSchema: null,
   validate(value, options) {}
 }
