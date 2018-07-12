@@ -14,6 +14,7 @@ import Filters from './Filters'
 import Hooks from './Hooks'
 import Info from './Info'
 import EnvironmentUsers from './EnvironmentUsers'
+import Kpis from './Kpis'
 
 export default {
   ...EnvironmentUsers,
@@ -31,5 +32,6 @@ export default {
   ...resolversSchemas,
   ...Auth,
   ...Users,
-  ...Roles
+  ...Roles,
+  ...Kpis
 }
