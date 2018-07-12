@@ -10,6 +10,7 @@ import autobind from 'autobind-decorator'
 import schemaToField from 'App/components/schemaToField'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
+import cloneDeep from 'lodash/cloneDeep'
 import translate from 'App/i18n/translate'
 
 @withGraphQL(gql`
@@ -30,7 +31,8 @@ export default class Form extends React.Component {
     form: PropTypes.object,
     state: PropTypes.object,
     itemData: PropTypes.object,
-    itemId: PropTypes.string
+    itemId: PropTypes.string,
+    parameters: PropTypes.object
   }
 
   state = {}
@@ -63,10 +65,40 @@ export default class Form extends React.Component {
     return this.props.itemId
   }
 
-  getData() {
+  getItemData() {
     if (!this.props.itemData) return
     if (!this.props.itemData.item) return
-    return this.props.itemData.item.data
+    return cloneDeep(this.props.itemData.item.data)
+  }
+
+  getData() {
+    const doc = this.getItemData() || {}
+    const params = this.props.form.serializedParams || {}
+    for (const key of Object.keys(params)) {
+      const field = params[key]
+      if (field.formFieldType === 'fixed') {
+        doc[key] = field.defaultValue
+      }
+      if (field.formFieldType === 'parameter') {
+        doc[key] = this.props.parameters[field.parameterName]
+      }
+    }
+    return doc
+  }
+
+  getParams() {
+    const schema = cloneDeep(this.props.form.serializedParams) || {}
+    for (const key of Object.keys(schema)) {
+      const field = schema[key]
+      if (field.formFieldType === 'fixed') {
+        delete schema[key]
+      }
+      if (field.formFieldType === 'parameter') {
+        delete schema[key]
+      }
+    }
+    const params = {data: {type: schema}}
+    return params
   }
 
   needsData() {
@@ -78,8 +110,7 @@ export default class Form extends React.Component {
   }
 
   render() {
-    const params = {data: {type: this.props.form.serializedParams}}
-    if (this.needsData() && !this.getData()) return this.renderItemNotFound()
+    if (this.needsData() && !this.getItemData()) return this.renderItemNotFound()
     return (
       <div className={styles.container}>
         <AutoForm
@@ -87,16 +118,13 @@ export default class Form extends React.Component {
           ref="form"
           only="data"
           getErrorFieldLabel={() => translate('general.thisField')}
-          doc={{formId: this.props.form._id, data: this.getData() || {}, itemId: this.getItemId()}}
+          doc={{formId: this.props.form._id, data: this.getData(), itemId: this.getItemId()}}
           onSuccess={this.onSuccess}>
-          {({parent}) => (
-            <Fields
-              schemaToField={this.schemaToField}
-              parent={parent}
-              params={params}
-              passProps={{formId: this.props.form._id}}
-            />
-          )}
+          <Fields
+            schemaToField={this.schemaToField}
+            params={this.getParams()}
+            passProps={{formId: this.props.form._id}}
+          />
         </AutoForm>
         <br />
         {this.renderSubmitButton()}

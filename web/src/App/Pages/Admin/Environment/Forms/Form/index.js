@@ -14,6 +14,7 @@ import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field, WithValue} from 'simple-react-form'
 import autobind from 'autobind-decorator'
+import Fields from './Fields'
 
 @withGraphQL(gql`
   query getForm($formId: ID, $environmentId: ID) {
@@ -25,6 +26,23 @@ import autobind from 'autobind-decorator'
       collectionId
       environmentId
       updateVariableName
+      fields {
+        fieldName
+        type
+        optional
+        fixed
+        parameterName
+        editableLabel
+      }
+      collection {
+        _id
+        fields {
+          name
+          label
+          type
+          options
+        }
+      }
     }
     collections(environmentId: $environmentId) {
       items {
@@ -138,6 +156,7 @@ export default class Form extends React.Component {
             </div>
           </div>
         </Section>
+        <Fields form={this.props.form} />
       </div>
     )
   }

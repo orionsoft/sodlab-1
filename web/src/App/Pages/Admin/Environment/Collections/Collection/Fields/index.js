@@ -15,6 +15,7 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field} from 'simple-react-form'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import FieldTypeOptions from 'App/components/FieldTypeOptions'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import translate from 'App/i18n/translate'
 
 @withRouter
@@ -66,17 +67,21 @@ export default class Fields extends React.Component {
   renderItems(field) {
     return (
       <div className="row">
-        <div className="col-xs-6 col-md-4">
+        <div className="col-xs-6 col-md-3">
           <div className="label">ID</div>
           <Field fieldName="name" type={Text} />
         </div>
-        <div className="col-xs-6 col-md-4">
+        <div className="col-xs-6 col-md-3">
           <div className="label">Nombre</div>
           <Field fieldName="label" type={Text} />
         </div>
-        <div className="col-xs-12 col-md-4">
+        <div className="col-xs-8 col-md-4">
           <div className="label">Tipo</div>
           <Field fieldName="type" type={Select} options={this.getFieldTypes()} />
+        </div>
+        <div className="col-xs-4 col-md-2">
+          <div className="label">Opcional</div>
+          <Field fieldName="optional" type={Checkbox} label="Opcional" />
         </div>
         <div className="col-xs-12">
           {field.type ? (

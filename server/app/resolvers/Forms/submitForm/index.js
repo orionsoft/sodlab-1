@@ -1,7 +1,8 @@
 import {resolver} from '@orion-js/app'
-import {validate, clean} from '@orion-js/schema'
 import Item from 'app/models/Item'
 import Forms from 'app/collections/Forms'
+import prependKey from 'app/helpers/misc/prependKey'
+import validate from './validate'
 
 export default resolver({
   params: {
@@ -25,16 +26,7 @@ export default resolver({
     const form = await Forms.findOne(formId)
     const collection = await form.collectionDb()
 
-    const schema = await form.schema()
-    const data = await clean(schema, rawData)
-    try {
-      await validate(schema, data)
-    } catch (error) {
-      if (error.isValidationError) {
-        throw error.prependKey('data')
-      }
-      throw error
-    }
+    const data = await validate({form, rawData})
 
     if (form.type === 'create') {
       const newItemId = await collection.insert({data})
@@ -47,8 +39,9 @@ export default resolver({
       if (!item) {
         throw new Error('Item not found')
       }
-      await item.update({$set: {data}})
-      return item
+      const $set = prependKey(data, 'data')
+      await item.update({$set})
+      return await collection.findOne(itemId)
     }
   }
 })

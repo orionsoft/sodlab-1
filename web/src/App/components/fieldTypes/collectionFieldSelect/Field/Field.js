@@ -24,10 +24,12 @@ export default class CollectionFieldSelect extends React.Component {
     onChange: PropTypes.func,
     collection: PropTypes.object,
     errorMessage: PropTypes.node,
-    passProps: PropTypes.object
+    passProps: PropTypes.object,
+    includeId: PropTypes.bool
   }
 
   getOptions() {
+    if (!this.props.includeId) return this.props.collection.fields
     const idOption = {label: 'ID', value: '_id'}
     const items = this.props.collection.fields || []
 

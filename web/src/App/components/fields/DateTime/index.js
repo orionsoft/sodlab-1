@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Flatpickr from 'react-flatpickr'
 import {Spanish} from 'flatpickr/dist/l10n/es'
 import moment from 'moment'
+import autobind from 'autobind-decorator'
 
 export default class DateTime extends React.Component {
   static propTypes = {
@@ -32,8 +33,14 @@ export default class DateTime extends React.Component {
     }
   }
 
+  @autobind
+  onChange(dates) {
+    console.log(dates[0])
+    this.props.onChange(dates[0])
+  }
+
   render() {
-    const {onChange, value, enableTime} = this.props
+    const {value, enableTime} = this.props
 
     return (
       <div>
@@ -41,9 +48,7 @@ export default class DateTime extends React.Component {
           <Flatpickr
             className="os-input-text"
             value={value}
-            onChange={date => {
-              onChange(date && date[0] && date[0].getTime())
-            }}
+            onChange={this.onChange}
             options={this.getOptions()}
             data-enable-time={enableTime}
           />

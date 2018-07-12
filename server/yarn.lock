@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@orion-js/app@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.5.5.tgz#8402bac4f348c3ccf33e2e6fb9a186dbfae576e2"
+"@orion-js/app@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.5.8.tgz#d74ff4f30f415e05a9214dc368e70492bfa3e8ce"
   dependencies:
-    "@orion-js/schema" "^0.0.42"
+    "@orion-js/schema" "^0.5.8"
     babel-polyfill "^6.26.0"
     colors "^1.2.5"
     dot-object "^1.7.0"
@@ -16,26 +16,26 @@
     path-match "^1.2.4"
     path-to-regexp "^2.2.0"
 
-"@orion-js/auth@^0.5.6":
-  version "0.5.6"
-  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.5.6.tgz#0b82d0b41c49ecc94ad002aed2a227e3775ef46b"
+"@orion-js/auth@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.5.8.tgz#8e8478a6e9a45db5a4220573e5d9668c248223e1"
   dependencies:
     bcryptjs "^2.4.3"
     jssha "^2.3.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/file-manager@^0.5.7":
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.5.7.tgz#879789454a0208ceb0373a89042d5eb947246a37"
+"@orion-js/file-manager@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.5.8.tgz#0d05b760e299371585f3ea0ab09cd34b872e27cd"
   dependencies:
     aws-sdk "^2.258.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/graphql@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.5.5.tgz#e5b1c10024910f6ebfd69f25c561dadc596b4d0c"
+"@orion-js/graphql@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.5.8.tgz#947ea25714fea00376ec87e26c30148a852b8f3f"
   dependencies:
     apollo-server-core "^1.3.6"
     deep-sort-object "^1.0.2"
@@ -44,24 +44,24 @@
     lodash "^4.17.10"
     subscriptions-transport-ws "^0.9.12"
 
-"@orion-js/jobs@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.5.5.tgz#cdf233f6f9529634e8cf0caef6e27baa0d471fb2"
+"@orion-js/jobs@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.5.8.tgz#74158aebeaaf129bd3cb7936ba89785a15ddab77"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/mailing@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.5.5.tgz#991a891fb65c2b337cddcddc76db11d587dd31ed"
+"@orion-js/mailing@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.5.8.tgz#4dc4f80fca753a0a1caabbbe5665fb941a8e0ed4"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
     nodemailer "^4.6.6"
 
-"@orion-js/schema@^0.0.42":
-  version "0.0.42"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.0.42.tgz#65c5be1274599b0c191528242bade840d2907cbc"
+"@orion-js/schema@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.5.8.tgz#46268def4094f08e1fd2c796ea362f8f087bb3cf"
   dependencies:
     lodash "^4.17.10"
 
@@ -243,9 +243,9 @@ aws-sdk@^2.258.1:
     uuid "3.1.0"
     xml2js "0.4.17"
 
-aws-sdk@^2.272.1:
-  version "2.272.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.272.1.tgz#d81e6c6f3e82d55cf98250650de4c079c89b76b7"
+aws-sdk@^2.273.1:
+  version "2.273.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.273.1.tgz#69398a128090c71f0c66480b5c32054773e4c03f"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"

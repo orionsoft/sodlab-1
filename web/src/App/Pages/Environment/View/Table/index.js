@@ -87,12 +87,20 @@ export default class Table extends React.Component {
       return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
     }
 
-    const cleaned = await clean(filter.schema, this.state.options || {})
+    const cleaned = await clean(filter.schema, {...this.state.options, ...this.props.parameters})
     try {
       await validate(filter.schema, cleaned)
-      this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+      this.setState({
+        cleanedFilterOptions: cleaned,
+        filterOptionsAreValid: true,
+        optionValidationErrors: null
+      })
     } catch (error) {
-      this.setState({filterOptionsAreValid: false, optionValidationErrors: error.validationErrors})
+      this.setState({
+        cleanedFilterOptions: null,
+        filterOptionsAreValid: false,
+        optionValidationErrors: error.validationErrors
+      })
     }
   }
 
@@ -188,7 +196,7 @@ export default class Table extends React.Component {
         params={{
           tableId: table._id,
           filterId: this.state.filterId,
-          filterOptions: {...this.state.options, ...this.props.parameters}
+          filterOptions: this.state.cleanedFilterOptions
         }}
         fields={this.getFields()}
         onSelect={this.onSelect}
