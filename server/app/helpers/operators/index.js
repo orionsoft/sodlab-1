@@ -6,11 +6,18 @@ import equalNumber from './equalNumber'
 import numberLessThan from './numberLessThan'
 import numberGreaterEqual from './numberGreaterEqual'
 import numberLessEqual from './numberLessEqual'
-import equalDateTime from './equalDateTime'
+import dateTimeGreaterThan from './dateTimeGreaterThan'
+import dateEqual from './dateEqual'
+import dateTimeGreaterEqualThan from './dateTimeGreaterEqualThan'
+import dateGreaterEqualThan from './dateGreaterEqualThan'
 import dateLessEqualThan from './dateLessEqualThan'
 
 export default {
   dateLessEqualThan,
+  dateGreaterEqualThan,
+  dateTimeGreaterEqualThan,
+  dateTimeGreaterThan,
+  dateEqual,
   equalDateTime,
   numberLessEqual,
   numberGreaterEqual,
