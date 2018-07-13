@@ -57,7 +57,6 @@ export default class AutoFormForm extends React.Component {
         }
       }
     } else {
-      console.error(error)
       alert(error.message)
     }
   }
