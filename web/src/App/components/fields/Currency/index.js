@@ -4,7 +4,7 @@ import numeral from 'numeral'
 
 export default class Currency extends React.Component {
   static propTypes = {
-    value: PropTypes.string,
+    value: PropTypes.number,
     onChange: PropTypes.func,
     errorMessage: PropTypes.string
   }
