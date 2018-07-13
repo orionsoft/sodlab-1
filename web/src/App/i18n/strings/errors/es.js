@@ -7,7 +7,7 @@ export default {
   notAnObject: ({label, value}) => `${label} no es un objeto`,
   notAString: ({label, value}) => `${label} no es un texto`,
   notADate: ({label, value}) => `${label} no es una fecha valida`,
-  notAnInteger: ({label, value}) => `${label} no es un nuúmero entero`,
+  notAnInteger: ({label, value}) => `${label} no es un número entero`,
   notANumber: ({label, value}) => `${label} no es un número`,
   notAnId: ({label, value}) => `${label} no es un ID válido`,
   stringTooLong: ({label, value}) => `El largo es mayor al permitido`,
