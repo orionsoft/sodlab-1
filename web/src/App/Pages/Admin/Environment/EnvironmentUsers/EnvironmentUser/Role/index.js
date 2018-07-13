@@ -10,7 +10,6 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import clone from 'lodash/clone'
-import translate from 'App/i18n/translate'
 
 @withMessage
 @withGraphQL(gql`
