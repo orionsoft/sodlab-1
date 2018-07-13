@@ -1,7 +1,7 @@
 export default {
   name: 'Fecha',
   rootType: Date,
-  allowedOperatorsIds: ['exists'],
+  allowedOperatorsIds: ['exists', 'dateGreaterThan'],
   optionsSchema: null,
   validate(value, options) {}
 }

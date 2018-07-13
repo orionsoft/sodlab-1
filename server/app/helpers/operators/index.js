@@ -7,8 +7,10 @@ import numberLessThan from './numberLessThan'
 import numberGreaterEqual from './numberGreaterEqual'
 import numberLessEqual from './numberLessEqual'
 import equalDateTime from './equalDateTime'
+import dateGreaterThan from './dateGreaterThan'
 
 export default {
+  dateGreaterThan,
   equalDateTime,
   numberLessEqual,
   numberGreaterEqual,
