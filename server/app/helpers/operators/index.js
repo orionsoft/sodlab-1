@@ -13,8 +13,10 @@ import dateTimeGreaterEqualThan from './dateTimeGreaterEqualThan'
 import dateGreaterEqualThan from './dateGreaterEqualThan'
 import dateLessEqualThan from './dateLessEqualThan'
 import dateGreaterThan from './dateGreaterThan'
+import dateTimeLessEqualThan from './dateTimeLessEqualThan'
 
 export default {
+  dateTimeLessEqualThan,
   dateGreaterThan,
   dateLessEqualThan,
   dateGreaterEqualThan,
