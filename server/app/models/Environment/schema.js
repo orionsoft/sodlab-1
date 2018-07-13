@@ -51,6 +51,7 @@ export default {
   },
   profileFields: {
     type: [Field],
+    defaultValue: [],
     optional: true
   }
 }
