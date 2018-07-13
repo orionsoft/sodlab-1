@@ -11,7 +11,7 @@ export default class View extends React.Component {
   renderWithDecimal() {
     return (
       <div className={styles.container}>
-        {`${(numeral(this.props.value).format('0.0[0000]') * 100).toFixed(2)}%`}
+        {this.props.value && `${(numeral(this.props.value).format('0.0[0000]') * 100).toFixed(2)}%`}
       </div>
     )
   }
@@ -19,7 +19,7 @@ export default class View extends React.Component {
   renderInt() {
     return (
       <div className={styles.container}>
-        {`${(numeral(this.props.value).format('0.0[0000]') * 100).toFixed(0)}%`}
+        {this.props.value && `${(numeral(this.props.value).format('0.0[0000]') * 100).toFixed(0)}%`}
       </div>
     )
   }
