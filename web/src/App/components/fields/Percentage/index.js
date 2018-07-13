@@ -13,7 +13,9 @@ export default class Percentage extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (state.beforeSeparator) {
       return {
-        value: props.value ? `${numeral(props.value).format('0.0[0000]') * 100}.%` : '',
+        value: props.value
+          ? `${(numeral(props.value).format('0.0[0000]') * 100).toFixed(0)}.%`
+          : '',
         beforeSeparator: false
       }
     }
@@ -47,12 +49,12 @@ export default class Percentage extends React.Component {
       this.setState({fieldInit: true})
     }
     let chain = value ? cloneDeep(value) : ''
-    if (value.indexOf('%') === -1 && value.length > 1) {
+    if (!value.includes('%') && value.length > 1) {
       chain = chain.slice(0, -1)
       if (chain.slice(-1) === '.') {
         this.setState({separatorUsed: false})
       }
-    } else if (value.indexOf('%') === -1 && value.length === 1 && this.state.fieldInit) {
+    } else if (!value.includes('%') && value.length === 1 && this.state.fieldInit) {
       this.setState({fieldInit: false})
       this.props.onChange('')
       return
@@ -64,10 +66,9 @@ export default class Percentage extends React.Component {
 
   onBlur(event) {
     const value = event.target.value
-    console.log(value)
-    // const value = event.target.value
-    // const real = this.unformatValue(value)
-    // this.props.onChange(real)
+    if (value === '') return
+    const parsed = numeral._.stringToNumber(value) * 0.01
+    this.props.onChange(Number(parsed.toFixed(10)))
   }
 
   render() {

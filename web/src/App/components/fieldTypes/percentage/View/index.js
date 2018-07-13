@@ -8,7 +8,28 @@ export default class View extends React.Component {
     value: PropTypes.bool
   }
 
+  renderWithDecimal() {
+    return (
+      <div className={styles.container}>
+        {`${(numeral(this.props.value).format('0.0[0000]') * 100).toFixed(2)}%`}
+      </div>
+    )
+  }
+
+  renderInt() {
+    return (
+      <div className={styles.container}>
+        {`${(numeral(this.props.value).format('0.0[0000]') * 100).toFixed(0)}%`}
+      </div>
+    )
+  }
+
   render() {
-    return <div className={styles.container}>{numeral(this.props.value).format('$0,0')}</div>
+    const {value} = this.props
+    if ((value * 100) % 1 !== 0) {
+      return this.renderWithDecimal()
+    } else {
+      return this.renderInt()
+    }
   }
 }
