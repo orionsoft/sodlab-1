@@ -88,7 +88,6 @@ export default class Item extends React.Component {
     const operator = operators.find(operator => operator._id === rule.operatorId)
     if (!operator) return null
     if (!rule.isValid) return null
-    console.log(rule, operators)
     const FieldComponent = fieldTypes[operator.inputType].field
     return (
       <div className={styles.fixedValue}>
