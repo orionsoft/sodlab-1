@@ -63,7 +63,6 @@ export default class AutoFormForm extends React.Component {
 
   @autobind
   async onSubmit(data) {
-    console.log(data)
     try {
       const errors = await this.validate(data)
       if (errors) {
