@@ -10,8 +10,10 @@ import equalDateTime from './equalDateTime'
 import dateTimeGreaterThan from './dateTimeGreaterThan'
 import dateEqual from './dateEqual'
 import dateTimeGreaterEqualThan from './dateTimeGreaterEqualThan'
+import dateGreaterEqualThan from './dateGreaterEqualThan'
 
 export default {
+  dateGreaterEqualThan,
   dateTimeGreaterEqualThan,
   dateTimeGreaterThan,
   dateEqual,
