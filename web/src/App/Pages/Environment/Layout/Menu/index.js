@@ -53,7 +53,6 @@ export default class Menu extends React.Component {
 
   render() {
     const {environment} = this.props
-    console.log(this.props)
     return (
       <div className={styles.container}>
         <Link to="/" className={styles.title}>
