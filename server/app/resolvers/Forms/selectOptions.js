@@ -31,12 +31,10 @@ export default resolver({
   },
   returns: [SelectOption],
   async resolve({environmentId, formId, fieldName}, viewer) {
-    console.log(environmentId, formId, fieldName)
     const form = formId ? await Forms.findOne(formId) : await Environments.findOne(environmentId)
-    console.log('form', form)
-    const schema = await form.schema()
+    const schema = formId ? await form.schema() : await form.profileSchema()
     console.log('schema', schema)
-    const field = fieldName.replace('data.', '')
+    const field = fieldName.replace(formId ? 'data.' : 'profile.', '')
     console.log('field', field)
     const fieldSchema = schema[field]
     console.log('fieldSchema', fieldSchema)

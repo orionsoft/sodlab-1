@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
+import {withRouter} from 'react-router'
 import gql from 'graphql-tag'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 
+@withRouter
 @withGraphQL(gql`
-  query getFormOneOfSelectOptions($formId: ID, $fieldName: String) {
-    selectOptions(formId: $formId, fieldName: $fieldName) {
+  query getFormOneOfSelectOptions($environmentId: ID, $formId: ID, $fieldName: String) {
+    selectOptions(environmentId: $environmentId, formId: $formId, fieldName: $fieldName) {
       label
       value
     }
@@ -24,6 +26,7 @@ export default class OneOf extends React.Component {
   }
 
   render() {
+    if (!this.props.selectOptions) return null
     return (
       <Select
         value={this.props.value}
