@@ -26,6 +26,7 @@ import range from 'lodash/range'
       environmentId
       title
       path
+      roles
       items {
         sizeSmall
         sizeMedium
@@ -47,6 +48,12 @@ import range from 'lodash/range'
         label: name
       }
     }
+    roles(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -58,6 +65,7 @@ export default class View extends React.Component {
     collections: PropTypes.object,
     forms: PropTypes.object,
     tables: PropTypes.object,
+    roles: PropTypes.object,
     match: PropTypes.object
   }
 
@@ -72,6 +80,10 @@ export default class View extends React.Component {
       {label: 'Gráfico', value: 'chart', result: 'chart'},
       {label: 'Indicador', value: 'indicator', result: 'indicator'}
     ]
+  }
+
+  getRoles() {
+    return this.props.roles.items
   }
 
   renderComponentSelector(item) {
@@ -167,9 +179,10 @@ export default class View extends React.Component {
               <Field fieldName="name" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
-
               <div className="label">Contenido</div>
               <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
+              <div className="label">Roles</div>
+              <Field fieldName="roles" type={Select} multi options={this.getRoles()} />
             </Field>
           </AutoForm>
           <br />

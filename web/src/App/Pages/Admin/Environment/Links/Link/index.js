@@ -6,10 +6,15 @@ import Breadcrumbs from '../../Breadcrumbs'
 import PropTypes from 'prop-types'
 import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
+import ObjectField from 'App/components/fields/ObjectField'
+import Text from 'orionsoft-parts/lib/components/fields/Text'
+import Select from 'orionsoft-parts/lib/components/fields/Select'
+import {Field} from 'simple-react-form'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import autobind from 'autobind-decorator'
+import cloneDeep from 'lodash/cloneDeep'
 
 @withGraphQL(gql`
   query getForm($linkId: ID, $environmentId: ID) {
@@ -17,9 +22,16 @@ import autobind from 'autobind-decorator'
       _id
       path
       title
+      roles
       environmentId
     }
     forms(limit: null, environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
+    roles(environmentId: $environmentId) {
       items {
         value: _id
         label: name
@@ -35,6 +47,7 @@ export default class Link extends React.Component {
     link: PropTypes.object,
     collections: PropTypes.object,
     forms: PropTypes.object,
+    roles: PropTypes.object,
     match: PropTypes.object
   }
 
@@ -50,6 +63,10 @@ export default class Link extends React.Component {
     const {environmentId} = this.props.match.params
     this.props.showMessage('El link fue eliminado')
     this.props.history.push(`/${environmentId}/links`)
+  }
+
+  getRoles() {
+    return this.props.roles.items
   }
 
   render() {
@@ -69,15 +86,21 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               linkId: this.props.link._id,
-              link: this.props.link
-            }}
-          />
+              link: cloneDeep(this.props.link)
+            }}>
+            <Field fieldName="link" type={ObjectField}>
+              <div className="label">Ruta</div>
+              <Field fieldName="path" type={Text} />
+              <div className="label">Título</div>
+              <Field fieldName="title" type={Text} />
+              <div className="label">Roles</div>
+              <Field fieldName="roles" type={Select} multi options={this.getRoles()} />
+            </Field>
+          </AutoForm>
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button
-                to={`/${this.props.link.environmentId}/links`}
-                style={{marginRight: 10}}>
+              <Button to={`/${this.props.link.environmentId}/links`} style={{marginRight: 10}}>
                 Cancelar
               </Button>
               <MutationButton

@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './styles.css'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
+import withUserId from 'App/helpers/auth/withUserId'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
@@ -10,13 +11,14 @@ import logout from 'App/helpers/auth/logout'
 import {withRouter} from 'react-router'
 
 @withEnvironmentId
+@withUserId
 @withGraphQL(gql`
-  query getEnvironment($environmentId: ID) {
+  query getEnvironment($environmentId: ID, $userId: ID) {
     environment(environmentId: $environmentId) {
       _id
       name
     }
-    links(limit: null, environmentId: $environmentId) {
+    links(limit: null, environmentId: $environmentId, userId: $userId) {
       items {
         title
         path
@@ -51,6 +53,7 @@ export default class Menu extends React.Component {
 
   render() {
     const {environment} = this.props
+    console.log(this.props)
     return (
       <div className={styles.container}>
         <Link to="/" className={styles.title}>

@@ -8,7 +8,8 @@ export default resolver({
       type: 'ID'
     },
     roles: {
-      type: ['ID']
+      type: ['ID'],
+      optional: true
     }
   },
   returns: EnvironmentUser,
