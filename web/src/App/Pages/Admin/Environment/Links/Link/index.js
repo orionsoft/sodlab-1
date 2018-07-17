@@ -65,10 +65,6 @@ export default class Link extends React.Component {
     this.props.history.push(`/${environmentId}/links`)
   }
 
-  getRoles() {
-    return this.props.roles.items
-  }
-
   render() {
     if (!this.props.link) return null
     return (
@@ -94,7 +90,7 @@ export default class Link extends React.Component {
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
               <div className="label">Roles</div>
-              <Field fieldName="roles" type={Select} multi options={this.getRoles()} />
+              <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
             </Field>
           </AutoForm>
           <br />

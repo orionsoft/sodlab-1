@@ -83,10 +83,6 @@ export default class View extends React.Component {
     ]
   }
 
-  getRoles() {
-    return this.props.roles.items
-  }
-
   renderComponentSelector(item) {
     if (!item.type) return null
     const option = this.getTypes().find(type => item.type === type.value)
@@ -186,7 +182,7 @@ export default class View extends React.Component {
               <div className="label">Contenido</div>
               <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
               <div className="label">Roles</div>
-              <Field fieldName="roles" type={Select} multi options={this.getRoles()} />
+              <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
             </Field>
           </AutoForm>
           <br />

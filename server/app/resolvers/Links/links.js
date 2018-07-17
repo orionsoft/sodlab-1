@@ -19,7 +19,7 @@ export default paginatedResolver({
     const query = {environmentId}
     if (!viewer.roles.includes('admin')) {
       const environmentUser = await EnvironmentUsers.findOne({userId: viewer.userId, environmentId})
-      query.roles = environmentUser ? {$in: environmentUser.roles} : {}
+      query.roles = environmentUser ? {$in: environmentUser.roles} : {$in: []}
     }
     if (filter) {
       query.name = {$regex: new RegExp(`^${escape(filter)}`)}
