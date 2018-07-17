@@ -18,5 +18,9 @@ export default {
   },
   createdAt: {
     type: Date
+  },
+  roles: {
+    type: ['ID'],
+    defaultValue: []
   }
 }

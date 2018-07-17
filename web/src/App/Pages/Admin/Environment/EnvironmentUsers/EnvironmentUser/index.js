@@ -14,6 +14,7 @@ import fieldTypes from 'App/components/fieldTypes'
 import autobind from 'autobind-decorator'
 import schemaToField from 'App/components/schemaToField'
 import translate from 'App/i18n/translate'
+import Role from './Role'
 
 @withGraphQL(gql`
   query getEnviromentUser($environmentUserId: ID, $environmentId: ID) {
@@ -21,12 +22,14 @@ import translate from 'App/i18n/translate'
       _id
       email
       profile
+      ...adminEnvironmentUserRoleFragment
     }
     environment(environmentId: $environmentId) {
       _id
       serializedProfileSchema
     }
   }
+  ${Role.fragment}
 `)
 @withMessage
 export default class EnvironmentUser extends React.Component {
@@ -118,6 +121,10 @@ export default class EnvironmentUser extends React.Component {
             </div>
           </div>
         </Section>
+        <Role
+          environmentUser={this.props.environmentUser}
+          environmentId={this.props.match.params.environmentId}
+        />
       </div>
     )
   }

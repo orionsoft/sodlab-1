@@ -14,5 +14,9 @@ export default {
   profile: {
     type: 'blackbox',
     optional: true
+  },
+  roles: {
+    type: ['ID'],
+    defaultValue: []
   }
 }
