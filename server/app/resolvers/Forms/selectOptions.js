@@ -33,20 +33,15 @@ export default resolver({
   async resolve({environmentId, formId, fieldName}, viewer) {
     const form = formId ? await Forms.findOne(formId) : await Environments.findOne(environmentId)
     const schema = formId ? await form.schema() : await form.profileSchema()
-    console.log('schema', schema)
     const field = fieldName.replace(formId ? 'data.' : 'profile.', '')
-    console.log('field', field)
     const fieldSchema = schema[field]
-    console.log('fieldSchema', fieldSchema)
     if (!fieldSchema) return []
     const options = fieldSchema.fieldOptions
-    console.log('options', options)
     if (!options) return []
     const {collectionId, valueKey, labelKey} = options
     if (!collectionId || !valueKey || !labelKey) return []
 
     const collection = await Collections.findOne(collectionId)
-    console.log('collection', collection)
     const db = await collection.db()
     const fields = {
       _id: 1,
@@ -54,7 +49,6 @@ export default resolver({
       [`data.${labelKey}`]: 1
     }
     const items = await db.find({}, {fields}).toArray()
-    console.log('items', items)
     return items.map(item => {
       return {
         value: valueKey === '_id' ? item._id : item.data[valueKey],
