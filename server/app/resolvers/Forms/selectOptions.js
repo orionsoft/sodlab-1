@@ -32,7 +32,9 @@ export default resolver({
   returns: [SelectOption],
   async resolve({environmentId, formId, fieldName}, viewer) {
     const form = formId ? await Forms.findOne(formId) : await Environments.findOne(environmentId)
+
     const schema = formId ? await form.schema() : await form.profileSchema()
+
     const field = fieldName.replace(formId ? 'data.' : 'profile.', '')
     const fieldSchema = schema[field]
     if (!fieldSchema) return []
