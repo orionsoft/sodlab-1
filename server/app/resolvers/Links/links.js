@@ -13,19 +13,13 @@ export default paginatedResolver({
     },
     environmentId: {
       type: 'ID'
-    },
-    userId: {
-      type: 'ID',
-      optional: true
     }
   },
-  async getCursor({filter, environmentId, userId}, viewer) {
+  async getCursor({filter, environmentId}, viewer) {
     const query = {environmentId}
     if (!viewer.roles.includes('admin')) {
-      if (userId) {
-        const environmentUser = await EnvironmentUsers.findOne({userId})
-        query.roles = {$in: environmentUser.roles}
-      }
+      const environmentUser = await EnvironmentUsers.findOne({userId: viewer.userId, environmentId})
+      query.roles = environmentUser ? {$in: environmentUser.roles} : {}
     }
     if (filter) {
       query.name = {$regex: new RegExp(`^${escape(filter)}`)}

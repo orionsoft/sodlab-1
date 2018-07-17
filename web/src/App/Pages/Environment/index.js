@@ -11,19 +11,17 @@ import Layout from './Layout'
 import View from './View'
 import NotFound from './NotFound'
 import forceLogin from 'App/helpers/auth/forceLogin'
-import withUserId from 'App/helpers/auth/withUserId'
 import Watch from './Watch'
 
 @forceLogin
 @withEnvironmentId
-@withUserId
 @withGraphQL(gql`
-  query getEnvironment($environmentId: ID, $userId: ID) {
+  query getEnvironment($environmentId: ID) {
     environment(environmentId: $environmentId) {
       _id
       name
     }
-    views(limit: null, environmentId: $environmentId, userId: $userId) {
+    views(limit: null, environmentId: $environmentId) {
       items {
         _id
         path
@@ -34,8 +32,7 @@ import Watch from './Watch'
 export default class Environment extends React.Component {
   static propTypes = {
     environment: PropTypes.object,
-    views: PropTypes.object,
-    userId: PropTypes.string
+    views: PropTypes.object
   }
 
   renderViews() {

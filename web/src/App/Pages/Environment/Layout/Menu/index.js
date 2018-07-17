@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './styles.css'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
-import withUserId from 'App/helpers/auth/withUserId'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
@@ -11,14 +10,13 @@ import logout from 'App/helpers/auth/logout'
 import {withRouter} from 'react-router'
 
 @withEnvironmentId
-@withUserId
 @withGraphQL(gql`
-  query getEnvironment($environmentId: ID, $userId: ID) {
+  query getEnvironment($environmentId: ID) {
     environment(environmentId: $environmentId) {
       _id
       name
     }
-    links(limit: null, environmentId: $environmentId, userId: $userId) {
+    links(limit: null, environmentId: $environmentId) {
       items {
         title
         path
