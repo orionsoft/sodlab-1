@@ -110,6 +110,7 @@ export default class Form extends React.Component {
   }
 
   render() {
+    const {currentUser} = this.props.parameters
     if (this.needsData() && !this.getItemData()) return this.renderItemNotFound()
     return (
       <div className={styles.container}>
@@ -118,7 +119,12 @@ export default class Form extends React.Component {
           ref="form"
           only="data"
           getErrorFieldLabel={() => translate('general.thisField')}
-          doc={{formId: this.props.form._id, data: this.getData(), itemId: this.getItemId()}}
+          doc={{
+            formId: this.props.form._id,
+            data: this.getData(),
+            itemId: this.getItemId(),
+            currentUser: currentUser
+          }}
           onSuccess={this.onSuccess}>
           <Fields
             schemaToField={this.schemaToField}

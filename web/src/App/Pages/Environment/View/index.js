@@ -6,9 +6,10 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import Form from './Form'
 import Table from './Table'
+import {withApollo} from 'react-apollo'
 
 @withGraphQL(gql`
-  query getView($viewId: ID) {
+  query getView($viewId: ID, $environmentId: ID) {
     view(viewId: $viewId) {
       _id
       title
@@ -21,12 +22,21 @@ import Table from './Table'
         tableId
       }
     }
+    userByEnvironments(environmentId: $environmentId) {
+      userId
+      email
+      profile
+    }
   }
 `)
+@withApollo
 export default class View extends React.Component {
   static propTypes = {
+    client: PropTypes.object,
     params: PropTypes.object,
-    view: PropTypes.object
+    view: PropTypes.object,
+    environmentId: PropTypes.string,
+    userByEnvironments: PropTypes.object
   }
 
   state = {}
@@ -34,7 +44,12 @@ export default class View extends React.Component {
   getParameters() {
     return {
       ...this.props.params,
-      ...this.state
+      ...this.state,
+      currentUser: {
+        id: this.props.userByEnvironments.userId,
+        email: this.props.userByEnvironments.email,
+        ...this.props.userByEnvironments.profile
+      }
     }
   }
 

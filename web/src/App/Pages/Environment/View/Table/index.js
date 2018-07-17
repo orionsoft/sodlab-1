@@ -86,7 +86,6 @@ export default class Table extends React.Component {
     if (!filter || !filter.schema) {
       return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
     }
-
     const cleaned = await clean(filter.schema, {...this.state.options, ...this.props.parameters})
     try {
       await validate(filter.schema, cleaned)
