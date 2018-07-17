@@ -33,6 +33,7 @@ export default function(type, field) {
     }
   }
   const fieldMap = isArray(type) ? arrayFieldMap : singleFieldMap
+  console.log(fieldMap)
   let typeId = isArray(type) ? type[0] : type
   if (field.__graphQLType === 'FileInput') {
     type = 'file'

@@ -65,6 +65,7 @@ export default class EnvironmentUser extends React.Component {
 
   render() {
     if (!this.props.environmentUser || !this.props.environment) return null
+    console.log('conf', this.props.environment)
     const params = {profile: {type: this.props.environment.serializedProfileSchema || {}}}
     return (
       <div className={styles.container}>
