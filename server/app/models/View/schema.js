@@ -30,5 +30,9 @@ export default {
     label: 'Items',
     type: [ViewItem],
     optional: true
+  },
+  roles: {
+    type: ['ID'],
+    defaultValue: []
   }
 }

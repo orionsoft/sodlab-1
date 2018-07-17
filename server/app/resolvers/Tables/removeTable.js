@@ -1,6 +1,5 @@
 import Tables from 'app/collections/Tables'
 import {resolver} from '@orion-js/app'
-// import postRemoveTable from 'app/helpers/resolvers/tables/postRemoveTable'
 
 export default resolver({
   params: {
@@ -12,7 +11,6 @@ export default resolver({
   mutation: true,
   role: 'admin',
   async resolve({tableId}, viewer) {
-    // await postRemoveTable(tableId)
     await Tables.remove(tableId)
     return true
   }
