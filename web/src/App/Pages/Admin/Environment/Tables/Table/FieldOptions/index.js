@@ -15,9 +15,17 @@ export default class FieldOptions extends React.Component {
 
   renderTypeField() {
     return (
-      <div className="col-xs-12 col-sm-6 col-md-4">
-        <div className="label">Campo</div>
-        <Field fieldName="fieldName" type={Select} options={this.props.collection.fields} />
+      <div className="col-xs-12 col-sm-12 col-md-8">
+        <div className="row">
+          <div className="col-xs-12 col-sm-12 col-md-6">
+            <div className="label">Etiqueta</div>
+            <Field fieldName="label" type={Text} />
+          </div>
+          <div className="col-xs-12 col-sm-12 col-md-6">
+            <div className="label">Campo</div>
+            <Field fieldName="fieldName" type={Select} options={this.props.collection.fields} />
+          </div>
+        </div>
       </div>
     )
   }
@@ -25,7 +33,7 @@ export default class FieldOptions extends React.Component {
   renderTypeSelectIconButton() {
     const fromOptions = [{label: 'ID', value: '_id'}, ...this.props.collection.fields]
     return [
-      <div key={1} className="col-xs-12 col-sm-6 col-md-4">
+      <div key={1} className="col-xs-12 col-sm-6 col-md-8">
         <div className="label">Icono</div>
         <Field fieldName="options.icon" type={Select} options={iconOptions} />
       </div>,

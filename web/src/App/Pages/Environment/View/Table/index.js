@@ -140,6 +140,7 @@ export default class Table extends React.Component {
       return {
         title: field.label,
         name: 'data',
+        options: field.options,
         render: doc => this.renderField({field, doc})
       }
     })

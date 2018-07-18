@@ -9,7 +9,7 @@ export default class DeleteDocument extends React.Component {
 
   render() {
     return [
-      <div key={1} className="col-xs-12 col-sm-6 col-md-4">
+      <div key={1} className="col-xs-12 col-sm-6 col-md-8">
         <div className="label">Icono</div>
         <Field fieldName="options.icon" type={Select} options={iconOptions} />
       </div>,
