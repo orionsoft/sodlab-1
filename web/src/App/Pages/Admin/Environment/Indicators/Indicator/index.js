@@ -13,14 +13,26 @@ import {withRouter} from 'react-router'
 import {Field} from 'simple-react-form'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ObjectField from 'App/components/fields/ObjectField'
+import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 
 @withGraphQL(gql`
-  query indicator($indicatorId: ID) {
+  query indicator($indicatorId: ID, $environmentId: ID) {
     indicator(indicatorId: $indicatorId) {
       _id
       name
       title
       environmentId
+      collectionId
+      filtersIds
+      allowsNoFilter
+    }
+    filters(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+        collectionId
+      }
     }
   }
 `)
@@ -31,13 +43,20 @@ export default class Kpi extends React.Component {
     history: PropTypes.object,
     indicator: PropTypes.object,
     showMessage: PropTypes.func,
-    match: PropTypes.object
+    match: PropTypes.object,
+    filters: PropTypes.object
   }
 
   remove() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento eliminado satisfactoriamente!')
     this.props.history.push(`/${environmentId}/indicators`)
+  }
+
+  getFilters() {
+    return this.props.filters.items.filter(
+      filter => filter.collectionId === this.props.indicator.collectionId
+    )
   }
 
   render() {
@@ -64,6 +83,10 @@ export default class Kpi extends React.Component {
               <Field fieldName="name" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
+              <div className="label">Filtros</div>
+              <Field fieldName="filtersIds" type={Select} multi options={this.getFilters()} />
+              <div className="label">Se puede usar sin filtro</div>
+              <Field fieldName="allowsNoFilter" type={Checkbox} label="Se puede usar sin filtro" />
             </Field>
           </AutoForm>
           <br />

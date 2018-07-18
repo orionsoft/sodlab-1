@@ -12,6 +12,9 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
+    collectionId: {
+      type: 'ID'
+    },
     name: {
       type: String,
       label: 'Nombre'
@@ -24,9 +27,10 @@ export default resolver({
   returns: Indicator,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, name, title}, viewer) {
+  async resolve({environmentId, collectionId, name, title}, viewer) {
     const indicatorId = await Indicators.insert({
       environmentId,
+      collectionId,
       name,
       title,
       createdAt: new Date()
