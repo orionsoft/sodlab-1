@@ -10,6 +10,9 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
+import {Field} from 'simple-react-form'
+import Text from 'orionsoft-parts/lib/components/fields/Text'
+import ObjectField from 'App/components/fields/ObjectField'
 
 @withGraphQL(gql`
   query indicator($indicatorId: ID) {
@@ -55,8 +58,14 @@ export default class Kpi extends React.Component {
             doc={{
               indicatorId: this.props.indicator._id,
               indicator: this.props.indicator
-            }}
-          />
+            }}>
+            <Field fieldName="indicator" type={ObjectField}>
+              <div className="label">Nombre</div>
+              <Field fieldName="name" type={Text} />
+              <div className="label">Título</div>
+              <Field fieldName="title" type={Text} />
+            </Field>
+          </AutoForm>
           <br />
           <Button
             to={`/${this.props.indicator.environmentId}/indicators`}
