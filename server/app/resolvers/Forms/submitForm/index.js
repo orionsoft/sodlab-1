@@ -3,7 +3,6 @@ import Item from 'app/models/Item'
 import Forms from 'app/collections/Forms'
 import prependKey from 'app/helpers/misc/prependKey'
 import validate from './validate'
-import fieldsData from './fieldsData'
 
 export default resolver({
   params: {
@@ -19,19 +18,14 @@ export default resolver({
     data: {
       type: 'blackbox',
       label: 'Data'
-    },
-    currentUser: {
-      type: 'blackbox',
-      label: 'Usuario Actual'
     }
   },
   returns: Item,
   mutation: true,
-  async resolve({formId, itemId, data: rawData, currentUser}, viewer) {
+  async resolve({formId, itemId, data: rawData}, viewer) {
     const form = await Forms.findOne(formId)
     const collection = await form.collectionDb()
-    const newRawData = await fieldsData(form, rawData, currentUser)
-    const data = await validate({form, rawData: newRawData})
+    const data = await validate({form, rawData})
 
     if (form.type === 'create') {
       const newItemId = await collection.insert({data})

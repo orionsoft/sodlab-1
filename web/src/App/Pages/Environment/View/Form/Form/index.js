@@ -72,6 +72,7 @@ export default class Form extends React.Component {
   }
 
   getData() {
+    const {currentUser} = this.props.parameters
     const doc = this.getItemData() || {}
     const params = this.props.form.serializedParams || {}
     for (const key of Object.keys(params)) {
@@ -80,7 +81,7 @@ export default class Form extends React.Component {
         doc[key] = field.defaultValue
       }
       if (field.formFieldType === 'parameter') {
-        doc[key] = this.props.parameters[field.parameterName]
+        doc[key] = currentUser[field.parameterName] ? currentUser[field.parameterName] : 'noData'
       }
     }
     return doc
@@ -110,7 +111,6 @@ export default class Form extends React.Component {
   }
 
   render() {
-    const {currentUser} = this.props.parameters
     if (this.needsData() && !this.getItemData()) return this.renderItemNotFound()
     return (
       <div className={styles.container}>
@@ -122,8 +122,7 @@ export default class Form extends React.Component {
           doc={{
             formId: this.props.form._id,
             data: this.getData(),
-            itemId: this.getItemId(),
-            currentUser: currentUser
+            itemId: this.getItemId()
           }}
           onSuccess={this.onSuccess}>
           <Fields
