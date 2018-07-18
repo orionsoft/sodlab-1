@@ -2508,7 +2508,7 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-orionsoft@^1.2.1:
+eslint-config-orionsoft@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/eslint-config-orionsoft/-/eslint-config-orionsoft-1.2.8.tgz#385fd6510b8c2c2bc36c05019d02331c4a161e24"
   dependencies:

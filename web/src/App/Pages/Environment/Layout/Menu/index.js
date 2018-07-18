@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom'
 import LogoutIcon from 'react-icons/lib/md/exit-to-app'
 import logout from 'App/helpers/auth/logout'
 import {withRouter} from 'react-router'
+import CloseIcon from 'react-icons/lib/md/close'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -29,7 +30,8 @@ export default class Menu extends React.Component {
   static propTypes = {
     location: PropTypes.object,
     environment: PropTypes.object,
-    links: PropTypes.object
+    links: PropTypes.object,
+    toggleMenu: PropTypes.func
   }
 
   renderLink({title, path}, useFullToCheck) {
@@ -49,10 +51,18 @@ export default class Menu extends React.Component {
     })
   }
 
+  toggleMenu = e => {
+    e.preventDefault()
+    this.props.toggleMenu()
+  }
+
   render() {
     const {environment} = this.props
     return (
       <div className={styles.container}>
+        <div className={styles.menuButton}>
+          <CloseIcon onClick={this.toggleMenu} />
+        </div>
         <Link to="/" className={styles.title}>
           {environment.name}
         </Link>

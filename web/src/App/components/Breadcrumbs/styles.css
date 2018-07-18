@@ -23,6 +23,7 @@
 :local(.content) .last {
   border-radius: 10px;
   padding: 5px 10px;
+  display: inline-block;
 }
 
 :local(.content) a:hover {
@@ -30,4 +31,43 @@
 }
 
 :local(.right) {
+}
+
+@media only screen and (max-width: 480px) {
+  :local(.container) {
+    display: block;
+  }
+
+  :local(.content) {
+    display: block;
+  }
+
+  :local(.container) {
+    margin-left: 30px;
+  }
+
+  :local(.content) .bread-divider {
+    padding-top: 6px;
+  }
+
+  :local(.content) .bread-divider::before {
+    content: '\A';
+    white-space: pre;
+  }
+
+  :local(.right) {
+    padding-top: 10px;
+    text-align: right;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* :local(.container) {
+    display: block;
+    text-align: right;
+  } */
+
+  :local(.container) {
+    margin-left: 30px;
+  }
 }
