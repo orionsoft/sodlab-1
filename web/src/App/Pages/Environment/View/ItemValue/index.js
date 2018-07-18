@@ -9,6 +9,7 @@ export default class ItemValue extends React.Component {
   }
 
   render() {
+    if (!this.props.field) return null
     const fieldType = fieldTypes[this.props.field.type]
     if (!fieldType) return 'Error: FT not found'
     const ViewComponent = fieldType.view

@@ -25,7 +25,6 @@ export default resolver({
   async resolve({formId, itemId, data: rawData}, viewer) {
     const form = await Forms.findOne(formId)
     const collection = await form.collectionDb()
-
     const data = await validate({form, rawData})
 
     if (form.type === 'create') {
