@@ -39,12 +39,15 @@
   }
 
   :local(.content) {
-    padding-top: 6px;
     display: block;
   }
 
   :local(.container) {
     margin-left: 30px;
+  }
+
+  :local(.content) .bread-divider {
+    padding-top: 6px;
   }
 
   :local(.content) .bread-divider::before {
