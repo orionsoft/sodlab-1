@@ -2,6 +2,7 @@
   background-color: #111;
   color: #fff;
   width: 200px;
+  position: relative;
 }
 
 :local(.title) {
@@ -40,4 +41,18 @@
   font-size: 14px;
   display: flex;
   align-items: center;
+}
+
+:local(.menuButton) {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  :local(.menuButton) {
+    display: flex;
+    position: absolute;
+    color: #fff;
+    right: 12px;
+    top: 12px;
+  }
 }

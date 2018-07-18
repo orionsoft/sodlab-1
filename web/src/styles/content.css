@@ -50,3 +50,9 @@
     opacity: 0.5;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .divider {
+    margin: 20px 0;
+  }
+}

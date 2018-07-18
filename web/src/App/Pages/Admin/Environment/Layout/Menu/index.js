@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import BackIcon from 'react-icons/lib/md/arrow-back'
 import OpenIcon from 'react-icons/lib/md/open-in-new'
 import {withRouter} from 'react-router'
+import CloseIcon from 'react-icons/lib/md/close'
 
 @withRouter
 export default class Menu extends React.Component {
@@ -12,7 +13,8 @@ export default class Menu extends React.Component {
     location: PropTypes.object,
     history: PropTypes.object,
     environment: PropTypes.object,
-    links: PropTypes.array
+    links: PropTypes.array,
+    toggleMenu: PropTypes.func
   }
 
   renderLink({title, path}) {
@@ -33,10 +35,18 @@ export default class Menu extends React.Component {
     })
   }
 
+  toggleMenu = e => {
+    e.preventDefault()
+    this.props.toggleMenu()
+  }
+
   render() {
     const {environment} = this.props
     return (
       <div className={styles.container}>
+        <div className={styles.menuButton}>
+          <CloseIcon onClick={this.toggleMenu} />
+        </div>
         <Link to={`/${this.props.environment._id}`} className={styles.title}>
           {environment.name}
         </Link>
