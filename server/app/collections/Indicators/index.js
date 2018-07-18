@@ -1,8 +1,8 @@
 import {Collection} from '@orion-js/app'
-import Kpi from 'app/models/Kpi'
+import Indicator from 'app/models/Indicator'
 
 export default new Collection({
-  name: 'kpis',
-  model: Kpi,
+  name: 'indicators',
+  model: Indicator,
   indexes: []
 })

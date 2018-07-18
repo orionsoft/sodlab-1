@@ -1,10 +1,10 @@
 import {paginatedResolver} from '@orion-js/app'
 import escape from 'escape-string-regexp'
-import Kpi from 'app/models/Kpi'
-import Kpis from 'app/collections/Kpis'
+import Indicator from 'app/models/Indicator'
+import Indicators from 'app/collections/Indicators'
 
 export default paginatedResolver({
-  returns: Kpi,
+  returns: Indicator,
   params: {
     filter: {
       type: String,
@@ -19,6 +19,6 @@ export default paginatedResolver({
     if (filter) {
       query.title = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Kpis.find(query)
+    return Indicators.find(query)
   }
 })

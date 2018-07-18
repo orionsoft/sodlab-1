@@ -12,8 +12,8 @@ import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
 
 @withGraphQL(gql`
-  query kpi($kpiId: ID) {
-    kpi(kpiId: $kpiId) {
+  query indicator($indicatorId: ID) {
+    indicator(indicatorId: $indicatorId) {
       _id
       name
       title
@@ -26,7 +26,7 @@ import {withRouter} from 'react-router'
 export default class Kpi extends React.Component {
   static propTypes = {
     history: PropTypes.object,
-    kpi: PropTypes.object,
+    indicator: PropTypes.object,
     showMessage: PropTypes.func,
     match: PropTypes.object
   }
@@ -34,41 +34,43 @@ export default class Kpi extends React.Component {
   remove() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento eliminado satisfactoriamente!')
-    this.props.history.push(`/${environmentId}/kpis`)
+    this.props.history.push(`/${environmentId}/indicators`)
   }
 
   render() {
-    if (!this.props.kpi) return null
+    if (!this.props.indicator) return null
     return (
       <div className={styles.container}>
-        <Breadcrumbs>{this.props.kpi.title}</Breadcrumbs>
+        <Breadcrumbs>{this.props.indicator.title}</Breadcrumbs>
         <Section
           top
-          title={`Editar kpi ${this.props.kpi.title}`}
+          title={`Editar indicador ${this.props.indicator.title}`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
         ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
-            mutation="updateKpi"
+            mutation="updateIndicator"
             ref="form"
-            only="kpi"
+            only="indicator"
             onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
             doc={{
-              kpiId: this.props.kpi._id,
-              kpi: this.props.kpi
+              indicatorId: this.props.indicator._id,
+              indicator: this.props.indicator
             }}
           />
           <br />
-          <Button to={`/${this.props.kpi.environmentId}/kpis`} style={{marginRight: 10}}>
+          <Button
+            to={`/${this.props.indicator.environmentId}/indicators`}
+            style={{marginRight: 10}}>
             Cancelar
           </Button>
           <MutationButton
             label="Eliminar"
-            title="Eliminar kpi"
-            message="¿Quieres eliminar este kpi?"
+            title="Eliminar indicador"
+            message="¿Quieres eliminar este indicador?"
             confirmText="Eliminar"
-            mutation="removeKpi"
+            mutation="deleteIndicator"
             onSuccess={() => this.remove()}
-            params={{kpiId: this.props.kpi._id}}
+            params={{indicatorId: this.props.indicator._id}}
             danger
           />
           <Button onClick={() => this.refs.form.submit()} primary>

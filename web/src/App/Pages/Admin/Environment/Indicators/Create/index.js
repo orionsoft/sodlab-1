@@ -18,32 +18,32 @@ export default class Create extends React.Component {
   }
 
   success(environmentId) {
-    this.props.showMessage('Elemento creado satisfactoriamente!')
-    this.props.history.push(`/${environmentId}/kpis`)
+    this.props.showMessage('Indicador creado satisfactoriamente!')
+    this.props.history.push(`/${environmentId}/indicators`)
   }
 
   render() {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
-        <Breadcrumbs>Crear kpi</Breadcrumbs>
+        <Breadcrumbs>Crear Indicador</Breadcrumbs>
         <Section
-          title="Crear kpi"
+          title="Crear indicador"
           description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
           top>
           <AutoForm
-            mutation="createKpi"
+            mutation="createIndicator"
             ref="form"
             omit="environmentId"
             doc={{environmentId}}
             onSuccess={() => this.success(environmentId)}
           />
           <br />
-          <Button to={`/${environmentId}/kpis`} style={{marginRight: 10}}>
+          <Button to={`/${environmentId}/indicators`} style={{marginRight: 10}}>
             Cancelar
           </Button>
           <Button onClick={() => this.refs.form.submit()} primary>
-            Crear kpi
+            Crear indicador
           </Button>
         </Section>
       </div>

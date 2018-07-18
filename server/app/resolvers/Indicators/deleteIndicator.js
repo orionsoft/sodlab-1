@@ -1,17 +1,17 @@
 import {resolver} from '@orion-js/app'
-import Kpis from 'app/collections/Kpis'
+import Indicators from 'app/collections/Indicators'
 
 export default resolver({
   params: {
-    kpiId: {
+    indicatorId: {
       type: 'ID'
     }
   },
   returns: Boolean,
   mutation: true,
   role: 'admin',
-  async resolve({kpiId}, viewer) {
-    await Kpis.remove(kpiId)
+  async resolve({indicatorId}, viewer) {
+    await Indicators.remove(indicatorId)
     return true
   }
 })

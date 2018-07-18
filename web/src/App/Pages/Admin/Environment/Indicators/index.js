@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
 import Create from './Create'
-import Kpi from './Kpi'
+import Indicator from './Indicator'
 import List from './List'
 
 export default class Kpis extends React.Component {
@@ -12,9 +12,9 @@ export default class Kpis extends React.Component {
     return (
       <div className={styles.container}>
         <Switch>
-          <Route path="/:environmentId/kpis" exact component={List} />
-          <Route path="/:environmentId/kpis/create" component={Create} />
-          <Route path="/:environmentId/kpis/:kpiId" component={Kpi} />
+          <Route path="/:environmentId/indicators" exact component={List} />
+          <Route path="/:environmentId/indicators/create" component={Create} />
+          <Route path="/:environmentId/indicators/:indicatorId" component={Indicator} />
         </Switch>
       </div>
     )

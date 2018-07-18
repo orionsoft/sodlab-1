@@ -1,6 +1,6 @@
 import {resolver} from '@orion-js/app'
-import Kpi from 'app/models/Kpi'
-import Kpis from 'app/collections/Kpis'
+import Indicator from 'app/models/Indicator'
+import Indicators from 'app/collections/Indicators'
 import Environments from 'app/collections/Environments'
 
 export default resolver({
@@ -21,16 +21,16 @@ export default resolver({
       label: 'Título'
     }
   },
-  returns: Kpi,
+  returns: Indicator,
   mutation: true,
   role: 'admin',
   async resolve({environmentId, name, title}, viewer) {
-    const kpiId = await Kpis.insert({
+    const indicatorId = await Indicators.insert({
       environmentId,
       name,
       title,
       createdAt: new Date()
     })
-    return await Kpis.findOne(kpiId)
+    return await Indicators.findOne(indicatorId)
   }
 })

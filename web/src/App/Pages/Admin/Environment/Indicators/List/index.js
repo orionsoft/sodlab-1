@@ -11,23 +11,25 @@ export default class List extends React.Component {
   }
 
   getFields() {
-    return [{title: 'Título', name: 'title'}]
+    return [{title: 'Nombre', name: 'name'}]
   }
 
   render() {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
-        <Breadcrumbs right={<Button to={`/${environmentId}/kpis/create`}>Crear kpi</Button>} />
+        <Breadcrumbs
+          right={<Button to={`/${environmentId}/indicators/create`}>Crear indicador</Button>}
+        />
         <br />
         <PaginatedList
           title={null}
-          name="kpis"
+          name="indicators"
           params={{environmentId}}
           canUpdate
           fields={this.getFields()}
           allowSearch
-          basePath={`/${environmentId}/kpis`}
+          basePath={`/${environmentId}/indicators`}
         />
       </div>
     )
