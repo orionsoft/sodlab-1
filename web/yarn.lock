@@ -5847,9 +5847,9 @@ react-notification-system@^0.2.17:
     object-assign "^4.0.1"
     prop-types "^15.5.6"
 
-react-number-format@^3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-3.4.2.tgz#95494bac3485206be5db0ef7f01822c77df3989b"
+react-number-format@^3.4.4:
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-3.4.4.tgz#05936b777d3e84eafcd3de8acd5352d2508faeca"
   dependencies:
     babel-runtime "^6.26.0"
     prop-types "^15.6.0"
