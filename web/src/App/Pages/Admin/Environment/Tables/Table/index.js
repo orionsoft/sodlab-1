@@ -120,10 +120,6 @@ export default class Link extends React.Component {
             <div className="label">Tipo</div>
             <Field fieldName="type" type={Select} options={typeOptions} />
           </div>
-          <div className="col-xs-12 col-sm-6 col-md-4">
-            <div className="label">Etiqueta</div>
-            <Field fieldName="label" type={Text} />
-          </div>
           {this.renderFieldOptions()}
         </div>
       </Field>

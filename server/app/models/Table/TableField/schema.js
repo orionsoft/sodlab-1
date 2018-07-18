@@ -16,11 +16,13 @@ export default {
     }
   },
   label: {
-    type: String
+    type: String,
+    optional: true
   },
   options: {
     type: 'blackbox',
     optional: true,
+    defaultValue: {},
     async autoValue(options, {currentDoc, keys}) {
       if (['field'].includes(currentDoc.type)) return
 
