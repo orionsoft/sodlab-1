@@ -6,6 +6,7 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import Form from './Form'
 import Table from './Table'
+import Indicator from './Indicator'
 
 @withGraphQL(gql`
   query getView($viewId: ID) {
@@ -19,6 +20,7 @@ import Table from './Table'
         type
         formId
         tableId
+        indicatorId
       }
     }
   }
@@ -50,6 +52,9 @@ export default class View extends React.Component {
     }
     if (item.type === 'table') {
       return <Table {...props} tableId={item.tableId} />
+    }
+    if (item.type === 'indicator') {
+      return <Indicator {...props} indicatorId={item.indicatorId} />
     }
   }
 

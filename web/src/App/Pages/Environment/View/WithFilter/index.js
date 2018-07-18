@@ -88,11 +88,12 @@ export default class WithFilter extends React.Component {
     const hasOptions = allowsNoFilter ? options.length : options.length > 1
     if (!hasOptions) return
     return (
-      <div>
+      <div className={styles.container}>
         <Form state={this.state} onChange={changes => this.setState(changes)}>
           <div className="label">Elige un filtro</div>
           <Field fieldName="filterId" placeholder="Sin filtro" type={Select} options={options} />
         </Form>
+        {this.renderFilterOptions()}
       </div>
     )
   }
@@ -112,10 +113,7 @@ export default class WithFilter extends React.Component {
   render() {
     return (
       <div>
-        <div className={styles.container}>
-          {this.renderFilterForm()}
-          {this.renderFilterOptions()}
-        </div>
+        {this.renderFilterForm()}
         {this.renderChildren()}
       </div>
     )

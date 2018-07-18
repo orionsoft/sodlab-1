@@ -18,7 +18,6 @@ export default class Watch extends React.Component {
   static propTypes = {
     client: PropTypes.object,
     environmentId: PropTypes.string,
-    parent: PropTypes.any,
     collectionId: PropTypes.string
   }
 

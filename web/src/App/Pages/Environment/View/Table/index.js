@@ -124,11 +124,7 @@ export default class Table extends React.Component {
           parameters={parameters}>
           {this.renderPaginated}
         </WithFilter>
-        <Watch
-          environmentId={table.environmentId}
-          parent={this}
-          collectionId={table.collectionId}
-        />
+        <Watch environmentId={table.environmentId} collectionId={table.collectionId} />
       </div>
     )
   }
