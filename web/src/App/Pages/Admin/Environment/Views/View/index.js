@@ -17,6 +17,7 @@ import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
 import range from 'lodash/range'
+import clone from 'lodash/clone'
 
 @withGraphQL(gql`
   query getForm($viewId: ID, $environmentId: ID) {
@@ -26,6 +27,7 @@ import range from 'lodash/range'
       environmentId
       title
       path
+      roles
       items {
         sizeSmall
         sizeMedium
@@ -47,6 +49,12 @@ import range from 'lodash/range'
         label: name
       }
     }
+    roles(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -58,6 +66,7 @@ export default class View extends React.Component {
     collections: PropTypes.object,
     forms: PropTypes.object,
     tables: PropTypes.object,
+    roles: PropTypes.object,
     match: PropTypes.object
   }
 
@@ -79,11 +88,14 @@ export default class View extends React.Component {
     const option = this.getTypes().find(type => item.type === type.value)
     const result = this.props[option.result] || {}
     const items = result.items || []
+    const orderedItems = clone(items).sort(
+      (a, b) => (a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1)
+    )
     return (
       <div className="col-xs-12 col-sm-6">
         <div className="label">{option.label}</div>
         {items.length ? (
-          <Field fieldName={`${item.type}Id`} type={Select} options={items} />
+          <Field fieldName={`${item.type}Id`} type={Select} options={orderedItems} />
         ) : (
           `No hay ${option.label}`
         )}
@@ -167,9 +179,10 @@ export default class View extends React.Component {
               <Field fieldName="name" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
-
               <div className="label">Contenido</div>
               <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
+              <div className="label">Roles</div>
+              <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
             </Field>
           </AutoForm>
           <br />

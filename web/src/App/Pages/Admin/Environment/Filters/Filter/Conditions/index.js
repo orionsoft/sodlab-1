@@ -85,7 +85,8 @@ export default class Conditions extends React.Component {
     showMessage: PropTypes.func,
     filter: PropTypes.object,
     operators: PropTypes.array,
-    mutationParams: PropTypes.object
+    mutationParams: PropTypes.object,
+    updateFilterConditions: PropTypes.func
   }
 
   state = {}

@@ -21,7 +21,8 @@ export default {
   },
   roles: {
     type: ['ID'],
-    optional: true
+    optional: true,
+    defaultValue: []
   },
   stripeCustomerId: {
     type: String,

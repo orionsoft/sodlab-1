@@ -1,5 +1,5 @@
 export default {
-  name: 'Moneda',
+  name: 'Porcentaje',
   rootType: Number,
   allowedOperatorsIds: [
     'exists',

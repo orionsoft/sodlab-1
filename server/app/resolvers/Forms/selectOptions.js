@@ -1,6 +1,7 @@
 import {resolver, Model} from '@orion-js/app'
 import Forms from 'app/collections/Forms'
 import Collections from 'app/collections/Collections'
+import Environments from 'app/collections/Environments'
 
 const SelectOption = new Model({
   name: 'SelectOption',
@@ -16,19 +17,25 @@ const SelectOption = new Model({
 
 export default resolver({
   params: {
+    environmentId: {
+      type: 'ID',
+      optional: true
+    },
     formId: {
-      type: 'ID'
+      type: 'ID',
+      optional: true
     },
     fieldName: {
       type: String
     }
   },
   returns: [SelectOption],
-  async resolve({formId, fieldName}, viewer) {
-    const form = await Forms.findOne(formId)
-    if (!form) return []
-    const schema = await form.schema()
-    const field = fieldName.replace('data.', '')
+  async resolve({environmentId, formId, fieldName}, viewer) {
+    const form = formId ? await Forms.findOne(formId) : await Environments.findOne(environmentId)
+
+    const schema = formId ? await form.schema() : await form.profileSchema()
+
+    const field = fieldName.replace(formId ? 'data.' : 'profile.', '')
     const fieldSchema = schema[field]
     if (!fieldSchema) return []
     const options = fieldSchema.fieldOptions
@@ -44,7 +51,6 @@ export default resolver({
       [`data.${labelKey}`]: 1
     }
     const items = await db.find({}, {fields}).toArray()
-
     return items.map(item => {
       return {
         value: valueKey === '_id' ? item._id : item.data[valueKey],
