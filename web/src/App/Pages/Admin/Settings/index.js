@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
 import Profile from './Profile'
 import Password from './Password'
@@ -15,7 +16,9 @@ export default class Layout extends React.Component {
     return (
       <div>
         <Container>
-          <h1>Mi cuenta</h1>
+          <div className={styles.title}>
+            <h1>Mi cuenta</h1>
+          </div>
           <Tabs
             items={[
               {title: 'Perfil', path: '/settings'},
