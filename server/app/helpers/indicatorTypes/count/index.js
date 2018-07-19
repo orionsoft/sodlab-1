@@ -3,6 +3,7 @@ export default {
   requireCollection: true,
   requireField: false,
   optionsSchema: null,
+  getRenderType: () => 'number',
   async getResult({collection, query}) {
     const [result] = await collection
       .aggregate([

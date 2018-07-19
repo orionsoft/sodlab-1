@@ -1,5 +1,17 @@
-import {resolver} from '@orion-js/app'
+import {resolver, Model} from '@orion-js/app'
 import Indicators from 'app/collections/Indicators'
+
+const Result = new Model({
+  name: 'IndicatorResult',
+  schema: {
+    value: {
+      type: 'blackbox'
+    },
+    renderType: {
+      type: String
+    }
+  }
+})
 
 export default resolver({
   params: {
@@ -15,10 +27,14 @@ export default resolver({
       optional: true
     }
   },
-  returns: 'blackbox',
+  returns: Result,
   async resolve({indicatorId, filterId, filterOptions}, viewer) {
     const indicator = await Indicators.findOne(indicatorId)
-    const result = await indicator.result({filterId, filterOptions}, viewer)
-    return result
+    const value = await indicator.result({filterId, filterOptions}, viewer)
+    const renderType = await indicator.renderType({filterId, filterOptions}, viewer)
+    return {
+      renderType,
+      value
+    }
   }
 })
