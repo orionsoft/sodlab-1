@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './styles.css'
 import dot from 'dot-object'
 import Sort from './Sort'
 import icons from 'App/components/Icon/icons'
@@ -46,9 +47,15 @@ export default class Table extends React.Component {
       if (field.options && field.options.icon) {
         const icon = icons[field.options.icon]
         return (
-          <th key={index} className={style} onClick={onClick}>
+          <th key={index} className={`${style} ${styles.iconTooltip}`} onClick={onClick}>
             {sort}
-            <IconButton key={index} onPress={onClick} icon={icon} size={18} />
+            <IconButton
+              key={index}
+              onPress={onClick}
+              icon={icon}
+              size={18}
+              tooltip={field.options.tooltip}
+            />
           </th>
         )
       } else {
