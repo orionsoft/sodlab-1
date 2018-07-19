@@ -19,6 +19,6 @@ export default paginatedResolver({
     if (filter) {
       query._id = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Collections.find(query)
+    return Collections.find(query).sort({name: 1})
   }
 })

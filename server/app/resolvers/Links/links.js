@@ -24,6 +24,6 @@ export default paginatedResolver({
     if (filter) {
       query.name = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Links.find(query)
+    return Links.find(query).sort({title: 1})
   }
 })
