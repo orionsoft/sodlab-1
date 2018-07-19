@@ -65,11 +65,15 @@ export default class FormField extends React.Component {
     const element = form.collection.fields.find(formField => {
       return formField.name === field.fieldName
     })
-    if (!element.optional) return
     return (
       <div>
         <div className="label">Opcional</div>
-        <Field fieldName="optional" type={Checkbox} label="Opcional" />
+        <Field
+          fieldName="optional"
+          type={Checkbox}
+          label="Opcional"
+          disabled={!element.optional || field.type === 'fixed'}
+        />
       </div>
     )
   }
