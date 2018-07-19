@@ -1,5 +1,5 @@
 :local(.container) {
-  margin-left: -10px;
+  padding-left: -10px;
   display: flex;
   align-items: center;
   padding-top: 20px;
@@ -30,6 +30,10 @@
   background: #f3f3f3;
 }
 
+:local(.pastPath) {
+  display: block;
+}
+
 :local(.right) {
 }
 
@@ -42,8 +46,12 @@
     display: block;
   }
 
+  :local(.pastPath) {
+    display: none;
+  }
+
   :local(.container) {
-    margin-left: 30px;
+    padding-left: 30px;
   }
 
   :local(.content) .bread-divider {
@@ -62,12 +70,7 @@
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* :local(.container) {
-    display: block;
-    text-align: right;
-  } */
-
   :local(.container) {
-    margin-left: 30px;
+    padding-left: 30px;
   }
 }

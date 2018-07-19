@@ -50,7 +50,7 @@ export default class Breadcrumbs extends React.Component {
     return (
       <div className={styles.container}>
         <div className={styles.content}>
-          {this.renderPast()}
+          <div className={styles.pastPath}>{this.renderPast()}</div>
           {this.props.children ? <span className="last">{this.props.children}</span> : null}
         </div>
         <div className={styles.right}>{this.renderRight()}</div>
