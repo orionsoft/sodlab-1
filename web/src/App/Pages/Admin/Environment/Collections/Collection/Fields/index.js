@@ -48,6 +48,7 @@ export default class Fields extends React.Component {
         type
         label
         options
+        optional
       }
     }
   `

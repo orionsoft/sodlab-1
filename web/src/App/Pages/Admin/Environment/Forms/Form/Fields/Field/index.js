@@ -59,6 +59,21 @@ export default class FormField extends React.Component {
     )
   }
 
+  renderOptional() {
+    const {field, form} = this.props
+    if (!field.fieldName || !form.collection.fields) return
+    const element = form.collection.fields.find(formField => {
+      return formField.name === field.fieldName
+    })
+    if (!element.optional) return
+    return (
+      <div>
+        <div className="label">Opcional</div>
+        <Field fieldName="optional" type={Checkbox} label="Opcional" />
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className={styles.container}>
@@ -76,10 +91,7 @@ export default class FormField extends React.Component {
               collectionId={this.props.form.collectionId}
             />
           </div>
-          <div className="col-xs-12 col-sm-2 col-lg-2">
-            <div className="label">Opcional</div>
-            <Field fieldName="optional" type={Checkbox} label="Opcional" />
-          </div>
+          <div className="col-xs-12 col-sm-2 col-lg-2">{this.renderOptional()}</div>
           <div className="col-xs-12 col-sm-8 col-lg-4">
             {this.renderEditableLabel()}
             {this.renderFixedValue()}
