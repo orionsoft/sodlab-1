@@ -10,11 +10,14 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
-import {Field} from 'simple-react-form'
+import {Field, WithValue} from 'simple-react-form'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ObjectField from 'App/components/fields/ObjectField'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import IndicatorOptions from './IndicatorOptions'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
+import FieldSelect from 'App/components/fieldTypes/collectionFieldSelect/Field'
+import cloneDeep from 'lodash/cloneDeep'
 
 @withGraphQL(gql`
   query indicator($indicatorId: ID, $environmentId: ID) {
@@ -24,8 +27,25 @@ import Checkbox from 'App/components/fieldTypes/checkbox/Field'
       title
       environmentId
       collectionId
+      fieldName
       filtersIds
       allowsNoFilter
+      indicatorTypeId
+      options
+    }
+    indicatorTypes {
+      value: _id
+      label: name
+      _id
+      optionsParams
+      requireCollection
+      requireField
+    }
+    collections(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
     }
     filters(environmentId: $environmentId) {
       items {
@@ -44,7 +64,9 @@ export default class Kpi extends React.Component {
     indicator: PropTypes.object,
     showMessage: PropTypes.func,
     match: PropTypes.object,
-    filters: PropTypes.object
+    filters: PropTypes.object,
+    indicatorTypes: PropTypes.array,
+    collections: PropTypes.object
   }
 
   remove() {
@@ -54,8 +76,66 @@ export default class Kpi extends React.Component {
   }
 
   getFilters() {
-    return this.props.filters.items.filter(
-      filter => filter.collectionId === this.props.indicator.collectionId
+    return this.props.filters.items.map(filter => {
+      return {
+        label: (
+          <span>
+            {filter.name} <span className={styles.filterCollection}>{filter.collection.name}</span>
+          </span>
+        ),
+        value: filter._id
+      }
+    })
+  }
+
+  renderFilterOptions(indicator, indicatorType) {
+    if (!indicator.collectionId) return
+    const filters = this.props.filters.items.filter(
+      filter => filter.collectionId === indicator.collectionId
+    )
+    return (
+      <div style={{marginTop: 20}}>
+        <div className="label">Filtros</div>
+        <Field fieldName="filtersIds" type={Select} multi options={filters} />
+        <div className="label">Se puede usar sin filtro</div>
+        <Field fieldName="allowsNoFilter" type={Checkbox} label="Se puede usar sin filtro" />
+      </div>
+    )
+  }
+
+  renderFieldOption(indicator, indicatorType) {
+    if (!indicatorType.requireField) return
+    if (!indicator.collectionId) return
+    return (
+      <div style={{marginTop: 20}}>
+        <div className="label">Campo</div>
+        <Field fieldName="fieldName" type={FieldSelect} collectionId={indicator.collectionId} />
+      </div>
+    )
+  }
+
+  renderIndicatorCollectionOptions(indicator, indicatorType) {
+    if (!indicatorType.requireCollection) return
+    return (
+      <div style={{marginTop: 20}}>
+        <div className="label">Colección</div>
+        <Field fieldName="collectionId" type={Select} options={this.props.collections.items} />
+        {this.renderFieldOption(indicator, indicatorType)}
+        {this.renderFilterOptions(indicator, indicatorType)}
+      </div>
+    )
+  }
+
+  renderOptions(indicator) {
+    const {indicatorTypeId} = indicator
+    if (!indicatorTypeId) return
+    const indicatorType = this.props.indicatorTypes.find(t => t._id === indicatorTypeId)
+    if (!indicatorType) return
+    return (
+      <div>
+        {this.renderIndicatorCollectionOptions(indicator, indicatorType)}
+        <IndicatorOptions indicatorType={indicatorType} type={indicatorTypeId} />
+      </div>
     )
   }
 
@@ -76,17 +156,20 @@ export default class Kpi extends React.Component {
             onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
             doc={{
               indicatorId: this.props.indicator._id,
-              indicator: this.props.indicator
+              indicator: cloneDeep(this.props.indicator)
             }}>
             <Field fieldName="indicator" type={ObjectField}>
               <div className="label">Nombre</div>
               <Field fieldName="name" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
-              <div className="label">Filtros</div>
-              <Field fieldName="filtersIds" type={Select} multi options={this.getFilters()} />
-              <div className="label">Se puede usar sin filtro</div>
-              <Field fieldName="allowsNoFilter" type={Checkbox} label="Se puede usar sin filtro" />
+              <div className="label">Indicator</div>
+              <Field
+                fieldName="indicatorTypeId"
+                type={Select}
+                options={this.props.indicatorTypes}
+              />
+              <WithValue>{indicator => this.renderOptions(indicator)}</WithValue>
             </Field>
           </AutoForm>
           <br />

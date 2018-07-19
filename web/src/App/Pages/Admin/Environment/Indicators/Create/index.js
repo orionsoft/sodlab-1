@@ -8,29 +8,15 @@ import {withRouter} from 'react-router'
 import Breadcrumbs from '../../Breadcrumbs'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import {Field} from 'simple-react-form'
-import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
-import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
-import gql from 'graphql-tag'
 
 @withRouter
 @withMessage
-@withGraphQL(gql`
-  query getCollections($environmentId: ID) {
-    collections(environmentId: $environmentId) {
-      items {
-        value: _id
-        label: name
-      }
-    }
-  }
-`)
 export default class Create extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
     history: PropTypes.object,
-    match: PropTypes.object,
-    collections: PropTypes.object
+    match: PropTypes.object
   }
 
   success(environmentId) {
@@ -57,8 +43,6 @@ export default class Create extends React.Component {
             <Field fieldName="name" type={Text} />
             <div className="label">Título</div>
             <Field fieldName="title" type={Text} />
-            <div className="label">Colección</div>
-            <Field fieldName="collectionId" type={Select} options={this.props.collections.items} />
           </AutoForm>
           <br />
           <Button to={`/${environmentId}/indicators`} style={{marginRight: 10}}>

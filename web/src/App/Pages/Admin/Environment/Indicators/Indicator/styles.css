@@ -1,3 +1,13 @@
 :local(.container) {
+}
 
+:local(.filterCollection) {
+  position: relative;
+  top: -1px;
+  font-size: 13px;
+  margin-left: 10px;
+  border-radius: 4px;
+  padding: 2px 5px;
+  background: #333;
+  color: #fff;
 }

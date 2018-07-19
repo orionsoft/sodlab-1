@@ -19,7 +19,21 @@ export default {
     type: Date
   },
   collectionId: {
-    type: 'ID'
+    type: 'ID',
+    optional: true
+  },
+  fieldName: {
+    type: String,
+    optional: true
+  },
+  filtersIds: {
+    type: [String],
+    optional: true,
+    async custom(filtersIds, {currentDoc}) {
+      if (isEmpty(filtersIds) && !currentDoc.allowsNoFilter) {
+        return 'needFilter'
+      }
+    }
   },
   allowsNoFilter: {
     type: Boolean,
@@ -30,13 +44,12 @@ export default {
       }
     }
   },
-  filtersIds: {
-    type: [String],
-    optional: true,
-    async custom(filtersIds, {currentDoc}) {
-      if (isEmpty(filtersIds) && !currentDoc.allowsNoFilter) {
-        return 'needFilter'
-      }
-    }
+  indicatorTypeId: {
+    type: String,
+    optional: true
+  },
+  options: {
+    type: 'blackbox',
+    optional: true
   }
 }

@@ -10,7 +10,7 @@ export default resolver({
     indicator: {
       type: Indicator.clone({
         name: 'UpdateIndicator',
-        omitFields: ['_id', 'environmentId', 'createdAt', 'collectionId']
+        omitFields: ['_id', 'environmentId', 'createdAt']
       })
     }
   },
