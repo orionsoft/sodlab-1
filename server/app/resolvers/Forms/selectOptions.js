@@ -51,11 +51,13 @@ export default resolver({
       [`data.${labelKey}`]: 1
     }
     const items = await db.find({}, {fields}).toArray()
-    return items.map(item => {
-      return {
-        value: valueKey === '_id' ? item._id : item.data[valueKey],
-        label: labelKey === '_id' ? item._id : item.data[labelKey]
-      }
-    })
+    return items
+      .map(item => {
+        return {
+          value: valueKey === '_id' ? item._id : item.data[valueKey],
+          label: labelKey === '_id' ? item._id : item.data[labelKey]
+        }
+      })
+      .sort((a, b) => (a.label > b.label ? 1 : -1))
   }
 })
