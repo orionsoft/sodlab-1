@@ -9,15 +9,32 @@ export default class Checkbox extends React.Component {
     trueLabel: PropTypes.string,
     falseLabel: PropTypes.string,
     label: PropTypes.string,
-    errorMessage: PropTypes.string
+    errorMessage: PropTypes.string,
+    disabled: PropTypes.bool
+  }
+
+  state = {}
+
+  static getDerivedStateFromProps(props, state) {
+    if (!state.prevDisabled && props.disabled) {
+      props.onChange(false)
+    }
+    return {
+      prevDisabled: props.disabled
+    }
   }
 
   render() {
-    const {onChange, value, trueLabel, falseLabel, label} = this.props
+    const {onChange, value, trueLabel, falseLabel, label, disabled} = this.props
     return (
       <div className={styles.container}>
         <label>
-          <input type="checkbox" checked={!!value} onChange={() => onChange(!this.props.value)} />
+          <input
+            type="checkbox"
+            checked={!!value}
+            disabled={disabled}
+            onChange={() => onChange(!this.props.value)}
+          />
           <span className={styles.label}>{(value ? trueLabel : falseLabel) || label}</span>
         </label>
         <div className="error">{this.props.errorMessage}</div>
