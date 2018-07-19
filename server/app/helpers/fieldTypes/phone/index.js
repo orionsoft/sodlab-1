@@ -4,8 +4,9 @@ export default {
   allowedOperatorsIds: ['exists'],
   optionsSchema: {},
   validate(value, options) {
+    if (!value) return
     let number = value.toString()
-    const re = /^[(]*[+][0-9]{3}[)]\d{8}$/
+    const re = /^\d{9}$/
     if (!re.test(number)) {
       return 'invalidNumber'
     }

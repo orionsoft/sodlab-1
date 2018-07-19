@@ -6,6 +6,7 @@ export default {
   allowedOperatorsIds: ['exists'],
   optionsSchema: {},
   validate(value, options) {
+    if (!value) return
     let rut = value.toString()
 
     if (!/^0*(\d{1,3}(\.?\d{3})*)-?([\dkK])$/.test(rut)) {
