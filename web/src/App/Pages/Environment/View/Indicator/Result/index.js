@@ -3,8 +3,8 @@ import styles from './styles.css'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
-import numeral from 'numeral'
 import isNil from 'lodash/isNil'
+import NumberIncrement from 'App/components/NumberIncrement'
 
 @withGraphQL(gql`
   query getIndicatorResult($indicatorId: ID, $filterId: ID, $filterOptions: JSON) {
@@ -35,13 +35,13 @@ export default class Result extends React.Component {
     if (isNil(value)) return '-'
 
     if (renderType === 'percentage') {
-      return numeral(value).format('0.[00]%')
+      return <NumberIncrement value={value} format="0.[00]%" />
     }
     if (renderType === 'number') {
-      return numeral(value).format('0,0.[00]')
+      return <NumberIncrement value={value} format="0,0.[00]" />
     }
     if (renderType === 'money') {
-      return '$' + numeral(value).format('0,0.[00]')
+      return <NumberIncrement value={value} format="$0,0.[00]" />
     }
 
     return value

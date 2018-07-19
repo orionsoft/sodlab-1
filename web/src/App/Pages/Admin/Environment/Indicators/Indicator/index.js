@@ -163,7 +163,7 @@ export default class Kpi extends React.Component {
               <Field fieldName="name" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
-              <div className="label">Indicator</div>
+              <div className="label">Indicador</div>
               <Field
                 fieldName="indicatorTypeId"
                 type={Select}
