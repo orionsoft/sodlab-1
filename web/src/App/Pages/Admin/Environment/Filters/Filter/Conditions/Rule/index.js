@@ -107,13 +107,28 @@ export default class Item extends React.Component {
       </div>
     )
   }
+
+  renderOptional() {
+    const {rule} = this.props
+    return (
+      <div>
+        <div className="label">Opcional</div>
+        <Field
+          fieldName="optional"
+          type={Checkbox}
+          label="Opcional"
+          disabled={rule.type === 'fixed'}
+        />
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className={styles.container}>
         <div className="label">Tipo</div>
         <Field fieldName="type" type={Select} options={this.getTypes()} />
-        <div className="label">Opcional</div>
-        <Field fieldName="optional" type={Checkbox} label="Opcional" />
+        {this.renderOptional()}
         <br />
         <div className="row">
           <div className="col-xs-12 col-sm-6">
