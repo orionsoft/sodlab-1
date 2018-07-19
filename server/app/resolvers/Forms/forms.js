@@ -19,6 +19,6 @@ export default paginatedResolver({
     if (filter) {
       query._id = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Forms.find(query)
+    return Forms.find(query).sort({name: 1})
   }
 })

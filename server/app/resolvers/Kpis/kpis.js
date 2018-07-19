@@ -19,6 +19,6 @@ export default paginatedResolver({
     if (filter) {
       query.title = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Kpis.find(query)
+    return Kpis.find(query).sort({title: 1})
   }
 })
