@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 
 @withGraphQL(gql`
-  query($indicatorId: ID, $filterId: ID, $filterOptions: JSON) {
+  query getIndicatorResult($indicatorId: ID, $filterId: ID, $filterOptions: JSON) {
     result: indicatorResult(
       indicatorId: $indicatorId
       filterId: $filterId
@@ -16,7 +16,13 @@ import PropTypes from 'prop-types'
 export default class Result extends React.Component {
   static propTypes = {
     result: PropTypes.any,
-    indicator: PropTypes.object
+    indicator: PropTypes.object,
+    setRef: PropTypes.func
+  }
+
+  constructor(props) {
+    super(props)
+    props.setRef(this)
   }
 
   render() {
