@@ -8,7 +8,6 @@ import autobind from 'autobind-decorator'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import {Field, WithValue} from 'simple-react-form'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
-import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import FieldItem from './Field'
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -19,7 +18,7 @@ export default class Fields extends React.Component {
     form: PropTypes.object
   }
 
-  state = {allOptional: false}
+  state = {}
 
   @autobind
   onSuccess() {
@@ -37,39 +36,31 @@ export default class Fields extends React.Component {
         editableLabel: field.label
       }
     })
-    this.setState({allOptional: false, reseted})
+    this.setState({reseted})
   }
 
   @autobind
   toggleOptionals() {
-    const reseted = this.props.form.collection.fields.map(field => {
-      return {
-        type: 'editable',
-        fieldName: field.name,
-        optional: field.optional && !this.state.allOptional,
-        editableLabel: field.label
-      }
-    })
-    this.setState({allOptional: !this.state.allOptional, reseted})
+    if (this.refs.form.form.state.value) {
+      const reseted = this.refs.form.form.state.value.fields.map(field => {
+        let colField = field.fieldName
+          ? this.props.form.collection.fields.find(colField => colField.name === field.fieldName)
+          : {}
+        return {
+          ...(field.type && {type: field.type}),
+          ...(field.fieldName && {fieldName: field.fieldName}),
+          ...(colField.optional && field.type !== 'fixed' && {optional: true}),
+          ...(field.editableLabel && {editableLabel: field.editableLabel})
+        }
+      })
+      this.setState({reseted})
+    }
   }
 
   render() {
     return (
       <div className={styles.container}>
         <Section title="Campos" />
-        <div className={styles.fieldOverhaul}>
-          <div className="row">
-            <div className="col-xs-12 col-sm-offset-8 col-sm-2 col-lg-offset-6 col-lg-2">
-              <div className="label">Todos Opcional</div>
-              <Checkbox
-                fieldName="optional"
-                label="Todos Opcional"
-                onChange={this.toggleOptionals}
-                value={this.state.allOptional}
-              />
-            </div>
-          </div>
-        </div>
         <AutoForm
           mutation="setFormFields"
           ref="form"
@@ -90,6 +81,7 @@ export default class Fields extends React.Component {
             </WithValue>
           </Field>
         </AutoForm>
+        <Button onClick={this.toggleOptionals}>Cambiar Opcionales</Button>
         <Button onClick={this.reset}>Resetear</Button>
         <Button onClick={() => this.refs.form.submit()} primary>
           Guardar
