@@ -51,7 +51,7 @@ export default class View extends React.Component {
           email: this.props.userByEnvironments.email,
           ...this.props.userByEnvironments.profile
         }
-        : {profile: {}}
+        : {}
     }
   }
 
