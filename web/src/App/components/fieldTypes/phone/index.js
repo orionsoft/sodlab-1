@@ -1,5 +1,7 @@
 import Phone from 'App/components/fields/Phone'
+import View from './View'
 
 export default {
-  field: Phone
+  field: Phone,
+  view: View
 }
