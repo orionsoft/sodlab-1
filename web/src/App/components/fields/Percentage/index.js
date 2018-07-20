@@ -7,8 +7,18 @@ export default class Percentage extends React.Component {
   static propTypes = {
     value: PropTypes.number,
     onChange: PropTypes.func,
-    errorMessage: PropTypes.string
+    errorMessage: PropTypes.string,
+    passProps: PropTypes.object
   }
+
+  onChange(values) {
+    const {passProps} = this.props
+    const min = passProps.min || Number.MIN_VALUE
+    const max = passProps.max || Number.MAX_VALUE
+    const newValue = Math.min(max, Math.max(min, values.floatValue))
+    this.props.onChange(round(newValue / 100, 10))
+  }
+
   render() {
     return (
       <div>
@@ -16,8 +26,7 @@ export default class Percentage extends React.Component {
           <NumberFormat
             className="os-input-text"
             onValueChange={(values, e) => {
-              console.log(values)
-              this.props.onChange(round(values.floatValue / 100, 10))
+              this.onChange(values)
             }}
             suffix="%"
             value={round(this.props.value * 100, 10)}

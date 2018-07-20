@@ -9,6 +9,15 @@ export default {
     'numberGreaterEqual',
     'numberLessEqual'
   ],
-  optionsSchema: {},
+  optionsSchema: {
+    min: {
+      label: 'Porcentaje mínimo',
+      type: Number
+    },
+    max: {
+      label: 'Porcentaje máximo',
+      type: Number
+    }
+  },
   validate(value, options) {}
 }

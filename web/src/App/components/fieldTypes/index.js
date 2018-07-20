@@ -15,10 +15,8 @@ import oneOf from './oneOf'
 import manyOf from './manyOf'
 import currency from './currency'
 import percentage from './percentage'
-import percentageLimit from './percentageLimit'
 
 export default {
-  percentageLimit,
   percentage,
   currency,
   email,
