@@ -45,11 +45,13 @@ export default class View extends React.Component {
     return {
       ...this.props.params,
       ...this.state,
-      currentUser: {
-        id: this.props.userByEnvironments.userId,
-        email: this.props.userByEnvironments.email,
-        ...this.props.userByEnvironments.profile
-      }
+      currentUser: this.props.userByEnvironments
+        ? {
+          id: this.props.userByEnvironments.userId,
+          email: this.props.userByEnvironments.email,
+          ...this.props.userByEnvironments.profile
+        }
+        : {}
     }
   }
 
