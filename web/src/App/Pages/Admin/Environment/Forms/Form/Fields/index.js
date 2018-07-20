@@ -20,6 +20,12 @@ export default class Fields extends React.Component {
 
   state = {}
 
+  componentDidMount() {
+    if (this.props.form.fields) {
+      this.setState({reseted: this.props.form.fields})
+    }
+  }
+
   @autobind
   onSuccess() {
     this.props.showMessage('Los campos se guardaron correctamente')
