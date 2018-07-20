@@ -63,7 +63,7 @@ export default class Fields extends React.Component {
               <div className="label">Todos Opcional</div>
               <Checkbox
                 fieldName="optional"
-                label="Opcional"
+                label="Todos Opcional"
                 onChange={this.toggleOptionals}
                 value={this.state.allOptional}
               />
