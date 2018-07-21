@@ -18,12 +18,13 @@ export default class Watch extends React.Component {
   static propTypes = {
     client: PropTypes.object,
     environmentId: PropTypes.string,
-    collectionId: PropTypes.string
+    collectionId: PropTypes.string,
+    onUpdate: PropTypes.func
   }
 
   @autobind
   onUpdate(data) {
-    this.props.client.queryManager.refetchQueryByName(`paginated_${this.props.collectionId}`)
+    this.props.onUpdate(data)
   }
 
   render() {

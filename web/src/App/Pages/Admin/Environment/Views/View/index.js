@@ -35,6 +35,7 @@ import clone from 'lodash/clone'
         type
         formId
         tableId
+        indicatorId
       }
     }
     forms(limit: null, environmentId: $environmentId) {
@@ -55,6 +56,12 @@ import clone from 'lodash/clone'
         label: name
       }
     }
+    indicators(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -67,6 +74,7 @@ export default class View extends React.Component {
     forms: PropTypes.object,
     tables: PropTypes.object,
     roles: PropTypes.object,
+    indicators: PropTypes.object,
     match: PropTypes.object
   }
 
@@ -78,8 +86,8 @@ export default class View extends React.Component {
     return [
       {label: 'Formulario', value: 'form', result: 'forms'},
       {label: 'Tabla', value: 'table', result: 'tables'},
-      {label: 'Gráfico', value: 'chart', result: 'chart'},
-      {label: 'Indicador', value: 'indicator', result: 'indicator'}
+      {label: 'Gráfico', value: 'chart', result: 'charts'},
+      {label: 'Indicador', value: 'indicator', result: 'indicators'}
     ]
   }
 
