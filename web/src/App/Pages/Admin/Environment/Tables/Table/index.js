@@ -120,14 +120,23 @@ export default class Link extends React.Component {
             <div className="label">Tipo</div>
             <Field fieldName="type" type={Select} options={typeOptions} />
           </div>
-          <div className="col-xs-12 col-sm-6 col-md-4">
-            <div className="label">Etiqueta</div>
-            <Field fieldName="label" type={Text} />
-          </div>
           {this.renderFieldOptions()}
         </div>
       </Field>
     )
+  }
+
+  @autobind
+  reset() {
+    const reseted = this.props.table.collection.fields.map(field => {
+      return {
+        type: 'field',
+        label: field.label,
+        fieldName: field.value,
+        options: null
+      }
+    })
+    this.setState({fields: reseted})
   }
 
   render() {
@@ -147,7 +156,7 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
-              table: cloneDeep(this.props.table)
+              table: this.state || cloneDeep(this.props.table) || {}
             }}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Nombre</div>
@@ -167,6 +176,9 @@ export default class Link extends React.Component {
             <div>
               <Button to={`/${this.props.table.environmentId}/tables`} style={{marginRight: 10}}>
                 Cancelar
+              </Button>
+              <Button onClick={this.reset} style={{marginRight: 10}}>
+                Resetear
               </Button>
               <MutationButton
                 label="Eliminar"

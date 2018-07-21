@@ -48,6 +48,7 @@ export default class Fields extends React.Component {
         type
         label
         options
+        optional
       }
     }
   `
@@ -100,6 +101,7 @@ export default class Fields extends React.Component {
   }
 
   render() {
+    const {collection} = this.props
     return (
       <div className={styles.container}>
         <Section
@@ -116,7 +118,7 @@ export default class Fields extends React.Component {
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
               collectionId: this.props.collection._id,
-              fields: clone(this.props.collection.fields)
+              fields: collection.fields ? clone(collection.fields) : []
             }}>
             <Field fieldName="fields" type={ArrayComponent} renderItem={this.renderItems} />
           </AutoForm>

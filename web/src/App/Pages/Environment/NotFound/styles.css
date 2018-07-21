@@ -5,3 +5,9 @@
 :local(.text) {
   font-size: 20px;
 }
+
+@media only screen and (max-width: 768px) {
+  :local(.container) {
+    padding-left: 30px;
+  }
+}

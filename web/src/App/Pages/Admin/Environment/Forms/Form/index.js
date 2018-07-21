@@ -41,6 +41,7 @@ import Fields from './Fields'
           label
           type
           options
+          optional
         }
       }
     }

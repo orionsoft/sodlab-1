@@ -1,5 +1,5 @@
 :local(.container) {
-  margin-left: -10px;
+  padding-left: -10px;
   display: flex;
   align-items: center;
   padding-top: 20px;
@@ -23,11 +23,58 @@
 :local(.content) .last {
   border-radius: 10px;
   padding: 5px 10px;
+  display: inline-block;
 }
 
 :local(.content) a:hover {
   background: #f3f3f3;
 }
 
+:local(.pastPath) {
+  display: block;
+}
+
 :local(.right) {
+}
+
+@media only screen and (max-width: 480px) {
+  :local(.container) {
+    display: block;
+  }
+
+  :local(.content) {
+    display: block;
+  }
+
+  :local(.pastPath) {
+    display: none;
+  }
+
+  :local(.container) {
+    padding-left: 30px;
+  }
+
+  :local(.content) .bread-divider {
+    padding-top: 6px;
+  }
+
+  :local(.content) .bread-divider::before {
+    content: '\A';
+    white-space: pre;
+  }
+
+  :local(.right) {
+    padding-top: 10px;
+    text-align: right;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  :local(.container) {
+    padding-left: 30px;
+  }
+
+  :local(.pastPath) {
+    display: none;
+  }
 }

@@ -19,6 +19,6 @@ export default paginatedResolver({
     if (filter) {
       query.name = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Roles.find(query)
+    return Roles.find(query).sort({name: 1})
   }
 })

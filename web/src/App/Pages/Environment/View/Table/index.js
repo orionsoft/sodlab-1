@@ -8,6 +8,8 @@ import autobind from 'autobind-decorator'
 import TableField from './Field'
 import Watch from './Watch'
 import WithFilter from '../WithFilter'
+import isEqual from 'lodash/isEqual'
+import {clean, validate} from '@orion-js/schema'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -52,6 +54,58 @@ export default class Table extends React.Component {
   @autobind
   onSelect(item) {}
 
+  componentDidMount() {
+    this.setDefaultFilter()
+    this.checkFilterOptionsSchema()
+  }
+
+  setDefaultFilter() {
+    const {table} = this.props
+    if (table.allowsNoFilter) return
+    if (!table.filters) return
+    if (table.filters.length !== 1) return
+    this.setState({filterId: table.filters[0]._id})
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.filterId !== prevState.filterId) {
+      // eslint-disable-next-line
+      this.setState({options: null})
+      this.checkFilterOptionsSchema()
+    }
+    if (!isEqual(this.state.options, prevState.options)) this.checkFilterOptionsSchema()
+  }
+
+  async checkFilterOptionsSchema() {
+    if (!this.state.filterId) {
+      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+    }
+    const filter = this.props.table.filters.find(f => f._id === this.state.filterId)
+    if (!filter || !filter.schema) {
+      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+    }
+    const cleaned = await clean(filter.schema, {...this.state.options, ...this.props.parameters})
+    try {
+      await validate(filter.schema, cleaned)
+      this.setState({
+        cleanedFilterOptions: cleaned,
+        filterOptionsAreValid: true,
+        optionValidationErrors: null
+      })
+    } catch (error) {
+      this.setState({
+        cleanedFilterOptions: null,
+        filterOptionsAreValid: false,
+        optionValidationErrors: error.validationErrors
+      })
+    }
+  }
+
+  needsFilter() {
+    const {table} = this.props
+    if (table.allowsNoFilter) return null
+  }
+
   getCollectionField(fieldName) {
     return this.props.table.collection.fields.find(field => field.name === fieldName)
   }
@@ -84,6 +138,7 @@ export default class Table extends React.Component {
       return {
         title: field.label,
         name: 'data',
+        options: field.options,
         render: doc => this.renderField({field, doc})
       }
     })

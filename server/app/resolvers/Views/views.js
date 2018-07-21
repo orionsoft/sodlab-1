@@ -24,6 +24,6 @@ export default paginatedResolver({
     if (filter) {
       query.path = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Views.find(query)
+    return Views.find(query).sort({name: 1})
   }
 })

@@ -1,7 +1,7 @@
 import Users from 'app/collections/Users'
 import {generateId} from '@orion-js/app'
 import {hashPassword} from '@orion-js/auth'
-// import {sendEmail} from '@orion-js/mailing'
+import {sendEmail} from '@orion-js/mailing'
 
 export default async function(email) {
   const user = await Users.findOne({'emails.address': email})
@@ -29,11 +29,11 @@ export default async function(email) {
   }
   const userId = await Users.insert(newUser)
 
-  // await sendEmail({
-  //   to: email,
-  //   subject: 'Tu cuenta en sodlabx',
-  //   text: `Te creamos una cuenta, debes entrar con tu email y tu contraseña es ${password}`
-  // })
+  await sendEmail({
+    to: email,
+    subject: 'Tu cuenta en sodlabx',
+    text: `Te creamos una cuenta, debes entrar con tu email y tu contraseña es ${password}`
+  })
 
   return userId
 }

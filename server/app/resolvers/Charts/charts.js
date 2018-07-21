@@ -19,6 +19,6 @@ export default paginatedResolver({
     if (filter) {
       query.title = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Charts.find(query)
+    return Charts.find(query).sort({title: 1})
   }
 })

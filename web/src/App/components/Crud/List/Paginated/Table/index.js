@@ -1,6 +1,9 @@
 import React from 'react'
+import styles from './styles.css'
 import dot from 'dot-object'
 import Sort from './Sort'
+import icons from 'App/components/Icon/icons'
+import IconButton from 'orionsoft-parts/lib/components/IconButton'
 import PropTypes from 'prop-types'
 
 export default class Table extends React.Component {
@@ -41,12 +44,28 @@ export default class Table extends React.Component {
       const sort = field.sort ? <Sort {...this.getSortProps(field)} /> : null
       const style = field.sort ? 'paginated-th-sort' : ''
       const onClick = field.sort ? () => this.toggleSort(field) : undefined
-      return (
-        <th key={index} className={style} onClick={onClick}>
-          {sort}
-          {field.title}
-        </th>
-      )
+      if (field.options && field.options.icon) {
+        const icon = icons[field.options.icon]
+        return (
+          <th key={index} className={`${style} ${styles.iconTooltip}`} onClick={onClick}>
+            {sort}
+            <IconButton
+              key={index}
+              onPress={onClick}
+              icon={icon}
+              size={18}
+              tooltip={field.options.tooltip}
+            />
+          </th>
+        )
+      } else {
+        return (
+          <th key={index} className={style} onClick={onClick}>
+            {sort}
+            {field.title}
+          </th>
+        )
+      }
     })
     return <tr>{cols}</tr>
   }

@@ -16,7 +16,6 @@ export default class Percentage extends React.Component {
           <NumberFormat
             className="os-input-text"
             onValueChange={(values, e) => {
-              console.log(values)
               this.props.onChange(round(values.floatValue / 100, 10))
             }}
             suffix="%"

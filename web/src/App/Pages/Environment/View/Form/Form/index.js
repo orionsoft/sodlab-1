@@ -72,6 +72,7 @@ export default class Form extends React.Component {
   }
 
   getData() {
+    const {currentUser} = this.props.parameters
     const doc = this.getItemData() || {}
     const params = this.props.form.serializedParams || {}
     for (const key of Object.keys(params)) {
@@ -80,7 +81,7 @@ export default class Form extends React.Component {
         doc[key] = field.defaultValue
       }
       if (field.formFieldType === 'parameter') {
-        doc[key] = this.props.parameters[field.parameterName]
+        doc[key] = currentUser[field.parameterName] ? currentUser[field.parameterName] : 'noData'
       }
     }
     return doc
@@ -118,7 +119,11 @@ export default class Form extends React.Component {
           ref="form"
           only="data"
           getErrorFieldLabel={() => translate('general.thisField')}
-          doc={{formId: this.props.form._id, data: this.getData(), itemId: this.getItemId()}}
+          doc={{
+            formId: this.props.form._id,
+            data: this.getData(),
+            itemId: this.getItemId()
+          }}
           onSuccess={this.onSuccess}>
           <Fields
             schemaToField={this.schemaToField}

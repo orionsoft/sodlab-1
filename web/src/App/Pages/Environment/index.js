@@ -36,13 +36,16 @@ export default class Environment extends React.Component {
   }
 
   renderViews() {
+    const {environment} = this.props
     return this.props.views.items.map(view => {
       return (
         <Route
           key={view._id}
           path={view.path}
           exact
-          component={({match}) => <View params={match.params} viewId={view._id} />}
+          component={({match}) => (
+            <View params={match.params} viewId={view._id} environmentId={environment._id} />
+          )}
         />
       )
     })

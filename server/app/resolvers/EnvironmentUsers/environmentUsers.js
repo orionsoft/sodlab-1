@@ -19,6 +19,6 @@ export default paginatedResolver({
     if (filter) {
       query.email = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return EnvironmentUsers.find(query)
+    return EnvironmentUsers.find(query).sort({email: 1})
   }
 })
