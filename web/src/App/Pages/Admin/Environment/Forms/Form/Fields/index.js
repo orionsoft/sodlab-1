@@ -21,6 +21,16 @@ export default class Fields extends React.Component {
   state = {}
 
   @autobind
+  getFieldsValue() {
+    if (this.refs.form.form.state.value && this.refs.form.form.state.value.fields) {
+      return this.refs.form.form.state.value.fields
+    }
+    if (this.state.reseted) return this.state.reseted
+    if (this.props.form.fields) return this.props.form.fields
+    return []
+  }
+
+  @autobind
   onSuccess() {
     this.props.showMessage('Los campos se guardaron correctamente')
     this.setState({reseted: null})
@@ -35,6 +45,27 @@ export default class Fields extends React.Component {
         optional: field.optional,
         editableLabel: field.label
       }
+    })
+    this.setState({reseted})
+  }
+
+  @autobind
+  toggleOptionals() {
+    const prevOptionalToggleValue = !!this.state.optionalToggleValue
+    this.setState(prevState => ({optionalToggleValue: !prevState.optionalToggleValue}))
+    const fieldsValue = this.getFieldsValue()
+    const reseted = fieldsValue.map(field => {
+      let colField = field.fieldName
+        ? this.props.form.collection.fields.find(colField => colField.name === field.fieldName)
+        : {}
+      const result = {
+        ...(field.type && {type: field.type}),
+        ...(field.fieldName && {fieldName: field.fieldName}),
+        ...(field.editableLabel && {editableLabel: field.editableLabel}),
+        ...(field.parameterName && {parameterName: field.parameterName}),
+        optional: colField.optional && field.type !== 'fixed' && !prevOptionalToggleValue
+      }
+      return result
     })
     this.setState({reseted})
   }
@@ -63,6 +94,7 @@ export default class Fields extends React.Component {
             </WithValue>
           </Field>
         </AutoForm>
+        <Button onClick={this.toggleOptionals}>Cambiar Opcionales</Button>
         <Button onClick={this.reset}>Resetear</Button>
         <Button onClick={() => this.refs.form.submit()} primary>
           Guardar
