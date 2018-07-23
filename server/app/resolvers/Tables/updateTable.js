@@ -12,6 +12,10 @@ export default resolver({
         name: 'UpdateTable',
         omitFields: ['_id', 'environmentId', 'createdAt', 'collectionId']
       })
+    },
+    fullSize: {
+      type: Boolean,
+      optional: true
     }
   },
   returns: Table,

@@ -29,6 +29,7 @@ import FieldOptions from './FieldOptions'
       collectionId
       filtersIds
       allowsNoFilter
+      fullSize
       fields {
         type
         fieldName
@@ -169,6 +170,8 @@ export default class Link extends React.Component {
               <Field fieldName="allowsNoFilter" type={Checkbox} label="Se puede usar sin filtro" />
               <div className="label">Que campos mostrar</div>
               {this.renderCollectionFields()}
+              <div className="label">Habilitar pantalla completa</div>
+              <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
             </Field>
           </AutoForm>
           <br />

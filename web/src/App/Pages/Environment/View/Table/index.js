@@ -10,6 +10,8 @@ import Watch from './Watch'
 import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
+import FullSizeComponentModal from 'App/components/FullSizeComponentModal'
+import {FaArrowsAlt} from 'react-icons/lib/fa'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -19,6 +21,7 @@ import {clean, validate} from '@orion-js/schema'
       collectionId
       environmentId
       allowsNoFilter
+      fullSize
       filters {
         _id
         name
@@ -49,7 +52,7 @@ export default class Table extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {filterId: null}
+  state = {filterId: null, fullSize: false}
 
   @autobind
   onSelect(item) {}
@@ -166,12 +169,31 @@ export default class Table extends React.Component {
     )
   }
 
+  @autobind
+  fullScreen() {
+    this.setState({fullSize: !this.state.fullSize})
+  }
+
+  renderFullSize() {
+    return <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+  }
+
+  @autobind
+  renderButtons(table) {
+    return <div className="row end-xs">{table.fullSize && this.renderFullSize()}</div>
+  }
+
   render() {
     const {table, parameters} = this.props
     return (
-      <div className={styles.container}>
+      <div className={this.state.fullSize ? styles.fullSize : styles.container}>
         <div className={styles.header}>
-          <div className={styles.title}>{table.title}</div>
+          <div className="row">
+            <div className="col-xs-10 col-sm-">
+              <div className={styles.title}>{table.title}</div>
+            </div>
+            <div className="col-xs-2 col-sm-">{this.renderButtons(table)}</div>
+          </div>
         </div>
         <WithFilter
           filters={table.filters}
