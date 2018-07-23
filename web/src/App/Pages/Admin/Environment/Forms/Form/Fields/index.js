@@ -20,12 +20,6 @@ export default class Fields extends React.Component {
 
   state = {}
 
-  componentDidMount() {
-    if (this.props.form.fields) {
-      this.setState({reseted: this.props.form.fields})
-    }
-  }
-
   @autobind
   getFieldsValue() {
     if (this.refs.form.form.state.value && this.refs.form.form.state.value.fields) {
@@ -68,7 +62,8 @@ export default class Fields extends React.Component {
         ...(field.type && {type: field.type}),
         ...(field.fieldName && {fieldName: field.fieldName}),
         ...(field.editableLabel && {editableLabel: field.editableLabel}),
-        optional: colField.optional && field.type !== 'fixed' && !prevOptionalToggleValue // Acá prevOptionalValue determina si la última vez que se apretó el boton los cambio todos a true o a false
+        ...(field.parameterName && {parameterName: field.parameterName}),
+        optional: colField.optional && field.type !== 'fixed' && !prevOptionalToggleValue
       }
       return result
     })
