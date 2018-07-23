@@ -108,6 +108,8 @@ export default class Fields extends React.Component {
 
   @autobind
   toggleOptionals() {
+    const prevOptionalToggleValue = !!this.state.optionalToggleValue
+    this.setState(prevState => ({optionalToggleValue: !prevState.optionalToggleValue}))
     const arrayFields = this.refs.form.form.state.value
       ? this.refs.form.form.state.value.fields
       : this.state.fields
@@ -116,7 +118,7 @@ export default class Fields extends React.Component {
         ...(field.name && {name: field.name}),
         ...(field.label && {label: field.label}),
         ...(field.type && {type: field.type}),
-        optional: true,
+        optional: !prevOptionalToggleValue,
         ...(field.options && {options: field.options})
       }
     })
