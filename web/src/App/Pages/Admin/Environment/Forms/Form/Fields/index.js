@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import autobind from 'autobind-decorator'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import {Field, WithValue} from 'simple-react-form'
+import translate from 'App/i18n/translate'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import FieldItem from './Field'
 import cloneDeep from 'lodash/cloneDeep'
@@ -24,6 +25,10 @@ export default class Fields extends React.Component {
   onSuccess() {
     this.props.showMessage('Los campos se guardaron correctamente')
     this.setState({reseted: null})
+  }
+
+  getErrorFieldLabel() {
+    return translate('general.thisField')
   }
 
   @autobind
@@ -46,6 +51,7 @@ export default class Fields extends React.Component {
         <AutoForm
           mutation="setFormFields"
           ref="form"
+          getErrorFieldLabel={this.getErrorFieldLabel}
           onSuccess={this.onSuccess}
           doc={{
             formId: this.props.form._id,

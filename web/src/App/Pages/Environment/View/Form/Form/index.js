@@ -65,6 +65,10 @@ export default class Form extends React.Component {
     return this.props.itemId
   }
 
+  getErrorFieldLabel() {
+    return translate('general.thisField')
+  }
+
   getItemData() {
     if (!this.props.itemData) return
     if (!this.props.itemData.item) return
@@ -118,7 +122,7 @@ export default class Form extends React.Component {
           mutation="submitForm"
           ref="form"
           only="data"
-          getErrorFieldLabel={() => translate('general.thisField')}
+          getErrorFieldLabel={this.getErrorFieldLabel}
           doc={{
             formId: this.props.form._id,
             data: this.getData(),
