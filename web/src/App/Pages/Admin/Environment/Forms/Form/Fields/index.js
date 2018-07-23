@@ -27,6 +27,16 @@ export default class Fields extends React.Component {
   }
 
   @autobind
+  getFieldsValue() {
+    if (this.refs.form.form.state.value && this.refs.form.form.state.value.fields) {
+      return this.refs.form.form.state.value.fields
+    }
+    if (this.state.reseted) return this.state.reseted
+    if (this.props.form.fields) return this.props.form.fields
+    return []
+  }
+
+  @autobind
   onSuccess() {
     this.props.showMessage('Los campos se guardaron correctamente')
     this.setState({reseted: null})
@@ -47,20 +57,22 @@ export default class Fields extends React.Component {
 
   @autobind
   toggleOptionals() {
-    if (this.refs.form.form.state.value) {
-      const reseted = this.refs.form.form.state.value.fields.map(field => {
-        let colField = field.fieldName
-          ? this.props.form.collection.fields.find(colField => colField.name === field.fieldName)
-          : {}
-        return {
-          ...(field.type && {type: field.type}),
-          ...(field.fieldName && {fieldName: field.fieldName}),
-          ...(colField.optional && field.type !== 'fixed' && {optional: true}),
-          ...(field.editableLabel && {editableLabel: field.editableLabel})
-        }
-      })
-      this.setState({reseted})
-    }
+    const prevOptionalToggleValue = !!this.state.optionalToggleValue
+    this.setState(prevState => ({optionalToggleValue: !prevState.optionalToggleValue}))
+    const fieldsValue = this.getFieldsValue()
+    const reseted = fieldsValue.map(field => {
+      let colField = field.fieldName
+        ? this.props.form.collection.fields.find(colField => colField.name === field.fieldName)
+        : {}
+      const result = {
+        ...(field.type && {type: field.type}),
+        ...(field.fieldName && {fieldName: field.fieldName}),
+        ...(field.editableLabel && {editableLabel: field.editableLabel}),
+        optional: colField.optional && field.type !== 'fixed' && !prevOptionalToggleValue // Acá prevOptionalValue determina si la última vez que se apretó el boton los cambio todos a true o a false
+      }
+      return result
+    })
+    this.setState({reseted})
   }
 
   render() {
