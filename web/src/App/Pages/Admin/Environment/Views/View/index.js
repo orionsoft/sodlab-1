@@ -16,6 +16,7 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
+import translate from 'App/i18n/translate'
 import range from 'lodash/range'
 import clone from 'lodash/clone'
 
@@ -35,6 +36,7 @@ import clone from 'lodash/clone'
         type
         formId
         tableId
+        indicatorId
       }
     }
     forms(limit: null, environmentId: $environmentId) {
@@ -55,6 +57,12 @@ import clone from 'lodash/clone'
         label: name
       }
     }
+    indicators(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -67,6 +75,7 @@ export default class View extends React.Component {
     forms: PropTypes.object,
     tables: PropTypes.object,
     roles: PropTypes.object,
+    indicators: PropTypes.object,
     match: PropTypes.object
   }
 
@@ -78,8 +87,8 @@ export default class View extends React.Component {
     return [
       {label: 'Formulario', value: 'form', result: 'forms'},
       {label: 'Tabla', value: 'table', result: 'tables'},
-      {label: 'Gráfico', value: 'chart', result: 'chart'},
-      {label: 'Indicador', value: 'indicator', result: 'indicator'}
+      {label: 'Gráfico', value: 'chart', result: 'charts'},
+      {label: 'Indicador', value: 'indicator', result: 'indicators'}
     ]
   }
 
@@ -164,6 +173,7 @@ export default class View extends React.Component {
           ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
             mutation="updateView"
+            getErrorFieldLabel={() => translate('general.thisField')}
             ref="form"
             only="view"
             onSuccess={this.onSuccess}

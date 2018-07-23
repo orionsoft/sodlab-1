@@ -6,6 +6,7 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import Form from './Form'
 import Table from './Table'
+import Indicator from './Indicator'
 import {withApollo} from 'react-apollo'
 
 @withGraphQL(gql`
@@ -20,6 +21,7 @@ import {withApollo} from 'react-apollo'
         type
         formId
         tableId
+        indicatorId
       }
     }
     userByEnvironments(environmentId: $environmentId) {
@@ -67,6 +69,9 @@ export default class View extends React.Component {
     }
     if (item.type === 'table') {
       return <Table {...props} tableId={item.tableId} />
+    }
+    if (item.type === 'indicator') {
+      return <Indicator {...props} indicatorId={item.indicatorId} />
     }
   }
 

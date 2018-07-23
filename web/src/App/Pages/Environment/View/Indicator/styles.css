@@ -1,0 +1,11 @@
+:local(.container) {
+}
+
+:local(.header) {
+  padding: 20px;
+}
+
+:local(.title) {
+  font-size: 16px;
+  color: #999;
+}

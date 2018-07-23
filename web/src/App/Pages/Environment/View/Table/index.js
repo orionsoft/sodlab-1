@@ -5,13 +5,11 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import PaginatedList from 'App/components/Crud/List'
 import autobind from 'autobind-decorator'
-import {Form, Field} from 'simple-react-form'
-import Select from 'orionsoft-parts/lib/components/fields/Select'
 import TableField from './Field'
-import FilterOptions from './FilterOptions'
+import Watch from './Watch'
+import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
-import Watch from './Watch'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -146,46 +144,9 @@ export default class Table extends React.Component {
     })
   }
 
-  renderSelectFilter() {
-    return <div className={styles.needToSelectFilter}>Debes seleccionar un filtro</div>
-  }
-
-  renderFilterForm() {
+  @autobind
+  renderPaginated({filterId, filterOptions}) {
     const {table} = this.props
-    const options = []
-    for (const filter of table.filters) {
-      options.push({label: filter.name, value: filter._id})
-    }
-    const hasOptions = table.allowsNoFilter ? options.length : options.length > 1
-    if (!hasOptions) return
-    return (
-      <div>
-        <Form state={this.state} onChange={changes => this.setState(changes)}>
-          <div className="label">Elige un filtro</div>
-          <Field fieldName="filterId" placeholder="Sin filtro" type={Select} options={options} />
-        </Form>
-      </div>
-    )
-  }
-
-  renderFilterOptions() {
-    if (!this.state.filterId) return
-    const filter = this.props.table.filters.find(f => f._id === this.state.filterId)
-    if (!filter) return
-    return (
-      <FilterOptions
-        options={this.state.options || {}}
-        filter={filter}
-        validationErrors={this.state.optionValidationErrors}
-        onChange={options => this.setState({options})}
-      />
-    )
-  }
-
-  renderPaginated() {
-    const {table} = this.props
-    if (!table.allowsNoFilter && !this.state.filterId) return this.renderSelectFilter()
-    if (!this.state.filterOptionsAreValid) return
     return (
       <PaginatedList
         title={null}
@@ -195,8 +156,8 @@ export default class Table extends React.Component {
         canUpdate={false}
         params={{
           tableId: table._id,
-          filterId: this.state.filterId,
-          filterOptions: this.state.cleanedFilterOptions
+          filterId,
+          filterOptions
         }}
         fields={this.getFields()}
         onSelect={this.onSelect}
@@ -206,20 +167,19 @@ export default class Table extends React.Component {
   }
 
   render() {
-    const {table} = this.props
+    const {table, parameters} = this.props
     return (
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.title}>{table.title}</div>
-          {this.renderFilterForm()}
-          {this.renderFilterOptions()}
         </div>
-        {this.renderPaginated()}
-        <Watch
-          environmentId={table.environmentId}
-          parent={this}
-          collectionId={table.collectionId}
-        />
+        <WithFilter
+          filters={table.filters}
+          allowsNoFilter={table.allowsNoFilter}
+          parameters={parameters}>
+          {this.renderPaginated}
+        </WithFilter>
+        <Watch environmentId={table.environmentId} collectionId={table.collectionId} />
       </div>
     )
   }

@@ -8,12 +8,13 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import {withRouter} from 'react-router'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
-import {Form, Field} from 'simple-react-form'
+import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import Rule from './Rule'
 import cloneDeep from 'lodash/cloneDeep'
-import withMutation from 'react-apollo-decorators/lib/withMutation'
-import {isValid, clean} from '@orion-js/schema'
+import {isValid} from '@orion-js/schema'
+import translate from 'App/i18n/translate'
+import AutoForm from 'App/components/AutoForm'
 
 const fragment = gql`
   fragment editFilterConditions on Filter {
@@ -71,14 +72,6 @@ const fragment = gql`
   ${fragment}
 `)
 @withRouter
-@withMutation(gql`
-  mutation updateFilterConditions($filterId: ID, $conditions: [UpdateFilterConditionInput]) {
-    updateFilterConditions(filterId: $filterId, conditions: $conditions) {
-      ...editFilterConditions
-    }
-  }
-  ${fragment}
-`)
 export default class Conditions extends React.Component {
   static propTypes = {
     history: PropTypes.object,
@@ -99,19 +92,8 @@ export default class Conditions extends React.Component {
     })
   }
 
-  @autobind
-  async submit({filterId, conditions}) {
-    try {
-      const mutationSchema = this.props.mutationParams.params
-      const parameters = await clean(mutationSchema, {
-        filterId,
-        conditions
-      })
-      await this.props.updateFilterConditions(parameters)
-      this.props.showMessage('Los campos fueron guardados')
-    } catch (error) {
-      this.props.showMessage(error)
-    }
+  onSuccess() {
+    this.props.showMessage('Los campos se guardaron correctamente')
   }
 
   safeGetRule(conditions, conditionIndex, ruleIndex) {
@@ -165,6 +147,10 @@ export default class Conditions extends React.Component {
     return await Promise.all(promises)
   }
 
+  getErrorFieldLabel() {
+    return translate('general.thisField')
+  }
+
   @autobind
   async onChange({conditions}) {
     this.setState({conditions: await this.mapConditions(conditions)})
@@ -188,14 +174,19 @@ export default class Conditions extends React.Component {
         <Section
           title="Las condiciones"
           description="Para que un documento se incluya en el resultado del filtro, debe cumplir todas las reglas de al menos un grupo de condiciones">
-          <Form
+          <AutoForm
             mutation="updateFilterConditions"
             ref="form"
-            onSubmit={this.submit}
-            onChange={this.onChange}
-            state={this.state}>
+            getErrorFieldLabel={this.getErrorFieldLabel}
+            only="conditions"
+            onSuccess={() => this.onSuccess()}
+            omit="filterId"
+            doc={{
+              filterId: this.state.filterId,
+              conditions: this.state.conditions || []
+            }}
+            onChange={this.onChange}>
             <div className="label">Condiciones</div>
-
             <Field draggable={false} fieldName="conditions" type={ArrayComponent}>
               <div className="label">Que se cumplan las siguientes reglas</div>
               <Field
@@ -205,7 +196,7 @@ export default class Conditions extends React.Component {
                 renderItem={this.renderRule}
               />
             </Field>
-          </Form>
+          </AutoForm>
           <br />
           <Button onClick={() => this.refs.form.submit()} primary>
             Guardar condiciones

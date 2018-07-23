@@ -14,7 +14,7 @@ import Filters from './Filters'
 import Hooks from './Hooks'
 import Info from './Info'
 import EnvironmentUsers from './EnvironmentUsers'
-import Kpis from './Kpis'
+import Indicators from './Indicators'
 
 export default {
   ...EnvironmentUsers,
@@ -33,5 +33,5 @@ export default {
   ...Auth,
   ...Users,
   ...Roles,
-  ...Kpis
+  ...Indicators
 }
