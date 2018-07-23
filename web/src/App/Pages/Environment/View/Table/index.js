@@ -10,7 +10,6 @@ import Watch from './Watch'
 import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
-import FullSizeComponentModal from 'App/components/FullSizeComponentModal'
 import {FaArrowsAlt} from 'react-icons/lib/fa'
 
 @withGraphQL(gql`

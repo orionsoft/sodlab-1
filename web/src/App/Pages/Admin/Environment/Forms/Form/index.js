@@ -12,6 +12,7 @@ import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import {Field, WithValue} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import Fields from './Fields'
@@ -34,6 +35,7 @@ import Fields from './Fields'
         parameterName
         editableLabel
       }
+      fullSize
       collection {
         _id
         fields {
@@ -132,6 +134,8 @@ export default class Form extends React.Component {
                 options={this.props.collections.items}
               />
               <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
+              <div className="label">Habilitar pantalla completa</div>
+              <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
             </Field>
           </AutoForm>
           <br />

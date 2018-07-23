@@ -31,5 +31,9 @@ export default {
   fields: {
     type: [Field],
     optional: true
+  },
+  fullSize: {
+    type: Boolean,
+    optional: true
   }
 }

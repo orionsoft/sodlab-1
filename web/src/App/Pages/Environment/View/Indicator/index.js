@@ -7,6 +7,7 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import autobind from 'autobind-decorator'
 import Result from './Result'
+import {FaArrowsAlt} from 'react-icons/lib/fa'
 
 @withGraphQL(gql`
   query getTable($indicatorId: ID) {
@@ -20,6 +21,7 @@ import Result from './Result'
         _id
         requireCollection
       }
+      fullSize
       filters {
         _id
         name
@@ -33,6 +35,8 @@ export default class Indicator extends React.Component {
     indicator: PropTypes.object,
     parameters: PropTypes.object
   }
+
+  state = {fullSize: false}
 
   @autobind
   refetch() {
@@ -78,12 +82,31 @@ export default class Indicator extends React.Component {
     return this.renderResult({})
   }
 
+  @autobind
+  fullScreen() {
+    this.setState({fullSize: !this.state.fullSize})
+  }
+
+  renderFullSize() {
+    return <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+  }
+
+  @autobind
+  renderButtons(indicator) {
+    return <div className="row end-xs">{indicator.fullSize && this.renderFullSize()}</div>
+  }
+
   render() {
     const {indicator} = this.props
     return (
-      <div className={styles.container}>
+      <div className={this.state.fullSize ? styles.fullSize : styles.container}>
         <div className={styles.header}>
-          <div className={styles.title}>{indicator.title}</div>
+          <div className="row">
+            <div className="col-xs-10 col-sm-">
+              <div className={styles.title}>{indicator.title}</div>
+            </div>
+            <div className="col-xs-2 col-sm-">{this.renderButtons(indicator)}</div>
+          </div>
         </div>
         {this.renderForCollection()}
         {this.renderWithoutCollection()}

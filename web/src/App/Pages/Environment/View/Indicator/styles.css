@@ -9,3 +9,7 @@
   font-size: 16px;
   color: #999;
 }
+
+:local(.fullSize) {
+  transition: all 0.5s ease;
+}
