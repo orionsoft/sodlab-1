@@ -9,6 +9,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import {Field, WithValue} from 'simple-react-form'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import FieldItem from './Field'
+import translate from 'App/i18n/translate'
 import cloneDeep from 'lodash/cloneDeep'
 
 @withMessage
@@ -46,6 +47,7 @@ export default class Fields extends React.Component {
         <AutoForm
           mutation="setFormFields"
           ref="form"
+          getErrorFieldLabel={() => translate('general.thisField')}
           onSuccess={this.onSuccess}
           doc={{
             formId: this.props.form._id,
