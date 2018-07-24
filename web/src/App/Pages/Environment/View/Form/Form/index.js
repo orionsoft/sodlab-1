@@ -12,6 +12,7 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import cloneDeep from 'lodash/cloneDeep'
 import translate from 'App/i18n/translate'
+import {withRouter} from 'react-router'
 
 @withGraphQL(gql`
   query getFormItem($formId: ID, $itemId: ID) {
@@ -25,8 +26,10 @@ import translate from 'App/i18n/translate'
   }
 `)
 @withMessage
+@withRouter
 export default class Form extends React.Component {
   static propTypes = {
+    history: PropTypes.object,
     showMessage: PropTypes.func,
     form: PropTypes.object,
     state: PropTypes.object,
@@ -47,9 +50,19 @@ export default class Form extends React.Component {
   }
 
   @autobind
-  onSuccess() {
+  onSuccess(result) {
     this.setState({data: {}})
     this.props.showMessage('Se completó con exito')
+    const rawPath = this.props.form.onSuccessViewPath
+    if (rawPath) {
+      let path = rawPath
+      path = path.replace(`:_id`, result._id)
+      for (const key of Object.keys(result.data)) {
+        const value = result.data[key]
+        path = path.replace(`:${key}`, value)
+      }
+      this.props.history.push(path)
+    }
   }
 
   @autobind
