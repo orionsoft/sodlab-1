@@ -88,7 +88,7 @@ export default class Fields extends React.Component {
             formId: this.props.form._id,
             fields: this.state.reseted || cloneDeep(this.props.form.fields) || []
           }}>
-          <Field fieldName="fields" draggable={false} type={ArrayComponent}>
+          <Field fieldName="fields" draggable={true} type={ArrayComponent}>
             <WithValue>
               {field => (
                 <FieldItem
