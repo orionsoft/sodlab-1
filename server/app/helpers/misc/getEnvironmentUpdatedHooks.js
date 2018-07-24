@@ -14,9 +14,11 @@ export default function() {
       const item = await this.collection.findOne(selector, {fields: {environmentId: 1}})
       await send(item.environmentId)
     }),
-    hook('after.remove', async function(selector) {
+    hook('before.remove', async function(selector) {
       const item = await this.collection.findOne(selector, {fields: {environmentId: 1}})
-      await send(item.environmentId)
+      setTimeout(() => {
+        send(item.environmentId)
+      }, 10)
     })
   ]
 }
