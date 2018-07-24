@@ -98,7 +98,8 @@ export default class Form extends React.Component {
         doc[key] = field.defaultValue
       }
       if (field.formFieldType === 'parameter') {
-        doc[key] = currentUser[field.parameterName] ? currentUser[field.parameterName] : 'noData'
+        doc[key] =
+          currentUser[field.parameterName] || this.props.parameters[field.parameterName] || null
       }
     }
     return doc
