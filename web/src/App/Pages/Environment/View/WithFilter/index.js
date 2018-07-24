@@ -105,7 +105,14 @@ export default class WithFilter extends React.Component {
 
   renderChildren() {
     const {allowsNoFilter} = this.props
-    if (!allowsNoFilter && !this.state.filterId) return this.renderSelectFilter()
+    if (!this.state.filterId) {
+      if (allowsNoFilter) {
+        return this.props.children({})
+      } else {
+        return this.renderSelectFilter()
+      }
+    }
+    if (allowsNoFilter && !this.state.filterId) return this.renderSelectFilter()
     if (!this.state.filterOptionsAreValid) return
     const {filterId, cleanedFilterOptions: filterOptions} = this.state
     return this.props.children({filterId, filterOptions})
