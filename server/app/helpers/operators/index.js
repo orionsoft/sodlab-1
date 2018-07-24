@@ -16,8 +16,10 @@ import dateGreaterThan from './dateGreaterThan'
 import dateTimeLessEqualThan from './dateTimeLessEqualThan'
 import dateTimeLessThan from './dateTimeLessThan'
 import dateLessThan from './dateLessThan'
+import equalString from './equalString'
 
 export default {
+  equalString,
   dateLessThan,
   dateTimeLessThan,
   dateTimeLessEqualThan,
