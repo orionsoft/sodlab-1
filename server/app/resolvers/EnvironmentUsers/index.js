@@ -4,10 +4,10 @@ import environmentUser from './environmentUser'
 import setEnvironmentUserProfile from './setEnvironmentUserProfile'
 import removeEnvironmentUser from './removeEnvironmentUser'
 import setEnvironmentUserRoles from './setEnvironmentUserRoles'
-import userByEnvironments from './userByEnvironments'
+import userByEnvironment from './userByEnvironment'
 
 export default {
-  userByEnvironments,
+  userByEnvironment,
   setEnvironmentUserRoles,
   removeEnvironmentUser,
   setEnvironmentUserProfile,

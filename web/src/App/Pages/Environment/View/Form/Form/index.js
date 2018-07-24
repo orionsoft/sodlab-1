@@ -89,7 +89,6 @@ export default class Form extends React.Component {
   }
 
   getData() {
-    const {currentUser} = this.props.parameters
     const doc = this.getItemData() || {}
     const params = this.props.form.serializedParams || {}
     for (const key of Object.keys(params)) {
@@ -98,8 +97,7 @@ export default class Form extends React.Component {
         doc[key] = field.defaultValue
       }
       if (field.formFieldType === 'parameter') {
-        doc[key] =
-          currentUser[field.parameterName] || this.props.parameters[field.parameterName] || null
+        doc[key] = this.props.parameters[field.parameterName]
       }
     }
     return doc
