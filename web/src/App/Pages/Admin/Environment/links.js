@@ -8,7 +8,7 @@ export default [
   {title: 'Roles', path: '/roles'},
   {title: 'Hooks', path: '/hooks'},
   {title: 'Links', path: '/links'},
-  {title: 'Kpis', path: '/kpis'},
+  {title: 'Indicadores', path: '/indicators'},
   {title: 'Configuración', path: '/configuration'},
   {title: 'Usuarios', path: '/users'}
 ]

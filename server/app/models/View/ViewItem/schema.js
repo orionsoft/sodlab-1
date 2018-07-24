@@ -29,5 +29,14 @@ export default {
         return 'required'
       }
     }
+  },
+  indicatorId: {
+    type: 'ID',
+    optional: true,
+    async custom(indicatorId, {currentDoc}) {
+      if (currentDoc.type === 'indicator' && !indicatorId) {
+        return 'required'
+      }
+    }
   }
 }

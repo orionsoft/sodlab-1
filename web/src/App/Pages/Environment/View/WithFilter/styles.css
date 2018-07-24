@@ -1,0 +1,9 @@
+:local(.container) {
+  padding: 20px;
+  margin-top: -20px;
+}
+
+:local(.needToSelectFilter) {
+  padding: 20px;
+  color: #999;
+}

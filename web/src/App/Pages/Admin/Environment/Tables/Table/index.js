@@ -16,6 +16,7 @@ import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ObjectField from 'App/components/fields/ObjectField'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
+import translate from 'App/i18n/translate'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import FieldOptions from './FieldOptions'
 
@@ -29,6 +30,7 @@ import FieldOptions from './FieldOptions'
       collectionId
       filtersIds
       allowsNoFilter
+      fullSize
       fields {
         type
         fieldName
@@ -75,6 +77,10 @@ export default class Link extends React.Component {
     return this.props.filters.items.filter(
       filter => filter.collectionId === this.props.table.collectionId
     )
+  }
+
+  getErrorFieldLabel() {
+    return translate('general.thisField')
   }
 
   @autobind
@@ -151,6 +157,7 @@ export default class Link extends React.Component {
           ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
             mutation="updateTable"
+            getErrorFieldLabel={this.getErrorFieldLabel}
             ref="form"
             only="table"
             onSuccess={this.onSuccess}
@@ -169,6 +176,8 @@ export default class Link extends React.Component {
               <Field fieldName="allowsNoFilter" type={Checkbox} label="Se puede usar sin filtro" />
               <div className="label">Que campos mostrar</div>
               {this.renderCollectionFields()}
+              <div className="label">Habilitar pantalla completa</div>
+              <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
             </Field>
           </AutoForm>
           <br />

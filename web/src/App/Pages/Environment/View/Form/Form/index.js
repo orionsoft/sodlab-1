@@ -12,6 +12,7 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import cloneDeep from 'lodash/cloneDeep'
 import translate from 'App/i18n/translate'
+import {withRouter} from 'react-router'
 
 @withGraphQL(gql`
   query getFormItem($formId: ID, $itemId: ID) {
@@ -25,8 +26,10 @@ import translate from 'App/i18n/translate'
   }
 `)
 @withMessage
+@withRouter
 export default class Form extends React.Component {
   static propTypes = {
+    history: PropTypes.object,
     showMessage: PropTypes.func,
     form: PropTypes.object,
     state: PropTypes.object,
@@ -47,9 +50,19 @@ export default class Form extends React.Component {
   }
 
   @autobind
-  onSuccess() {
+  onSuccess(result) {
     this.setState({data: {}})
     this.props.showMessage('Se completó con exito')
+    const rawPath = this.props.form.onSuccessViewPath
+    if (rawPath) {
+      let path = rawPath
+      path = path.replace(`:_id`, result._id)
+      for (const key of Object.keys(result.data)) {
+        const value = result.data[key]
+        path = path.replace(`:${key}`, value)
+      }
+      this.props.history.push(path)
+    }
   }
 
   @autobind
@@ -65,6 +78,10 @@ export default class Form extends React.Component {
     return this.props.itemId
   }
 
+  getErrorFieldLabel() {
+    return translate('general.thisField')
+  }
+
   getItemData() {
     if (!this.props.itemData) return
     if (!this.props.itemData.item) return
@@ -72,7 +89,6 @@ export default class Form extends React.Component {
   }
 
   getData() {
-    const {currentUser} = this.props.parameters
     const doc = this.getItemData() || {}
     const params = this.props.form.serializedParams || {}
     for (const key of Object.keys(params)) {
@@ -81,7 +97,7 @@ export default class Form extends React.Component {
         doc[key] = field.defaultValue
       }
       if (field.formFieldType === 'parameter') {
-        doc[key] = currentUser[field.parameterName] ? currentUser[field.parameterName] : 'noData'
+        doc[key] = this.props.parameters[field.parameterName]
       }
     }
     return doc
@@ -118,7 +134,7 @@ export default class Form extends React.Component {
           mutation="submitForm"
           ref="form"
           only="data"
-          getErrorFieldLabel={() => translate('general.thisField')}
+          getErrorFieldLabel={this.getErrorFieldLabel}
           doc={{
             formId: this.props.form._id,
             data: this.getData(),

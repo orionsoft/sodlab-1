@@ -6,7 +6,9 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import Form from './Form'
 import Table from './Table'
+import Indicator from './Indicator'
 import {withApollo} from 'react-apollo'
+import prependKey from 'App/helpers/misc/prependKey'
 
 @withGraphQL(gql`
   query getView($viewId: ID, $environmentId: ID) {
@@ -20,9 +22,10 @@ import {withApollo} from 'react-apollo'
         type
         formId
         tableId
+        indicatorId
       }
     }
-    userByEnvironments(environmentId: $environmentId) {
+    userByEnvironment(environmentId: $environmentId) {
       userId
       email
       profile
@@ -36,21 +39,30 @@ export default class View extends React.Component {
     params: PropTypes.object,
     view: PropTypes.object,
     environmentId: PropTypes.string,
-    userByEnvironments: PropTypes.object
+    userByEnvironment: PropTypes.object
   }
 
   state = {}
 
-  getParameters() {
-    return {
-      ...this.props.params,
-      ...this.state,
-      currentUser: {
-        id: this.props.userByEnvironments.userId,
-        email: this.props.userByEnvironments.email,
-        ...this.props.userByEnvironments.profile
-      }
+  getUserParams() {
+    const user = this.props.userByEnvironment
+    if (!user) return {}
+    const data = {
+      id: user.userId,
+      email: user.email,
+      ...user.profile
     }
+
+    return prependKey(data, 'user', '_')
+  }
+
+  getParameters() {
+    const parameters = {
+      ...this.getUserParams(),
+      ...this.props.params,
+      ...this.state
+    }
+    return parameters
   }
 
   renderItem(item) {
@@ -65,6 +77,9 @@ export default class View extends React.Component {
     }
     if (item.type === 'table') {
       return <Table {...props} tableId={item.tableId} />
+    }
+    if (item.type === 'indicator') {
+      return <Indicator {...props} indicatorId={item.indicatorId} />
     }
   }
 
