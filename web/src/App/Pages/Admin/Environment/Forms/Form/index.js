@@ -27,6 +27,7 @@ import Fields from './Fields'
       collectionId
       environmentId
       updateVariableName
+      onSuccessViewPath
       fields {
         fieldName
         type
@@ -136,6 +137,8 @@ export default class Form extends React.Component {
               <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
               <div className="label">Habilitar pantalla completa</div>
               <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
+              <div className="label">Ir a una ruta al terminar</div>
+              <Field fieldName="onSuccessViewPath" type={Text} />
             </Field>
           </AutoForm>
           <br />

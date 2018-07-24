@@ -17,6 +17,7 @@ import autobind from 'autobind-decorator'
       serializedParams
       updateVariableName
       fullSize
+      onSuccessViewPath
     }
   }
 `)

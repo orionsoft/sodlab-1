@@ -28,7 +28,7 @@ export default class Data extends React.Component {
 
   renderError() {
     const error = this.props.data.error
-    if (!error) console.log(error)
+    if (!error) console.log('Error in paginated list', error)
     let message = error.message
     if (error && error.graphQLErrors && error.graphQLErrors[0]) {
       message = error.graphQLErrors[0].message

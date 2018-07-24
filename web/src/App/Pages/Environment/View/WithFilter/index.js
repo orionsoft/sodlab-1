@@ -37,15 +37,16 @@ export default class WithFilter extends React.Component {
       this.checkFilterOptionsSchema()
     }
     if (!isEqual(this.state.options, prevState.options)) this.checkFilterOptionsSchema()
+    if (!isEqual(this.props.parameters, prevProps.parameters)) this.checkFilterOptionsSchema()
   }
 
   async checkFilterOptionsSchema() {
     if (!this.state.filterId) {
-      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+      return this.setState({filterOptionsAreValid: false, optionValidationErrors: null})
     }
     const filter = this.props.filters.find(f => f._id === this.state.filterId)
     if (!filter || !filter.schema) {
-      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+      return this.setState({filterOptionsAreValid: false, optionValidationErrors: null})
     }
 
     const cleaned = await clean(filter.schema, {...this.props.parameters, ...this.state.options})
@@ -93,7 +94,6 @@ export default class WithFilter extends React.Component {
           <div className="label">Elige un filtro</div>
           <Field fieldName="filterId" placeholder="Sin filtro" type={Select} options={options} />
         </Form>
-        {this.renderFilterOptions()}
       </div>
     )
   }
@@ -104,7 +104,14 @@ export default class WithFilter extends React.Component {
 
   renderChildren() {
     const {allowsNoFilter} = this.props
-    if (!allowsNoFilter && !this.state.filterId) return this.renderSelectFilter()
+    if (!this.state.filterId) {
+      if (allowsNoFilter) {
+        return this.props.children({})
+      } else {
+        return this.renderSelectFilter()
+      }
+    }
+    if (allowsNoFilter && !this.state.filterId) return this.renderSelectFilter()
     if (!this.state.filterOptionsAreValid) return
     const {filterId, cleanedFilterOptions: filterOptions} = this.state
     return this.props.children({filterId, filterOptions})
@@ -114,6 +121,7 @@ export default class WithFilter extends React.Component {
     return (
       <div>
         {this.renderFilterForm()}
+        {this.renderFilterOptions()}
         {this.renderChildren()}
       </div>
     )

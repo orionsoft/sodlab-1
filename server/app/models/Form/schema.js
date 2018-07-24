@@ -35,5 +35,10 @@ export default {
   fullSize: {
     type: Boolean,
     optional: true
+  },
+  onSuccessViewPath: {
+    type: String,
+    label: 'viewPath',
+    optional: true
   }
 }
