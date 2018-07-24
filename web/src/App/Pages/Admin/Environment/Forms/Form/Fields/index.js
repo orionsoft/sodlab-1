@@ -10,7 +10,6 @@ import {Field, WithValue} from 'simple-react-form'
 import translate from 'App/i18n/translate'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import FieldItem from './Field'
-import translate from 'App/i18n/translate'
 import cloneDeep from 'lodash/cloneDeep'
 
 @withMessage
