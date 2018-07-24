@@ -32,6 +32,10 @@ export default {
     type: [Field],
     optional: true
   },
+  fullSize: {
+    type: Boolean,
+    optional: true
+  },
   onSuccessViewPath: {
     type: String,
     label: 'viewPath',
