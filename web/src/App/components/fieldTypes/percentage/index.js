@@ -1,7 +1,7 @@
-import Percentage from 'App/components/fields/Percentage'
+import Field from './Field'
 import View from './View'
 
 export default {
-  field: Percentage,
+  field: Field,
   view: View
 }

@@ -8,13 +8,13 @@ export default class Percentage extends React.Component {
     value: PropTypes.number,
     onChange: PropTypes.func,
     errorMessage: PropTypes.string,
-    passProps: PropTypes.object
+    min: PropTypes.number,
+    max: PropTypes.number
   }
 
   onChange(values) {
-    const {passProps} = this.props
-    const min = passProps.min || Number.MIN_VALUE
-    const max = passProps.max || Number.MAX_VALUE
+    const min = this.props.min || Number.MIN_VALUE
+    const max = this.props.max || Number.MAX_VALUE
     const newValue = Math.min(max, Math.max(min, values.floatValue))
     this.props.onChange(round(newValue / 100, 10))
   }
