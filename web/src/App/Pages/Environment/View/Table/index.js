@@ -172,7 +172,6 @@ export default class Table extends React.Component {
   @autobind
   fullScreen() {
     this.setState({fullSize: !this.state.fullSize})
-    console.log(this.state.fullSize)
   }
 
   renderFullSize() {
@@ -213,9 +212,7 @@ export default class Table extends React.Component {
 
   render() {
     return (
-      <div
-        className={styles.container + ' ' + (this.state.fullSize && styles.fullSize)}
-        key="table">
+      <div className={this.state.fullSize ? styles.fullSize : styles.container} key="table">
         {this.renderTable()}
       </div>
     )
