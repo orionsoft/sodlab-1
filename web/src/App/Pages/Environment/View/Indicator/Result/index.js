@@ -56,6 +56,6 @@ export default class Result extends React.Component {
   }
 
   render() {
-    return <div className={styles.container}>{this.renderValue()}</div>
+    return <div className={styles.container}>{this.getIndicatorType()}</div>
   }
 }
