@@ -4,5 +4,5 @@ import environmentUpdated from 'app/subscriptions/Environments/environmentUpdate
 
 export default hook('after.update', async function(selector) {
   const environment = await Environments.findOne(selector)
-  await environmentUpdated({environmentId: environment._id}, environment)
+  await environmentUpdated({environmentId: environment._id}, new Date())
 })

@@ -13,6 +13,7 @@ import styles from './styles.css'
       type
       serializedParams
       updateVariableName
+      onSuccessViewPath
     }
   }
 `)

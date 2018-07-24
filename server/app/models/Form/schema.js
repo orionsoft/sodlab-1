@@ -31,5 +31,10 @@ export default {
   fields: {
     type: [Field],
     optional: true
+  },
+  onSuccessViewPath: {
+    type: String,
+    label: 'viewPath',
+    optional: true
   }
 }
