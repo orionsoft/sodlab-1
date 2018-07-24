@@ -30,18 +30,26 @@ export default class Result extends React.Component {
     props.setRef(this)
   }
 
-  renderValue() {
+  renderValue(value, format) {
+    return (
+      <div className={styles.result}>
+        <NumberIncrement value={value} format={format} />
+      </div>
+    )
+  }
+
+  getIndicatorType() {
     const {value, renderType} = this.props.result
     if (isNil(value)) return '-'
 
     if (renderType === 'percentage') {
-      return <NumberIncrement value={value} format="0.[00]%" />
+      return this.renderValue(value, '0.[00]%')
     }
     if (renderType === 'number') {
-      return <NumberIncrement value={value} format="0,0.[00]" />
+      return this.renderValue(value, '0,0.[00]')
     }
     if (renderType === 'money') {
-      return <NumberIncrement value={value} format="$0,0.[00]" />
+      return this.renderValue(value, '$0,0.[00]')
     }
 
     return value
