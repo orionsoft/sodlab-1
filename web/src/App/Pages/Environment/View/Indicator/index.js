@@ -22,7 +22,7 @@ import Result from './Result'
       }
       filters {
         _id
-        name
+        title
         schema: serializedSchema
       }
     }

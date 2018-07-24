@@ -83,7 +83,7 @@ export default class WithFilter extends React.Component {
     const {filters, allowsNoFilter} = this.props
     const options = []
     for (const filter of filters) {
-      options.push({label: filter.name, value: filter._id})
+      options.push({label: filter.title, value: filter._id})
     }
     const hasOptions = allowsNoFilter ? options.length : options.length > 1
     if (!hasOptions) return

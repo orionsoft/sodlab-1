@@ -10,7 +10,6 @@ import styles from './styles.css'
     form(formId: $formId) {
       _id
       title
-      name
       type
       serializedParams
       updateVariableName

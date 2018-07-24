@@ -17,6 +17,7 @@ import autobind from 'autobind-decorator'
     filter(filterId: $filterId) {
       _id
       name
+      title
       environmentId
     }
   }
