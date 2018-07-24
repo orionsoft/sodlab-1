@@ -16,6 +16,7 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
+import translate from 'App/i18n/translate'
 import range from 'lodash/range'
 import clone from 'lodash/clone'
 
@@ -172,6 +173,7 @@ export default class View extends React.Component {
           ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
             mutation="updateView"
+            getErrorFieldLabel={() => translate('general.thisField')}
             ref="form"
             only="view"
             onSuccess={this.onSuccess}
