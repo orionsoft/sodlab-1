@@ -24,7 +24,3 @@
 :local(.noItem) {
   color: #999;
 }
-
-:local(.header) {
-  padding: 20px;
-}
