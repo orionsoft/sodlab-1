@@ -31,16 +31,19 @@ export default resolver({
     const formFields = getCollectionSchema(fields)
     const collectionFields = getCollectionSchema(collection.fields)
 
-    const missingField = collectionFields.find(element => {
-      return (
-        !element.optional &&
-        !formFields.find(element2 => {
-          return element.fieldName === element2.fieldName
-        })
-      )
-    })
-    if (missingField) {
-      throw new Error(`El campo ${missingField.editableLabel} es obligatorio.`)
+    if (form.type === 'create') {
+      const missingField = collectionFields.find(element => {
+        return (
+          !element.optional &&
+          !formFields.find(element2 => {
+            return element.fieldName === element2.fieldName
+          })
+        )
+      })
+
+      if (missingField) {
+        throw new Error(`El campo ${missingField.editableLabel} es obligatorio.`)
+      }
     }
 
     await form.update({$set: {fields}})
