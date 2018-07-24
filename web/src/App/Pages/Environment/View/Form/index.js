@@ -74,13 +74,11 @@ export default class Form extends React.Component {
     const {form} = this.props
     return (
       <div className={this.state.fullSize ? styles.fullSize : styles.container}>
-        <div className={styles.header}>
-          <div className="row">
-            <div className="col-xs-10 col-sm-">
-              <div className={styles.title}>{form.title}</div>
-            </div>
-            <div className="col-xs-2 col-sm-">{this.renderButtons(form)}</div>
+        <div className="row">
+          <div className="col-xs-10 col-sm-">
+            <div className={styles.title}>{form.title}</div>
           </div>
+          <div className="col-xs-2 col-sm-">{this.renderButtons(form)}</div>
         </div>
         {this.renderForm()}
       </div>
