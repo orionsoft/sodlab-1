@@ -10,7 +10,7 @@ export default resolver({
   },
   returns: 'blackbox',
   async resolve(filter, {includeParameters}, viewer) {
-    const schema = await filter.schema({includeParameters})
+    const schema = await filter.schema({includeParameters, includeFixed: false})
     if (!schema) return null
     return serializeSchema(schema)
   }

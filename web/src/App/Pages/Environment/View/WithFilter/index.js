@@ -48,14 +48,13 @@ export default class WithFilter extends React.Component {
     if (!filter) {
       return this.setState({filterOptionsAreValid: false, optionValidationErrors: null})
     }
-    if (!filter.schema) {
-      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
-    }
 
-    const cleaned = await clean(filter.schema, {...this.props.parameters, ...this.state.options})
+    const cleaned = await clean(filter.schema || {}, {
+      ...this.props.parameters,
+      ...this.state.options
+    })
     try {
-      const cleanedToValidate = await clean(filter.formSchema || {}, cleaned)
-      await validate(filter.formSchema || {}, cleanedToValidate)
+      await validate(filter.schema || {}, cleaned)
       this.setState({
         cleanedFilterOptions: cleaned,
         filterOptionsAreValid: true,
