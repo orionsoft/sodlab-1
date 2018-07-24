@@ -45,7 +45,7 @@ export default class FormField extends React.Component {
       <div className={styles.fixedValue}>
         <div className="label">Valor</div>
         <Field
-          typeFromForm={
+          collectionFieldType={
             (collectionField.type === 'manyOf' || collectionField.type === 'oneOf') &&
             collectionField.name
           }

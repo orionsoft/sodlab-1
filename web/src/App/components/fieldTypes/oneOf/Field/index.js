@@ -11,13 +11,13 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
     $environmentId: ID
     $formId: ID
     $fieldName: String
-    $typeFromForm: String
+    $collectionFieldType: String
   ) {
     selectOptions(
       environmentId: $environmentId
       formId: $formId
       fieldName: $fieldName
-      typeFromForm: $typeFromForm
+      collectionFieldType: $collectionFieldType
     ) {
       label
       value
@@ -33,7 +33,7 @@ export default class OneOf extends React.Component {
     formId: PropTypes.string,
     selectOptions: PropTypes.array,
     passProps: PropTypes.object,
-    typeFromForm: PropTypes.string
+    collectionFieldType: PropTypes.string
   }
 
   render() {

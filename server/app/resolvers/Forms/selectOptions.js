@@ -28,18 +28,18 @@ export default resolver({
     fieldName: {
       type: String
     },
-    typeFromForm: {
+    collectionFieldType: {
       type: String,
       optional: true
     }
   },
   returns: [SelectOption],
-  async resolve({environmentId, formId, fieldName, typeFromForm}, viewer) {
+  async resolve({environmentId, formId, fieldName, collectionFieldType}, viewer) {
     const form = formId ? await Forms.findOne(formId) : await Environments.findOne(environmentId)
 
     const schema = formId ? await form.schema() : await form.profileSchema()
 
-    const field = typeFromForm || fieldName.replace(formId ? 'data.' : 'profile.', '')
+    const field = collectionFieldType || fieldName.replace(formId ? 'data.' : 'profile.', '')
     const fieldSchema = schema[field]
     if (!fieldSchema) return []
     const options = fieldSchema.fieldOptions
