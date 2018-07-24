@@ -18,8 +18,10 @@ import dateTimeLessThan from './dateTimeLessThan'
 import dateLessThan from './dateLessThan'
 import idEquals from './idEquals'
 import equalString from './equalString'
+import containString from './containString'
 
 export default {
+  containString,
   equalString,
   dateLessThan,
   dateTimeLessThan,
