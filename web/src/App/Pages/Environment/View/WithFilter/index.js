@@ -94,7 +94,6 @@ export default class WithFilter extends React.Component {
           <div className="label">Elige un filtro</div>
           <Field fieldName="filterId" placeholder="Sin filtro" type={Select} options={options} />
         </Form>
-        {this.renderFilterOptions()}
       </div>
     )
   }
@@ -122,6 +121,7 @@ export default class WithFilter extends React.Component {
     return (
       <div>
         {this.renderFilterForm()}
+        {this.renderFilterOptions()}
         {this.renderChildren()}
       </div>
     )
