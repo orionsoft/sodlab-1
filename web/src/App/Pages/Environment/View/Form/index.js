@@ -4,6 +4,8 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import FormContent from './Form'
 import styles from './styles.css'
+import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getForm($formId: ID) {
@@ -14,6 +16,7 @@ import styles from './styles.css'
       type
       serializedParams
       updateVariableName
+      fullSize
     }
   }
 `)
@@ -24,7 +27,7 @@ export default class Form extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {}
+  state = {fullSize: false}
 
   getItemId() {
     if (this.props.form.type === 'create') return null
@@ -47,11 +50,37 @@ export default class Form extends React.Component {
     return <FormContent {...props} />
   }
 
+  @autobind
+  fullScreen() {
+    this.setState({fullSize: !this.state.fullSize})
+  }
+
+  renderFullSize() {
+    return this.state.fullSize ? (
+      <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    ) : (
+      <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    )
+  }
+
+  @autobind
+  renderButtons(form) {
+    return <div className="row end-xs">{form.fullSize && this.renderFullSize()}</div>
+  }
+
   render() {
     if (!this.props.form) return null
+    const {form} = this.props
     return (
-      <div className={styles.container}>
-        <div className={styles.title}>{this.props.form.title}</div>
+      <div className={this.state.fullSize ? styles.fullSize : styles.container}>
+        <div className={styles.header}>
+          <div className="row">
+            <div className="col-xs-10 col-sm-">
+              <div className={styles.title}>{form.title}</div>
+            </div>
+            <div className="col-xs-2 col-sm-">{this.renderButtons(form)}</div>
+          </div>
+        </div>
         {this.renderForm()}
       </div>
     )

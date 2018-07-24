@@ -10,7 +10,7 @@ import Watch from './Watch'
 import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
-import {FaArrowsAlt} from 'react-icons/lib/fa'
+import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -172,10 +172,15 @@ export default class Table extends React.Component {
   @autobind
   fullScreen() {
     this.setState({fullSize: !this.state.fullSize})
+    console.log(this.state.fullSize)
   }
 
   renderFullSize() {
-    return <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    return this.state.fullSize ? (
+      <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    ) : (
+      <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    )
   }
 
   @autobind
@@ -183,10 +188,10 @@ export default class Table extends React.Component {
     return <div className="row end-xs">{table.fullSize && this.renderFullSize()}</div>
   }
 
-  render() {
+  renderTable() {
     const {table, parameters} = this.props
     return (
-      <div className={this.state.fullSize ? styles.fullSize : styles.container}>
+      <div>
         <div className={styles.header}>
           <div className="row">
             <div className="col-xs-10 col-sm-">
@@ -202,6 +207,16 @@ export default class Table extends React.Component {
           {this.renderPaginated}
         </WithFilter>
         <Watch environmentId={table.environmentId} collectionId={table.collectionId} />
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <div
+        className={styles.container + ' ' + (this.state.fullSize && styles.fullSize)}
+        key="table">
+        {this.renderTable()}
       </div>
     )
   }
