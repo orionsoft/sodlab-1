@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@orion-js/app@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.5.8.tgz#d74ff4f30f415e05a9214dc368e70492bfa3e8ce"
+"@orion-js/app@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.5.9.tgz#4d754213d30b6f1f2086469b2b540f1663d6469c"
   dependencies:
-    "@orion-js/schema" "^0.5.8"
+    "@orion-js/schema" "^0.5.9"
     babel-polyfill "^6.26.0"
     colors "^1.2.5"
     dot-object "^1.7.0"
@@ -16,26 +16,26 @@
     path-match "^1.2.4"
     path-to-regexp "^2.2.0"
 
-"@orion-js/auth@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.5.8.tgz#8e8478a6e9a45db5a4220573e5d9668c248223e1"
+"@orion-js/auth@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.5.9.tgz#b384d3ab8855b775f246c348b3249cc0b4e15135"
   dependencies:
     bcryptjs "^2.4.3"
     jssha "^2.3.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/file-manager@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.5.8.tgz#0d05b760e299371585f3ea0ab09cd34b872e27cd"
+"@orion-js/file-manager@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.5.9.tgz#b58486d923aac1f0ba6d701f58ced8c99d75d9c7"
   dependencies:
     aws-sdk "^2.258.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/graphql@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.5.8.tgz#947ea25714fea00376ec87e26c30148a852b8f3f"
+"@orion-js/graphql@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.5.9.tgz#3882faaac07af814654f20d5d7bd12c1aca8a0a4"
   dependencies:
     apollo-server-core "^1.3.6"
     deep-sort-object "^1.0.2"
@@ -44,24 +44,24 @@
     lodash "^4.17.10"
     subscriptions-transport-ws "^0.9.12"
 
-"@orion-js/jobs@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.5.8.tgz#74158aebeaaf129bd3cb7936ba89785a15ddab77"
+"@orion-js/jobs@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.5.9.tgz#83b55494e2b5137ab73b9634ed91ca1c000c7739"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/mailing@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.5.8.tgz#4dc4f80fca753a0a1caabbbe5665fb941a8e0ed4"
+"@orion-js/mailing@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.5.9.tgz#782f07fcd417685132a736717e2d6256dc885ad6"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
     nodemailer "^4.6.6"
 
-"@orion-js/schema@^0.5.8":
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.5.8.tgz#46268def4094f08e1fd2c796ea362f8f087bb3cf"
+"@orion-js/schema@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.5.9.tgz#ed204c4bb2baf13837a2f1f76e4286a256821927"
   dependencies:
     lodash "^4.17.10"
 
@@ -243,9 +243,9 @@ aws-sdk@^2.258.1:
     uuid "3.1.0"
     xml2js "0.4.17"
 
-aws-sdk@^2.276.1:
-  version "2.276.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.276.1.tgz#4f5cd52f4d1a13a412c8a8d75b276c556ad13947"
+aws-sdk@^2.279.1:
+  version "2.279.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.279.1.tgz#3a4fd4167932e4361dbdcfcb174ce4840ffcbf20"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -2026,9 +2026,9 @@ luxon@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.3.0.tgz#d899ea70b86b1e6f984f816aec8b19b9958cd393"
 
-luxon@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.3.1.tgz#d9073c578738cebbf22a5f9d64eca7719e706072"
+luxon@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.3.2.tgz#cf5fa6fb0adcc7a1f14c36f5a15ea21631381513"
 
 math-random@^1.0.1:
   version "1.0.1"
