@@ -1,7 +1,6 @@
 import {resolver} from '@orion-js/app'
 import operators from 'app/helpers/operators'
 import fieldTypes from 'app/helpers/fieldTypes'
-import isNil from 'lodash/isNil'
 
 export default resolver({
   params: {

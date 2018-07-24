@@ -22,7 +22,8 @@ import {clean, validate} from '@orion-js/schema'
       filters {
         _id
         name
-        schema: serializedSchema
+        schema: serializedSchema(includeParameters: true)
+        formSchema: serializedSchema(includeParameters: false)
       }
       fields {
         fieldName
