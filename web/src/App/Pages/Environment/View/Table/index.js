@@ -24,7 +24,8 @@ import {FaArrowsAlt} from 'react-icons/lib/fa'
       filters {
         _id
         name
-        schema: serializedSchema
+        schema: serializedSchema(includeParameters: true)
+        formSchema: serializedSchema(includeParameters: false)
       }
       fields {
         fieldName

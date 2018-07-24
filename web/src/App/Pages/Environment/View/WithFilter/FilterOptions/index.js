@@ -36,15 +36,15 @@ export default class FilterOptions extends React.Component {
 
   render() {
     if (!this.props.filter) return null
-    const {schema} = this.props.filter
-    if (!schema) return null
+    const {formSchema} = this.props.filter
+    if (!formSchema) return null
     return (
       <div className={styles.container}>
         <Form
           state={this.props.options}
           errorMessages={this.getErrorMessages()}
           onChange={this.onChange}>
-          <Fields schemaToField={this.schemaToField} params={schema} />
+          <Fields schemaToField={this.schemaToField} params={formSchema} />
         </Form>
       </div>
     )
