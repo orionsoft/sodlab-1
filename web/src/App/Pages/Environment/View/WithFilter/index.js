@@ -37,6 +37,7 @@ export default class WithFilter extends React.Component {
       this.checkFilterOptionsSchema()
     }
     if (!isEqual(this.state.options, prevState.options)) this.checkFilterOptionsSchema()
+    if (!isEqual(this.props.parameters, prevProps.parameters)) this.checkFilterOptionsSchema()
   }
 
   async checkFilterOptionsSchema() {

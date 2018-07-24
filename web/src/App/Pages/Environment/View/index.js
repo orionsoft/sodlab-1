@@ -57,11 +57,12 @@ export default class View extends React.Component {
   }
 
   getParameters() {
-    return {
+    const parameters = {
       ...this.getUserParams(),
       ...this.props.params,
       ...this.state
     }
+    return parameters
   }
 
   renderItem(item) {
