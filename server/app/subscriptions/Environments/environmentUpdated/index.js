@@ -1,5 +1,4 @@
 import {subscription} from '@orion-js/graphql'
-import Environment from 'app/models/Environment'
 
 export default subscription({
   params: {
@@ -7,5 +6,5 @@ export default subscription({
       type: 'ID'
     }
   },
-  returns: Environment
+  returns: Date
 })

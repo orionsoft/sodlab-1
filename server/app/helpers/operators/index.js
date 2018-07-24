@@ -16,6 +16,7 @@ import dateGreaterThan from './dateGreaterThan'
 import dateTimeLessEqualThan from './dateTimeLessEqualThan'
 import dateTimeLessThan from './dateTimeLessThan'
 import dateLessThan from './dateLessThan'
+import idEquals from './idEquals'
 
 export default {
   dateLessThan,
@@ -35,5 +36,6 @@ export default {
   equalNumber,
   exists,
   stringStartsWith,
-  booleanIs
+  booleanIs,
+  idEquals
 }

@@ -37,15 +37,16 @@ export default class WithFilter extends React.Component {
       this.checkFilterOptionsSchema()
     }
     if (!isEqual(this.state.options, prevState.options)) this.checkFilterOptionsSchema()
+    if (!isEqual(this.props.parameters, prevProps.parameters)) this.checkFilterOptionsSchema()
   }
 
   async checkFilterOptionsSchema() {
     if (!this.state.filterId) {
-      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+      return this.setState({filterOptionsAreValid: false, optionValidationErrors: null})
     }
     const filter = this.props.filters.find(f => f._id === this.state.filterId)
     if (!filter || !filter.schema) {
-      return this.setState({filterOptionsAreValid: true, optionValidationErrors: null})
+      return this.setState({filterOptionsAreValid: false, optionValidationErrors: null})
     }
 
     const cleaned = await clean(filter.schema, {...this.props.parameters, ...this.state.options})
