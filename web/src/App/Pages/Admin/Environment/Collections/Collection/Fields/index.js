@@ -144,7 +144,7 @@ export default class Fields extends React.Component {
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
               collectionId: this.props.collection._id,
-              fields: this.state.fields || cloneDeep(collection.fields) || []
+              fields: cloneDeep(this.state.fields) || cloneDeep(collection.fields) || []
             }}>
             <Field fieldName="fields" type={ArrayComponent} renderItem={this.renderItems} />
           </AutoForm>

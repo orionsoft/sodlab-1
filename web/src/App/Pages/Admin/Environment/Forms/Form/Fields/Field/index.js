@@ -61,7 +61,7 @@ export default class FormField extends React.Component {
 
   renderOptional() {
     const {field, form} = this.props
-    if (!field.fieldName || !form.collection || form.collection.fields) return
+    if (!field.fieldName || !form.collection.fields) return
     const element = form.collection.fields.find(formField => {
       return formField.name === field.fieldName
     })
