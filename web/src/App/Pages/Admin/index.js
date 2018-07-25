@@ -8,7 +8,6 @@ import Admin from './Admin'
 import Settings from './Settings'
 import Environment from './Environment'
 import Navbar from './Navbar'
-import includes from 'lodash/includes'
 
 @forceLogin
 @withRoles
@@ -23,7 +22,9 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    if (!includes(this.props.roles, 'admin')) return this.renderNotAllowed()
+    if (!this.props.roles.includes('superAdmin') && !this.props.roles.includes('admin')) {
+      return this.renderNotAllowed()
+    }
     return (
       <div className={styles.container}>
         <Switch>

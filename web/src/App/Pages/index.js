@@ -4,7 +4,6 @@ import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
 import DynamicComponent from 'App/components/DynamicComponent'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
-import includes from 'lodash/includes'
 import ErrorPage from './ErrorPage'
 import withRoles from 'App/helpers/auth/withRoles'
 import withUserId from 'App/helpers/auth/withUserId'
@@ -26,7 +25,7 @@ export default class Component extends React.Component {
 
   shouldRenderNotFound() {
     if (this.props.environmentId) return false
-    return !includes(adminHosts, window.location.host)
+    return !adminHosts.includes(window.location.host)
   }
 
   shouldRenderNotAllowed() {
@@ -36,9 +35,11 @@ export default class Component extends React.Component {
       })
       return true
     }
-    const isInAdmin = includes(adminHosts, window.location.host)
+    const isInAdmin = adminHosts.includes(window.location.host)
     if (isInAdmin) {
-      if (!includes(this.props.roles, 'admin')) return true
+      if (!this.props.roles.includes('admin') && !this.props.roles.includes('superAdmin')) {
+        return true
+      }
       return false
     } else {
       console.log('Should check if the user has access to this env')
@@ -61,8 +62,7 @@ export default class Component extends React.Component {
       return <Component />
     } else {
       if (this.shouldRenderNotAllowed()) return this.renderNotAllowed()
-
-      const isInAdmin = includes(adminHosts, window.location.host)
+      const isInAdmin = adminHosts.includes(window.location.host)
       if (isInAdmin && this.props.location.pathname === '/') {
         this.props.history.replace('/admin')
       }
