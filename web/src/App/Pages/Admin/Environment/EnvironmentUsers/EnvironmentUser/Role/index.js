@@ -45,7 +45,6 @@ export default class Role extends React.Component {
     return (
       <div className={styles.container}>
         <Section
-          top
           title="Roles"
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
           ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">

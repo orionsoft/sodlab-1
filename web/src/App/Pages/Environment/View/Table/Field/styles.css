@@ -1,2 +1,8 @@
 :local(.container) {
 }
+
+:local(.selectedIcon) .os_iconButton *,
+:local(.selectedIcon):hover .os_iconButton *,
+:local(.selectedIcon):active .os_iconButton * {
+  color: #0069ff !important;
+}

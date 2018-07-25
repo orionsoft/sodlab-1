@@ -25,7 +25,8 @@ import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
       filters {
         _id
         title
-        schema: serializedSchema
+        schema: serializedSchema(includeParameters: true)
+        formSchema: serializedSchema(includeParameters: false)
       }
     }
   }

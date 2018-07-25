@@ -123,6 +123,7 @@ export default class Table extends React.Component {
           setEnvironment={this.props.setEnvironment}
           doc={doc}
           field={field}
+          parameters={this.props.parameters}
           table={this.props.table}
           collectionField={collectionField}
           collectionId={collectionId}
