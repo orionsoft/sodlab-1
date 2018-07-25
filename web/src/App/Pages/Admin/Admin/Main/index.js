@@ -27,24 +27,24 @@ export default class Main extends React.Component {
     })
   }
 
-  renderRoleTitle() {
-    if (this.props.roles.includes('superAdmin')) {
-      return <div className={styles.title}>Super Admin</div>
-    }
+  renderRoleTitle(title) {
     return (
-      <div className={styles.title}>
-        <div className={styles.title}>Admin</div>
+      <div>
+        <Breadcrumbs>{title}</Breadcrumbs>
       </div>
     )
   }
 
   render() {
+    const {roles} = this.props
     return (
       <div className={styles.container}>
-        <Breadcrumbs>{this.renderRoleTitle()}</Breadcrumbs>
+        {roles.includes('superAdmin')
+          ? this.renderRoleTitle('Super Admin')
+          : this.renderRoleTitle('Admin')}
         <div className="divider" />
         <div className="row">
-          {this.props.roles.includes('superAdmin')
+          {roles.includes('superAdmin')
             ? this.renderLinks(superAdminLinks)
             : this.renderLinks(adminLinks)}
         </div>

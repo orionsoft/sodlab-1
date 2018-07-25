@@ -22,7 +22,8 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    if (!this.props.roles.includes('superAdmin') && !this.props.roles.includes('admin')) {
+    const {roles} = this.props
+    if (!roles.includes('superAdmin') && !roles.includes('admin')) {
       return this.renderNotAllowed()
     }
     return (

@@ -1,6 +1,7 @@
 import {paginatedResolver} from '@orion-js/app'
 import Environment from 'app/models/Environment'
 import Environments from 'app/collections/Environments'
+import Users from 'app/collections/Users'
 import escape from 'escape-string-regexp'
 
 export default paginatedResolver({
@@ -12,7 +13,11 @@ export default paginatedResolver({
     }
   },
   async getCursor({filter}, viewer) {
+    const user = await Users.findOne(viewer.userId)
     const query = {}
+    if (user.roles && !user.roles.includes('superAdmin')) {
+      query._id = {$in: user.environmentsAuthorized}
+    }
     if (filter) {
       query._id = {$regex: new RegExp(`^${escape(filter)}`)}
     }

@@ -7,6 +7,7 @@ import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
 import ErrorPage from './ErrorPage'
 import withRoles from 'App/helpers/auth/withRoles'
 import withUserId from 'App/helpers/auth/withUserId'
+import includes from 'lodash/includes'
 
 const adminHosts = ['localhost:3010', 'beta.sodlab.com', 'admin.sodlab.com']
 
@@ -37,7 +38,7 @@ export default class Component extends React.Component {
     }
     const isInAdmin = adminHosts.includes(window.location.host)
     if (isInAdmin) {
-      if (!this.props.roles.includes('admin') && !this.props.roles.includes('superAdmin')) {
+      if (!includes(this.props.roles, 'admin') && !includes(this.props.roles, 'superAdmin')) {
         return true
       }
       return false
