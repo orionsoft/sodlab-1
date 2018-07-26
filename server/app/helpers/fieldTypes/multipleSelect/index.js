@@ -2,7 +2,7 @@ import checkJSON from 'app/helpers/misc/checkJSON'
 
 export default {
   name: 'Selección multiple',
-  rootType: String,
+  rootType: [String],
   allowedOperatorsIds: ['exists'],
   optional: false,
   optionsSchema: {
