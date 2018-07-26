@@ -7,8 +7,18 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 
 @withRouter
 @withGraphQL(gql`
-  query getFormOneOfSelectOptions($environmentId: ID, $formId: ID, $fieldName: String) {
-    selectOptions(environmentId: $environmentId, formId: $formId, fieldName: $fieldName) {
+  query getFormOneOfSelectOptions(
+    $environmentId: ID
+    $formId: ID
+    $fieldName: String
+    $collectionFieldName: String
+  ) {
+    selectOptions(
+      environmentId: $environmentId
+      formId: $formId
+      fieldName: $fieldName
+      collectionFieldName: $collectionFieldName
+    ) {
       label
       value
     }
@@ -22,7 +32,8 @@ export default class OneOf extends React.Component {
     errorMessage: PropTypes.node,
     formId: PropTypes.string,
     selectOptions: PropTypes.array,
-    passProps: PropTypes.object
+    passProps: PropTypes.object,
+    collectionFieldName: PropTypes.string
   }
 
   render() {
