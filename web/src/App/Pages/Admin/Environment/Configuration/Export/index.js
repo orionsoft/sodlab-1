@@ -26,7 +26,6 @@ export default class Export extends React.Component {
     try {
       const {result} = await this.props.generateExport({environmentId: this.props.environment._id})
       this.downloadFile(result, `${this.props.environment._id}.sodlabx`, 'application/json')
-      this.props.showMessage('Success')
     } catch (error) {
       this.props.showMessage(error)
     }

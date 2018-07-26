@@ -9,6 +9,7 @@ import Links from 'app/collections/Links'
 import Roles from 'app/collections/Roles'
 import Tables from 'app/collections/Tables'
 import Views from 'app/collections/Views'
+import Environments from 'app/collections/Environments'
 
 export default resolver({
   params: {
@@ -21,6 +22,8 @@ export default resolver({
   role: 'admin',
   async resolve({environmentId}, viewer) {
     const result = {
+      exportVersion: 'v2',
+      environment: await Environments.findOne(environmentId),
       charts: await Charts.find({environmentId}).toArray(),
       collections: await Collections.find({environmentId}).toArray(),
       filters: await Filters.find({environmentId}).toArray(),

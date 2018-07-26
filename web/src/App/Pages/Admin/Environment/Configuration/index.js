@@ -10,6 +10,7 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import ProfileFields from './ProfileFields'
 import Export from './Export'
+import Import from './Import'
 
 @withMessage
 @withGraphQL(gql`
@@ -58,6 +59,7 @@ export default class Configuration extends React.Component {
         </Section>
         <ProfileFields environment={this.props.environment} />
         <Export environment={this.props.environment} />
+        <Import environment={this.props.environment} />
       </div>
     )
   }
