@@ -1,4 +1,5 @@
 :local(.container) {
+  overflow: hidden;
 }
 
 :local(.item) {

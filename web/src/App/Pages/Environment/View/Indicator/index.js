@@ -53,6 +53,7 @@ export default class Indicator extends React.Component {
         indicatorId={this.props.indicator._id}
         filterId={filterId}
         filterOptions={filterOptions}
+        fullSize={this.state.fullSize}
       />
     )
   }
