@@ -4,6 +4,8 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import {withRouter} from 'react-router'
 import gql from 'graphql-tag'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import withSubscription from 'react-apollo-decorators/lib/withSubscription'
+import autobind from 'autobind-decorator'
 
 @withRouter
 @withGraphQL(gql`
@@ -24,6 +26,25 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
     }
   }
 `)
+@withSubscription(
+  gql`
+    subscription($environmentId: ID, $collectionId: ID) {
+      collectionDataChanged(environmentId: $environmentId, collectionId: $collectionId)
+    }
+  `,
+  'onUpdate',
+  {
+    getVariables(props) {
+      const envId = props.collectionId.split('_')[0]
+      const vars = {
+        environmentId: envId,
+        collectionId: props.collectionId
+      }
+
+      return vars
+    }
+  }
+)
 export default class ManyOf extends React.Component {
   static propTypes = {
     router: PropTypes.object,
@@ -33,7 +54,14 @@ export default class ManyOf extends React.Component {
     formId: PropTypes.string,
     selectOptions: PropTypes.array,
     passProps: PropTypes.object,
-    collectionFieldName: PropTypes.string
+    collectionFieldName: PropTypes.string,
+    refetch: PropTypes.func,
+    collectionId: PropTypes.string
+  }
+
+  @autobind
+  onUpdate() {
+    this.props.refetch()
   }
 
   render() {
