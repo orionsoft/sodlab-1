@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import ProfileFields from './ProfileFields'
+import RemoveEnvironment from './RemoveEnvironment'
 
 @withMessage
 @withGraphQL(gql`
@@ -56,6 +57,7 @@ export default class Configuration extends React.Component {
           </Button>
         </Section>
         <ProfileFields environment={this.props.environment} />
+        <RemoveEnvironment environmentId={this.props.environment._id} />
       </div>
     )
   }
