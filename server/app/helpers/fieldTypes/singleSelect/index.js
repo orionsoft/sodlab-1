@@ -1,4 +1,4 @@
-import objectSchema from 'app/helpers/misc/objectSchema'
+import checkJSON from 'app/helpers/misc/checkJSON'
 
 export default {
   name: 'Selección',
@@ -10,7 +10,7 @@ export default {
       type: ['blackbox'],
       fieldType: 'selectOptions',
       async custom(options) {
-        if (objectSchema(options, ['value', 'label'])) {
+        if (checkJSON(options, ['value', 'label'])) {
           return 'missing Option'
         }
       }
