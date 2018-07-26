@@ -7,6 +7,10 @@ export default {
     type: String,
     label: 'Nombre'
   },
+  title: {
+    type: String,
+    label: 'Título'
+  },
   environmentId: {
     type: 'ID'
   },

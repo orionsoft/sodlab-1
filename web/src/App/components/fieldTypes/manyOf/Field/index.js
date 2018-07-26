@@ -9,8 +9,18 @@ import autobind from 'autobind-decorator'
 
 @withRouter
 @withGraphQL(gql`
-  query getFormOneOfSelectOptions($environmentId: ID, $formId: ID, $fieldName: String) {
-    selectOptions(environmentId: $environmentId, formId: $formId, fieldName: $fieldName) {
+  query getFormOneOfSelectOptions(
+    $environmentId: ID
+    $formId: ID
+    $fieldName: String
+    $collectionFieldName: String
+  ) {
+    selectOptions(
+      environmentId: $environmentId
+      formId: $formId
+      fieldName: $fieldName
+      collectionFieldName: $collectionFieldName
+    ) {
       label
       value
     }
@@ -44,6 +54,7 @@ export default class ManyOf extends React.Component {
     formId: PropTypes.string,
     selectOptions: PropTypes.array,
     passProps: PropTypes.object,
+    collectionFieldName: PropTypes.string,
     refetch: PropTypes.func,
     collectionId: PropTypes.string
   }
