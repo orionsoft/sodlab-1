@@ -36,6 +36,11 @@ export default class Environment extends React.Component {
     environment: PropTypes.object
   }
 
+  componentDidMount() {
+    const {environment} = this.props
+    document.title = environment.name
+  }
+
   render() {
     const {environment} = this.props
     if (!environment) return null
