@@ -16,6 +16,10 @@ export default resolver({
       type: String,
       label: 'Nombre'
     },
+    title: {
+      type: String,
+      label: 'Nombre'
+    },
     collectionId: {
       type: String,
       label: 'Collección'
@@ -24,10 +28,11 @@ export default resolver({
   returns: Filter,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, name, collectionId}, viewer) {
+  async resolve({environmentId, name, title, collectionId}, viewer) {
     const filterId = await Filters.insert({
       environmentId,
       name,
+      title,
       collectionId,
       createdAt: new Date()
     })
