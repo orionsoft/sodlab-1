@@ -11,13 +11,13 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
     $environmentId: ID
     $formId: ID
     $fieldName: String
-    $collectionFieldType: String
+    $collectionFieldName: String
   ) {
     selectOptions(
       environmentId: $environmentId
       formId: $formId
       fieldName: $fieldName
-      collectionFieldType: $collectionFieldType
+      collectionFieldName: $collectionFieldName
     ) {
       label
       value
@@ -33,7 +33,7 @@ export default class ManyOf extends React.Component {
     formId: PropTypes.string,
     selectOptions: PropTypes.array,
     passProps: PropTypes.object,
-    collectionFieldType: PropTypes.string
+    collectionFieldName: PropTypes.string
   }
 
   render() {
