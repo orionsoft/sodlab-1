@@ -14,35 +14,23 @@ export default class Admin extends React.Component {
     roles: PropTypes.array
   }
 
-  superAdminRoutes() {
+  renderRoutes() {
+    const links = this.props.roles.includes('superAdmin') ? adminLinks : superAdminLinks
     return (
       <div>
-        {superAdminLinks.map(link => (
-          <Route key={link.path} path={link.path} component={link.component} />
-        ))}
-      </div>
-    )
-  }
-
-  adminRoutes() {
-    return (
-      <div>
-        {adminLinks.map(link => (
-          <Route key={link.path} path={link.path} component={link.component} />
-        ))}
+        {links.map(link => <Route key={link.path} path={link.path} component={link.component} />)}
       </div>
     )
   }
 
   render() {
-    const {roles} = this.props
     return (
       <div className={styles.container}>
         <Navbar />
         <Container>
           <Switch>
             <Route path="/admin" exact component={DynamicComponent(() => import('./Main'))} />
-            {roles.includes('superAdmin') ? this.superAdminRoutes() : this.adminRoutes()}
+            {this.renderRoutes()}
           </Switch>
         </Container>
       </div>

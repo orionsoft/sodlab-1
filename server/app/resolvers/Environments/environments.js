@@ -13,9 +13,9 @@ export default paginatedResolver({
     }
   },
   async getCursor({filter}, viewer) {
-    const user = await Users.findOne(viewer.userId)
     const query = {}
-    if (user.roles && !user.roles.includes('superAdmin')) {
+    const user = await Users.findOne(viewer.userId)
+    if (viewer.roles && !viewer.roles.includes('superAdmin')) {
       query._id = {$in: user.environmentsAuthorized}
     }
     if (filter) {

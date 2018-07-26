@@ -12,7 +12,6 @@ export default resolver({
   mutation: true,
   role: 'superAdmin',
   async resolve({collectionId}, viewer) {
-    console.log(collectionId)
     await postRemoveCollection(collectionId)
     await Collections.remove(collectionId)
     return true
