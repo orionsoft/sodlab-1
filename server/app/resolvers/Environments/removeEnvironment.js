@@ -10,7 +10,7 @@ export default resolver({
   },
   returns: Boolean,
   mutation: true,
-  role: 'admin',
+  role: 'superAdmin',
   async resolve({environmentId}, viewer) {
     await postRemoveEnvironment(environmentId)
     await Environments.remove(environmentId)
