@@ -38,7 +38,7 @@ export default class Environment extends React.Component {
 
   componentDidMount() {
     const {environment} = this.props
-    document.title = environment.name
+    document.title = `Admin | ${environment.name}`
   }
 
   render() {
