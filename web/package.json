@@ -23,6 +23,7 @@
     "orionsoft-parts": "^1.11.0",
     "payment-icons": "^1.1.0",
     "prop-types": "^15.6.2",
+    "random-gen": "^0.1.0",
     "react": "^16.4.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-apollo": "^2.1.9",

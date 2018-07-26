@@ -9,8 +9,8 @@ const config = {
   logging: false
 }
 
-config.aws_key = ''
-config.bucket = ''
+config.aws_key = 'AKIAJP3ZHQ2KIGXJ4LEA'
+config.bucket = 'sodlabx-filemanager-dev'
 
 const evaporate = new Evaporate(config)
 
