@@ -6,11 +6,8 @@ import autobind from 'autobind-decorator'
 
 @withSubscription(
   gql`
-    subscription onCommentAdded($environmentId: ID) {
-      environmentUpdated(environmentId: $environmentId) {
-        _id
-        name
-      }
+    subscription onEnvironmentUpdated($environmentId: ID) {
+      environmentUpdated(environmentId: $environmentId)
     }
   `,
   'onChange'

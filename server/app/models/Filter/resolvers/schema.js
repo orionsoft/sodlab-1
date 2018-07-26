@@ -1,23 +1,26 @@
 import {resolver} from '@orion-js/app'
 import operators from 'app/helpers/operators'
 import fieldTypes from 'app/helpers/fieldTypes'
-import isNil from 'lodash/isNil'
 
 export default resolver({
   params: {
     includeParameters: {
       type: Boolean,
       defaultValue: false
+    },
+    includeFixed: {
+      type: Boolean,
+      defaultValue: false
     }
   },
   returns: String,
   private: true,
-  async resolve(filter, {includeParameters}, viewer) {
+  async resolve(filter, {includeParameters, includeFixed}, viewer) {
     const fields = {}
 
     for (const condition of filter.conditions) {
       for (const rule of condition.rules) {
-        if (rule.type === 'fixed') continue
+        if (rule.type === 'fixed' && !includeFixed) continue
         if (rule.type === 'parameter' && !includeParameters) continue
 
         const operator = operators[rule.operatorId]

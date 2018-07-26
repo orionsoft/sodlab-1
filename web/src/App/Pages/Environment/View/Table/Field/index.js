@@ -6,6 +6,7 @@ import icons from 'App/components/Icon/icons'
 import {withRouter} from 'react-router'
 import MutationButton from 'App/components/MutationButton'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
+import styles from './styles.css'
 
 @withMessage
 @withRouter
@@ -13,13 +14,15 @@ export default class Field extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
     history: PropTypes.object,
+    location: PropTypes.object,
     field: PropTypes.object,
     collectionField: PropTypes.object,
     doc: PropTypes.object,
     setEnvironment: PropTypes.func,
     state: PropTypes.object,
     table: PropTypes.object,
-    collectionId: PropTypes.string
+    collectionId: PropTypes.string,
+    parameters: PropTypes.object
   }
 
   renderTypeField() {
@@ -38,12 +41,19 @@ export default class Field extends React.Component {
     const {doc, field} = this.props
     const varName = field.options.variableFrom
     const value = varName === '_id' ? doc._id : doc.data[varName]
+    const key = field.options.variableTo
+    const selected = this.props.parameters[key] === value
+    const className = selected ? styles.selectedIcon : null
     const onClick = () =>
       this.props.setEnvironment({
-        [field.options.variableTo]: value
+        [key]: selected ? null : value
       })
     const icon = icons[field.options.icon]
-    return <IconButton onPress={onClick} icon={icon} tooltip={field.options.tooltip} size={18} />
+    return (
+      <span className={className}>
+        <IconButton onPress={onClick} icon={icon} tooltip={field.options.tooltip} size={18} />
+      </span>
+    )
   }
 
   renderTypeRouteIconButton() {
@@ -58,7 +68,13 @@ export default class Field extends React.Component {
     }
     const onClick = () => this.props.history.push(path)
     const icon = icons[field.options.icon]
-    return <IconButton onPress={onClick} icon={icon} tooltip={field.options.tooltip} size={18} />
+    const selected = path === this.props.location.pathname
+    const className = selected ? styles.selectedIcon : null
+    return (
+      <span className={className}>
+        <IconButton onPress={onClick} icon={icon} tooltip={field.options.tooltip} size={18} />
+      </span>
+    )
   }
 
   renderDeleteDocumentByUser() {

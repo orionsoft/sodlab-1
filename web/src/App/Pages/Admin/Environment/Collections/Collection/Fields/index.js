@@ -6,7 +6,7 @@ import AutoForm from 'App/components/AutoForm'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
-import clone from 'lodash/clone'
+import cloneDeep from 'lodash/cloneDeep'
 import autobind from 'autobind-decorator'
 import {withRouter} from 'react-router'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
@@ -53,6 +53,12 @@ export default class Fields extends React.Component {
     }
   `
 
+  state = {}
+
+  componentDidMount() {
+    this.setState({fields: this.props.collection.fields || []})
+  }
+
   @autobind
   onSuccess() {
     const {environmentId} = this.props.params
@@ -97,10 +103,30 @@ export default class Fields extends React.Component {
   }
 
   getFieldTypes() {
-    return clone(this.props.fieldTypes).sort((a, b) => (a.label > b.label ? 1 : -1))
+    return cloneDeep(this.props.fieldTypes).sort((a, b) => (a.label > b.label ? 1 : -1))
+  }
+
+  @autobind
+  toggleOptionals() {
+    const prevOptionalToggleValue = !!this.state.optionalToggleValue
+    this.setState(prevState => ({optionalToggleValue: !prevState.optionalToggleValue}))
+    const arrayFields = this.refs.form.form.state.value
+      ? this.refs.form.form.state.value.fields
+      : this.state.fields
+    const fields = arrayFields.map(field => {
+      return {
+        ...(field.name && {name: field.name}),
+        ...(field.label && {label: field.label}),
+        ...(field.type && {type: field.type}),
+        optional: !prevOptionalToggleValue,
+        ...(field.options && {options: field.options})
+      }
+    })
+    this.setState({fields})
   }
 
   render() {
+    if (!this.props.collection) return null
     const {collection} = this.props
     return (
       <div className={styles.container}>
@@ -118,15 +144,20 @@ export default class Fields extends React.Component {
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
               collectionId: this.props.collection._id,
-              fields: collection.fields ? clone(collection.fields) : []
+              fields: cloneDeep(this.state.fields) || cloneDeep(collection.fields) || []
             }}>
             <Field fieldName="fields" type={ArrayComponent} renderItem={this.renderItems} />
           </AutoForm>
           <br />
-          <div style={{textAlign: 'right'}}>
-            <Button onClick={() => this.refs.form.submit()} primary>
-              Guardar
-            </Button>
+          <div className={styles.buttonContainer}>
+            <div>
+              <Button onClick={this.toggleOptionals}>Cambiar Opcionales</Button>
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
+            </div>
           </div>
         </Section>
       </div>

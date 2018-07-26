@@ -31,7 +31,6 @@ export default resolver({
       collectionId,
       createdAt: new Date()
     })
-    console.log(filterId, 'hello world')
     return await Filters.findOne(filterId)
   }
 })

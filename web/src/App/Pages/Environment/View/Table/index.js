@@ -10,6 +10,7 @@ import Watch from './Watch'
 import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
+import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -19,10 +20,12 @@ import {clean, validate} from '@orion-js/schema'
       collectionId
       environmentId
       allowsNoFilter
+      fullSize
       filters {
         _id
         name
-        schema: serializedSchema
+        schema: serializedSchema(includeParameters: true)
+        formSchema: serializedSchema(includeParameters: false)
       }
       fields {
         fieldName
@@ -49,7 +52,7 @@ export default class Table extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {filterId: null}
+  state = {filterId: null, fullSize: false}
 
   @autobind
   onSelect(item) {}
@@ -120,6 +123,7 @@ export default class Table extends React.Component {
           setEnvironment={this.props.setEnvironment}
           doc={doc}
           field={field}
+          parameters={this.props.parameters}
           table={this.props.table}
           collectionField={collectionField}
           collectionId={collectionId}
@@ -166,12 +170,35 @@ export default class Table extends React.Component {
     )
   }
 
-  render() {
+  @autobind
+  fullScreen() {
+    this.setState({fullSize: !this.state.fullSize})
+  }
+
+  renderFullSize() {
+    return this.state.fullSize ? (
+      <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    ) : (
+      <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    )
+  }
+
+  @autobind
+  renderButtons(table) {
+    return <div className="row end-xs">{table.fullSize && this.renderFullSize()}</div>
+  }
+
+  renderTable() {
     const {table, parameters} = this.props
     return (
-      <div className={styles.container}>
+      <div>
         <div className={styles.header}>
-          <div className={styles.title}>{table.title}</div>
+          <div className="row">
+            <div className="col-xs-10 col-sm-">
+              <div className={styles.title}>{table.title}</div>
+            </div>
+            <div className="col-xs-2 col-sm-">{this.renderButtons(table)}</div>
+          </div>
         </div>
         <WithFilter
           filters={table.filters}
@@ -180,6 +207,14 @@ export default class Table extends React.Component {
           {this.renderPaginated}
         </WithFilter>
         <Watch environmentId={table.environmentId} collectionId={table.collectionId} />
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <div className={this.state.fullSize ? styles.fullSize : styles.container} key="table">
+        {this.renderTable()}
       </div>
     )
   }
