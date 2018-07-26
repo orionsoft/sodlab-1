@@ -1,7 +1,7 @@
 import sendEmail from 'app/services/mailer/sendEmail'
 
 export default async function(user, token) {
-  const url = `http://localhost:3010/verify-email/${token}`
+  const url = `${process.env.CLIENT_URL}/verify-email/${token}`
   await sendEmail({
     address: await user.email(),
     subject: 'Verifica tu email',
