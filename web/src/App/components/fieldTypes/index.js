@@ -15,6 +15,9 @@ import oneOf from './oneOf'
 import manyOf from './manyOf'
 import currency from './currency'
 import percentage from './percentage'
+import selectOptions from './selectOptions'
+import singleSelect from './singleSelect'
+import multipleSelect from './multipleSelect'
 
 export default {
   percentage,
@@ -33,5 +36,8 @@ export default {
   collectionSelect,
   collectionFieldSelect,
   oneOf,
-  manyOf
+  manyOf,
+  selectOptions,
+  singleSelect,
+  multipleSelect
 }

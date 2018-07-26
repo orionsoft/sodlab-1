@@ -12,6 +12,8 @@ import oneOf from './oneOf'
 import manyOf from './manyOf'
 import currency from './currency'
 import percentage from './percentage'
+import singleSelect from './singleSelect'
+import multipleSelect from './multipleSelect'
 
 export default {
   percentage,
@@ -27,5 +29,7 @@ export default {
   date,
   datetime,
   oneOf,
-  manyOf
+  manyOf,
+  singleSelect,
+  multipleSelect
 }
