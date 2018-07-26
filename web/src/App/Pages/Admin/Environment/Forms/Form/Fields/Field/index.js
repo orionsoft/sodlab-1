@@ -80,7 +80,7 @@ export default class FormField extends React.Component {
           fieldName="optional"
           type={Checkbox}
           label="Opcional"
-          disabled={!element.optional || field.type === 'fixed'}
+          disabled={(element && !element.optional) || field.type === 'fixed'}
         />
       </div>
     )
