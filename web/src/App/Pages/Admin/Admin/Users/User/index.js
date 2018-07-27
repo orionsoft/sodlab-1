@@ -57,7 +57,7 @@ export default class User extends React.Component {
           ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <br />
           <AutoForm
-            mutation="setUserAuthoritys"
+            mutation="setUserAuthorities"
             ref="form"
             onSuccess={() => this.onSuccess()}
             doc={{

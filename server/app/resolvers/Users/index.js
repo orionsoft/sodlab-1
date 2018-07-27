@@ -2,10 +2,10 @@ import me from './me'
 import setUserProfile from './setUserProfile'
 import users from './users'
 import user from './user'
-import setUserAuthoritys from './setUserAuthoritys'
+import setUserAuthorities from './setUserAuthorities'
 
 export default {
-  setUserAuthoritys,
+  setUserAuthorities,
   user,
   users,
   me,
