@@ -1,3 +1,10 @@
 :local(.container) {
+}
 
+:local(.hyperlink) {
+  color: #000000;
+}
+
+:local(.hyperlink):hover {
+  color: #150cd1;
 }

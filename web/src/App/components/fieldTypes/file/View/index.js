@@ -13,6 +13,15 @@ export default class View extends React.Component {
 
   render() {
     if (!this.props.value || !this.props.value.name) return this.renderNoValue()
-    return <div className={styles.container}>{this.props.value.name}</div>
+    return (
+      <div className={styles.container}>
+        <a
+          href={`https://s3.amazonaws.com/${this.props.value.bucket}/${this.props.value.key}`}
+          target="blank"
+          className={styles.hyperlink}>
+          {this.props.value.name}
+        </a>
+      </div>
+    )
   }
 }
