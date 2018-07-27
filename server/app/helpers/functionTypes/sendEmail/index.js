@@ -1,3 +1,5 @@
+import {sendEmail} from '@orion-js/mailing'
+
 export default {
   name: 'Enviar email',
   optionsSchema: {
@@ -14,7 +16,11 @@ export default {
       label: 'Mensaje'
     }
   },
-  async execute(params) {
-    console.log('sending email')
+  async execute({to, subject, message}) {
+    await sendEmail({
+      to,
+      subject,
+      text: message
+    })
   }
 }
