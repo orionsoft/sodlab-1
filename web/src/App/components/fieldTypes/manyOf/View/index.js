@@ -8,7 +8,8 @@ export default class View extends React.Component {
     value: PropTypes.array,
     onChange: PropTypes.func,
     table: PropTypes.object,
-    tableField: PropTypes.object
+    tableField: PropTypes.object,
+    options: PropTypes.object
   }
 
   renderNoValue() {
@@ -20,6 +21,7 @@ export default class View extends React.Component {
     return (
       <span className={styles.container}>
         <Value
+          options={this.props.options}
           tableId={this.props.table._id}
           fieldName={this.props.tableField.fieldName}
           value={this.props.value}

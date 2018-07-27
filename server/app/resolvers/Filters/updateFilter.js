@@ -10,7 +10,7 @@ export default resolver({
     filter: {
       type: Filter.clone({
         name: 'UpdateFilterBasic',
-        pickFields: ['name']
+        pickFields: ['name', 'title']
       })
     }
   },

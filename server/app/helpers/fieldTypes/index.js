@@ -13,6 +13,8 @@ import manyOf from './manyOf'
 import currency from './currency'
 import percentage from './percentage'
 import file from './file'
+import singleSelect from './singleSelect'
+import multipleSelect from './multipleSelect'
 
 export default {
   percentage,
@@ -29,5 +31,7 @@ export default {
   datetime,
   oneOf,
   manyOf,
-  file
+  file,
+  singleSelect,
+  multipleSelect
 }

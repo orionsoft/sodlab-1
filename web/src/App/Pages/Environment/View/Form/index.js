@@ -12,7 +12,6 @@ import autobind from 'autobind-decorator'
     form(formId: $formId) {
       _id
       title
-      name
       type
       serializedParams
       updateVariableName

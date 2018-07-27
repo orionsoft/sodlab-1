@@ -5741,9 +5741,9 @@ react-addons-css-transition-group@^15.6.2:
   dependencies:
     react-transition-group "^1.2.0"
 
-react-apollo-decorators@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-apollo-decorators/-/react-apollo-decorators-2.0.1.tgz#f4ad2a04ec6be5810c5c58126d52d2544de2cf91"
+react-apollo-decorators@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-apollo-decorators/-/react-apollo-decorators-2.0.2.tgz#7b0913db7b0f422d2c15df8daa913ff81552024c"
   dependencies:
     babel-runtime "^6.26.0"
     lodash "^4.17.10"

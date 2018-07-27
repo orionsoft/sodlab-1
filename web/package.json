@@ -27,7 +27,7 @@
     "react": "^16.4.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-apollo": "^2.1.9",
-    "react-apollo-decorators": "^2.0.1",
+    "react-apollo-decorators": "^2.0.2",
     "react-dom": "^16.4.1",
     "react-flatpickr": "^3.6.4",
     "react-hot-loader": "4.3.3",

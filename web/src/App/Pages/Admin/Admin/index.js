@@ -1,13 +1,27 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
 import DynamicComponent from 'App/components/DynamicComponent'
-import links from './links'
+import {superAdminLinks, adminLinks} from './links'
 import Container from 'orionsoft-parts/lib/components/Container'
+import withRoles from 'App/helpers/auth/withRoles'
 import Navbar from '../Navbar'
 
+@withRoles
 export default class Admin extends React.Component {
-  static propTypes = {}
+  static propTypes = {
+    roles: PropTypes.array
+  }
+
+  renderRoutes() {
+    const links = this.props.roles.includes('superAdmin') ? adminLinks : superAdminLinks
+    return (
+      <div>
+        {links.map(link => <Route key={link.path} path={link.path} component={link.component} />)}
+      </div>
+    )
+  }
 
   render() {
     return (
@@ -16,9 +30,7 @@ export default class Admin extends React.Component {
         <Container>
           <Switch>
             <Route path="/admin" exact component={DynamicComponent(() => import('./Main'))} />
-            {links.map(link => (
-              <Route key={link.path} path={link.path} component={link.component} />
-            ))}
+            {this.renderRoutes()}
           </Switch>
         </Container>
       </div>
