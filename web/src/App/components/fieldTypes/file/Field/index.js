@@ -11,8 +11,6 @@ export default class Field extends React.Component {
   }
 
   render() {
-    console.log('file Field')
-    console.log(this.props)
     return (
       <FileManager
         value={this.props.value}
