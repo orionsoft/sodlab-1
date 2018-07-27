@@ -14,7 +14,6 @@ import PropTypes from 'prop-types'
 import {withRouter, Link} from 'react-router-dom'
 import logout from 'App/helpers/auth/logout'
 import withUserId from 'App/helpers/auth/withUserId'
-import includes from 'lodash/includes'
 
 @withGraphQL(
   gql`
@@ -76,7 +75,9 @@ export default class User extends React.Component {
 
   renderAdmin() {
     if (!this.props.me.roles) return null
-    if (!includes(this.props.me.roles, 'admin')) return null
+    if (!this.props.me.roles.includes('admin') && !this.props.me.roles.includes('superAdmin')) {
+      return null
+    }
     return (
       <Link to="/admin" className={styles.menuLink}>
         <AdminIcon size={20} />

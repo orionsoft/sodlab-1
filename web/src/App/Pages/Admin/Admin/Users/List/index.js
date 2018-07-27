@@ -13,9 +13,16 @@ export default class List extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <Breadcrumbs past={{'/admin': 'Admin'}}>Usuarios</Breadcrumbs>
+        <Breadcrumbs past={{'/admin': 'Super Admin'}}>Usuarios</Breadcrumbs>
         <br />
-        <PaginatedList title={null} name="users" canUpdate fields={this.getFields()} allowSearch />
+        <PaginatedList
+          title={null}
+          name="users"
+          canUpdate
+          fields={this.getFields()}
+          allowSearch
+          basePath={'/admin/users'}
+        />
       </div>
     )
   }

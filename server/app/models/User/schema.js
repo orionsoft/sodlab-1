@@ -28,5 +28,10 @@ export default {
     type: String,
     optional: true,
     private: true
+  },
+  environmentsAuthorized: {
+    type: ['ID'],
+    optional: true,
+    defaultValue: []
   }
 }

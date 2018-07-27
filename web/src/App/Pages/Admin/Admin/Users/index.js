@@ -10,7 +10,8 @@ export default class Users extends React.Component {
     return (
       <div className={styles.container}>
         <Switch>
-          <Route path="" component={DynamicComponent(() => import('./List'))} />
+          <Route exact path="/admin/users" component={DynamicComponent(() => import('./List'))} />
+          <Route path="/admin/users/:userId" component={DynamicComponent(() => import('./User'))} />
         </Switch>
       </div>
     )
