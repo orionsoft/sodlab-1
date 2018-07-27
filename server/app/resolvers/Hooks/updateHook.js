@@ -18,6 +18,7 @@ export default resolver({
   mutation: true,
   async resolve({hookId, hook: hookData}, viewer) {
     const hook = await Hooks.findOne(hookId)
+    console.log(hookData)
     await hook.update({$set: hookData})
     return hook
   }

@@ -15,5 +15,9 @@ export default {
   functionTypeId: {
     type: 'ID',
     optional: true
+  },
+  options: {
+    type: 'blackbox',
+    optional: true
   }
 }
