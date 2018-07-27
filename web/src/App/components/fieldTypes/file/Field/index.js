@@ -1,7 +1,6 @@
 import React from 'react'
-import File from 'orionsoft-parts/lib/components/fields/File'
+import FileManager from 'App/components/fields/FileManager'
 import PropTypes from 'prop-types'
-import fileUpload from 'App/helpers/fields/fileUpload'
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -12,13 +11,13 @@ export default class Field extends React.Component {
   }
 
   render() {
-    const {type, ...fileUploadFields} = fileUpload
+    console.log('file Field')
+    console.log(this.props)
     return (
-      <File
+      <FileManager
         value={this.props.value}
         onChange={this.props.onChange}
         errorMessage={this.props.errorMessage}
-        {...fileUpload}
         {...this.props.passProps}
       />
     )

@@ -72,6 +72,7 @@ export default class Form extends React.Component {
   render() {
     if (!this.props.form) return null
     const {form} = this.props
+    console.log('form1', form)
     return (
       <div className={this.state.fullSize ? styles.fullSize : styles.container}>
         <div className="row">

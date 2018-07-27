@@ -128,6 +128,7 @@ export default class Form extends React.Component {
 
   render() {
     if (this.needsData() && !this.getItemData()) return this.renderItemNotFound()
+    console.log('formContent', this.schemaToField)
     return (
       <div className={styles.container}>
         <AutoForm

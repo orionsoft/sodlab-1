@@ -22,6 +22,8 @@ export default class FileManager extends React.Component {
   }
 
   render() {
+    console.log('FileManager')
+    console.log(this.props)
     return (
       <div className={styles.container}>
         {this.renderManager()}

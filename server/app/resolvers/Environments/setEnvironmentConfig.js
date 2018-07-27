@@ -20,6 +20,7 @@ export default resolver({
   mutation: true,
   role: 'admin',
   async resolve({environmentId, config}, viewer) {
+    console.log({config})
     const environment = await Environments.findOne(environmentId)
     await environment.update({$set: config})
     return environment
