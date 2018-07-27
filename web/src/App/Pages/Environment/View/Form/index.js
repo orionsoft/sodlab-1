@@ -68,6 +68,18 @@ export default class Form extends React.Component {
     return <div className="row end-xs">{form.fullSize && this.renderFullSize()}</div>
   }
 
+  renderFullSizeStyles() {
+    if (!this.state.fullSize) return
+    return (
+      <style jsx="true">{`
+        body {
+          position: fixed;
+          overflow: hidden;
+        }
+      `}</style>
+    )
+  }
+
   render() {
     if (!this.props.form) return null
     const {form} = this.props
@@ -80,6 +92,7 @@ export default class Form extends React.Component {
           <div className="col-xs-2 col-sm-">{this.renderButtons(form)}</div>
         </div>
         {this.renderForm()}
+        {this.renderFullSizeStyles()}
       </div>
     )
   }
