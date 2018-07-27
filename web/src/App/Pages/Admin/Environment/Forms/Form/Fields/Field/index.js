@@ -12,14 +12,16 @@ export default class FormField extends React.Component {
   static propTypes = {
     field: PropTypes.object,
     form: PropTypes.object,
-    collection: PropTypes.object
+    collection: PropTypes.object,
+    indicators: PropTypes.object
   }
 
   getTypes() {
     return [
       {value: 'fixed', label: 'Valor fijo'},
       {value: 'editable', label: 'Editable'},
-      {value: 'parameter', label: 'Parametro'}
+      {value: 'parameter', label: 'Parametro'},
+      {value: 'indicator', label: 'Indicador'}
     ]
   }
 
@@ -29,6 +31,16 @@ export default class FormField extends React.Component {
       <div>
         <div className="label">Título</div>
         <Field fieldName="editableLabel" type={Text} />
+      </div>
+    )
+  }
+
+  renderIndicatorId() {
+    if (this.props.field.type !== 'indicator') return
+    return (
+      <div>
+        <div className="label">Indicador</div>
+        <Field fieldName="indicatorId" type={Select} options={this.props.indicators.items} />
       </div>
     )
   }
@@ -108,6 +120,7 @@ export default class FormField extends React.Component {
             {this.renderEditableLabel()}
             {this.renderFixedValue()}
             {this.renderParameterOptions()}
+            {this.renderIndicatorId()}
           </div>
         </div>
       </div>
