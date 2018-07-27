@@ -93,9 +93,6 @@ export default class Form extends React.Component {
     const params = this.props.form.serializedParams || {}
     for (const key of Object.keys(params)) {
       const field = params[key]
-      if (field.formFieldType === 'fixed') {
-        doc[key] = field.defaultValue
-      }
       if (field.formFieldType === 'parameter') {
         doc[key] = this.props.parameters[field.parameterName]
       }
@@ -107,10 +104,7 @@ export default class Form extends React.Component {
     const schema = cloneDeep(this.props.form.serializedParams) || {}
     for (const key of Object.keys(schema)) {
       const field = schema[key]
-      if (field.formFieldType === 'fixed') {
-        delete schema[key]
-      }
-      if (field.formFieldType === 'parameter') {
+      if (field.formFieldType !== 'editable') {
         delete schema[key]
       }
     }
