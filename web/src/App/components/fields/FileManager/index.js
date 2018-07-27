@@ -7,7 +7,8 @@ import Value from './Value'
 export default class FileManager extends React.Component {
   static propTypes = {
     onChange: PropTypes.func,
-    value: PropTypes.object
+    value: PropTypes.object,
+    errorMessage: PropTypes.node
   }
 
   state = {open: false}
@@ -22,12 +23,11 @@ export default class FileManager extends React.Component {
   }
 
   render() {
-    console.log('FileManager')
-    console.log(this.props)
     return (
       <div className={styles.container}>
         {this.renderManager()}
         {this.renderValue()}
+        <div className="error">{this.props.errorMessage}</div>
       </div>
     )
   }

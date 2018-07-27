@@ -8,7 +8,6 @@ export default {
   optionsSchema: null,
   _clean: File._clean,
   autoValue: async function(value) {
-    console.log(value)
-    // return await File._clean
+    return await File._clean(value)
   }
 }

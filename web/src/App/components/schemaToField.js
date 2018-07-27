@@ -26,7 +26,6 @@ const singleFieldMap = {
 const arrayFieldMap = {}
 
 export default function(type, field) {
-  console.log({type}, {field})
   if (field.fieldType) {
     const fieldTypeData = fieldTypes[field.fieldType]
     if (fieldTypeData) {
