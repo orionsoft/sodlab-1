@@ -1,9 +1,10 @@
 :local(.container) {
+  padding: 20px;
   position: relative;
 }
 
 :local(.fullSize) {
-  width: 100%;
+  padding: 20px;
   height: 100%;
   top: 0;
   right: 0;
@@ -26,6 +27,4 @@
 
 :local(.fullSize) .title {
   text-align: center;
-  font-size: 30px;
-  font-weight: bold;
 }
