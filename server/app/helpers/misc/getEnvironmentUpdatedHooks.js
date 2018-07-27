@@ -17,6 +17,7 @@ export default function() {
     hook('before.remove', async function(selector) {
       const item = await this.collection.findOne(selector, {fields: {environmentId: 1}})
       setTimeout(() => {
+        if (!item) return
         send(item.environmentId)
       }, 10)
     })
