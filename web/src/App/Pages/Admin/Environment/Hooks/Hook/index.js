@@ -10,6 +10,9 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
+import {Field} from 'simple-react-form'
+import getField from 'App/helpers/fields/getField'
+import ObjectField from 'App/components/fields/ObjectField'
 
 @withGraphQL(gql`
   query hook($hookId: ID) {
@@ -17,6 +20,11 @@ import {withRouter} from 'react-router'
       _id
       name
       environmentId
+      functionTypeId
+    }
+    functionTypes {
+      value: _id
+      label: name
     }
   }
 `)
@@ -27,7 +35,8 @@ export default class Hook extends React.Component {
     history: PropTypes.object,
     hook: PropTypes.object,
     showMessage: PropTypes.func,
-    match: PropTypes.object
+    match: PropTypes.object,
+    functionTypes: PropTypes.object
   }
 
   remove() {
@@ -54,8 +63,18 @@ export default class Hook extends React.Component {
             doc={{
               hookId: this.props.hook._id,
               hook: this.props.hook
-            }}
-          />
+            }}>
+            <Field fieldName="hook" type={ObjectField}>
+              <div className="label">Nombre</div>
+              <Field fieldName="name" type={getField('string')} />
+              <div className="label">Función</div>
+              <Field
+                fieldName="functionTypeId"
+                type={getField('select')}
+                options={this.props.functionTypes}
+              />
+            </Field>
+          </AutoForm>
           <br />
           <Button to={`/${this.props.hook.environmentId}/hooks`} style={{marginRight: 10}}>
             Cancelar

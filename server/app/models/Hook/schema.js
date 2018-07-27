@@ -11,5 +11,9 @@ export default {
   },
   createdAt: {
     type: Date
+  },
+  functionTypeId: {
+    type: 'ID',
+    optional: true
   }
 }
