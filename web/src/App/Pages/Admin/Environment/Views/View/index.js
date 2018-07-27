@@ -13,6 +13,7 @@ import ObjectField from 'App/components/fields/ObjectField'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
@@ -29,6 +30,7 @@ import clone from 'lodash/clone'
       title
       path
       roles
+      fullSize
       items {
         sizeSmall
         sizeMedium
@@ -191,6 +193,8 @@ export default class View extends React.Component {
               <Field fieldName="title" type={Text} />
               <div className="label">Contenido</div>
               <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
+              <div className="label">Habilitar pantalla completa</div>
+              <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
               <div className="label">Roles</div>
               <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
             </Field>

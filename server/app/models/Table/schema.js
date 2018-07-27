@@ -45,9 +45,5 @@ export default {
     type: [TableField],
     defaultValue: [],
     optional: true
-  },
-  fullSize: {
-    type: Boolean,
-    optional: true
   }
 }

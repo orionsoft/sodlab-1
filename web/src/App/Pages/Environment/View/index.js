@@ -8,13 +8,16 @@ import Form from './Form'
 import Table from './Table'
 import Indicator from './Indicator'
 import {withApollo} from 'react-apollo'
+import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 import prependKey from 'App/helpers/misc/prependKey'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getView($viewId: ID, $environmentId: ID) {
     view(viewId: $viewId) {
       _id
       title
+      fullSize
       items {
         sizeSmall
         sizeLarge
@@ -42,7 +45,7 @@ export default class View extends React.Component {
     userByEnvironment: PropTypes.object
   }
 
-  state = {}
+  state = {fullSize: false}
 
   getUserParams() {
     const user = this.props.userByEnvironment
@@ -83,6 +86,36 @@ export default class View extends React.Component {
     }
   }
 
+  @autobind
+  fullScreen() {
+    this.setState({fullSize: !this.state.fullSize})
+  }
+
+  renderFullSize() {
+    return this.state.fullSize ? (
+      <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    ) : (
+      <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+    )
+  }
+
+  @autobind
+  renderButtons(form) {
+    return <div className="row end-xs">{form.fullSize && this.renderFullSize()}</div>
+  }
+
+  renderFullSizeStyles() {
+    if (!this.state.fullSize) return
+    return (
+      <style jsx="true">{`
+        body {
+          position: fixed;
+          overflow: hidden;
+        }
+      `}</style>
+    )
+  }
+
   renderItems() {
     if (!this.props.view.items) return null
     return this.props.view.items.map((item, index) => {
@@ -91,6 +124,7 @@ export default class View extends React.Component {
           key={index}
           className={`col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`}>
           <div className={styles.item}>{this.renderItem(item)}</div>
+          {this.renderFullSizeStyles()}
         </div>
       )
     })

@@ -15,7 +15,6 @@ import autobind from 'autobind-decorator'
       type
       serializedParams
       updateVariableName
-      fullSize
       onSuccessViewPath
     }
   }
@@ -27,7 +26,7 @@ export default class Form extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {fullSize: false}
+  state = {}
 
   getItemId() {
     if (this.props.form.type === 'create') return null
@@ -50,49 +49,44 @@ export default class Form extends React.Component {
     return <FormContent {...props} />
   }
 
-  @autobind
-  fullScreen() {
-    this.setState({fullSize: !this.state.fullSize})
-  }
+  // @autobind
+  // fullScreen() {
+  //   this.setState({fullSize: !this.state.fullSize})
+  // }
 
-  renderFullSize() {
-    return this.state.fullSize ? (
-      <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-    ) : (
-      <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-    )
-  }
+  // renderFullSize() {
+  //   return this.state.fullSize ? (
+  //     <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+  //   ) : (
+  //     <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+  //   )
+  // }
+  //
+  // @autobind
+  // renderButtons(form) {
+  //   return <div className="row end-xs">{form.fullSize && this.renderFullSize()}</div>
+  // }
 
-  @autobind
-  renderButtons(form) {
-    return <div className="row end-xs">{form.fullSize && this.renderFullSize()}</div>
-  }
-
-  renderFullSizeStyles() {
-    if (!this.state.fullSize) return
-    return (
-      <style jsx="true">{`
-        body {
-          position: fixed;
-          overflow: hidden;
-        }
-      `}</style>
-    )
-  }
+  // renderFullSizeStyles() {
+  //   if (!this.state.fullSize) return
+  //   return (
+  //     <style jsx="true">{`
+  //       body {
+  //         position: fixed;
+  //         overflow: hidden;
+  //       }
+  //     `}</style>
+  //   )
+  // }
 
   render() {
     if (!this.props.form) return null
     const {form} = this.props
     return (
-      <div className={this.state.fullSize ? styles.fullSize : styles.container}>
-        <div className="row">
-          <div className="col-xs-10 col-sm-">
-            <div className={styles.title}>{form.title}</div>
-          </div>
-          <div className="col-xs-2 col-sm-">{this.renderButtons(form)}</div>
-        </div>
+      <div className={styles.container}>
+        <div className={styles.title}>{form.title}</div>
         {this.renderForm()}
-        {this.renderFullSizeStyles()}
+        {/* {this.renderFullSizeStyles()} */}
       </div>
     )
   }

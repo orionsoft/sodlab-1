@@ -34,5 +34,9 @@ export default {
   roles: {
     type: ['ID'],
     defaultValue: []
+  },
+  fullSize: {
+    type: Boolean,
+    optional: true
   }
 }

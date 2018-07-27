@@ -21,7 +21,6 @@ import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
         _id
         requireCollection
       }
-      fullSize
       filters {
         _id
         title
@@ -37,7 +36,7 @@ export default class Indicator extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {fullSize: false}
+  state = {}
 
   @autobind
   refetch() {
@@ -84,40 +83,30 @@ export default class Indicator extends React.Component {
     return this.renderResult({})
   }
 
-  @autobind
-  fullScreen() {
-    this.setState({fullSize: !this.state.fullSize})
-  }
-
-  renderFullSize() {
-    return this.state.fullSize ? (
-      <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-    ) : (
-      <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-    )
-  }
-
-  @autobind
-  renderButtons(indicator) {
-    return <div className="row end-xs">{indicator.fullSize && this.renderFullSize()}</div>
-  }
+  // @autobind
+  // fullScreen() {
+  //   this.setState({fullSize: !this.state.fullSize})
+  // }
+  //
+  // renderFullSize() {
+  //   return this.state.fullSize ? (
+  //     <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+  //   ) : (
+  //     <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+  //   )
+  // }
+  //
+  // @autobind
+  // renderButtons(indicator) {
+  //   return <div className="row end-xs">{indicator.fullSize && this.renderFullSize()}</div>
+  // }
 
   render() {
     const {indicator} = this.props
     return (
-      <div className={this.state.fullSize ? styles.fullSize : styles.container}>
+      <div className={styles.container}>
         <div className={styles.header}>
-          <div className="row">
-            <div
-              className={
-                this.state.fullSize
-                  ? 'col-xs-8 col-sm- col-xs-offset-2 center-xs'
-                  : 'col-xs-10 col-sm-'
-              }>
-              <div className={styles.title}>{indicator.title}</div>
-            </div>
-            <div className="col-xs-2 col-sm-">{this.renderButtons(indicator)}</div>
-          </div>
+          <div className={styles.title}>{indicator.title}</div>
         </div>
         <div {...this.state.fullSize && {className: 'center'}}>
           {this.renderForCollection()}
