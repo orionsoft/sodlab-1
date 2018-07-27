@@ -4,16 +4,47 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import {withRouter} from 'react-router'
 import gql from 'graphql-tag'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import withSubscription from 'react-apollo-decorators/lib/withSubscription'
+import autobind from 'autobind-decorator'
 
 @withRouter
 @withGraphQL(gql`
-  query getFormOneOfSelectOptions($environmentId: ID, $formId: ID, $fieldName: String) {
-    selectOptions(environmentId: $environmentId, formId: $formId, fieldName: $fieldName) {
+  query getFormOneOfSelectOptions(
+    $environmentId: ID
+    $formId: ID
+    $fieldName: String
+    $collectionFieldName: String
+  ) {
+    selectOptions(
+      environmentId: $environmentId
+      formId: $formId
+      fieldName: $fieldName
+      collectionFieldName: $collectionFieldName
+    ) {
       label
       value
     }
   }
 `)
+@withSubscription(
+  gql`
+    subscription($environmentId: ID, $collectionId: ID) {
+      collectionDataChanged(environmentId: $environmentId, collectionId: $collectionId)
+    }
+  `,
+  'onUpdate',
+  {
+    getVariables(props) {
+      const envId = props.collectionId.split('_')[0]
+      const vars = {
+        environmentId: envId,
+        collectionId: props.collectionId
+      }
+
+      return vars
+    }
+  }
+)
 export default class OneOf extends React.Component {
   static propTypes = {
     router: PropTypes.object,
@@ -22,7 +53,15 @@ export default class OneOf extends React.Component {
     errorMessage: PropTypes.node,
     formId: PropTypes.string,
     selectOptions: PropTypes.array,
-    passProps: PropTypes.object
+    passProps: PropTypes.object,
+    collectionFieldName: PropTypes.string,
+    collectionId: PropTypes.string,
+    refetch: PropTypes.func
+  }
+
+  @autobind
+  onUpdate() {
+    this.props.refetch()
   }
 
   render() {

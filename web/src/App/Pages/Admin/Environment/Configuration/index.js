@@ -11,6 +11,7 @@ import gql from 'graphql-tag'
 import ProfileFields from './ProfileFields'
 import Export from './Export'
 import Import from './Import'
+import RemoveEnvironment from './RemoveEnvironment'
 
 @withMessage
 @withGraphQL(gql`
@@ -60,6 +61,7 @@ export default class Configuration extends React.Component {
         <ProfileFields environment={this.props.environment} />
         <Export environment={this.props.environment} />
         <Import environment={this.props.environment} />
+        <RemoveEnvironment environmentId={this.props.environment._id} />
       </div>
     )
   }

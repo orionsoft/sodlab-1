@@ -23,7 +23,7 @@ import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
       fullSize
       filters {
         _id
-        name
+        title
         schema: serializedSchema(includeParameters: true)
         formSchema: serializedSchema(includeParameters: false)
       }

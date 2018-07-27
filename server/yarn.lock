@@ -243,6 +243,7 @@ aws-sdk@^2.258.1:
     uuid "3.1.0"
     xml2js "0.4.17"
 
+
 aws-sdk@^2.279.1:
   version "2.279.1"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.279.1.tgz#3a4fd4167932e4361dbdcfcb174ce4840ffcbf20"
@@ -2025,7 +2026,7 @@ lru-cache@^4.0.1:
 luxon@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.3.0.tgz#d899ea70b86b1e6f984f816aec8b19b9958cd393"
-
+  
 luxon@^1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.3.2.tgz#cf5fa6fb0adcc7a1f14c36f5a15ea21631381513"

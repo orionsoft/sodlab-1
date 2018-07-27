@@ -35,6 +35,11 @@ export default class Environment extends React.Component {
     views: PropTypes.object
   }
 
+  componentDidMount() {
+    const {environment} = this.props
+    document.title = `${environment.name}`
+  }
+
   renderViews() {
     const {environment} = this.props
     return this.props.views.items.map(view => {

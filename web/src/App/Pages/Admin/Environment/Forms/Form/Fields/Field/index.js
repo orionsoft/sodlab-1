@@ -44,7 +44,15 @@ export default class FormField extends React.Component {
     return (
       <div className={styles.fixedValue}>
         <div className="label">Valor</div>
-        <Field fieldName="fixed.value" type={FieldComponent} {...collectionField.options} />
+        <Field
+          collectionFieldName={
+            (collectionField.type === 'manyOf' || collectionField.type === 'oneOf') &&
+            collectionField.name
+          }
+          fieldName="fixed.value"
+          type={FieldComponent}
+          {...collectionField.options}
+        />
       </div>
     )
   }
@@ -72,7 +80,7 @@ export default class FormField extends React.Component {
           fieldName="optional"
           type={Checkbox}
           label="Opcional"
-          disabled={!element.optional || field.type === 'fixed'}
+          disabled={(element && !element.optional) || field.type === 'fixed'}
         />
       </div>
     )
