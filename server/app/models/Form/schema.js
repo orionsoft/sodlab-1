@@ -40,5 +40,9 @@ export default {
     type: String,
     label: 'viewPath',
     optional: true
+  },
+  reset: {
+    type: Boolean,
+    optional: true
   }
 }

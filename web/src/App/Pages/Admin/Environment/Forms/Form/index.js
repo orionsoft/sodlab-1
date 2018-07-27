@@ -37,6 +37,7 @@ import Fields from './Fields'
         editableLabel
       }
       fullSize
+      reset
       collection {
         _id
         fields {
@@ -137,6 +138,8 @@ export default class Form extends React.Component {
               <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
               <div className="label">Habilitar pantalla completa</div>
               <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
+              <div className="label">Habilitar limpiar formulario</div>
+              <Field fieldName="reset" type={Checkbox} label="Habilitar limpiar formulario" />
               <div className="label">Ir a una ruta al terminar</div>
               <Field fieldName="onSuccessViewPath" type={Text} />
             </Field>
