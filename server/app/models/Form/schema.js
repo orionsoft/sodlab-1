@@ -40,5 +40,10 @@ export default {
     type: String,
     label: 'viewPath',
     optional: true
+  },
+  afterHooksIds: {
+    type: ['ID'],
+    label: 'Hooks',
+    optional: true
   }
 }

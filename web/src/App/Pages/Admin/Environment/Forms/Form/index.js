@@ -28,6 +28,7 @@ import Fields from './Fields'
       environmentId
       updateVariableName
       onSuccessViewPath
+      afterHooksIds
       fields {
         fieldName
         type
@@ -54,6 +55,12 @@ import Fields from './Fields'
         label: name
       }
     }
+    hooks(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -63,6 +70,7 @@ export default class Form extends React.Component {
     history: PropTypes.object,
     form: PropTypes.object,
     collections: PropTypes.object,
+    hooks: PropTypes.object,
     match: PropTypes.object
   }
 
@@ -139,6 +147,13 @@ export default class Form extends React.Component {
               <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
               <div className="label">Ir a una ruta al terminar</div>
               <Field fieldName="onSuccessViewPath" type={Text} />
+              <div className="label">Hooks</div>
+              <Field
+                fieldName="afterHooksIds"
+                type={Select}
+                multi
+                options={this.props.hooks.items}
+              />
             </Field>
           </AutoForm>
           <br />
