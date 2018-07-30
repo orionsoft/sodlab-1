@@ -14,7 +14,12 @@ export default resolver({
     },
     name: {
       type: String,
-      label: 'Nombre'
+      label: 'Nombre',
+      description: 'Solo puede haber un filtro con este nombre',
+      async custom(name) {
+        const result = await Filters.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
+        if (result) return 'notUnique'
+      }
     },
     title: {
       type: String,

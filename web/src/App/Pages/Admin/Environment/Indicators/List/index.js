@@ -11,7 +11,20 @@ export default class List extends React.Component {
   }
 
   getFields() {
-    return [{title: 'Nombre', name: 'name'}]
+    return [
+      {title: 'Nombre', name: 'name'},
+      {title: 'Título', name: 'title'},
+      {
+        title: 'Tipo',
+        name: 'indicatorType{name}',
+        render: ({indicatorType}) => this.renderIndicatorType(indicatorType)
+      }
+    ]
+  }
+
+  renderIndicatorType(type) {
+    if (!type || !type.name) return
+    return type.name
   }
 
   render() {

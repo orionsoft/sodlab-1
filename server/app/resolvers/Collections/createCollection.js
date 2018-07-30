@@ -22,7 +22,12 @@ export default resolver({
     },
     name: {
       type: String,
-      label: 'Nombre'
+      label: 'Nombre',
+      description: 'Solo puede haber una colección con este nombre',
+      async custom(name) {
+        const result = await Collections.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
+        if (result) return 'notUnique'
+      }
     }
   },
   returns: Collection,
