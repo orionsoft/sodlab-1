@@ -45,9 +45,7 @@ export default class EnvironmentUser extends React.Component {
 
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.match.params
     this.props.showMessage('El perfil fue guardado')
-    this.props.history.push(`/${environmentId}/users`)
   }
 
   @autobind

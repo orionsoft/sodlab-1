@@ -23,6 +23,7 @@ import prependKey from 'App/helpers/misc/prependKey'
         formId
         tableId
         indicatorId
+        subItems
       }
     }
     userByEnvironment(environmentId: $environmentId) {
@@ -73,27 +74,43 @@ export default class View extends React.Component {
       setEnvironment: changes => this.setState(changes)
     }
     if (item.type === 'form') {
-      return <Form {...props} formId={item.formId} />
+      return (
+        <div className={styles.item}>
+          <Form {...props} formId={item.formId} />
+        </div>
+      )
     }
     if (item.type === 'table') {
-      return <Table {...props} tableId={item.tableId} />
+      return (
+        <div className={styles.item}>
+          <Table {...props} tableId={item.tableId} />
+        </div>
+      )
     }
     if (item.type === 'indicator') {
-      return <Indicator {...props} indicatorId={item.indicatorId} />
+      return (
+        <div className={styles.item}>
+          <Indicator {...props} indicatorId={item.indicatorId} />
+        </div>
+      )
+    }
+    if (item.type === 'layout') {
+      return this.renderItems(item.subItems)
     }
   }
 
-  renderItems() {
-    if (!this.props.view.items) return null
-    return this.props.view.items.map((item, index) => {
+  renderItems(items) {
+    if (!items) return null
+    const views = items.map((item, index) => {
       return (
         <div
           key={index}
           className={`col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`}>
-          <div className={styles.item}>{this.renderItem(item)}</div>
+          {this.renderItem(item)}
         </div>
       )
     })
+    return <div className="row">{views}</div>
   }
 
   render() {
@@ -102,7 +119,7 @@ export default class View extends React.Component {
       <div className={styles.container}>
         <Container>
           <h1>{view.title}</h1>
-          <div className="row">{this.renderItems()}</div>
+          {this.renderItems(this.props.view.items)}
         </Container>
       </div>
     )

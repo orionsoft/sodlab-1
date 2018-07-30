@@ -37,6 +37,7 @@ import clone from 'lodash/clone'
         formId
         tableId
         indicatorId
+        subItems
       }
     }
     forms(limit: null, environmentId: $environmentId) {
@@ -88,13 +89,16 @@ export default class View extends React.Component {
       {label: 'Formulario', value: 'form', result: 'forms'},
       {label: 'Tabla', value: 'table', result: 'tables'},
       {label: 'Gráfico', value: 'chart', result: 'charts'},
-      {label: 'Indicador', value: 'indicator', result: 'indicators'}
+      {label: 'Indicador', value: 'indicator', result: 'indicators'},
+      {label: 'Contenido', value: 'layout'}
     ]
   }
 
   renderComponentSelector(item) {
     if (!item.type) return null
+    if (item.type === 'layout') return null
     const option = this.getTypes().find(type => item.type === type.value)
+    if (!option) return null
     const result = this.props[option.result] || {}
     const items = result.items || []
     const orderedItems = clone(items).sort(
@@ -110,6 +114,12 @@ export default class View extends React.Component {
         )}
       </div>
     )
+  }
+
+  renderSubItem(item) {
+    if (!item.type) return null
+    if (item.type !== 'layout') return null
+    return <Field fieldName="subItems" type={ArrayComponent} renderItem={this.renderItem} />
   }
 
   @autobind
@@ -143,15 +153,14 @@ export default class View extends React.Component {
           </div>
           {this.renderComponentSelector(item)}
         </div>
+        {this.renderSubItem(item)}
       </div>
     )
   }
 
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.match.params
     this.props.showMessage('Los campos fueron guardados')
-    this.props.history.push(`/${environmentId}/views`)
   }
 
   @autobind
