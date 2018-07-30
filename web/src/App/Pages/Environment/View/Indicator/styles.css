@@ -3,19 +3,6 @@
   position: relative;
 }
 
-:local(.fullSize) {
-  padding: 20px;
-  height: 100%;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  position: fixed;
-  z-index: 10000;
-  background-color: #fff;
-  transition: all 0.2 ease;
-}
-
 :local(.header) {
   padding: 20px;
 }
@@ -23,8 +10,4 @@
 :local(.title) {
   font-size: 20px;
   font-weight: bold;
-}
-
-:local(.fullSize) .title {
-  text-align: center;
 }

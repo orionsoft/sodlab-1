@@ -33,10 +33,9 @@ import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 export default class Indicator extends React.Component {
   static propTypes = {
     indicator: PropTypes.object,
-    parameters: PropTypes.object
+    parameters: PropTypes.object,
+    fullSize: PropTypes.bool
   }
-
-  state = {}
 
   @autobind
   refetch() {
@@ -52,7 +51,7 @@ export default class Indicator extends React.Component {
         indicatorId={this.props.indicator._id}
         filterId={filterId}
         filterOptions={filterOptions}
-        fullSize={this.state.fullSize}
+        fullSize={this.props.fullSize}
       />
     )
   }
@@ -83,35 +82,15 @@ export default class Indicator extends React.Component {
     return this.renderResult({})
   }
 
-  // @autobind
-  // fullScreen() {
-  //   this.setState({fullSize: !this.state.fullSize})
-  // }
-  //
-  // renderFullSize() {
-  //   return this.state.fullSize ? (
-  //     <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-  //   ) : (
-  //     <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-  //   )
-  // }
-  //
-  // @autobind
-  // renderButtons(indicator) {
-  //   return <div className="row end-xs">{indicator.fullSize && this.renderFullSize()}</div>
-  // }
-
   render() {
-    const {indicator} = this.props
+    const {indicator, fullSize} = this.props
     return (
-      <div className={styles.container}>
+      <div className={`${styles.container} ${fullSize && 'center'}`}>
         <div className={styles.header}>
           <div className={styles.title}>{indicator.title}</div>
         </div>
-        <div {...this.state.fullSize && {className: 'center'}}>
-          {this.renderForCollection()}
-          {this.renderWithoutCollection()}
-        </div>
+        {this.renderForCollection()}
+        {this.renderWithoutCollection()}
       </div>
     )
   }

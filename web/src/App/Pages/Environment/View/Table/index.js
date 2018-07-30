@@ -169,24 +169,6 @@ export default class Table extends React.Component {
     )
   }
 
-  // @autobind
-  // fullScreen() {
-  //   this.setState({fullSize: !this.state.fullSize})
-  // }
-  //
-  // renderFullSize() {
-  //   return this.state.fullSize ? (
-  //     <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-  //   ) : (
-  //     <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-  //   )
-  // }
-  //
-  // @autobind
-  // renderButtons(table) {
-  //   return <div className="row end-xs">{table.fullSize && this.renderFullSize()}</div>
-  // }
-
   renderTable() {
     const {table, parameters} = this.props
     return (

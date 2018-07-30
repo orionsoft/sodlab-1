@@ -45,7 +45,7 @@ export default class View extends React.Component {
     userByEnvironment: PropTypes.object
   }
 
-  state = {fullSize: false}
+  state = {fullSize: false, index: null}
 
   getUserParams() {
     const user = this.props.userByEnvironment
@@ -68,7 +68,7 @@ export default class View extends React.Component {
     return parameters
   }
 
-  renderItem(item) {
+  renderItem(item, fullSize) {
     const props = {
       routeParams: this.props.params,
       state: this.state,
@@ -82,30 +82,35 @@ export default class View extends React.Component {
       return <Table {...props} tableId={item.tableId} />
     }
     if (item.type === 'indicator') {
-      return <Indicator {...props} indicatorId={item.indicatorId} />
+      return <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
     }
   }
 
   @autobind
-  fullScreen() {
-    this.setState({fullSize: !this.state.fullSize})
+  fullScreen(index) {
+    this.setState({fullSize: !this.state.fullSize, index})
   }
 
-  renderFullSize() {
+  renderFullSize(index) {
     return this.state.fullSize ? (
-      <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+      <FaClose onClick={() => this.fullScreen(index)} style={{cursor: 'pointer'}} />
     ) : (
-      <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
+      <FaArrowsAlt onClick={() => this.fullScreen(index)} style={{cursor: 'pointer'}} />
     )
   }
 
   @autobind
-  renderButtons(form) {
-    return <div className="row end-xs">{form.fullSize && this.renderFullSize()}</div>
+  renderButtons(index, event) {
+    const {view} = this.props
+    return (
+      <div className={`row end-xs ${styles.buttons}`}>
+        {view.fullSize && this.renderFullSize(index)}
+      </div>
+    )
   }
 
   renderFullSizeStyles() {
-    if (!this.state.fullSize) return
+    if (!this.state.fullSize) return null
     return (
       <style jsx="true">{`
         body {
@@ -121,10 +126,17 @@ export default class View extends React.Component {
     return this.props.view.items.map((item, index) => {
       return (
         <div
+          ref={`item-${index}`}
           key={index}
-          className={`col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`}>
-          <div className={styles.item}>{this.renderItem(item)}</div>
-          {this.renderFullSizeStyles()}
+          className={
+            this.state.fullSize && index === this.state.index
+              ? styles.fullSize
+              : `col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`
+          }>
+          <div className={styles.item}>
+            {this.renderButtons(index)}
+            {this.renderItem(item, this.state.fullSize)}
+          </div>
         </div>
       )
     })
@@ -134,6 +146,7 @@ export default class View extends React.Component {
     const {view} = this.props
     return (
       <div className={styles.container}>
+        {this.renderFullSizeStyles()}
         <Container>
           <h1>{view.title}</h1>
           <div className="row">{this.renderItems()}</div>

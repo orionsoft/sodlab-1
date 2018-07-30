@@ -49,36 +49,6 @@ export default class Form extends React.Component {
     return <FormContent {...props} />
   }
 
-  // @autobind
-  // fullScreen() {
-  //   this.setState({fullSize: !this.state.fullSize})
-  // }
-
-  // renderFullSize() {
-  //   return this.state.fullSize ? (
-  //     <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-  //   ) : (
-  //     <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-  //   )
-  // }
-  //
-  // @autobind
-  // renderButtons(form) {
-  //   return <div className="row end-xs">{form.fullSize && this.renderFullSize()}</div>
-  // }
-
-  // renderFullSizeStyles() {
-  //   if (!this.state.fullSize) return
-  //   return (
-  //     <style jsx="true">{`
-  //       body {
-  //         position: fixed;
-  //         overflow: hidden;
-  //       }
-  //     `}</style>
-  //   )
-  // }
-
   render() {
     if (!this.props.form) return null
     const {form} = this.props
@@ -86,7 +56,6 @@ export default class Form extends React.Component {
       <div className={styles.container}>
         <div className={styles.title}>{form.title}</div>
         {this.renderForm()}
-        {/* {this.renderFullSizeStyles()} */}
       </div>
     )
   }
