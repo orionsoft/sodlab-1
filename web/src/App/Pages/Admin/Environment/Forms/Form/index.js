@@ -72,9 +72,7 @@ export default class Form extends React.Component {
 
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.match.params
     this.props.showMessage('Los campos fueron guardados')
-    this.props.history.push(`/${environmentId}/forms`)
   }
 
   @autobind

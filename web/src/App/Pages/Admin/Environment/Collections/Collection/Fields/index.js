@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import cloneDeep from 'lodash/cloneDeep'
 import autobind from 'autobind-decorator'
-import {withRouter} from 'react-router'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
@@ -18,7 +17,6 @@ import FieldTypeOptions from 'App/components/FieldTypeOptions'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import translate from 'App/i18n/translate'
 
-@withRouter
 @withMessage
 @withGraphQL(gql`
   query getFieldTypes {
@@ -33,7 +31,6 @@ import translate from 'App/i18n/translate'
 `)
 export default class Fields extends React.Component {
   static propTypes = {
-    history: PropTypes.object,
     showMessage: PropTypes.func,
     collection: PropTypes.object,
     params: PropTypes.object,
@@ -61,9 +58,7 @@ export default class Fields extends React.Component {
 
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.params
     this.props.showMessage('Los campos fueron guardados')
-    this.props.history.push(`/${environmentId}/collections`)
   }
 
   getErrorFieldLabel() {
