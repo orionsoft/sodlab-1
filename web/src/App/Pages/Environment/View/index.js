@@ -111,6 +111,7 @@ export default class View extends React.Component {
 
   renderFullSizeStyles() {
     if (!this.state.fullSize) return null
+    console.log(this.state)
     return (
       <style jsx="true">{`
         body {

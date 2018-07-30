@@ -32,7 +32,6 @@ import cloneDeep from 'lodash/cloneDeep'
       allowsNoFilter
       indicatorTypeId
       options
-      fullSize
     }
     indicatorTypes {
       value: _id
@@ -171,8 +170,6 @@ export default class Kpi extends React.Component {
                 options={this.props.indicatorTypes}
               />
               <WithValue>{indicator => this.renderOptions(indicator)}</WithValue>
-              <div className="label">Habilitar pantalla completa</div>
-              <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
             </Field>
           </AutoForm>
           <br />
