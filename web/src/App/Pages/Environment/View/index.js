@@ -46,7 +46,7 @@ export default class View extends React.Component {
     userByEnvironment: PropTypes.object
   }
 
-  state = {fullSize: false, index: null}
+  state = {fullSize: false, key: null}
 
   getUserParams() {
     const user = this.props.userByEnvironment
@@ -69,7 +69,7 @@ export default class View extends React.Component {
     return parameters
   }
 
-  renderItem(item, fullSize) {
+  renderItem(item, fullSize, preIndex) {
     const props = {
       routeParams: this.props.params,
       state: this.state,
@@ -94,28 +94,28 @@ export default class View extends React.Component {
       return <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
     }
     if (item.type === 'layout') {
-      return this.renderItems(item.subItems)
+      return this.renderItems(item.subItems, preIndex)
     }
   }
 
   @autobind
-  fullScreen(index) {
-    this.setState({fullSize: !this.state.fullSize, index})
+  fullScreen(key) {
+    this.setState({fullSize: !this.state.fullSize, key})
   }
 
-  renderFullSize(index) {
+  renderFullSize(key) {
     return this.state.fullSize ? (
-      <FaClose onClick={() => this.fullScreen(index)} style={{cursor: 'pointer'}} />
+      <FaClose onClick={() => this.fullScreen(key)} style={{cursor: 'pointer'}} />
     ) : (
-      <FaArrowsAlt onClick={() => this.fullScreen(index)} style={{cursor: 'pointer'}} />
+      <FaArrowsAlt onClick={() => this.fullScreen(key)} style={{cursor: 'pointer'}} />
     )
   }
 
   @autobind
-  renderButtons(item, index) {
+  renderButtons(item, key) {
     return (
       <div className={`row end-xs ${styles.buttons}`}>
-        {item.fullSize && this.renderFullSize(index)}
+        {item.fullSize && this.renderFullSize(key)}
       </div>
     )
   }
@@ -132,19 +132,20 @@ export default class View extends React.Component {
     )
   }
 
-  renderItems(items) {
+  renderItems(items, preIndex) {
     if (!items) return null
     const views = items.map((item, index) => {
+      let key = preIndex ? preIndex + '-' + index.toString() : index.toString()
       return (
         <div
           className={
-            this.state.fullSize && index === this.state.index
+            this.state.fullSize && this.state.key === key
               ? styles.fullSize
               : `col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`
           }>
           <div className={styles.item}>
-            {this.renderButtons(item, index)}
-            {this.renderItem(item, this.state.fullSize)}
+            {this.renderButtons(item, key)}
+            {this.renderItem(item, this.state.fullSize, key)}
           </div>
         </div>
       )

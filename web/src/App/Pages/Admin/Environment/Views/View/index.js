@@ -118,6 +118,17 @@ export default class View extends React.Component {
     )
   }
 
+  renderFullSizeCheckbox(item) {
+    if (!item.type) return null
+    if (item.type === 'layout') return null
+    return (
+      <div className="col-xs-12 col-sm-4">
+        <div className="label">Pantalla completa</div>
+        <Field fieldName="fullSize" type={Checkbox} />
+      </div>
+    )
+  }
+
   renderSubItem(item) {
     if (!item.type) return null
     if (item.type !== 'layout') return null
@@ -154,10 +165,7 @@ export default class View extends React.Component {
             <Field fieldName="type" type={Select} options={this.getTypes()} />
           </div>
           {this.renderComponentSelector(item)}
-          <div className="col-xs-12 col-sm-4">
-            <div className="label">Pantalla completa</div>
-            <Field fieldName="fullSize" type={Checkbox} />
-          </div>
+          {this.renderFullSizeCheckbox(item)}
         </div>
         {this.renderSubItem(item)}
       </div>
