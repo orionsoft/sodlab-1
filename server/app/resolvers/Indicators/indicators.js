@@ -20,6 +20,6 @@ export default paginatedResolver({
       query.title = {$regex: new RegExp(`^${escape(filter)}`)}
     }
 
-    return Indicators.find(query).sort({title: 1})
+    return Indicators.find(query).sort({name: 1})
   }
 })

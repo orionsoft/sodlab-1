@@ -19,6 +19,6 @@ export default paginatedResolver({
     if (filter) {
       query.name = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Hooks.find(query).sort({title: 1})
+    return Hooks.find(query).sort({name: 1})
   }
 })
