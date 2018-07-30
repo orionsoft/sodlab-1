@@ -12,6 +12,7 @@ export default resolver({
       fieldOptions: field.options,
       optional: field.optional,
       defaultValue: fieldType.defaultValue,
+      autoValue: fieldType.autoValue,
       async custom(value, ...args) {
         if (fieldType.validate) {
           return await fieldType.validate(value, field.options, ...args)
