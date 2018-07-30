@@ -149,9 +149,7 @@ export default class View extends React.Component {
 
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.match.params
     this.props.showMessage('Los campos fueron guardados')
-    this.props.history.push(`/${environmentId}/views`)
   }
 
   @autobind
