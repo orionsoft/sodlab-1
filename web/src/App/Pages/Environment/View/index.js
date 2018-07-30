@@ -113,7 +113,6 @@ export default class View extends React.Component {
 
   @autobind
   renderButtons(item, index) {
-    const {view} = this.props
     return (
       <div className={`row end-xs ${styles.buttons}`}>
         {item.fullSize && this.renderFullSize(index)}
