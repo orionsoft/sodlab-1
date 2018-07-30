@@ -15,7 +15,7 @@ export default class Admin extends React.Component {
   }
 
   renderRoutes() {
-    const links = this.props.roles.includes('superAdmin') ? adminLinks : superAdminLinks
+    const links = this.props.roles.includes('superAdmin') ? superAdminLinks : adminLinks
     return (
       <div>
         {links.map(link => <Route key={link.path} path={link.path} component={link.component} />)}
