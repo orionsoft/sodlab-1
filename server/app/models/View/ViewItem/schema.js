@@ -10,7 +10,7 @@ export default {
   },
   type: {
     type: String,
-    allowedValues: ['form', 'table', 'chart', 'indicator']
+    allowedValues: ['form', 'table', 'chart', 'indicator', 'layout']
   },
   formId: {
     type: 'ID',
@@ -40,6 +40,10 @@ export default {
     }
   },
   fullSize: {
+    type: Boolean,
+    optional: true
+  },
+  subItems: {
     type: Boolean,
     optional: true
   }

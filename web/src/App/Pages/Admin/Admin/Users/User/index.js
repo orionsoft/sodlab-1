@@ -19,6 +19,7 @@ import {withRouter} from 'react-router'
       _id
       email
       environmentsAuthorized
+      roles
     }
     environments {
       items {
@@ -39,12 +40,13 @@ export default class User extends React.Component {
   }
 
   onSuccess() {
-    this.props.showMessage('Los ambientes fueron guardados')
+    this.props.showMessage('Los campos fueron guardados')
     this.props.history.push('/admin/users')
   }
 
   render() {
     const {user, environments} = this.props
+    const roles = [{value: 'admin', label: 'Admin'}, {value: 'superAdmin', label: 'Super Admin'}]
     return (
       <div className={styles.container}>
         <Breadcrumbs past={{'/admin/users': 'Super Admin'}}>Edición de usuario</Breadcrumbs>
@@ -55,14 +57,16 @@ export default class User extends React.Component {
           ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <br />
           <AutoForm
-            mutation="setUserEnvironments"
+            mutation="setUserAuthorities"
             ref="form"
-            only="environmentsAuthorized"
             onSuccess={() => this.onSuccess()}
             doc={{
               userId: user._id,
+              roles: cloneDeep(user.roles),
               environmentsAuthorized: cloneDeep(user.environmentsAuthorized)
             }}>
+            <div className="label">Rol del usuario</div>
+            <Field fieldName="roles" type={Select} multi options={roles} />
             <div className="label">Ambientes autorizados para el usuario</div>
             <Field
               fieldName="environmentsAuthorized"
