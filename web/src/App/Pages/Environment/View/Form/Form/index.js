@@ -35,7 +35,8 @@ export default class Form extends React.Component {
     state: PropTypes.object,
     itemData: PropTypes.object,
     itemId: PropTypes.string,
-    parameters: PropTypes.object
+    parameters: PropTypes.object,
+    setEnvironment: PropTypes.func
   }
 
   state = {}
@@ -52,6 +53,9 @@ export default class Form extends React.Component {
   @autobind
   onSuccess(result) {
     this.setState({data: {}})
+    this.props.setEnvironment({
+      [this.props.form.updateVariableName]: null
+    })
     this.props.showMessage('Se completó con exito')
     const rawPath = this.props.form.onSuccessViewPath
     if (rawPath) {
