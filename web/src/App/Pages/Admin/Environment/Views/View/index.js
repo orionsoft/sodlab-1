@@ -142,7 +142,7 @@ export default class View extends React.Component {
             <Field fieldName="sizeLarge" type={Select} options={this.getSizeOptions()} />
           </div>
         </div>
-        <div className="description">El tamaño depende de kakkasd</div>
+        <div className="description">El tamaño depende de kakkad</div>
         <div className="divider" />
         <div className="label">Contenido</div>
         <br />
