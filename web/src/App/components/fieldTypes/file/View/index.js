@@ -8,7 +8,7 @@ export default class View extends React.Component {
   }
 
   renderNoValue() {
-    return <span className={styles.noValue}>Vacío</span>
+    return <span className={styles.noValue}></span>
   }
 
   render() {
