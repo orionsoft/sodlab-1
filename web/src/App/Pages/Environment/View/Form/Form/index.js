@@ -41,7 +41,7 @@ export default class Form extends React.Component {
   state = {}
 
   componentDidMount() {
-    this.setState(this.getData())
+    this.setState({data: this.getData()})
   }
 
   renderResetButton() {
@@ -146,7 +146,7 @@ export default class Form extends React.Component {
           getErrorFieldLabel={this.getErrorFieldLabel}
           doc={{
             formId: this.props.form._id,
-            data: this.state.form,
+            data: this.state.data,
             itemId: this.getItemId()
           }}
           onSuccess={this.onSuccess}>
