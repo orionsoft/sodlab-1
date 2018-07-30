@@ -126,8 +126,6 @@ export default class View extends React.Component {
     return this.props.view.items.map((item, index) => {
       return (
         <div
-          ref={`item-${index}`}
-          key={index}
           className={
             this.state.fullSize && index === this.state.index
               ? styles.fullSize
