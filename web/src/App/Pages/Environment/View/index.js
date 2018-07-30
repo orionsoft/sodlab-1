@@ -17,7 +17,6 @@ import autobind from 'autobind-decorator'
     view(viewId: $viewId) {
       _id
       title
-      fullSize
       items {
         sizeSmall
         sizeLarge
@@ -26,6 +25,7 @@ import autobind from 'autobind-decorator'
         formId
         tableId
         indicatorId
+        fullSize
       }
     }
     userByEnvironment(environmentId: $environmentId) {
@@ -100,18 +100,17 @@ export default class View extends React.Component {
   }
 
   @autobind
-  renderButtons(index, event) {
+  renderButtons(item, index) {
     const {view} = this.props
     return (
       <div className={`row end-xs ${styles.buttons}`}>
-        {view.fullSize && this.renderFullSize(index)}
+        {item.fullSize && this.renderFullSize(index)}
       </div>
     )
   }
 
   renderFullSizeStyles() {
     if (!this.state.fullSize) return null
-    console.log(this.state)
     return (
       <style jsx="true">{`
         body {
@@ -133,7 +132,7 @@ export default class View extends React.Component {
               : `col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`
           }>
           <div className={styles.item}>
-            {this.renderButtons(index)}
+            {this.renderButtons(item, index)}
             {this.renderItem(item, this.state.fullSize)}
           </div>
         </div>

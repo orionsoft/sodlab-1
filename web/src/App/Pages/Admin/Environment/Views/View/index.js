@@ -30,7 +30,6 @@ import clone from 'lodash/clone'
       title
       path
       roles
-      fullSize
       items {
         sizeSmall
         sizeMedium
@@ -39,6 +38,7 @@ import clone from 'lodash/clone'
         formId
         tableId
         indicatorId
+        fullSize
       }
     }
     forms(limit: null, environmentId: $environmentId) {
@@ -103,7 +103,7 @@ export default class View extends React.Component {
       (a, b) => (a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1)
     )
     return (
-      <div className="col-xs-12 col-sm-6">
+      <div className="col-xs-12 col-sm-4">
         <div className="label">{option.label}</div>
         {items.length ? (
           <Field fieldName={`${item.type}Id`} type={Select} options={orderedItems} />
@@ -139,11 +139,15 @@ export default class View extends React.Component {
         <div className="label">Contenido</div>
         <br />
         <div className="row">
-          <div className="col-xs-12 col-sm-6">
+          <div className="col-xs-12 col-sm-4">
             <div className="label">Tipo</div>
             <Field fieldName="type" type={Select} options={this.getTypes()} />
           </div>
           {this.renderComponentSelector(item)}
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Pantalla completa</div>
+            <Field fieldName="fullSize" type={Checkbox} />
+          </div>
         </div>
       </div>
     )
@@ -193,8 +197,6 @@ export default class View extends React.Component {
               <Field fieldName="title" type={Text} />
               <div className="label">Contenido</div>
               <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
-              <div className="label">Habilitar pantalla completa</div>
-              <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
               <div className="label">Roles</div>
               <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
             </Field>

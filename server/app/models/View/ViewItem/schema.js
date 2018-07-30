@@ -38,5 +38,9 @@ export default {
         return 'required'
       }
     }
+  },
+  fullSize: {
+    type: Boolean,
+    optional: true
   }
 }
