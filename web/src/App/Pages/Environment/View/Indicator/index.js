@@ -7,7 +7,6 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import autobind from 'autobind-decorator'
 import Result from './Result'
-import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 
 @withGraphQL(gql`
   query getTable($indicatorId: ID) {

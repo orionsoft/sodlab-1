@@ -4,8 +4,6 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import FormContent from './Form'
 import styles from './styles.css'
-import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
-import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getForm($formId: ID) {
