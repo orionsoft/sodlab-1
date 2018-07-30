@@ -58,7 +58,7 @@ export default class Create extends React.Component {
             onSuccess={this.onSuccess}>
             <div className="label">Nombre</div>
             <Field fieldName="name" type={Text} />
-            <div className="label">Title</div>
+            <div className="label">Título</div>
             <Field fieldName="title" type={Text} />
             <div className="label">Colección</div>
             <Field fieldName="collectionId" type={Select} options={this.props.collections.items} />
