@@ -159,7 +159,7 @@ export default class View extends React.Component {
         {this.renderFullSizeStyles()}
         <Container>
           <h1>{view.title}</h1>
-          {this.renderItems(this.props.view.items)}
+          {this.renderItems(view.items)}
         </Container>
       </div>
     )

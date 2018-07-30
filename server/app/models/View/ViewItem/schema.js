@@ -44,7 +44,7 @@ export default {
     optional: true
   },
   subItems: {
-    type: Boolean,
+    type: ['blackbox'],
     optional: true
   }
 }
