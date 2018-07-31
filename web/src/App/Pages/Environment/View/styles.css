@@ -12,6 +12,7 @@
 :local(.fullSize) {
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
   top: 0;
   right: 0;
   left: 0;
@@ -19,6 +20,10 @@
   position: fixed;
   z-index: 10000;
   background-color: #fff;
+}
+
+:local(.fullSize) .content {
+  margin-bottom: 0px;
 }
 
 :local(.buttons) {
