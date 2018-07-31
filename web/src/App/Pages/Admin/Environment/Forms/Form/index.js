@@ -98,6 +98,14 @@ export default class Form extends React.Component {
     return null
   }
 
+  renderCollection() {
+    const {form, collections} = this.props
+    const data = collections.items.find(collection => {
+      return form.collectionId === collection.value
+    })
+    return <div className={styles.name}>{data.label}</div>
+  }
+
   render() {
     if (!this.props.form) return null
     return (
@@ -124,12 +132,8 @@ export default class Form extends React.Component {
               <Field fieldName="name" type={Text} />
               <div className="label">Tipo</div>
               <Field fieldName="type" type={Select} options={this.getFormTypes()} />
-              <div className="label">Colección</div>
-              <Field
-                fieldName="collectionId"
-                type={Select}
-                options={this.props.collections.items}
-              />
+              <div className="label">Colección (No se puede cambiar)</div>
+              {this.renderCollection()}
               <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
               <div className="label">Ir a una ruta al terminar</div>
               <Field fieldName="onSuccessViewPath" type={Text} />

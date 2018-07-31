@@ -135,7 +135,6 @@ export default class Table extends React.Component {
   getFields() {
     const tableFields = this.props.table.fields
     if (!tableFields.length) return [{title: 'ID', value: '_id'}]
-
     return tableFields.map(field => {
       return {
         title: field.label,

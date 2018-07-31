@@ -21,7 +21,8 @@ export default class Form extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
     form: PropTypes.object,
-    parameters: PropTypes.object
+    parameters: PropTypes.object,
+    setEnvironment: PropTypes.func
   }
 
   state = {}
@@ -41,7 +42,8 @@ export default class Form extends React.Component {
       formId: this.props.form._id,
       data: this.state.data || {},
       itemId: this.getItemId(),
-      parameters: this.props.parameters || {}
+      parameters: this.props.parameters || {},
+      setEnvironment: this.props.setEnvironment
     }
     if (props.form.type === 'update' && !props.itemId) return this.renderNoItem()
     return <FormContent {...props} />

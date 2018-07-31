@@ -56,6 +56,12 @@ export default class Fields extends React.Component {
     this.setState({fields: this.props.collection.fields || []})
   }
 
+  static getDerivedStateFromProps(props, state) {
+    return {
+      fields: props.collection.fields || []
+    }
+  }
+
   @autobind
   onSuccess() {
     this.props.showMessage('Los campos fueron guardados')
@@ -135,7 +141,6 @@ export default class Fields extends React.Component {
             ref="form"
             fragment={Fields.fragment}
             onSuccess={this.onSuccess}
-            onChange={this.onChange}
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
               collectionId: this.props.collection._id,

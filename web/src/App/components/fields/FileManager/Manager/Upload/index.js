@@ -62,7 +62,6 @@ export default class Upload extends React.Component {
 
   async uploadFile({fields, key, url}, file) {
     var formData = new FormData()
-    console.log(fields)
     const data = {
       ...fields,
       key: key,
