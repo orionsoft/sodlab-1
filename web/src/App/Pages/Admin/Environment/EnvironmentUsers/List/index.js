@@ -48,10 +48,8 @@ export default class List extends React.Component {
   renderSchema(profile) {
     const {environment} = this.props
     if (!environment.profileFields || !environment.profileFields.length) return
-    const schema = environment.profileFields.find(field => {
-      return !profile[field.name]
-    })
-    return <div className={styles.schema}>{schema ? 'No' : 'Si'}</div>
+    const hasEveryProfileField = environment.profileFields.every(field => profile[field.name])
+    return <div className={styles.schema}>{hasEveryProfileField ? 'Si' : 'No'}</div>
   }
 
   renderRoles(userRoles) {
