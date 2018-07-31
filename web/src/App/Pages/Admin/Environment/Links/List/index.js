@@ -13,8 +13,21 @@ export default class List extends React.Component {
     match: PropTypes.object
   }
 
+  renderRoles(link) {
+    const roles = link.linkRoles
+      .map(linkRole => {
+        return linkRole.name
+      })
+      .join(', ')
+    return <div>{roles.length ? roles : 'Vacío'}</div>
+  }
+
   getFields() {
-    return [{name: 'title', title: 'Título'}, {name: 'path', title: 'Ruta'}]
+    return [
+      {name: 'title', title: 'Título'},
+      {name: 'path', title: 'Ruta'},
+      {name: 'linkRoles{name}', title: 'Roles', render: link => this.renderRoles(link)}
+    ]
   }
 
   render() {
