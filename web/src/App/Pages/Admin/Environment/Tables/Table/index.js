@@ -53,15 +53,21 @@ import FieldOptions from './FieldOptions'
         collectionId
       }
     }
+    collections(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
 export default class Link extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
+    collections: PropTypes.object,
     history: PropTypes.object,
     table: PropTypes.object,
-    collections: PropTypes.object,
     forms: PropTypes.object,
     match: PropTypes.object,
     filters: PropTypes.object
@@ -143,6 +149,14 @@ export default class Link extends React.Component {
     this.setState({fields: reseted})
   }
 
+  renderCollection() {
+    const {table, collections} = this.props
+    const data = collections.items.find(collection => {
+      return table.collectionId === collection.value
+    })
+    return <div className={styles.name}>{data.label}</div>
+  }
+
   render() {
     if (!this.props.table) return null
     return (
@@ -168,6 +182,8 @@ export default class Link extends React.Component {
               <Field fieldName="name" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
+              <div className="label">Colección (No se puede cambiar)</div>
+              {this.renderCollection()}
               <div className="label">Filtros</div>
               <Field fieldName="filtersIds" type={Select} multi options={this.getFilters()} />
               <div className="label">Se puede usar sin filtro</div>
