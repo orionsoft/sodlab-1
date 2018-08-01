@@ -15,7 +15,6 @@ import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field, WithValue} from 'simple-react-form'
 import autobind from 'autobind-decorator'
-import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import Fields from './Fields'
 
 @withGraphQL(gql`
