@@ -8,7 +8,9 @@ import Form from './Form'
 import Table from './Table'
 import Indicator from './Indicator'
 import {withApollo} from 'react-apollo'
+import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 import prependKey from 'App/helpers/misc/prependKey'
+import autobind from 'autobind-decorator'
 
 @withGraphQL(gql`
   query getView($viewId: ID, $environmentId: ID) {
@@ -23,6 +25,7 @@ import prependKey from 'App/helpers/misc/prependKey'
         formId
         tableId
         indicatorId
+        fullSize
         subItems
       }
     }
@@ -43,7 +46,7 @@ export default class View extends React.Component {
     userByEnvironment: PropTypes.object
   }
 
-  state = {}
+  state = {fullSize: false, key: null}
 
   getUserParams() {
     const user = this.props.userByEnvironment
@@ -66,7 +69,7 @@ export default class View extends React.Component {
     return parameters
   }
 
-  renderItem(item) {
+  renderItem(item, fullSize, preIndex) {
     const props = {
       routeParams: this.props.params,
       state: this.state,
@@ -88,25 +91,62 @@ export default class View extends React.Component {
       )
     }
     if (item.type === 'indicator') {
-      return (
-        <div className={styles.item}>
-          <Indicator {...props} indicatorId={item.indicatorId} />
-        </div>
-      )
+      return <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
     }
     if (item.type === 'layout') {
-      return this.renderItems(item.subItems)
+      return this.renderItems(item.subItems, preIndex)
     }
   }
 
-  renderItems(items) {
+  @autobind
+  fullScreen(key) {
+    this.setState({fullSize: !this.state.fullSize, key})
+  }
+
+  renderFullSize(key) {
+    return this.state.fullSize ? (
+      <FaClose onClick={() => this.fullScreen(key)} style={{cursor: 'pointer'}} />
+    ) : (
+      <FaArrowsAlt onClick={() => this.fullScreen(key)} style={{cursor: 'pointer'}} />
+    )
+  }
+
+  @autobind
+  renderButtons(item, key) {
+    return (
+      <div className={`row end-xs ${styles.buttons}`}>
+        {item.fullSize && this.renderFullSize(key)}
+      </div>
+    )
+  }
+
+  renderFullSizeStyles() {
+    if (!this.state.fullSize) return null
+    return (
+      <style jsx="true">{`
+        body {
+          position: fixed;
+          overflow: hidden;
+        }
+      `}</style>
+    )
+  }
+
+  renderItems(items, preIndex) {
     if (!items) return null
     const views = items.map((item, index) => {
+      let key = preIndex ? preIndex + '-' + index.toString() : index.toString()
       return (
         <div
-          key={index}
-          className={`col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`}>
-          {this.renderItem(item)}
+          className={
+            this.state.fullSize && this.state.key === key
+              ? styles.fullSize
+              : `col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`
+          }>
+          <div className={styles.item}>
+            {this.renderButtons(item, key)}
+            {this.renderItem(item, this.state.fullSize, key)}
+          </div>
         </div>
       )
     })
@@ -117,9 +157,10 @@ export default class View extends React.Component {
     const {view} = this.props
     return (
       <div className={styles.container}>
+        {this.renderFullSizeStyles()}
         <Container>
           <h1>{view.title}</h1>
-          {this.renderItems(this.props.view.items)}
+          {this.renderItems(view.items)}
         </Container>
       </div>
     )

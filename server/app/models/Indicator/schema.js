@@ -51,9 +51,5 @@ export default {
   options: {
     type: 'blackbox',
     optional: true
-  },
-  fullSize: {
-    type: Boolean,
-    optional: true
   }
 }
