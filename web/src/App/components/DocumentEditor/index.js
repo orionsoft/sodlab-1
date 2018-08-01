@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Modal from './Modal'
 import cleanFileURL from './helpers/cleanFileUrl'
 import styles from './styles.css'
+import {ClientProvider} from './context'
 
 export default class DocumentEditor extends React.Component {
   static propTypes = {
@@ -41,15 +42,17 @@ export default class DocumentEditor extends React.Component {
   render() {
     return (
       <div>
-        <Modal
-          appElement={document.querySelector('#root')}
-          isOpen={this.state.modalIsOpen}
-          onClose={this.closeModal}
-          {...this.props}
-        />
-        <div onClick={this.openModal} className={styles.button}>
-          {this.renderPlaceholderOrName()}
-        </div>
+        <ClientProvider value={'holanda'}>
+          <Modal
+            appElement={document.querySelector('#root')}
+            isOpen={this.state.modalIsOpen}
+            onClose={this.closeModal}
+            {...this.props}
+          />
+          <div onClick={this.openModal} className={styles.button}>
+            {this.renderPlaceholderOrName()}
+          </div>
+        </ClientProvider>
       </div>
     )
   }

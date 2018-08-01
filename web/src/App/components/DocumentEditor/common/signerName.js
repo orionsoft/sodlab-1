@@ -36,6 +36,7 @@ export default class SignerData extends React.Component {
       : this.setState({checked: true, valid: true})
 
   render() {
+    console.log('finaaal', this.props.client)
     return (
       <div className={this.props.styles.inputContainer}>
         <label htmlFor="signatureName">Nombre:</label>

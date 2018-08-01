@@ -1,19 +1,19 @@
-import React from "react"
+import React from 'react'
 
 function withSignature(Component) {
   return class extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-        helpText: "",
-        who: "",
-        why: "",
+        helpText: '',
+        who: '',
+        why: '',
         wgssSignatureSDK: {},
         sigObj: {},
         sigCtl: {},
         dynCapt: {},
         timeout: {},
-        bmpObj: "",
+        bmpObj: '',
         isCaptured: false
       }
     }
@@ -23,24 +23,24 @@ function withSignature(Component) {
     }
 
     Exception = txt => {
-      this.print("Error: " + txt)
+      this.print('Error: ' + txt)
     }
 
     print = helpText => {
-      if (helpText === "CLEAR") {
-        this.setState({ helpText: "" })
+      if (helpText === 'CLEAR') {
+        this.setState({helpText: ''})
       } else {
-        this.setState({ helpText })
+        this.setState({helpText})
       }
     }
 
     onLoad = callback => {
-      this.print("CLEAR")
+      this.print('CLEAR')
       this.restartSession(callback)
     }
 
     restartSession = callback => {
-      let signatureImageBox = document.getElementById("signatureImageBox")
+      let signatureImageBox = document.getElementById('signatureImageBox')
       if (signatureImageBox.firstChild !== null) {
         signatureImageBox.removeChild(signatureImageBox.firstChild)
       }
@@ -48,27 +48,23 @@ function withSignature(Component) {
       let onDetectRunning = () => {
         if (this.state.wgssSignatureSDK.running) {
           // this.print("Signature SDK Service detected.");
-          this.print("Dispositivo detectado y listo para firmar")
+          this.print('Dispositivo detectado y listo para firmar')
           clearTimeout(this.state.timeout)
           start()
         } else {
           // this.print("Signature SDK Service not detected.");
-          this.print(
-            "Dispositivo para firmar o software de firma no encontrado"
-          )
+          this.print('Dispositivo para firmar o software de firma no encontrado')
         }
       }
 
       let timedDetect = () => {
         if (this.state.wgssSignatureSDK.running) {
           // this.print("Signature SDK Service detected.");
-          this.print("Dispositivo detectado y listo para firmar")
+          this.print('Dispositivo detectado y listo para firmar')
           start()
         } else {
           // this.print("Signature SDK Service not detected.");
-          this.print(
-            "Dispositivo para firmar o software de firma no encontrado"
-          )
+          this.print('Dispositivo para firmar o software de firma no encontrado')
         }
       }
 
@@ -85,14 +81,12 @@ function withSignature(Component) {
           // For production code remove the following line, remove commenting out of
           // PutLicence call and replace 'licence_string' with your licence string
           this.setState({
-            dynCapt: new this.state.wgssSignatureSDK.DynamicCapture(
-              onDynCaptConstructor
-            )
+            dynCapt: new this.state.wgssSignatureSDK.DynamicCapture(onDynCaptConstructor)
           })
-          //sigCtl.PutLicence(licence_string, onSigCtlPutLicence);
+          // sigCtl.PutLicence(licence_string, onSigCtlPutLicence);
         } else {
           // this.print("SigCtl constructor error: " + status);
-          this.print("Error al iniciar la captura de firma")
+          this.print('Error al iniciar la captura de firma')
         }
       }
 
@@ -101,33 +95,27 @@ function withSignature(Component) {
           this.state.sigCtl.GetSignature(onGetSignature)
         } else {
           // this.print("DynCapt constructor error: " + status);
-          this.print("Error al iniciar la captura de firma")
+          this.print('Error al iniciar la captura de firma')
         }
       }
 
       let onGetSignature = (sigCtlV, sigObjV, status) => {
         if (this.state.wgssSignatureSDK.ResponseStatus.OK === status) {
-          this.setState({ sigObj: sigObjV })
-          this.state.sigCtl.GetProperty(
-            "Component_FileVersion",
-            onSigCtlGetProperty
-          )
+          this.setState({sigObj: sigObjV})
+          this.state.sigCtl.GetProperty('Component_FileVersion', onSigCtlGetProperty)
         } else {
           // this.print("SigCapt GetSignature error: " + status);
-          this.print("Error al iniciar la captura de firma")
+          this.print('Error al iniciar la captura de firma')
         }
       }
 
       let onSigCtlGetProperty = (sigCtlV, property, status) => {
         if (this.state.wgssSignatureSDK.ResponseStatus.OK === status) {
           // this.print("DLL: flSigCOM.dll  v" + property.text);
-          this.state.dynCapt.GetProperty(
-            "Component_FileVersion",
-            onDynCaptGetProperty
-          )
+          this.state.dynCapt.GetProperty('Component_FileVersion', onDynCaptGetProperty)
         } else {
           // this.print("SigCtl GetProperty error: " + status);
-          this.print("Error al iniciar la captura de firma")
+          this.print('Error al iniciar la captura de firma')
         }
       }
 
@@ -135,23 +123,20 @@ function withSignature(Component) {
         if (this.state.wgssSignatureSDK.ResponseStatus.OK === status) {
           // this.print("DLL: flSigCapt.dll v" + property.text);
           // this.print("Test application ready.");
-          this.print("Dispositivo listo para capturar la firma.")
-          if (typeof callback === "function") {
+          this.print('Dispositivo listo para capturar la firma.')
+          if (typeof callback === 'function') {
             callback()
           }
         } else {
           // this.print("DynCapt GetProperty error: " + status);
-          this.print("Error al iniciar la captura de firma")
+          this.print('Error al iniciar la captura de firma')
         }
       }
 
-      this.setState({ timeout: setTimeout(timedDetect, 1500) })
+      this.setState({timeout: setTimeout(timedDetect, 1500)})
       // pass the starting service port  number as configured in the registry
       this.setState({
-        wgssSignatureSDK: new window.WacomGSS_SignatureSDK(
-          onDetectRunning,
-          8000
-        )
+        wgssSignatureSDK: new window.WacomGSS_SignatureSDK(onDetectRunning, 8000)
       })
       // const onSigCtlPutLicence = (sigCtlV, status) => {
       //   if (wgssSignatureSDK.ResponseStatus.OK === status) {
@@ -166,40 +151,33 @@ function withSignature(Component) {
     Capture = () => {
       if (!this.state.wgssSignatureSDK.running || this.state.dynCapt === null) {
         // this.print("Session error. Restarting the session.");
-        this.print("Reiniciando software para captura de firma")
+        this.print('Reiniciando software para captura de firma')
         this.restartSession(this.Capture)
         return
       }
 
       const onDynCaptCapture = (dynCaptV, SigObjV, status) => {
-        if (
-          this.state.wgssSignatureSDK.ResponseStatus.INVALID_SESSION === status
-        ) {
+        if (this.state.wgssSignatureSDK.ResponseStatus.INVALID_SESSION === status) {
           // this.print("Error: invalid session. Restarting the session.");
-          this.print("Reiniciando software para captura de firma")
+          this.print('Reiniciando software para captura de firma')
           this.restartSession(this.Capture)
         } else {
-          if (
-            this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptOK !==
-            status
-          ) {
+          if (this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptOK !== status) {
             // this.print("Capture returned: " + status);
-            this.print("Captura de firma realizada")
+            this.print('Captura de firma realizada')
           }
           switch (status) {
             case this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptOK:
-              this.setState({ sigObj: SigObjV })
+              this.setState({sigObj: SigObjV})
               // this.print("Signature captured successfully");
-              this.print("Firma captura con exito!")
+              this.print('Firma captura con exito!')
               const flags =
                 this.state.wgssSignatureSDK.RBFlags.RenderOutputBase64 |
                 this.state.wgssSignatureSDK.RBFlags.RenderColor32BPP |
                 this.state.wgssSignatureSDK.RBFlags.RenderBackgroundTransparent
-              const signatureImageBox = document.getElementById(
-                "signatureImageBox"
-              )
+              const signatureImageBox = document.getElementById('signatureImageBox')
               this.state.sigObj.RenderBitmap(
-                "png",
+                'png',
                 signatureImageBox.clientWidth,
                 signatureImageBox.clientHeight,
                 0.7,
@@ -213,81 +191,65 @@ function withSignature(Component) {
               break
             case this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptCancel:
               // this.print("Signature capture cancelled");
-              this.print("Captura de firma cancelada")
+              this.print('Captura de firma cancelada')
               break
-            case this.state.wgssSignatureSDK.DynamicCaptureResult
-              .DynCaptPadError:
+            case this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptPadError:
               // this.print("No capture service available");
-              this.print("No se ha detectado el software para firmar")
+              this.print('No se ha detectado el software para firmar')
               break
             case this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptError:
               // this.print("Tablet Error");
-              this.print(
-                "Error del dispositivo. Por favor, revise la conexión."
-              )
+              this.print('Error del dispositivo. Por favor, revise la conexión.')
               break
-            case this.state.wgssSignatureSDK.DynamicCaptureResult
-              .DynCaptIntegrityKeyInvalid:
+            case this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptIntegrityKeyInvalid:
               // this.print("The integrity key parameter is invalid (obsolete)");
-              this.print("Error al iniciar la aplicación")
+              this.print('Error al iniciar la aplicación')
               break
-            case this.state.wgssSignatureSDK.DynamicCaptureResult
-              .DynCaptNotLicensed:
+            case this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptNotLicensed:
               // this.print("No valid Signature Capture licence found");
               this.print(
-                "Error: no se ha detectado una licencia valida para utilizar el dispositivo"
+                'Error: no se ha detectado una licencia valida para utilizar el dispositivo'
               )
               break
             case this.state.wgssSignatureSDK.DynamicCaptureResult.DynCaptAbort:
               // this.print("Error - unable to parse document contents");
-              this.print(
-                "Error: no es posible modificar los contenidos del documento"
-              )
+              this.print('Error: no es posible modificar los contenidos del documento')
               break
             default:
               // this.print("Capture Error " + status);
-              this.print("Error en la captura de la firma")
+              this.print('Error en la captura de la firma')
               break
           }
         }
       }
-      const who = this.state.who !== "" ? this.state.who : " "
-      const why = this.state.why !== "" ? this.state.why : " "
-      this.state.dynCapt.Capture(
-        this.state.sigCtl,
-        who,
-        why,
-        null,
-        null,
-        onDynCaptCapture
-      )
+      const who = this.state.who !== '' ? this.state.who : ' '
+      const why = this.state.why !== '' ? this.state.why : ' '
+      this.state.dynCapt.Capture(this.state.sigCtl, who, why, null, null, onDynCaptCapture)
 
       const onRenderBitmapBase64 = (sigObjV, bmpObj, status) => {
         if (this.state.wgssSignatureSDK.ResponseStatus.OK === status) {
-          this.setState({ bmpObj, isCaptured: true })
+          this.setState({bmpObj, isCaptured: true})
           this.print(
-            "Firma capturada exitosamente. Presione ACEPTAR para aplicar la firma al documento."
+            'Firma capturada exitosamente. Presione ACEPTAR para aplicar la firma al documento.'
           )
-          let signatureImageBox = document.getElementById("signatureImageBox")
+          let signatureImageBox = document.getElementById('signatureImageBox')
           let img = new Image()
-          img.src = "data:image/png;base64," + bmpObj
+          img.src = 'data:image/png;base64,' + bmpObj
           if (signatureImageBox.firstChild === null) {
             signatureImageBox.appendChild(img)
           } else {
             signatureImageBox.replaceChild(img, signatureImageBox.firstChild)
           }
         } else {
-          this.print("Signature Render Bitmap error: " + status)
+          this.print('Signature Render Bitmap error: ' + status)
         }
       }
     }
 
     DisplaySignatureDetails = () => {
-      if (!this.state.wgssSignatureSDK.running || null === this.state.sigObj) {
+      if (!this.state.wgssSignatureSDK.running || this.state.sigObj === null) {
         // this.print("Session error. Restarting the session." );
-        this.print(
-          "Error al iniciar la aplicación para firmar. Reiniciando el servicio."
-        )
+        this.print('Error al iniciar la aplicación para firmar. Reiniciando el servicio.')
         this.restartSession(this.DisplaySignatureDetails)
         return
       }
@@ -296,20 +258,15 @@ function withSignature(Component) {
         if (this.state.wgssSignatureSDK.ResponseStatus.OK === status) {
           if (!isCaptured) {
             // this.print("No signature has been captured yet." );
-            this.print("No se ha capturado ninguna firma")
+            this.print('No se ha capturado ninguna firma')
             return
           }
           this.state.sigObj.GetWho(onGetWho)
         } else {
-          this.print("Signature GetWho error: " + status)
-          if (
-            this.state.wgssSignatureSDK.ResponseStatus.INVALID_SESSION ===
-            status
-          ) {
+          this.print('Signature GetWho error: ' + status)
+          if (this.state.wgssSignatureSDK.ResponseStatus.INVALID_SESSION === status) {
             // this.print("Session error. Restarting the session.");
-            this.print(
-              "Error al iniciar la aplicación para firmar. Reiniciando el servicio."
-            )
+            this.print('Error al iniciar la aplicación para firmar. Reiniciando el servicio.')
             this.restartSession(this.DisplaySignatureDetails)
           }
         }
@@ -325,7 +282,7 @@ function withSignature(Component) {
           this.state.sigObj.GetWhen(tz, onGetWhen)
         } else {
           // this.print("Signature GetWho error: " + status);
-          this.print("No se puede obtener el nombre del firmante.")
+          this.print('No se puede obtener el nombre del firmante.')
         }
       }
 
@@ -336,7 +293,7 @@ function withSignature(Component) {
           this.state.sigObj.GetWhy(onGetWhy)
         } else {
           // this.print("Signature GetWhen error: " + status);
-          this.print("No se puede obtener la fecha de la firma.")
+          this.print('No se puede obtener la fecha de la firma.')
         }
       }
 
@@ -346,7 +303,7 @@ function withSignature(Component) {
           this.print(`Razón: ${why}`)
         } else {
           // this.print("Signature GetWhy error: " + status);
-          this.print("No se puede obtener la razón de la firma.")
+          this.print('No se puede obtener la razón de la firma.')
         }
       }
     }
@@ -354,9 +311,7 @@ function withSignature(Component) {
     AboutBox = () => {
       if (!this.state.wgssSignatureSDK.running || this.state.sigCtl === null) {
         // this.print("Session error. Restarting the session.");
-        this.print(
-          "Error al iniciar la aplicación para firmar. Reiniciando el servicio."
-        )
+        this.print('Error al iniciar la aplicación para firmar. Reiniciando el servicio.')
         this.restartSession(this.AboutBox)
         return
       }
@@ -364,14 +319,9 @@ function withSignature(Component) {
       const onAboutBox = (sigCtlV, status) => {
         if (this.state.wgssSignatureSDK.ResponseStatus.OK !== status) {
           // this.print("AboutBox error: " + status);
-          if (
-            this.state.wgssSignatureSDK.ResponseStatus.INVALID_SESSION ===
-            status
-          ) {
+          if (this.state.wgssSignatureSDK.ResponseStatus.INVALID_SESSION === status) {
             // this.print("Session error. Restarting the session.");
-            this.print(
-              "Error al iniciar la aplicación para firmar. Reiniciando el servicio."
-            )
+            this.print('Error al iniciar la aplicación para firmar. Reiniciando el servicio.')
             this.restartSession(this.AboutBox)
           }
         }
@@ -382,18 +332,16 @@ function withSignature(Component) {
     handleSubmitSignature = (complete_name, rut) => {
       this.props.addSignatureImage(
         `${rut}.signature`,
-        "data:image/png;base64," + this.state.bmpObj,
+        'data:image/png;base64,' + this.state.bmpObj,
         complete_name,
         rut,
         () => this.props.handleSubmitImg()
       )
     }
 
-    handleWhoChange = (value, callback) =>
-      this.setState({ who: value }, () => callback())
+    handleWhoChange = (value, callback) => this.setState({who: value}, () => callback())
 
-    handleWhyChange = (value, callback) =>
-      this.setState({ why: value }, () => callback())
+    handleWhyChange = (value, callback) => this.setState({why: value}, () => callback())
 
     render() {
       return (

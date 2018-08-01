@@ -95,6 +95,7 @@ class FingerprintAndSignature extends React.Component {
   }
 
   render() {
+    console.log(this.props.client)
     return (
       <div>
         <Modal
@@ -142,13 +143,13 @@ class FingerprintAndSignature extends React.Component {
             <div className={styles.personalInfoContainer}>
               <SignerName
                 styles={styles}
-                signerId={this.props.form.props.state.rut_cliente || ''}
+                signerId={this.props.form || ''}
                 who={this.state.who}
                 handleWhoChange={this.handleWhoChange}
               />
               <SignerRut
                 styles={styles}
-                signerId={this.props.form.props.state.rut_cliente || ''}
+                signerId={this.props.form || ''}
                 rut={this.state.rut}
                 handleRutChange={this.handleRutChange}
                 handleRutValidation={this.handleRutValidation}
@@ -157,7 +158,7 @@ class FingerprintAndSignature extends React.Component {
               />
               <SignerReason
                 styles={styles}
-                materia={this.props.form.props.state.materia || ''}
+                materia={this.props.form || ''}
                 why={this.state.why}
                 handleWhyChange={this.handleWhyChange}
               />

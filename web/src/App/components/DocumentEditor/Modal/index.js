@@ -11,6 +11,7 @@ import {MdNoteAdd, MdFileDownload} from 'react-icons/lib/md'
 import {FaSpinner} from 'react-icons/lib/fa'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import cleanFileUrl from '../helpers/cleanFileUrl'
+import {ClientConsumer} from '../context'
 /*
   PENDING:
   - Refactor this whole component. Every section in the modal must have its own component
@@ -533,21 +534,36 @@ export default class Main extends React.Component {
           className={styles.optionsMenuModal}
           overlayClassName={styles.optionsMenuOverlay}>
           <div className={styles.btnContainer}>
-            <Fingerprint
-              addSignatureImage={this.addSignatureImage}
-              handleSubmitImg={this.handleSubmitImg}
-              {...this.props}
-            />
-            <Signature
-              addSignatureImage={this.addSignatureImage}
-              handleSubmitImg={this.handleSubmitImg}
-              {...this.props}
-            />
-            <FingerprintAndSignature
-              addFingerprintOrPenSignature={this.addFingerprintOrPenSignature}
-              handleSubmitImg={this.handleSubmitImg}
-              form={this.props.form}
-            />
+            <ClientConsumer>
+              {rutClient => (
+                <Fingerprint
+                  client={rutClient}
+                  addSignatureImage={this.addSignatureImage}
+                  handleSubmitImg={this.handleSubmitImg}
+                  {...this.props} // form
+                />
+              )}
+            </ClientConsumer>
+            <ClientConsumer>
+              {rutClient => (
+                <Signature
+                  client={rutClient}
+                  addSignatureImage={this.addSignatureImage}
+                  handleSubmitImg={this.handleSubmitImg}
+                  {...this.props} // form
+                />
+              )}
+            </ClientConsumer>
+            <ClientConsumer>
+              {rutClient => (
+                <FingerprintAndSignature
+                  client={rutClient}
+                  addFingerprintOrPenSignature={this.addFingerprintOrPenSignature}
+                  handleSubmitImg={this.handleSubmitImg}
+                  form={this.props.form} // form
+                />
+              )}
+            </ClientConsumer>
           </div>
         </Modal>
       </Modal>

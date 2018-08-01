@@ -1,11 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const TextSection = props => (
   <div className={props.containerStyle}>
-    <span className={props.textStyle}>
-      {props.text ? props.text() : props.staticText}
-    </span>
+    <span className={props.textStyle}>{props.text ? props.text() : props.staticText}</span>
   </div>
 )
 
