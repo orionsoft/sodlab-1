@@ -5,7 +5,7 @@ export default {
   },
   type: {
     type: String,
-    allowedValues: ['fixed', 'parameter', 'editable']
+    allowedValues: ['fixed', 'parameter', 'editable', 'indicator']
   },
   optional: {
     type: Boolean,
@@ -20,6 +20,10 @@ export default {
     optional: true
   },
   editableLabel: {
+    type: String,
+    optional: true
+  },
+  indicatorId: {
     type: String,
     optional: true
   }

@@ -35,6 +35,7 @@ import Fields from './Fields'
         fixed
         parameterName
         editableLabel
+        indicatorId
       }
       reset
       collection {
@@ -54,6 +55,12 @@ import Fields from './Fields'
         label: name
       }
     }
+    indicators(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -63,7 +70,8 @@ export default class Form extends React.Component {
     history: PropTypes.object,
     form: PropTypes.object,
     collections: PropTypes.object,
-    match: PropTypes.object
+    match: PropTypes.object,
+    indicators: PropTypes.object
   }
 
   getFormTypes() {
@@ -166,7 +174,7 @@ export default class Form extends React.Component {
             </div>
           </div>
         </Section>
-        <Fields form={this.props.form} />
+        <Fields form={this.props.form} indicators={this.props.indicators} />
       </div>
     )
   }
