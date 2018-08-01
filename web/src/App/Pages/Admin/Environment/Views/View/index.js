@@ -13,6 +13,7 @@ import ObjectField from 'App/components/fields/ObjectField'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
@@ -37,6 +38,7 @@ import clone from 'lodash/clone'
         formId
         tableId
         indicatorId
+        fullSize
         subItems
       }
     }
@@ -105,13 +107,24 @@ export default class View extends React.Component {
       (a, b) => (a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1)
     )
     return (
-      <div className="col-xs-12 col-sm-6">
+      <div className="col-xs-12 col-sm-4">
         <div className="label">{option.label}</div>
         {items.length ? (
           <Field fieldName={`${item.type}Id`} type={Select} options={orderedItems} />
         ) : (
           `No hay ${option.label}`
         )}
+      </div>
+    )
+  }
+
+  renderFullSizeCheckbox(item) {
+    if (!item.type) return null
+    if (item.type === 'layout') return null
+    return (
+      <div className="col-xs-12 col-sm-4">
+        <div className="label">Pantalla completa</div>
+        <Field fieldName="fullSize" type={Checkbox} />
       </div>
     )
   }
@@ -146,11 +159,12 @@ export default class View extends React.Component {
         <div className="label">Contenido</div>
         <br />
         <div className="row">
-          <div className="col-xs-12 col-sm-6">
+          <div className="col-xs-12 col-sm-4">
             <div className="label">Tipo</div>
             <Field fieldName="type" type={Select} options={this.getTypes()} />
           </div>
           {this.renderComponentSelector(item)}
+          {this.renderFullSizeCheckbox(item)}
         </div>
         {this.renderSubItem(item)}
       </div>

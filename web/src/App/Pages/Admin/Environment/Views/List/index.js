@@ -13,11 +13,21 @@ export default class List extends React.Component {
     match: PropTypes.object
   }
 
+  renderRoles(view) {
+    const roles = view.viewRoles
+      .map(viewRole => {
+        return viewRole.name
+      })
+      .join(', ')
+    return <div>{roles.length ? roles : 'Vacío'}</div>
+  }
+
   getFields() {
     return [
       {name: 'name', title: 'Nombre'},
       {name: 'title', title: 'Titulo'},
-      {name: 'path', title: 'Ruta'}
+      {name: 'path', title: 'Ruta'},
+      {name: 'viewRoles{name}', title: 'Roles', render: view => this.renderRoles(view)}
     ]
   }
 

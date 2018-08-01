@@ -1,5 +1,7 @@
 import pathVariables from './pathVariables'
+import viewRoles from './viewRoles'
 
 export default {
-  pathVariables,
+  viewRoles,
+  pathVariables
 }

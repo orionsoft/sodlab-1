@@ -22,7 +22,8 @@ export default class Result extends React.Component {
   static propTypes = {
     result: PropTypes.any,
     indicator: PropTypes.object,
-    setRef: PropTypes.func
+    setRef: PropTypes.func,
+    fullSize: PropTypes.bool
   }
 
   constructor(props) {
@@ -31,8 +32,9 @@ export default class Result extends React.Component {
   }
 
   renderValue(value, format) {
+    const {fullSize} = this.props
     return (
-      <div className={styles.result}>
+      <div className={fullSize ? styles.fullSizeResult : styles.result}>
         <NumberIncrement value={value} format={format} />
       </div>
     )

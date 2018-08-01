@@ -39,6 +39,10 @@ export default {
       }
     }
   },
+  fullSize: {
+    type: Boolean,
+    optional: true
+  },
   subItems: {
     type: ['blackbox'],
     optional: true

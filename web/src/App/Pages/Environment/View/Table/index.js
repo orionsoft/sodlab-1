@@ -10,7 +10,6 @@ import Watch from './Watch'
 import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
-import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -20,7 +19,6 @@ import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
       collectionId
       environmentId
       allowsNoFilter
-      fullSize
       filters {
         _id
         title
@@ -52,7 +50,7 @@ export default class Table extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {filterId: null, fullSize: false}
+  state = {filterId: null}
 
   @autobind
   onSelect(item) {}
@@ -137,7 +135,6 @@ export default class Table extends React.Component {
   getFields() {
     const tableFields = this.props.table.fields
     if (!tableFields.length) return [{title: 'ID', value: '_id'}]
-
     return tableFields.map(field => {
       return {
         title: field.label,
@@ -170,35 +167,12 @@ export default class Table extends React.Component {
     )
   }
 
-  @autobind
-  fullScreen() {
-    this.setState({fullSize: !this.state.fullSize})
-  }
-
-  renderFullSize() {
-    return this.state.fullSize ? (
-      <FaClose onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-    ) : (
-      <FaArrowsAlt onClick={this.fullScreen} style={{cursor: 'pointer'}} />
-    )
-  }
-
-  @autobind
-  renderButtons(table) {
-    return <div className="row end-xs">{table.fullSize && this.renderFullSize()}</div>
-  }
-
   renderTable() {
     const {table, parameters} = this.props
     return (
       <div>
         <div className={styles.header}>
-          <div className="row">
-            <div className="col-xs-10 col-sm-">
-              <div className={styles.title}>{table.title}</div>
-            </div>
-            <div className="col-xs-2 col-sm-">{this.renderButtons(table)}</div>
-          </div>
+          <div className={styles.title}>{table.title}</div>
         </div>
         <WithFilter
           filters={table.filters}
@@ -213,7 +187,7 @@ export default class Table extends React.Component {
 
   render() {
     return (
-      <div className={this.state.fullSize ? styles.fullSize : styles.container} key="table">
+      <div className={styles.container} key="table">
         {this.renderTable()}
       </div>
     )

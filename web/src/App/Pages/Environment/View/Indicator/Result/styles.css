@@ -11,3 +11,10 @@
   font-weight: 700;
   text-align: right;
 }
+
+:local(.fullSizeResult) {
+  padding: 0 20px;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+}
