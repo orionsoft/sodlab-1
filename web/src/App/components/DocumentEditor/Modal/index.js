@@ -7,8 +7,8 @@ import Fingerprint from '../FingerprintReader'
 import Signature from '../SignatureCapture'
 import FingerprintAndSignature from '../Fingerprint-Signature'
 import API_URL from '../helpers/url'
-import { MdNoteAdd, MdFileDownload } from 'react-icons/lib/md'
-import { FaSpinner } from 'react-icons/lib/fa'
+import {MdNoteAdd, MdFileDownload} from 'react-icons/lib/md'
+import {FaSpinner} from 'react-icons/lib/fa'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import cleanFileUrl from '../helpers/cleanFileUrl'
 /*
@@ -24,7 +24,8 @@ export default class Main extends React.Component {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    showMessage: PropTypes.func
+    showMessage: PropTypes.func,
+    form: PropTypes.object
   }
 
   state = {
@@ -54,7 +55,7 @@ export default class Main extends React.Component {
       const pdfFileName = cleanFileUrl(this.props.value.meta.s3Path)
       const uploadedFileName = this.props.value.meta.s3Path.split('.')[1]
 
-      this.setState({ loading: true, uploadedFileName, pdfFileName })
+      this.setState({loading: true, uploadedFileName, pdfFileName})
       fetch(`${API_URL}/api/files/aws/get`, {
         method: 'POST',
         headers: {
@@ -113,7 +114,7 @@ export default class Main extends React.Component {
     const date = new Date()
     const uploadedFileName = file.name.replace(/ /g, '_')
     const pdfFileName = date.getTime().toString() + '.' + uploadedFileName
-    this.setState({ file, pdfFileName, uploadedFileName })
+    this.setState({file, pdfFileName, uploadedFileName})
     formData.append('pdf_upload', file, pdfFileName)
 
     fetch(`${API_URL}/api/pdf`, {
@@ -122,7 +123,7 @@ export default class Main extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        this.setState({ pdfImages: data.message })
+        this.setState({pdfImages: data.message})
         this.fetchPdfImages()
       })
       .catch(err => console.log(err))
@@ -133,29 +134,19 @@ export default class Main extends React.Component {
       isOptionsMenuOpen: false,
       loading: true
     })
-    const { posX, posY } = this.state
+    const {posX, posY} = this.state
 
     const form = document.createElement('form')
     form.enctype = 'multipart/form-data'
     const formData = new FormData(form)
 
-    const {
-      activeSignature,
-      activeFingerprint,
-      activePenSignature
-    } = this.state
-    if (
-      activeSignature === null &&
-      activeFingerprint === null &&
-      activePenSignature === null
-    ) {
+    const {activeSignature, activeFingerprint, activePenSignature} = this.state
+    if (activeSignature === null && activeFingerprint === null && activePenSignature === null) {
       this.setState({
         isOptionsMenuOpen: false,
         loading: false
       })
-      return alert(
-        'No se ha seleccionado ninguna huella o firma para aplicar al documento'
-      )
+      return alert('No se ha seleccionado ninguna huella o firma para aplicar al documento')
     }
 
     const appendDataToForm = (type, signature, formData) => {
@@ -170,8 +161,7 @@ export default class Main extends React.Component {
       // Convert it to a blob to upload
       const blob = b64toBlob(realData, contentType)
       const imageIdArray = signature.id.split('.')
-      const identifier =
-        type === '' ? imageIdArray[imageIdArray.length - 1] : type
+      const identifier = type === '' ? imageIdArray[imageIdArray.length - 1] : type
       formData.append(identifier, blob, signature.id)
       formData.append(identifier, identifier)
       formData.append(`signer_name`, signature.name)
@@ -197,7 +187,7 @@ export default class Main extends React.Component {
       .then(data => {
         if (data.message === undefined) {
           alert('No se pudo completar la solicitud. Favor volver a intentarlo')
-          return this.setState({ loading: false })
+          return this.setState({loading: false})
         } else {
           this.setState(
             {
@@ -214,7 +204,7 @@ export default class Main extends React.Component {
   handleImageClick = e => {
     const img = document.getElementById('pdfImage')
     // get distance to the img from the left and top of the viewport
-    const { left, top } = getOffset(img)
+    const {left, top} = getOffset(img)
     const imgWidth = img.width
     const imgHeight = img.height
     // distance from the left border of the image to the mouse click
@@ -270,7 +260,7 @@ export default class Main extends React.Component {
     this.resetState()
     const splitFileName = this.state.pdfFileName.split('.')
     const fileName = `${splitFileName[0]}.${splitFileName[1]}`
-    const body = { fileName, secret: 'sodlab_allow_delete' }
+    const body = {fileName, secret: 'sodlab_allow_delete'}
 
     fetch(`${API_URL}/api/files`, {
       method: 'DELETE',
@@ -291,11 +281,8 @@ export default class Main extends React.Component {
   addSignatureImage = (id, imageSrc, name, rut, callback) => {
     this.setState(
       {
-        activeSignature: { id, imageSrc, name, rut },
-        signatureImages: [
-          ...this.state.signatureImages,
-          { id, imageSrc, name, rut }
-        ]
+        activeSignature: {id, imageSrc, name, rut},
+        signatureImages: [...this.state.signatureImages, {id, imageSrc, name, rut}]
       },
       () => callback()
     )
@@ -305,22 +292,16 @@ export default class Main extends React.Component {
     if (type === 'fingerprint') {
       this.setState(
         {
-          activeFingerprint: { id, imageSrc, name, rut },
-          signatureImages: [
-            ...this.state.signatureImages,
-            { id, imageSrc, name, rut }
-          ]
+          activeFingerprint: {id, imageSrc, name, rut},
+          signatureImages: [...this.state.signatureImages, {id, imageSrc, name, rut}]
         },
         () => callback()
       )
     } else if (type === 'pen signature') {
       this.setState(
         {
-          activePenSignature: { id, imageSrc, name, rut },
-          signatureImages: [
-            ...this.state.signatureImages,
-            { id, imageSrc, name, rut }
-          ]
+          activePenSignature: {id, imageSrc, name, rut},
+          signatureImages: [...this.state.signatureImages, {id, imageSrc, name, rut}]
         },
         () => callback()
       )
@@ -333,8 +314,8 @@ export default class Main extends React.Component {
     const name = data[1]
     const rut = data[2]
     const imageSrc = e.currentTarget.src
-    const activeSignature = { id, imageSrc, name, rut }
-    this.setState({ activeSignature })
+    const activeSignature = {id, imageSrc, name, rut}
+    this.setState({activeSignature})
   }
 
   fetchPdfImages = () => {
@@ -348,19 +329,14 @@ export default class Main extends React.Component {
             const src = base64Flag + imageStr
             return this.setState(
               {
-                pdfImagesSrc: [
-                  ...this.state.pdfImagesSrc,
-                  { name: fileInfo.name, src, index }
-                ]
+                pdfImagesSrc: [...this.state.pdfImagesSrc, {name: fileInfo.name, src, index}]
               },
               () =>
                 this.setState({
                   pdfImagesSrc: this.state.pdfImagesSrc.sort(function(a, b) {
                     return a.index - b.index
                   }),
-                  activePdfImageSrc: this.state.pdfImagesSrc[
-                    this.state.activePdfImagePage - 1
-                  ].src,
+                  activePdfImageSrc: this.state.pdfImagesSrc[this.state.activePdfImagePage - 1].src,
                   loading: false
                 })
             )
@@ -368,65 +344,54 @@ export default class Main extends React.Component {
         })
         .catch(err => {
           console.log(err)
-          this.setState({ loading: false })
-          this.props.showMessage(
-            'No se pudo completar la solicitud. Favor volver a intentarlo'
-          )
+          this.setState({loading: false})
+          this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
         })
     })
   }
 
   fetchPdfImage = page => {
-    this.state.pdfImages
-      .filter(fileInfo => fileInfo.page === parseInt(page, 10))
-      .map(fileInfo => {
-        const randomNumber = Math.floor(Math.random() * 100000000)
-        return fetch(
-          `${API_URL}/api/images/pdf/${fileInfo.name}/${randomNumber}`,
-          {
-            method: 'GET'
-          }
-        )
-          .then(response => {
-            response.arrayBuffer().then(buffer => {
-              const base64Flag = 'data:image/png;base64,'
-              const imageStr = arrayBufferToBase64(buffer)
-              const src = base64Flag + imageStr
-              let { pdfImagesSrc } = this.state
-              pdfImagesSrc[page - 1] = {
-                name: fileInfo.name,
-                src,
-                index: page - 1
-              }
-              return this.setState(
-                {
-                  pdfImagesSrc
-                },
-                () =>
-                  this.setState({
-                    pdfImagesSrc: this.state.pdfImagesSrc.sort(function(a, b) {
-                      return a.index - b.index
-                    }),
-                    activePdfImageSrc: this.state.pdfImagesSrc[
-                      this.state.activePdfImagePage - 1
-                    ].src,
-                    loading: false
-                  })
-              )
-            })
-          })
-          .catch(err => {
-            // !!! PENDING: HANDLE ERROR, SHOW USER SOMETHING IS WRONG
-            console.log(err)
-            this.setState({ loading: false })
-            alert(
-              'No se pudo completar la solicitud. Favor volver a intentarlo'
+    this.state.pdfImages.filter(fileInfo => fileInfo.page === parseInt(page, 10)).map(fileInfo => {
+      const randomNumber = Math.floor(Math.random() * 100000000)
+      return fetch(`${API_URL}/api/images/pdf/${fileInfo.name}/${randomNumber}`, {
+        method: 'GET'
+      })
+        .then(response => {
+          response.arrayBuffer().then(buffer => {
+            const base64Flag = 'data:image/png;base64,'
+            const imageStr = arrayBufferToBase64(buffer)
+            const src = base64Flag + imageStr
+            let {pdfImagesSrc} = this.state
+            pdfImagesSrc[page - 1] = {
+              name: fileInfo.name,
+              src,
+              index: page - 1
+            }
+            return this.setState(
+              {
+                pdfImagesSrc
+              },
+              () =>
+                this.setState({
+                  pdfImagesSrc: this.state.pdfImagesSrc.sort(function(a, b) {
+                    return a.index - b.index
+                  }),
+                  activePdfImageSrc: this.state.pdfImagesSrc[this.state.activePdfImagePage - 1].src,
+                  loading: false
+                })
             )
           })
-      })
+        })
+        .catch(err => {
+          // !!! PENDING: HANDLE ERROR, SHOW USER SOMETHING IS WRONG
+          console.log(err)
+          this.setState({loading: false})
+          alert('No se pudo completar la solicitud. Favor volver a intentarlo')
+        })
+    })
   }
 
-  closeOptionsMenu = () => this.setState({ isOptionsMenuOpen: false })
+  closeOptionsMenu = () => this.setState({isOptionsMenuOpen: false})
 
   renderActivePdfImageSrc = () => {
     return (
@@ -442,13 +407,11 @@ export default class Main extends React.Component {
 
   renderPdfPagesRow = () => {
     return this.state.pdfImagesSrc.map(image => {
-      const page =
-        image.name.split('.')[2].replace('_', '') ||
-        this.state.activePdfImagePage
+      const page = image.name.split('.')[2].replace('_', '') || this.state.activePdfImagePage
       const style =
         page === this.state.activePdfImagePage
-          ? { boxShadow: 'rgb(0,159,255) 0 0 1px 1px' }
-          : { boxShadow: '' }
+          ? {boxShadow: 'rgb(0,159,255) 0 0 1px 1px'}
+          : {boxShadow: ''}
       return (
         <img
           key={image.name}
@@ -491,25 +454,18 @@ export default class Main extends React.Component {
     let day = date.getDate()
     month = month.toString().length === 1 ? '0' + month : month
     day = day.toString().length === 1 ? '0' + day : day
-    let hours =
-      date.getHours().toString().length === 1
-        ? '0' + date.getHours()
-        : date.getHours()
+    let hours = date.getHours().toString().length === 1 ? '0' + date.getHours() : date.getHours()
     let minutes =
-      date.getMinutes().toString().length === 1
-        ? '0' + date.getMinutes()
-        : date.getMinutes()
+      date.getMinutes().toString().length === 1 ? '0' + date.getMinutes() : date.getMinutes()
     let seconds =
-      date.getSeconds().toString().length === 1
-        ? '0' + date.getSeconds()
-        : date.getSeconds()
+      date.getSeconds().toString().length === 1 ? '0' + date.getSeconds() : date.getSeconds()
     const currentDate = `${date.getFullYear()}.${month}.${day}`
     const currentTime = `${hours}:${minutes}:${seconds}`
-    return { currentDate, currentTime }
+    return {currentDate, currentTime}
   }
 
   render() {
-    const { uploadedFileName } = this.state
+    const {uploadedFileName} = this.state
     return (
       <Modal
         appElement={document.querySelector('#root')}
@@ -518,20 +474,11 @@ export default class Main extends React.Component {
         onRequestClose={() => this.state.onClose()}
         className={styles.modal}
         overlayClassName={styles.overlay}
-        contentLabel="Confirmación"
-      >
+        contentLabel="Confirmación">
         <div className={styles.headerContainer}>
-          <span>
-            {uploadedFileName.toUpperCase() ||
-              'NO SE HA SELECCIONADO NINGÚN DOCUMENTO'}
-          </span>
+          <span>{uploadedFileName.toUpperCase() || 'NO SE HA SELECCIONADO NINGÚN DOCUMENTO'}</span>
           <div>
-            <input
-              type="file"
-              id="pdf_file"
-              accept=".pdf"
-              onChange={this.handleSubmitPdf}
-            />
+            <input type="file" id="pdf_file" accept=".pdf" onChange={this.handleSubmitPdf} />
             <label htmlFor="pdf_file">
               <MdNoteAdd />
               CARGAR DOCUMENTO
@@ -558,9 +505,7 @@ export default class Main extends React.Component {
               this.renderActivePdfImageSrc()
             )}
           </div>
-          <div className={styles.imagesContainer}>
-            {this.renderSignatureImages()}
-          </div>
+          <div className={styles.imagesContainer}>{this.renderSignatureImages()}</div>
           <div className={styles.optionsContainer}>
             <div>
               <button id="downloadPdfBtn" onClick={this.handleDownloadPdf}>
@@ -586,8 +531,7 @@ export default class Main extends React.Component {
           isOpen={this.state.isOptionsMenuOpen}
           onRequestClose={this.closeOptionsMenu}
           className={styles.optionsMenuModal}
-          overlayClassName={styles.optionsMenuOverlay}
-        >
+          overlayClassName={styles.optionsMenuOverlay}>
           <div className={styles.btnContainer}>
             <Fingerprint
               addSignatureImage={this.addSignatureImage}
@@ -640,7 +584,7 @@ function b64toBlob(b64Data, contentType, sliceSize) {
     byteArrays.push(byteArray)
   }
 
-  let blob = new Blob(byteArrays, { type: contentType })
+  let blob = new Blob(byteArrays, {type: contentType})
   return blob
 }
 

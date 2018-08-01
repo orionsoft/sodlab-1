@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import Modal from "react-modal"
-import styles from "./styles.css"
-import withFingerprint from "./withFingerprint"
-import MdFingerprint from "react-icons/lib/md/fingerprint"
-import TextSection from "../common/textSection"
-import SignerName from "../common/signerName"
-import SignerRut from "../common/signerRut"
+import React from 'react'
+import PropTypes from 'prop-types'
+import Modal from 'react-modal'
+import styles from './styles.css'
+import withFingerprint from './withFingerprint'
+import MdFingerprint from 'react-icons/lib/md/fingerprint'
+import TextSection from '../common/textSection'
+import SignerName from '../common/signerName'
+import SignerRut from '../common/signerRut'
 
 class FingerprintModal extends React.Component {
   static propTypes = {
@@ -14,6 +14,8 @@ class FingerprintModal extends React.Component {
     handleSubmitImg: PropTypes.func,
     isFingerprintConnected: PropTypes.bool,
     isCaptured: PropTypes.bool,
+    form: PropTypes.object,
+    placeholder: PropTypes.string,
     startFingerprint: PropTypes.func,
     stopFingerprintCapturing: PropTypes.func,
     renderToggleConnectedStatus: PropTypes.func,
@@ -24,40 +26,40 @@ class FingerprintModal extends React.Component {
   state = {
     modalIsOpen: false,
     placeholder: this.props.placeholder,
-    who: "",
-    why: "",
-    rut: "",
+    who: '',
+    why: '',
+    rut: '',
     valid: false,
     checked: null
   }
 
   openModal = () => {
-    this.setState({ modalIsOpen: true })
+    this.setState({modalIsOpen: true})
     this.props.startFingerprint()
   }
 
   closeModal = () => {
-    this.setState({ modalIsOpen: false })
+    this.setState({modalIsOpen: false})
     this.props.stopFingerprintCapturing()
   }
 
-  handleWhoChange = who => this.setState({ who })
+  handleWhoChange = who => this.setState({who})
 
-  handleWhyChange = why => this.setState({ why })
+  handleWhyChange = why => this.setState({why})
 
-  handleRutChange = rut => this.setState({ rut })
+  handleRutChange = rut => this.setState({rut})
 
-  handleRutValidation = (valid, checked) => this.setState({ valid, checked })
+  handleRutValidation = (valid, checked) => this.setState({valid, checked})
 
   saveCapture = () => {
     this.props.addSignatureImage(
       `${this.state.rut}.fingerprint`,
-      localStorage.getItem("fingerprintImgSrc"),
+      localStorage.getItem('fingerprintImgSrc'),
       this.state.who,
       this.state.rut,
       () => this.props.handleSubmitImg()
     )
-    localStorage.removeItem("fingerprintImgSrc")
+    localStorage.removeItem('fingerprintImgSrc')
     this.props.stopFingerprintCapturing()
     this.closeModal()
   }
@@ -71,13 +73,12 @@ class FingerprintModal extends React.Component {
     return (
       <div>
         <Modal
-          appElement={document.querySelector("#root")}
+          appElement={document.querySelector('#root')}
           isOpen={this.state.modalIsOpen}
           onClose={this.closeModal}
           className={styles.modal}
           overlayClassName={styles.overlay}
-          contentLabel="Confirmación"
-        >
+          contentLabel="Confirmación">
           <div className={styles.contentContainer}>
             <TextSection
               containerStyle={styles.statusContainer}
@@ -90,23 +91,18 @@ class FingerprintModal extends React.Component {
               text={this.props.renderToggleHelpMessages}
             />
             <div id="fingerprintImg" className={styles.imageContainer}>
-              <img
-                id="fingerprintImage"
-                alt=""
-                src=""
-                style={{ height: "300px", width: "auto" }}
-              />
+              <img id="fingerprintImage" alt="" src="" style={{height: '300px', width: 'auto'}} />
             </div>
             <div className={styles.personalInfoContainer}>
               <SignerName
                 styles={styles}
-                signerId={this.props.form.props.state.rut_cliente || ""}
+                signerId={this.props.form.props.state.rut_cliente || ''}
                 who={this.state.who}
                 handleWhoChange={this.handleWhoChange}
               />
               <SignerRut
                 styles={styles}
-                signerId={this.props.form.props.state.rut_cliente || ""}
+                signerId={this.props.form.props.state.rut_cliente || ''}
                 rut={this.state.rut}
                 handleRutChange={this.handleRutChange}
                 handleRutValidation={this.handleRutValidation}
@@ -119,21 +115,13 @@ class FingerprintModal extends React.Component {
                 type="button"
                 id="saveFingerprint"
                 value="aceptar"
-                disabled={
-                  this.state.who !== "" &&
-                  this.state.valid &&
-                  this.props.isCaptured
-                    ? false
-                    : true
-                }
+                disabled={!(this.state.who !== '' && this.state.valid && this.props.isCaptured)}
                 style={
-                  this.state.who !== "" &&
-                  this.state.valid &&
-                  this.props.isCaptured
+                  this.state.who !== '' && this.state.valid && this.props.isCaptured
                     ? {
-                        color: "#fff",
-                        backgroundColor: "#2196f3"
-                      }
+                      color: '#fff',
+                      backgroundColor: '#2196f3'
+                    }
                     : null
                 }
                 onClick={this.saveCapture}

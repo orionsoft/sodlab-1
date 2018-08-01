@@ -1,45 +1,59 @@
-import React from "react"
-import PropTypes from "prop-types"
-import Modal from "react-modal"
-import styles from "./styles.css"
-import withFingerprint from "../FingerprintReader/withFingerprint"
-import withSignature from "../SignatureCapture/withSignature"
-import MdFingerprint from "react-icons/lib/md/fingerprint"
-import MdSignature from "react-icons/lib/md/border-color.js"
-import TextSection from "../common/textSection"
-import SignerName from "../common/signerName"
-import SignerRut from "../common/signerRut"
-import SignerReason from "../common/signerReason"
+import React from 'react'
+import PropTypes from 'prop-types'
+import Modal from 'react-modal'
+import styles from './styles.css'
+import withFingerprint from '../FingerprintReader/withFingerprint'
+import withSignature from '../SignatureCapture/withSignature'
+import MdFingerprint from 'react-icons/lib/md/fingerprint'
+import MdSignature from 'react-icons/lib/md/border-color.js'
+import TextSection from '../common/textSection'
+import SignerName from '../common/signerName'
+import SignerRut from '../common/signerRut'
+import SignerReason from '../common/signerReason'
 
 class FingerprintAndSignature extends React.Component {
+  static propTypes = {
+    startFingerprint: PropTypes.func,
+    stopFingerprintCapturing: PropTypes.func,
+    handleWhoChange: PropTypes.func,
+    handleWhyChange: PropTypes.func,
+    startCapture: PropTypes.func,
+    form: PropTypes.object,
+    addFingerprintOrPenSignature: PropTypes.func,
+    handleSubmitImg: PropTypes.func,
+    renderToggleConnectedStatus: PropTypes.string,
+    renderToggleHelpMessages: PropTypes.string,
+    signatureState: PropTypes.object,
+    handleSubmitSignature: PropTypes.func,
+    isCaptured: PropTypes.bool
+  }
+
   state = {
     modalIsOpen: false,
-    who: "",
-    why: "",
-    rut: "",
+    who: '',
+    why: '',
+    rut: '',
     addFingerprintOrPenSignature: PropTypes.func,
     handleSubmitImg: PropTypes.func
   }
 
   openModal = () => {
-    this.setState({ modalIsOpen: true })
+    this.setState({modalIsOpen: true})
     this.props.startFingerprint()
   }
 
   closeModal = () => {
-    this.setState({ modalIsOpen: false })
+    this.setState({modalIsOpen: false})
     this.props.stopFingerprintCapturing()
   }
 
-  handleWhoChange = who =>
-    this.props.handleWhoChange(who, () => this.setState({ who }))
+  handleWhoChange = who => this.props.handleWhoChange(who, () => this.setState({who}))
 
-  handleWhyChange = why =>
-    this.props.handleWhyChange(why, () => this.setState({ why }))
+  handleWhyChange = why => this.props.handleWhyChange(why, () => this.setState({why}))
 
-  handleRutChange = rut => this.setState({ rut })
+  handleRutChange = rut => this.setState({rut})
 
-  handleRutValidation = (valid, checked) => this.setState({ valid, checked })
+  handleRutValidation = (valid, checked) => this.setState({valid, checked})
 
   startSignatureCapture = () => {
     this.props.startCapture()
@@ -51,24 +65,23 @@ class FingerprintAndSignature extends React.Component {
   }
 
   saveCapture = () => {
-    const penSignatureImg = document.getElementById("signatureImageBox")
-      .firstChild
-    if (penSignatureImg.src === null || penSignatureImg.src === "") return
+    const penSignatureImg = document.getElementById('signatureImageBox').firstChild
+    if (penSignatureImg.src === null || penSignatureImg.src === '') return
     const penSignatureImgSrc = penSignatureImg.src
 
-    const fingerprint = document.getElementById("fingerprintImage")
-    if (fingerprint.src === null || fingerprint.src === "") return
+    const fingerprint = document.getElementById('fingerprintImage')
+    if (fingerprint.src === null || fingerprint.src === '') return
     const fingerprintImgSrc = fingerprint.src
 
     this.props.addFingerprintOrPenSignature(
-      "fingerprint",
+      'fingerprint',
       `${this.state.rut}.fingerprint`,
       fingerprintImgSrc,
       this.state.who,
       this.state.rut,
       () => {
         this.props.addFingerprintOrPenSignature(
-          "pen signature",
+          'pen signature',
           `${this.state.rut}.signature`,
           penSignatureImgSrc,
           this.state.who,
@@ -85,35 +98,30 @@ class FingerprintAndSignature extends React.Component {
     return (
       <div>
         <Modal
-          appElement={document.querySelector("#root")}
+          appElement={document.querySelector('#root')}
           isOpen={this.state.modalIsOpen}
           onClose={this.closeModal}
           className={styles.modal}
           overlayClassName={styles.overlay}
-          contentLabel="Confirmación"
-        >
+          contentLabel="Confirmación">
           <div className={styles.contentContainer}>
             <div className={styles.deviceContainer}>
               <div className={styles.imageContainer}>
                 <TextSection
                   containerStyle={styles.statusContainer}
                   textStyle={styles.statusText}
-                  staticText={"Captura de Firma"}
+                  staticText={'Captura de Firma'}
                 />
                 <TextSection
                   containerStyle={styles.helpContainer}
                   textStyle={styles.helpText}
                   staticText={this.props.signatureState.helpText}
                 />
-                <div
-                  id="signatureImageBox"
-                  className={styles.signatureImageBox}
-                />
+                <div id="signatureImageBox" className={styles.signatureImageBox} />
                 <button
                   id="startSignatureCapture"
                   className={styles.startCapture}
-                  onClick={this.startSignatureCapture}
-                >
+                  onClick={this.startSignatureCapture}>
                   Iniciar Captura
                 </button>
               </div>
@@ -128,24 +136,19 @@ class FingerprintAndSignature extends React.Component {
                   textStyle={styles.helpText}
                   text={this.props.renderToggleHelpMessages}
                 />
-                <img
-                  id="fingerprintImage"
-                  alt=""
-                  src=""
-                  className={styles.fingerprintImage}
-                />
+                <img id="fingerprintImage" alt="" src="" className={styles.fingerprintImage} />
               </div>
             </div>
             <div className={styles.personalInfoContainer}>
               <SignerName
                 styles={styles}
-                signerId={this.props.form.props.state.rut_cliente || ""}
+                signerId={this.props.form.props.state.rut_cliente || ''}
                 who={this.state.who}
                 handleWhoChange={this.handleWhoChange}
               />
               <SignerRut
                 styles={styles}
-                signerId={this.props.form.props.state.rut_cliente || ""}
+                signerId={this.props.form.props.state.rut_cliente || ''}
                 rut={this.state.rut}
                 handleRutChange={this.handleRutChange}
                 handleRutValidation={this.handleRutValidation}
@@ -154,7 +157,7 @@ class FingerprintAndSignature extends React.Component {
               />
               <SignerReason
                 styles={styles}
-                materia={this.props.form.props.state.materia || ""}
+                materia={this.props.form.props.state.materia || ''}
                 why={this.state.why}
                 handleWhyChange={this.handleWhyChange}
               />
@@ -164,21 +167,13 @@ class FingerprintAndSignature extends React.Component {
                 type="button"
                 id="saveSignature"
                 value="aceptar"
-                disabled={
-                  this.state.who !== "" &&
-                  this.state.valid &&
-                  this.props.isCaptured
-                    ? false
-                    : true
-                }
+                disabled={!(this.state.who !== '' && this.state.valid && this.props.isCaptured)}
                 style={
-                  this.state.who !== "" &&
-                  this.state.valid &&
-                  this.props.isCaptured
+                  this.state.who !== '' && this.state.valid && this.props.isCaptured
                     ? {
-                        color: "#fff",
-                        backgroundColor: "#2196f3"
-                      }
+                      color: '#fff',
+                      backgroundColor: '#2196f3'
+                    }
                     : null
                 }
                 onClick={this.saveCapture}

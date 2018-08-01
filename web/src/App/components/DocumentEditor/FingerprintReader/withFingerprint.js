@@ -1,5 +1,5 @@
-import React from "react"
-import FingerprintAPI from "./api"
+import React from 'react'
+import FingerprintAPI from './api'
 
 function withFingerprint(Component) {
   return class extends React.Component {
@@ -32,25 +32,24 @@ function withFingerprint(Component) {
     }
 
     checkLocalStorage = () => {
-      if (localStorage.getItem("fingerprintImgSrc") !== null)
-        this.setState({ isCaptured: true })
+      if (localStorage.getItem('fingerprintImgSrc') !== null) this.setState({isCaptured: true})
     }
 
     startFingerprint = () => {
       const Fingerprint = new FingerprintAPI()
-      this.setState({ Fingerprint }, () => {
+      this.setState({Fingerprint}, () => {
         this.state.Fingerprint.getDeviceList()
           .then(devices => {
-            this.setState({ isFingerprintConnected: true })
+            this.setState({isFingerprintConnected: true})
             this.startCapturing()
           })
-          .catch(error => this.setState({ isFingerprintConnected: false }))
+          .catch(error => this.setState({isFingerprintConnected: false}))
       })
     }
 
     stopFingerprintCapturing = () => {
       this.state.Fingerprint.stopCapture()
-      localStorage.removeItem("fingerprintImgSrc")
+      localStorage.removeItem('fingerprintImgSrc')
       clearInterval(this.state.timer)
       this.setState({
         isCaptured: false,
@@ -68,29 +67,29 @@ function withFingerprint(Component) {
 
     renderToggleConnectedStatus = () => {
       if (this.state.isFingerprintConnected) {
-        return "Capturando huella..."
+        return 'Capturando huella...'
       } else {
-        return "Lector de Huella Digital"
+        return 'Lector de Huella Digital'
       }
     }
 
     renderToggleHelpMessages = () => {
-      const { isFingerprintConnected } = this.state
-      const imageSrc = localStorage.getItem("fingerprintImgSrc")
+      const {isFingerprintConnected} = this.state
+      const imageSrc = localStorage.getItem('fingerprintImgSrc')
       if (isFingerprintConnected === false) {
-        return "Presione el botón INICIAR CAPTURA para comenzar la captura de huella"
+        return 'Presione el botón INICIAR CAPTURA para comenzar la captura de huella'
       } else if (isFingerprintConnected && imageSrc === null) {
-        return "Posicione el dedo en el huellero para comenzar la captura"
-      } else if (imageSrc !== null && imageSrc !== "") {
-        return "Huella capturada"
+        return 'Posicione el dedo en el huellero para comenzar la captura'
+      } else if (imageSrc !== null && imageSrc !== '') {
+        return 'Huella capturada'
       }
     }
 
     renderToggleButtonText = () => {
       if (this.state.isFingerprintConnected) {
-        return "Detener Captura de Huella"
+        return 'Detener Captura de Huella'
       } else {
-        return "Iniciar Captura de Huella"
+        return 'Iniciar Captura de Huella'
       }
     }
 
