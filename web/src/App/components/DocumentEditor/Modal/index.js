@@ -569,6 +569,7 @@ export default class Main extends React.Component {
           className={styles.optionsMenuModal}
           overlayClassName={styles.optionsMenuOverlay}>
           <div className={styles.btnContainer}>
+            {/*  not */}
             {/* <ClientConsumer>
               {rutClient => (
                 <Fingerprint
@@ -592,7 +593,9 @@ export default class Main extends React.Component {
             <ClientConsumer>
               {rutClient => (
                 <FingerprintAndSignature
-                  client={this.state.client}
+                  client={
+                    this.state.client ? this.state.client[Object.keys(this.state.client)[0]] : null
+                  }
                   addFingerprintOrPenSignature={this.addFingerprintOrPenSignature}
                   handleSubmitImg={this.handleSubmitImg}
                   {...this.props.passProps}

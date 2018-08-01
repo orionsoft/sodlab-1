@@ -97,6 +97,7 @@ class FingerprintAndSignature extends React.Component {
   }
 
   render() {
+    if (!this.props.client) return null
     return (
       <div>
         <Modal
