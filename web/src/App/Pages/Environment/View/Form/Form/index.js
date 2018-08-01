@@ -41,6 +41,15 @@ export default class Form extends React.Component {
 
   state = {}
 
+  componentDidMount() {
+    this.setState({data: this.getData()})
+  }
+
+  renderResetButton() {
+    if (!this.props.form.reset) return null
+    return <Button onClick={() => this.setState({data: {}})}>Limpiar</Button>
+  }
+
   renderSubmitButton() {
     const text = this.props.form.type === 'create' ? 'Crear' : 'Guardar'
     return (
@@ -141,7 +150,7 @@ export default class Form extends React.Component {
           getErrorFieldLabel={this.getErrorFieldLabel}
           doc={{
             formId: this.props.form._id,
-            data: this.getData(),
+            data: this.state.data,
             itemId: this.getItemId()
           }}
           onSuccess={this.onSuccess}>
@@ -152,6 +161,7 @@ export default class Form extends React.Component {
           />
         </AutoForm>
         <br />
+        {this.renderResetButton()}
         {this.renderSubmitButton()}
       </div>
     )
