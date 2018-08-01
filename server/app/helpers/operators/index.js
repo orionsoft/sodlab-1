@@ -19,9 +19,13 @@ import dateLessThan from './dateLessThan'
 import idEquals from './idEquals'
 import equalString from './equalString'
 import containString from './containString'
+import notEqualString from './notEqualString'
+import notContainString from './notContainString'
+import notStringStartsWith from './notStringStartsWith'
 
 export default {
   containString,
+  notContainString,
   equalString,
   dateLessThan,
   dateTimeLessThan,
@@ -33,6 +37,7 @@ export default {
   dateTimeGreaterThan,
   dateEqual,
   equalDateTime,
+  notEqualString,
   numberLessEqual,
   numberGreaterEqual,
   numberLessThan,
@@ -40,6 +45,7 @@ export default {
   equalNumber,
   exists,
   stringStartsWith,
+  notStringStartsWith,
   booleanIs,
   idEquals
 }

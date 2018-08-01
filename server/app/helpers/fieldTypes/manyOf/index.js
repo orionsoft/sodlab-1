@@ -1,7 +1,15 @@
 export default {
   name: 'Muchos de',
   rootType: [String],
-  allowedOperatorsIds: ['exists'],
+  allowedOperatorsIds: [
+    'exists',
+    'containString',
+    'notContainString',
+    'equalString',
+    'notEqualString',
+    'stringStartsWith',
+    'notStringStartsWith'
+  ],
   optional: false,
   optionsSchema: {
     collectionId: {
