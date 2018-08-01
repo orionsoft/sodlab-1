@@ -7,6 +7,7 @@ import ObjectField from './fields/ObjectField'
 import isArray from 'lodash/isArray'
 import Blackbox from './fields/Blackbox'
 import FileManager from './fields/FileManager'
+import Document from './fields/Document'
 import fieldTypes from './fieldTypes'
 
 const singleFieldMap = {
@@ -20,7 +21,8 @@ const singleFieldMap = {
   boolean: Toggle,
   date: DateText,
   blackbox: Blackbox,
-  file: FileManager
+  file: FileManager,
+  document: Document
 }
 
 const arrayFieldMap = {}

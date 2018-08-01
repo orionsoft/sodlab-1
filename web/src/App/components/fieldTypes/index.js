@@ -19,6 +19,7 @@ import file from './file'
 import selectOptions from './selectOptions'
 import singleSelect from './singleSelect'
 import multipleSelect from './multipleSelect'
+import document from './document'
 
 export default {
   percentage,
@@ -41,5 +42,6 @@ export default {
   file,
   selectOptions,
   singleSelect,
-  multipleSelect
+  multipleSelect,
+  document
 }
