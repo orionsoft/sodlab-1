@@ -70,6 +70,7 @@ class FingerprintModal extends React.Component {
   }
 
   render() {
+    console.log('CLIEEENT', this.props.client)
     return (
       <div>
         <Modal
