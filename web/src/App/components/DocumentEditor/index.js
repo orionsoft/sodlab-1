@@ -21,11 +21,11 @@ export default class DocumentEditor extends React.Component {
   }
 
   openModal = () => {
-    this.setState({ modalIsOpen: true })
+    this.setState({modalIsOpen: true})
   }
 
   closeModal = () => {
-    this.setState({ modalIsOpen: false })
+    this.setState({modalIsOpen: false})
   }
 
   renderPlaceholderOrName() {
