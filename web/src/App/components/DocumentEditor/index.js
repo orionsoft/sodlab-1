@@ -54,6 +54,7 @@ export default class DocumentEditor extends React.Component {
             isOpen={this.state.modalIsOpen}
             onClose={this.closeModal}
             {...this.props}
+            {...this.props.passProps}
           />
           <div onClick={this.openModal} className={styles.button}>
             {this.renderPlaceholderOrName()}

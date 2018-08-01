@@ -4,8 +4,8 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 
 @withGraphQL(gql`
-  query getDocument($signerId: ID!) {
-    getDocument(_id: $signerId) {
+  query documentFromCollection($collectionId: ID!, $elementId: ID!) {
+    documentFromCollection(collectionId: $collectionId, elementId: $elementId) {
       data
     }
   }
