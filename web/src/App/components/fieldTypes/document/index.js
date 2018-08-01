@@ -1,4 +1,4 @@
-import Field from './Field'
+import DocumentEditor from 'App/components/DocumentEditor'
 export default {
-  field: Field
+  field: DocumentEditor
 }

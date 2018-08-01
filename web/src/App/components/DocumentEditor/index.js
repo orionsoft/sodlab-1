@@ -1,0 +1,56 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import Modal from './Modal'
+import cleanFileURL from './helpers/cleanFileUrl'
+import styles from './styles.css'
+
+export default class DocumentEditor extends React.Component {
+  static propTypes = {
+    value: PropTypes.object,
+    placeholder: PropTypes.node,
+    upload: PropTypes.func.isRequired,
+    delete: PropTypes.func
+  }
+
+  static defaultProps = {
+    placeholder: 'PROCESAR DOCUMENTO'
+  }
+
+  state = {
+    modalIsOpen: false
+  }
+
+  openModal = () => {
+    this.setState({ modalIsOpen: true })
+  }
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false })
+  }
+
+  renderPlaceholderOrName() {
+    if (this.props.value) {
+      const clean = cleanFileURL(this.props.value.url)
+      const pdfFileName = clean.split('.')[1]
+      return pdfFileName
+    } else {
+      return this.props.placeholder
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <Modal
+          appElement={document.querySelector('#root')}
+          isOpen={this.state.modalIsOpen}
+          onClose={this.closeModal}
+          {...this.props}
+        />
+        <div onClick={this.openModal} className={styles.button}>
+          {this.renderPlaceholderOrName()}
+        </div>
+      </div>
+    )
+  }
+}
