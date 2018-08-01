@@ -1,7 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 function withSignature(Component) {
   return class extends React.Component {
+    static propTypes = {
+      addSignatureImage: PropTypes.func,
+      handleSubmitImg: PropTypes.func
+    }
     constructor(props) {
       super(props)
       this.state = {

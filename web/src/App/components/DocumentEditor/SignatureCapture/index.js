@@ -91,13 +91,13 @@ class SignatureModal extends React.Component {
             <div className={styles.personalInfoContainer}>
               <SignerName
                 styles={styles}
-                signerId={this.props.form.props.state.rut_cliente || ''}
+                signerId={this.state.client || ''}
                 who={this.state.who}
                 handleWhoChange={this.handleWhoChange}
               />
               <SignerRut
                 styles={styles}
-                signerId={this.props.form.props.state.rut_cliente || ''}
+                signerId={this.state.client || ''}
                 rut={this.state.rut}
                 handleRutChange={this.handleRutChange}
                 handleRutValidation={this.handleRutValidation}
@@ -106,7 +106,7 @@ class SignatureModal extends React.Component {
               />
               <SignerReason
                 styles={styles}
-                materia={this.props.form.props.state.materia || ''}
+                materia={this.state.client || ''}
                 why={this.state.why}
                 handleWhyChange={this.handleWhyChange}
               />
