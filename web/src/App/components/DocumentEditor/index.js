@@ -3,13 +3,19 @@ import PropTypes from 'prop-types'
 import Modal from './Modal'
 import cleanFileURL from './helpers/cleanFileUrl'
 import styles from './styles.css'
+import {withRouter} from 'react-router'
 
+@withRouter
 export default class DocumentEditor extends React.Component {
   static propTypes = {
+    router: PropTypes.object,
     value: PropTypes.object,
     placeholder: PropTypes.node,
     upload: PropTypes.func.isRequired,
-    delete: PropTypes.func
+    delete: PropTypes.func,
+    passProps: PropTypes.object,
+    fieldName: PropTypes.string,
+    environmentId: PropTypes.string
   }
 
   static defaultProps = {
@@ -39,6 +45,8 @@ export default class DocumentEditor extends React.Component {
   }
 
   render() {
+    console.log('index')
+    console.log(this.props)
     return (
       <div>
         <Modal
@@ -46,6 +54,7 @@ export default class DocumentEditor extends React.Component {
           isOpen={this.state.modalIsOpen}
           onClose={this.closeModal}
           {...this.props}
+          {...this.props.passProps}
         />
         <div onClick={this.openModal} className={styles.button}>
           {this.renderPlaceholderOrName()}
