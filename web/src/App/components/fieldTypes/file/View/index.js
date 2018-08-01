@@ -20,8 +20,10 @@ export default class View extends React.Component {
     if (!this.props.value || !this.props.value.name) return this.renderNoValue()
     return (
       <div className={styles.container}>
-        <Button onClick={() => this.toRef(this.props.value.bucket, this.props.value.key)}>
-          {this.props.value.name}
+        <Button
+          className={styles.button}
+          onClick={() => this.toRef(this.props.value.bucket, this.props.value.key)}>
+          Ver Archivo
         </Button>
       </div>
     )
