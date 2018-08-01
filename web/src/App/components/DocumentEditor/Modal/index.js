@@ -4,8 +4,8 @@ import styles from './styles.css'
 import PropTypes from 'prop-types'
 import FileSaver from 'file-saver'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
-import Fingerprint from '../FingerprintReader'
-import Signature from '../SignatureCapture'
+// import Fingerprint from '../FingerprintReader'
+// import Signature from '../SignatureCapture'
 import FingerprintAndSignature from '../Fingerprint-Signature'
 import API_URL from '../helpers/url'
 import {MdNoteAdd, MdFileDownload} from 'react-icons/lib/md'
@@ -41,7 +41,9 @@ export default class Main extends React.Component {
     showMessage: PropTypes.func,
     form: PropTypes.object,
     passProps: PropTypes.object,
-    environmentId: PropTypes.string
+    environmentId: PropTypes.string,
+    selectOptions: PropTypes.object,
+    errorMessage: PropTypes.func
   }
 
   state = {
@@ -480,8 +482,22 @@ export default class Main extends React.Component {
     return {currentDate, currentTime}
   }
 
+  renderPDFSelect() {
+    if (!this.state.client) return
+    return (
+      <div>
+        <input type="file" id="pdf_file" accept=".pdf" onChange={this.handleSubmitPdf} />
+        <label htmlFor="pdf_file">
+          <MdNoteAdd />
+          CARGAR DOCUMENTO
+        </label>
+      </div>
+    )
+  }
+
   render() {
     const {uploadedFileName} = this.state
+    console.log(this.state)
     return (
       <Modal
         appElement={document.querySelector('#root')}
@@ -494,22 +510,14 @@ export default class Main extends React.Component {
         <div className={styles.headerContainer}>
           <span>{uploadedFileName.toUpperCase() || 'NO SE HA SELECCIONADO NINGÚN DOCUMENTO'}</span>
           <div>
-            <label>
-              <Select
-                // value={this.props.value}
-                // onChange={this.props.onChange}
-                options={this.props.selectOptions}
-                errorMessage={this.props.errorMessage}
-                {...this.props.passProps}
-              />
-            </label>
-          </div>
-          <div>
-            <input type="file" id="pdf_file" accept=".pdf" onChange={this.handleSubmitPdf} />
-            <label htmlFor="pdf_file">
-              <MdNoteAdd />
-              CARGAR DOCUMENTO
-            </label>
+            <Select
+              value={this.state.client}
+              onChange={change => this.setState({client: change})}
+              options={this.props.selectOptions}
+              errorMessage={this.props.errorMessage}
+              {...this.props.passProps}
+            />
+            {this.renderPDFSelect()}
           </div>
         </div>
         <div id="pdfPagesRowContainer" className={styles.pagesContainer}>
@@ -560,33 +568,32 @@ export default class Main extends React.Component {
           className={styles.optionsMenuModal}
           overlayClassName={styles.optionsMenuOverlay}>
           <div className={styles.btnContainer}>
-            <ClientConsumer>
+            {/* <ClientConsumer>
               {rutClient => (
                 <Fingerprint
-                  client={rutClient}
+                  client={this.state.client}
                   addSignatureImage={this.addSignatureImage}
                   handleSubmitImg={this.handleSubmitImg}
                   {...this.props} // form
                 />
               )}
-            </ClientConsumer>
-            <ClientConsumer>
+            </ClientConsumer> */}
+            {/* <ClientConsumer>
               {rutClient => (
                 <Signature
-                  client={rutClient}
+                  client={this.state.client}
                   addSignatureImage={this.addSignatureImage}
                   handleSubmitImg={this.handleSubmitImg}
                   {...this.props} // form
                 />
               )}
-            </ClientConsumer>
+            </ClientConsumer> */}
             <ClientConsumer>
               {rutClient => (
                 <FingerprintAndSignature
-                  client={rutClient}
+                  client={this.state.client}
                   addFingerprintOrPenSignature={this.addFingerprintOrPenSignature}
                   handleSubmitImg={this.handleSubmitImg}
-                  form={this.props.form} // form
                 />
               )}
             </ClientConsumer>

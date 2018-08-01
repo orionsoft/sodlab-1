@@ -143,13 +143,13 @@ class FingerprintAndSignature extends React.Component {
             <div className={styles.personalInfoContainer}>
               <SignerName
                 styles={styles}
-                signerId={this.props.form || ''}
+                signerId={this.state.client || ''}
                 who={this.state.who}
                 handleWhoChange={this.handleWhoChange}
               />
               <SignerRut
                 styles={styles}
-                signerId={this.props.form || ''}
+                signerId={this.state.client || ''}
                 rut={this.state.rut}
                 handleRutChange={this.handleRutChange}
                 handleRutValidation={this.handleRutValidation}
@@ -158,7 +158,7 @@ class FingerprintAndSignature extends React.Component {
               />
               <SignerReason
                 styles={styles}
-                materia={this.props.form || ''}
+                materia={this.state.client || ''}
                 why={this.state.why}
                 handleWhyChange={this.handleWhyChange}
               />
@@ -172,9 +172,9 @@ class FingerprintAndSignature extends React.Component {
                 style={
                   this.state.who !== '' && this.state.valid && this.props.isCaptured
                     ? {
-                        color: '#fff',
-                        backgroundColor: '#2196f3'
-                      }
+                      color: '#fff',
+                      backgroundColor: '#2196f3'
+                    }
                     : null
                 }
                 onClick={this.saveCapture}

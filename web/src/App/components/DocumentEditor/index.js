@@ -9,7 +9,7 @@ import {withRouter} from 'react-router'
 @withRouter
 export default class DocumentEditor extends React.Component {
   static propTypes = {
-    router: PropTypes.object,
+    history: PropTypes.object,
     value: PropTypes.object,
     placeholder: PropTypes.node,
     upload: PropTypes.func.isRequired,
@@ -54,6 +54,7 @@ export default class DocumentEditor extends React.Component {
             isOpen={this.state.modalIsOpen}
             onClose={this.closeModal}
             {...this.props}
+            {...this.props.passProps}
           />
           <div onClick={this.openModal} className={styles.button}>
             {this.renderPlaceholderOrName()}
