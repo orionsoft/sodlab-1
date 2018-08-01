@@ -6,15 +6,13 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 
 @withGraphQL(gql`
-  query getDocument($signerId: ID!) {
-    getDocument(_id: $signerId) {
-      data
-    }
+  query documentFromCollection($collectionId: ID!, $elementId: JSON) {
+    documentFromCollection(collectionId: $collectionId, elementId: $elementId)
   }
 `)
 export default class SignerData extends React.Component {
   static propTypes = {
-    getDocument: PropTypes.object,
+    documentFromCollection: PropTypes.object,
     styles: PropTypes.object,
     handleRutChange: PropTypes.func,
     valid: PropTypes.object,
@@ -22,8 +20,8 @@ export default class SignerData extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.getDocument) return
-    const {data} = this.props.getDocument
+    if (!this.props.documentFromCollection) return
+    const {data} = this.props.documentFromCollection
     if (typeof data.rut === 'undefined') return
     this.props.handleRutChange(data.rut)
   }

@@ -4,15 +4,14 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 
 @withGraphQL(gql`
-  query documentFromCollection($collectionId: ID!, $elementId: ID!) {
-    documentFromCollection(collectionId: $collectionId, elementId: $elementId) {
-      data
-    }
+  query documentFromCollection($collectionId: ID!, $elementId: JSON) {
+    documentFromCollection(collectionId: $collectionId, elementId: $elementId)
   }
 `)
 export default class SignerData extends React.Component {
   static propTypes = {
-    getDocument: PropTypes.object,
+    collectionId: PropTypes.string,
+    documentFromCollection: PropTypes.object,
     styles: PropTypes.object,
     handleWhoChange: PropTypes.func
   }
@@ -23,10 +22,11 @@ export default class SignerData extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.getDocument) return
-    const {data} = this.props.getDocument
-    if (typeof data.nombres === 'undefined' || typeof data.apellidos === 'undefined') return
-    const signerName = data.nombre_completo
+    if (!this.props.documentFromCollection) return
+    const {data} = this.props.documentFromCollection
+    // if (typeof data.nombres === 'undefined' || typeof data.apellidos === 'undefined') return
+    // const signerName = data.nombre_completo
+    const signerName = 'nombre_completo'
     this.props.handleWhoChange(signerName)
   }
 
@@ -36,7 +36,6 @@ export default class SignerData extends React.Component {
       : this.setState({checked: true, valid: true})
 
   render() {
-    console.log('finaaal', this.props.client)
     return (
       <div className={this.props.styles.inputContainer}>
         <label htmlFor="signatureName">Nombre:</label>

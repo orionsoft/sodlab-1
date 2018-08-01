@@ -497,7 +497,6 @@ export default class Main extends React.Component {
 
   render() {
     const {uploadedFileName} = this.state
-    console.log(this.state)
     return (
       <Modal
         appElement={document.querySelector('#root')}
@@ -511,8 +510,10 @@ export default class Main extends React.Component {
           <span>{uploadedFileName.toUpperCase() || 'NO SE HA SELECCIONADO NINGÚN DOCUMENTO'}</span>
           <div>
             <Select
-              value={this.state.client}
-              onChange={change => this.setState({client: change})}
+              value={this.state.client && this.state.client[this.props.passProps.valueKey]}
+              onChange={change =>
+                this.setState({client: {[this.props.passProps.valueKey]: change}})
+              }
               options={this.props.selectOptions}
               errorMessage={this.props.errorMessage}
               {...this.props.passProps}
@@ -594,6 +595,7 @@ export default class Main extends React.Component {
                   client={this.state.client}
                   addFingerprintOrPenSignature={this.addFingerprintOrPenSignature}
                   handleSubmitImg={this.handleSubmitImg}
+                  {...this.props.passProps}
                 />
               )}
             </ClientConsumer>

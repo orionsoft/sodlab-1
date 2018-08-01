@@ -7,7 +7,7 @@ export default resolver({
       type: 'ID'
     },
     elementId: {
-      type: 'ID'
+      type: 'blackbox'
     }
   },
   returns: 'blackbox',
@@ -16,7 +16,9 @@ export default resolver({
     if (!collection) throw new Error('collection not found')
 
     const collectionDB = await collection.db()
-    const collectionDoc = await collectionDB.findOne(elementId)
+    const collectionDoc = await collectionDB.findOne({
+      [`data.${Object.keys(elementId)[0]}`]: Object.values(elementId)[0]
+    })
     return collectionDoc
   }
 })

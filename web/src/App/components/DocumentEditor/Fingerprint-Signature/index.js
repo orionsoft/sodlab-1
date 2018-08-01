@@ -13,6 +13,8 @@ import SignerReason from '../common/signerReason'
 
 class FingerprintAndSignature extends React.Component {
   static propTypes = {
+    collectionId: PropTypes.string,
+    client: PropTypes.object,
     startFingerprint: PropTypes.func,
     stopFingerprintCapturing: PropTypes.func,
     handleWhoChange: PropTypes.func,
@@ -95,7 +97,6 @@ class FingerprintAndSignature extends React.Component {
   }
 
   render() {
-    console.log(this.props.client)
     return (
       <div>
         <Modal
@@ -143,24 +144,28 @@ class FingerprintAndSignature extends React.Component {
             <div className={styles.personalInfoContainer}>
               <SignerName
                 styles={styles}
-                signerId={this.state.client || ''}
+                elementId={this.props.client || {}}
                 who={this.state.who}
                 handleWhoChange={this.handleWhoChange}
+                collectionId={this.props.collectionId}
               />
               <SignerRut
                 styles={styles}
-                signerId={this.state.client || ''}
+                elementId={this.props.client || {}}
                 rut={this.state.rut}
                 handleRutChange={this.handleRutChange}
                 handleRutValidation={this.handleRutValidation}
                 checked={this.state.checked}
                 valid={this.state.valid}
+                collectionId={this.props.collectionId}
               />
               <SignerReason
                 styles={styles}
-                materia={this.state.client || ''}
+                elementId={this.props.client || {}}
+                materia={this.props.client || ''}
                 why={this.state.why}
                 handleWhyChange={this.handleWhyChange}
+                collectionId={this.props.collectionId}
               />
             </div>
             <div className={styles.buttonsContainer}>
@@ -172,9 +177,9 @@ class FingerprintAndSignature extends React.Component {
                 style={
                   this.state.who !== '' && this.state.valid && this.props.isCaptured
                     ? {
-                      color: '#fff',
-                      backgroundColor: '#2196f3'
-                    }
+                        color: '#fff',
+                        backgroundColor: '#2196f3'
+                      }
                     : null
                 }
                 onClick={this.saveCapture}

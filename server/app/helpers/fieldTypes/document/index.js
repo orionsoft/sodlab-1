@@ -20,6 +20,16 @@ export default {
       type: String,
       label: 'Campo de título',
       fieldType: 'collectionFieldSelect'
+    },
+    firstNameKey: {
+      type: String,
+      label: 'Campo para nombre',
+      fieldType: 'collectionFieldSelect'
+    },
+    lastNameKey: {
+      type: String,
+      label: 'Campo para apellido',
+      fieldType: 'collectionFieldSelect'
     }
   },
   _clean: File._clean,
