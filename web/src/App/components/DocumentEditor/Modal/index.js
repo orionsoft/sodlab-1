@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import styles from './styles.css'
 import PropTypes from 'prop-types'
 import FileSaver from 'file-saver'
+import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Fingerprint from '../FingerprintReader'
 import Signature from '../SignatureCapture'
 import FingerprintAndSignature from '../Fingerprint-Signature'
@@ -12,12 +13,24 @@ import {FaSpinner} from 'react-icons/lib/fa'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import cleanFileUrl from '../helpers/cleanFileUrl'
 import {ClientConsumer} from '../context'
+import {withRouter} from 'react-router'
+import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
+import gql from 'graphql-tag'
 /*
   PENDING:
   - Refactor this whole component. Every section in the modal must have its own component
   - Refactor de common components to be more general
   - Use the value prop to receive de url of the pdf and keep working on it
 */
+@withRouter
+@withGraphQL(gql`
+  query getFormOneOfSelectOptions($environmentId: ID, $formId: ID, $fieldName: String) {
+    selectOptions(environmentId: $environmentId, formId: $formId, fieldName: $fieldName) {
+      label
+      value
+    }
+  }
+`)
 @withMessage
 export default class Main extends React.Component {
   static propTypes = {
@@ -26,7 +39,9 @@ export default class Main extends React.Component {
     onClose: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     showMessage: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    passProps: PropTypes.object,
+    environmentId: PropTypes.string
   }
 
   state = {
@@ -478,6 +493,17 @@ export default class Main extends React.Component {
         contentLabel="Confirmación">
         <div className={styles.headerContainer}>
           <span>{uploadedFileName.toUpperCase() || 'NO SE HA SELECCIONADO NINGÚN DOCUMENTO'}</span>
+          <div>
+            <label>
+              <Select
+                // value={this.props.value}
+                // onChange={this.props.onChange}
+                options={this.props.selectOptions}
+                errorMessage={this.props.errorMessage}
+                {...this.props.passProps}
+              />
+            </label>
+          </div>
           <div>
             <input type="file" id="pdf_file" accept=".pdf" onChange={this.handleSubmitPdf} />
             <label htmlFor="pdf_file">

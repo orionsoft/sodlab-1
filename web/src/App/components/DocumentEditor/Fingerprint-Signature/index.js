@@ -172,9 +172,9 @@ class FingerprintAndSignature extends React.Component {
                 style={
                   this.state.who !== '' && this.state.valid && this.props.isCaptured
                     ? {
-                      color: '#fff',
-                      backgroundColor: '#2196f3'
-                    }
+                        color: '#fff',
+                        backgroundColor: '#2196f3'
+                      }
                     : null
                 }
                 onClick={this.saveCapture}

@@ -4,13 +4,19 @@ import Modal from './Modal'
 import cleanFileURL from './helpers/cleanFileUrl'
 import styles from './styles.css'
 import {ClientProvider} from './context'
+import {withRouter} from 'react-router'
 
+@withRouter
 export default class DocumentEditor extends React.Component {
   static propTypes = {
+    router: PropTypes.object,
     value: PropTypes.object,
     placeholder: PropTypes.node,
     upload: PropTypes.func.isRequired,
-    delete: PropTypes.func
+    delete: PropTypes.func,
+    passProps: PropTypes.object,
+    fieldName: PropTypes.string,
+    environmentId: PropTypes.string
   }
 
   static defaultProps = {
