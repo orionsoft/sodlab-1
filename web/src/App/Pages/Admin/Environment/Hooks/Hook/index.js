@@ -15,6 +15,7 @@ import getField from 'App/helpers/fields/getField'
 import ObjectField from 'App/components/fields/ObjectField'
 import autobind from 'autobind-decorator'
 import Option from './Option'
+import mapValues from 'lodash/mapValues'
 
 @withGraphQL(gql`
   query hook($hookId: ID) {
@@ -49,6 +50,10 @@ export default class Hook extends React.Component {
     this.props.history.push(`/${environmentId}/hooks`)
   }
 
+  getOptionsPreview(item) {
+    return mapValues(mapValues(item.options, 'fixed'), 'value')
+  }
+
   @autobind
   renderOptions(item) {
     if (!item.functionTypeId) return
@@ -57,7 +62,14 @@ export default class Hook extends React.Component {
     if (!functionType.optionsParams) return
     const fields = Object.keys(functionType.optionsParams).map(name => {
       const schema = functionType.optionsParams[name]
-      return <Option key={name} name={name} schema={schema} />
+      return (
+        <Option
+          key={name}
+          name={name}
+          schema={schema}
+          optionsPreview={this.getOptionsPreview(item)}
+        />
+      )
     })
     return (
       <div className={styles.options}>

@@ -10,7 +10,8 @@ import autobind from 'autobind-decorator'
 export default class Option extends React.Component {
   static propTypes = {
     name: PropTypes.string,
-    schema: PropTypes.object
+    schema: PropTypes.object,
+    optionsPreview: PropTypes.object
   }
 
   getTypes() {
@@ -33,6 +34,7 @@ export default class Option extends React.Component {
         <Field
           fieldName="fixed.value"
           type={schemaToField(this.props.schema.type, this.props.schema)}
+          field={{options: this.props.optionsPreview}}
           {...this.props.schema.fieldOptions}
         />
       </div>
