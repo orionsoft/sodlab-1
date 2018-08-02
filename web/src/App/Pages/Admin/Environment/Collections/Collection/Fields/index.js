@@ -117,7 +117,6 @@ export default class Fields extends React.Component {
         ...(field.name && {name: field.name}),
         ...(field.label && {label: field.label}),
         ...(field.type && {type: field.type}),
-        ...(field.options && {options: field.options}),
         optional: !prevOptionalToggleValue,
         ...(field.options && {options: field.options})
       }
