@@ -16,7 +16,7 @@ import {withRouter} from 'react-router'
     }
   }
 `)
-export default class CollectionSelect extends React.Component {
+export default class IndicatorSelect extends React.Component {
   static propTypes = {
     router: PropTypes.object,
     environmentId: PropTypes.string,
