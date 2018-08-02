@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@orion-js/app@^0.5.11":
-  version "0.5.11"
-  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.5.11.tgz#80b06b3b9d1e1610fe5945ca8649bc8dbf4d6608"
+"@orion-js/app@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.6.0.tgz#591a4ed384b69287abec769dc284b00ef223762b"
   dependencies:
-    "@orion-js/schema" "^0.5.9"
+    "@orion-js/schema" "^0.6.0"
     babel-polyfill "^6.26.0"
     colors "^1.2.5"
     dot-object "^1.7.0"
@@ -16,26 +16,26 @@
     path-match "^1.2.4"
     path-to-regexp "^2.2.0"
 
-"@orion-js/auth@^0.5.13":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.5.13.tgz#292bce628cf1620e95f6afa60486854df57dd7b8"
+"@orion-js/auth@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.6.0.tgz#9b29fbc960cac0a8b90b59c26630b51ff86c16d9"
   dependencies:
     bcryptjs "^2.4.3"
     jssha "^2.3.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/file-manager@^0.5.13":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.5.13.tgz#199458d96c7e3c646b0c2ebd6be95e19225ef778"
+"@orion-js/file-manager@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.6.0.tgz#49389f4eb44c5c4479cf40baa7a38a5f10fc4de3"
   dependencies:
     aws-sdk "^2.258.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/graphql@^0.5.13":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.5.13.tgz#df37bd1b105be7f7518b54e63a4df6d36fa0296a"
+"@orion-js/graphql@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.6.0.tgz#6e1b485216ef628b9f1c99c7c206b72a91b2af7a"
   dependencies:
     apollo-server-core "^1.3.6"
     deep-sort-object "^1.0.2"
@@ -44,30 +44,24 @@
     lodash "^4.17.10"
     subscriptions-transport-ws "^0.9.12"
 
-"@orion-js/jobs@^0.5.13":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.5.13.tgz#eb24642485527fd117825ec83aa208adb8efa1d0"
+"@orion-js/jobs@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.6.0.tgz#fca9a968643ab55135908caafd99236a447164b9"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/mailing@^0.5.13":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.5.13.tgz#ca8ae743cb8b3002d8f824382bd868339798b6b0"
+"@orion-js/mailing@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.6.0.tgz#5fd0b292687a7c42217611ae8f244d0417e2333a"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
     nodemailer "^4.6.6"
 
-"@orion-js/schema@^0.5.13":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.5.13.tgz#d164d9e76abda71dc325a77cb8ebdf15d8a9803f"
-  dependencies:
-    lodash "^4.17.10"
-
-"@orion-js/schema@^0.5.9":
-  version "0.5.9"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.5.9.tgz#ed204c4bb2baf13837a2f1f76e4286a256821927"
+"@orion-js/schema@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.6.0.tgz#7ab7bf6c6ff43b9fa22554b9616eae1ff86d222d"
   dependencies:
     lodash "^4.17.10"
 
@@ -249,9 +243,9 @@ aws-sdk@^2.258.1:
     uuid "3.1.0"
     xml2js "0.4.17"
 
-aws-sdk@^2.282.1:
-  version "2.282.1"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.282.1.tgz#3e425b76c9a98d3374c8d70660f83619f66c92fd"
+aws-sdk@^2.286.1:
+  version "2.286.1"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.286.1.tgz#62e73e6d491be211ba71f6dc2a955a8a48d5a392"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -2032,9 +2026,9 @@ luxon@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.3.0.tgz#d899ea70b86b1e6f984f816aec8b19b9958cd393"
 
-luxon@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.3.2.tgz#cf5fa6fb0adcc7a1f14c36f5a15ea21631381513"
+luxon@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.3.3.tgz#e66e8537a62c9b351ba69b766d7fb70b07ab5e57"
 
 math-random@^1.0.1:
   version "1.0.1"
