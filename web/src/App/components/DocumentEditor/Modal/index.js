@@ -289,12 +289,15 @@ export default class Main extends React.Component {
   }
 
   handleConfirm = async () => {
+    // const fileId = await this.requestCredentials(body)
     const body = {
       fileName: this.state.pdfFileName,
       fileType: 'application/pdf'
     }
-    // const fileId = await this.requestCredentials(body)
     const credentials = await this.requestCredentials(body)
+    console.log({credentials})
+    body.key = credentials.key
+    body.url = credentials.url
     // await this.uploadFile(credentials, file)
     this.complete(credentials.fileId)
     fetch(`${API_URL}/api/files`, {
