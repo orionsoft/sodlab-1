@@ -4,7 +4,7 @@
 }
 
 :local(.header) {
-  padding: 20px;
+  margin-bottom: 10px;
 }
 
 :local(.title) {

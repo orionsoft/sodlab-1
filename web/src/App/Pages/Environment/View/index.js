@@ -91,7 +91,11 @@ export default class View extends React.Component {
       )
     }
     if (item.type === 'indicator') {
-      return <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
+      return (
+        <div className={styles.item}>
+          <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
+        </div>
+      )
     }
     if (item.type === 'layout') {
       return this.renderItems(item.subItems, preIndex)
