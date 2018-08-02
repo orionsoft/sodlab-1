@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import cloneDeep from 'lodash/cloneDeep'
 import autobind from 'autobind-decorator'
-import {withRouter} from 'react-router'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
@@ -18,7 +17,6 @@ import FieldTypeOptions from 'App/components/FieldTypeOptions'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import translate from 'App/i18n/translate'
 
-@withRouter
 @withMessage
 @withGraphQL(gql`
   query getFieldTypes {
@@ -33,7 +31,6 @@ import translate from 'App/i18n/translate'
 `)
 export default class Fields extends React.Component {
   static propTypes = {
-    history: PropTypes.object,
     showMessage: PropTypes.func,
     collection: PropTypes.object,
     params: PropTypes.object,
@@ -59,11 +56,15 @@ export default class Fields extends React.Component {
     this.setState({fields: this.props.collection.fields || []})
   }
 
+  static getDerivedStateFromProps(props, state) {
+    return {
+      fields: props.collection.fields || []
+    }
+  }
+
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.params
     this.props.showMessage('Los campos fueron guardados')
-    this.props.history.push(`/${environmentId}/collections`)
   }
 
   getErrorFieldLabel() {
@@ -140,7 +141,6 @@ export default class Fields extends React.Component {
             ref="form"
             fragment={Fields.fragment}
             onSuccess={this.onSuccess}
-            onChange={this.onChange}
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
               collectionId: this.props.collection._id,

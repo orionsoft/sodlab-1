@@ -11,8 +11,8 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
-import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
+import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field, WithValue} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import Fields from './Fields'
@@ -36,8 +36,9 @@ import Fields from './Fields'
         fixed
         parameterName
         editableLabel
+        indicatorId
       }
-      fullSize
+      reset
       collection {
         _id
         fields {
@@ -61,6 +62,12 @@ import Fields from './Fields'
         label: name
       }
     }
+    indicators(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -71,6 +78,7 @@ export default class Form extends React.Component {
     form: PropTypes.object,
     collections: PropTypes.object,
     hooks: PropTypes.object,
+    indicators: PropTypes.object,
     match: PropTypes.object
   }
 
@@ -80,9 +88,7 @@ export default class Form extends React.Component {
 
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.match.params
     this.props.showMessage('Los campos fueron guardados')
-    this.props.history.push(`/${environmentId}/forms`)
   }
 
   @autobind
@@ -108,6 +114,14 @@ export default class Form extends React.Component {
   renderExtraOptions(form) {
     if (form.type === 'update') return this.renderUpdateOptions(form)
     return null
+  }
+
+  renderCollection() {
+    const {form, collections} = this.props
+    const data = collections.items.find(collection => {
+      return form.collectionId === collection.value
+    })
+    return <div className={styles.name}>{data.label}</div>
   }
 
   render() {
@@ -136,15 +150,11 @@ export default class Form extends React.Component {
               <Field fieldName="name" type={Text} />
               <div className="label">Tipo</div>
               <Field fieldName="type" type={Select} options={this.getFormTypes()} />
-              <div className="label">Colección</div>
-              <Field
-                fieldName="collectionId"
-                type={Select}
-                options={this.props.collections.items}
-              />
+              <div className="label">Colección (No se puede cambiar)</div>
+              {this.renderCollection()}
               <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
-              <div className="label">Habilitar pantalla completa</div>
-              <Field fieldName="fullSize" type={Checkbox} label="Habilitar pantalla completa" />
+              <div className="label">Habilitar limpiar formulario</div>
+              <Field fieldName="reset" type={Checkbox} label="Habilitar limpiar formulario" />
               <div className="label">Ir a una ruta al terminar</div>
               <Field fieldName="onSuccessViewPath" type={Text} />
               <div className="label">Hooks</div>
@@ -179,7 +189,7 @@ export default class Form extends React.Component {
             </div>
           </div>
         </Section>
-        <Fields form={this.props.form} />
+        <Fields form={this.props.form} indicators={this.props.indicators} />
       </div>
     )
   }

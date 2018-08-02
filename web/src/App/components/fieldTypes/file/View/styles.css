@@ -1,0 +1,17 @@
+:local(.container) {
+}
+
+:local(.hyperlink) {
+  color: #000000;
+}
+
+:local(.hyperlink):hover {
+  color: #150cd1;
+}
+
+:local(.button > span) {
+  font-size: 12px;
+  max-height: 20px;
+  color: #1a1a1a;
+  background-color: #f0f0f1;
+}

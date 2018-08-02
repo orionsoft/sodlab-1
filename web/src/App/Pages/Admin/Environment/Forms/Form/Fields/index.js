@@ -16,7 +16,8 @@ import cloneDeep from 'lodash/cloneDeep'
 export default class Fields extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
-    form: PropTypes.object
+    form: PropTypes.object,
+    indicators: PropTypes.object
   }
 
   state = {}
@@ -95,6 +96,7 @@ export default class Fields extends React.Component {
                   collection={this.props.form.collection}
                   field={field}
                   form={this.props.form}
+                  indicators={this.props.indicators}
                 />
               )}
             </WithValue>

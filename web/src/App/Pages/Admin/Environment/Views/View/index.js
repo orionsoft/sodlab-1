@@ -13,6 +13,7 @@ import ObjectField from 'App/components/fields/ObjectField'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import {Field} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
@@ -37,6 +38,8 @@ import clone from 'lodash/clone'
         formId
         tableId
         indicatorId
+        fullSize
+        subItems
       }
     }
     forms(limit: null, environmentId: $environmentId) {
@@ -88,20 +91,23 @@ export default class View extends React.Component {
       {label: 'Formulario', value: 'form', result: 'forms'},
       {label: 'Tabla', value: 'table', result: 'tables'},
       {label: 'Gráfico', value: 'chart', result: 'charts'},
-      {label: 'Indicador', value: 'indicator', result: 'indicators'}
+      {label: 'Indicador', value: 'indicator', result: 'indicators'},
+      {label: 'Contenido', value: 'layout'}
     ]
   }
 
   renderComponentSelector(item) {
     if (!item.type) return null
+    if (item.type === 'layout') return null
     const option = this.getTypes().find(type => item.type === type.value)
+    if (!option) return null
     const result = this.props[option.result] || {}
     const items = result.items || []
     const orderedItems = clone(items).sort(
       (a, b) => (a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1)
     )
     return (
-      <div className="col-xs-12 col-sm-6">
+      <div className="col-xs-12 col-sm-4">
         <div className="label">{option.label}</div>
         {items.length ? (
           <Field fieldName={`${item.type}Id`} type={Select} options={orderedItems} />
@@ -110,6 +116,23 @@ export default class View extends React.Component {
         )}
       </div>
     )
+  }
+
+  renderFullSizeCheckbox(item) {
+    if (!item.type) return null
+    if (item.type === 'layout') return null
+    return (
+      <div className="col-xs-12 col-sm-4">
+        <div className="label">Pantalla completa</div>
+        <Field fieldName="fullSize" type={Checkbox} />
+      </div>
+    )
+  }
+
+  renderSubItem(item) {
+    if (!item.type) return null
+    if (item.type !== 'layout') return null
+    return <Field fieldName="subItems" type={ArrayComponent} renderItem={this.renderItem} />
   }
 
   @autobind
@@ -132,26 +155,25 @@ export default class View extends React.Component {
             <Field fieldName="sizeLarge" type={Select} options={this.getSizeOptions()} />
           </div>
         </div>
-        <div className="description">El tamaño depende de kakkasd</div>
         <div className="divider" />
         <div className="label">Contenido</div>
         <br />
         <div className="row">
-          <div className="col-xs-12 col-sm-6">
+          <div className="col-xs-12 col-sm-4">
             <div className="label">Tipo</div>
             <Field fieldName="type" type={Select} options={this.getTypes()} />
           </div>
           {this.renderComponentSelector(item)}
+          {this.renderFullSizeCheckbox(item)}
         </div>
+        {this.renderSubItem(item)}
       </div>
     )
   }
 
   @autobind
   onSuccess() {
-    const {environmentId} = this.props.match.params
     this.props.showMessage('Los campos fueron guardados')
-    this.props.history.push(`/${environmentId}/views`)
   }
 
   @autobind

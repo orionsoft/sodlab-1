@@ -35,10 +35,16 @@ export default class Form extends React.Component {
     state: PropTypes.object,
     itemData: PropTypes.object,
     itemId: PropTypes.string,
-    parameters: PropTypes.object
+    parameters: PropTypes.object,
+    setEnvironment: PropTypes.func
   }
 
   state = {}
+
+  renderResetButton() {
+    if (!this.props.form.reset) return null
+    return <Button onClick={() => this.setState({data: {}})}>Limpiar</Button>
+  }
 
   renderSubmitButton() {
     const text = this.props.form.type === 'create' ? 'Crear' : 'Guardar'
@@ -52,6 +58,9 @@ export default class Form extends React.Component {
   @autobind
   onSuccess(result) {
     this.setState({data: {}})
+    this.props.setEnvironment({
+      [this.props.form.updateVariableName]: null
+    })
     this.props.showMessage('Se completó con exito')
     const rawPath = this.props.form.onSuccessViewPath
     if (rawPath) {
@@ -93,13 +102,11 @@ export default class Form extends React.Component {
     const params = this.props.form.serializedParams || {}
     for (const key of Object.keys(params)) {
       const field = params[key]
-      if (field.formFieldType === 'fixed') {
-        doc[key] = field.defaultValue
-      }
       if (field.formFieldType === 'parameter') {
         doc[key] = this.props.parameters[field.parameterName]
       }
     }
+    console.log(doc)
     return doc
   }
 
@@ -107,10 +114,7 @@ export default class Form extends React.Component {
     const schema = cloneDeep(this.props.form.serializedParams) || {}
     for (const key of Object.keys(schema)) {
       const field = schema[key]
-      if (field.formFieldType === 'fixed') {
-        delete schema[key]
-      }
-      if (field.formFieldType === 'parameter') {
+      if (field.formFieldType !== 'editable') {
         delete schema[key]
       }
     }
@@ -148,6 +152,7 @@ export default class Form extends React.Component {
           />
         </AutoForm>
         <br />
+        {this.renderResetButton()}
         {this.renderSubmitButton()}
       </div>
     )

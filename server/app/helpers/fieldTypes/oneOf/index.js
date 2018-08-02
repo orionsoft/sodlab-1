@@ -1,7 +1,16 @@
 export default {
   name: 'Uno de',
   rootType: String,
-  allowedOperatorsIds: ['exists', 'idEquals'],
+  allowedOperatorsIds: [
+    'exists',
+    'idEquals',
+    'containString',
+    'notContainString',
+    'equalString',
+    'notEqualString',
+    'stringStartsWith',
+    'notStringStartsWith'
+  ],
   optional: false,
   optionsSchema: {
     collectionId: {

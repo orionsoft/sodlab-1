@@ -7,6 +7,9 @@ export default resolver({
     userId: {
       type: 'ID'
     },
+    roles: {
+      type: ['ID']
+    },
     environmentsAuthorized: {
       type: ['ID']
     }
@@ -15,8 +18,8 @@ export default resolver({
   requireUserId: true,
   mutation: true,
   role: 'superAdmin',
-  async resolve({userId, environmentsAuthorized}, viewer) {
-    await Users.update(userId, {$set: {environmentsAuthorized}})
+  async resolve({userId, roles, environmentsAuthorized}, viewer) {
+    await Users.update(userId, {$set: {roles, environmentsAuthorized}})
     return await Users.findOne(userId)
   }
 })

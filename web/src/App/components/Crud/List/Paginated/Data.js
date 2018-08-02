@@ -23,7 +23,7 @@ export default class Data extends React.Component {
   }
 
   renderNotFound() {
-    return <Message message="No items found" />
+    return <Message message="No se encontraron datos" />
   }
 
   renderError() {

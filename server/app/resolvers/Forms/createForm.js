@@ -14,20 +14,30 @@ export default resolver({
     },
     name: {
       type: String,
-      label: 'Nombre'
+      label: 'Nombre',
+      description: 'Solo puede haber un formulario con este nombre',
+      async custom(name) {
+        const result = await Forms.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
+        if (result) return 'notUnique'
+      }
     },
     title: {
       type: String,
       label: 'Título'
+    },
+    collectionId: {
+      type: 'ID',
+      label: 'Colección'
     }
   },
   returns: Form,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, name, title}, viewer) {
+  async resolve({environmentId, name, title, collectionId}, viewer) {
     const formId = await Forms.insert({
       name,
       title,
+      collectionId,
       environmentId,
       createdAt: new Date()
     })
