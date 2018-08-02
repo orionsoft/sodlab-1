@@ -11,5 +11,13 @@ export default {
   },
   createdAt: {
     type: Date
+  },
+  functionTypeId: {
+    type: 'ID',
+    optional: true
+  },
+  options: {
+    type: 'blackbox',
+    optional: true
   }
 }

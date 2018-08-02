@@ -1,8 +1,8 @@
 import {resolver} from '@orion-js/app'
 import Item from 'app/models/Item'
 import Forms from 'app/collections/Forms'
-import prependKey from 'app/helpers/misc/prependKey'
-import validate from './validate'
+import runHooks from './runHooks'
+import getResult from './getResult'
 
 export default resolver({
   params: {
@@ -22,25 +22,10 @@ export default resolver({
   },
   returns: Item,
   mutation: true,
-  async resolve({formId, itemId, data: rawData}, viewer) {
+  async resolve({formId, itemId, data}, viewer) {
     const form = await Forms.findOne(formId)
-    const collection = await form.collectionDb()
-    const data = await validate({form, rawData})
-
-    if (form.type === 'create') {
-      const newItemId = await collection.insert({data})
-      return {_id: newItemId, data}
-    } else if (form.type === 'update') {
-      if (!itemId) {
-        throw new Error('Item id is required')
-      }
-      const item = await collection.findOne(itemId)
-      if (!item) {
-        throw new Error('Item not found')
-      }
-      const $set = prependKey(data, 'data')
-      await item.update({$set})
-      return await collection.findOne(itemId)
-    }
+    const item = await getResult({form, itemId, data})
+    await runHooks({form, item})
+    return item
   }
 })
