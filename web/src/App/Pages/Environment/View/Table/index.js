@@ -111,7 +111,7 @@ export default class Table extends React.Component {
     return this.props.table.collection.fields.find(field => field.name === fieldName)
   }
 
-  renderField({field, doc}) {
+  renderField({field, doc, index}) {
     const collectionField = this.getCollectionField(field.fieldName)
     const {collectionId} = this.props.table
     try {
@@ -121,6 +121,7 @@ export default class Table extends React.Component {
           setEnvironment={this.props.setEnvironment}
           doc={doc}
           field={field}
+          fieldIndex={index}
           parameters={this.props.parameters}
           table={this.props.table}
           collectionField={collectionField}
@@ -135,12 +136,12 @@ export default class Table extends React.Component {
   getFields() {
     const tableFields = this.props.table.fields
     if (!tableFields.length) return [{title: 'ID', value: '_id'}]
-    return tableFields.map(field => {
+    return tableFields.map((field, index) => {
       return {
         title: field.label,
         name: 'data',
         options: field.options,
-        render: doc => this.renderField({field, doc})
+        render: doc => this.renderField({field, doc, index})
       }
     })
   }

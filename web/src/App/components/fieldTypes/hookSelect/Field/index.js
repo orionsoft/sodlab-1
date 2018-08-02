@@ -20,7 +20,7 @@ export default class HookSelect extends React.Component {
   static propTypes = {
     router: PropTypes.object,
     environmentId: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.any,
     onChange: PropTypes.func,
     hooks: PropTypes.object,
     passProps: PropTypes.object,

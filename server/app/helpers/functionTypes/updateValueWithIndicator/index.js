@@ -29,12 +29,9 @@ export default {
     }
   },
   async execute({collectionId, valueKey, itemIdParamName, itemId, indicatorId}) {
-    console.log({collectionId, valueKey, itemIdParamName, itemId, indicatorId})
-
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
-    console.log('got no item', itemId)
     if (!item) return
 
     const indicator = await Indicators.findOne(indicatorId)
@@ -44,7 +41,6 @@ export default {
     }
     const value = await indicator.result({filterOptions: params, params})
 
-    console.log(`data.${valueKey} to`, value)
     await item.update({$set: {[`data.${valueKey}`]: value}})
   }
 }

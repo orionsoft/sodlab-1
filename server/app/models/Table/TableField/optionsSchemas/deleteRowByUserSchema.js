@@ -7,5 +7,10 @@ export default {
     type: String,
     label: 'tooltip',
     min: 1
+  },
+  hooksIds: {
+    type: [String],
+    label: 'Hooks',
+    optional: true
   }
 }
