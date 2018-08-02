@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './styles.css'
+import Button from 'orionsoft-parts/lib/components/Button'
 import PropTypes from 'prop-types'
 
 export default class View extends React.Component {
@@ -8,19 +9,22 @@ export default class View extends React.Component {
   }
 
   renderNoValue() {
-    return <span className={styles.noValue}></span>
+    return <span className={styles.noValue} />
+  }
+
+  toRef(bucket, key) {
+    window.open(`https://s3.amazonaws.com/${bucket}/${key}`, '_blank')
   }
 
   render() {
     if (!this.props.value || !this.props.value.name) return this.renderNoValue()
     return (
       <div className={styles.container}>
-        <a
-          href={`https://s3.amazonaws.com/${this.props.value.bucket}/${this.props.value.key}`}
-          target="blank"
-          className={styles.hyperlink}>
-          {this.props.value.name}
-        </a>
+        <Button
+          className={styles.button}
+          onClick={() => this.toRef(this.props.value.bucket, this.props.value.key)}>
+          Ver Archivo
+        </Button>
       </div>
     )
   }

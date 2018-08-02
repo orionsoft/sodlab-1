@@ -26,7 +26,8 @@ export default resolver({
       }
     }
 
-    const {options} = indicator
-    return await type.getResult({query, collection, fieldName, options}, viewer)
+    const {options, environmentId} = indicator
+    const params = {query, collection, fieldName, options, environmentId}
+    return await type.getResult(params, viewer)
   }
 })
