@@ -78,6 +78,12 @@ export default class Link extends React.Component {
     this.setState(cloneDeep(this.props.table))
   }
 
+  static getDerivedStateFromProps(props, state) {
+    return {
+      fields: props.table.fields || []
+    }
+  }
+
   getFilters() {
     return this.props.filters.items.filter(
       filter => filter.collectionId === this.props.table.collectionId
@@ -174,7 +180,7 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
-              table: this.state || cloneDeep(this.props.table) || {}
+              table: cloneDeep(this.state) || cloneDeep(this.props.table) || {}
             }}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Nombre</div>
