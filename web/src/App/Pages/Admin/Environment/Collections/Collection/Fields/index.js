@@ -53,13 +53,19 @@ export default class Fields extends React.Component {
   state = {}
 
   @autobind
-  getFieldsValue() {
-    if (this.refs.form.form.state.value && this.refs.form.form.state.value.fields) {
-      return this.refs.form.form.state.value.fields
-    }
+  fieldsFromState() {
     if (this.state.fields) return this.state.fields
     if (this.props.collection.fields) return this.props.collection.fields
     return []
+  }
+
+  @autobind
+  getFieldsValue() {
+    if (this.refs.form.form.state.value && this.refs.form.form.state.value.fields) {
+      return this.refs.form.form.state.value.fields
+    } else {
+      return this.fieldsFromState()
+    }
   }
 
   @autobind
@@ -126,7 +132,6 @@ export default class Fields extends React.Component {
 
   render() {
     if (!this.props.collection) return null
-    const {collection} = this.props
     return (
       <div className={styles.container}>
         <Section
@@ -142,7 +147,7 @@ export default class Fields extends React.Component {
             getErrorFieldLabel={this.getErrorFieldLabel}
             doc={{
               collectionId: this.props.collection._id,
-              fields: this.state.fields || cloneDeep(collection.fields) || []
+              fields: this.fieldsFromState()
             }}>
             <Field fieldName="fields" type={ArrayComponent} renderItem={this.renderItems} />
           </AutoForm>
