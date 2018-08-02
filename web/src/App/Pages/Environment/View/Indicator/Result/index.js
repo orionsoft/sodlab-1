@@ -32,11 +32,16 @@ export default class Result extends React.Component {
     props.setRef(this)
   }
 
-  renderValue(value, format) {
+  renderValue(node) {
+    const {fullSize} = this.props
+    return <div className={fullSize ? styles.fullSizeResult : styles.result}>{node}</div>
+  }
+
+  renderNumberValue(value, format) {
     const {fullSize} = this.props
     return (
       <div className={fullSize ? styles.fullSizeResult : styles.result}>
-        <NumberIncrement value={value} format={format} />
+        {this.renderValue(<NumberIncrement value={value} format={format} />)}
       </div>
     )
   }
@@ -46,19 +51,19 @@ export default class Result extends React.Component {
     if (isNil(value)) return '-'
 
     if (renderType === 'percentage') {
-      return this.renderValue(value, '0.[00]%')
+      return this.renderNumberValue(value, '0.[00]%')
     }
     if (renderType === 'number') {
-      return this.renderValue(value, '0,0.[00]')
+      return this.renderNumberValue(value, '0,0.[00]')
     }
     if (renderType === 'money') {
-      return this.renderValue(value, '$0,0.[00]')
+      return this.renderNumberValue(value, '$0,0.[00]')
     }
     if (renderType === 'boolean') {
-      return value ? 'Verdadero' : 'Falso'
+      return this.renderValue(value ? 'Verdadero' : 'Falso')
     }
 
-    return value
+    return this.renderValue(value)
   }
 
   render() {
