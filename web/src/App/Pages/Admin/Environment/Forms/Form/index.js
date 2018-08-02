@@ -160,7 +160,7 @@ export default class Form extends React.Component {
               <MutationButton
                 label="Eliminar"
                 title="¿Quieres eliminar este formulario?"
-                confirmText="Confirmar"
+                confirmText="Eliminar"
                 mutation="removeForm"
                 onSuccess={this.removeForm}
                 params={{formId: this.props.form._id}}
