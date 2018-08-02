@@ -10,6 +10,11 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
+import {Field, WithValue} from 'simple-react-form'
+import getField from 'App/helpers/fields/getField'
+import ObjectField from 'App/components/fields/ObjectField'
+import autobind from 'autobind-decorator'
+import Option from './Option'
 
 @withGraphQL(gql`
   query hook($hookId: ID) {
@@ -17,6 +22,13 @@ import {withRouter} from 'react-router'
       _id
       name
       environmentId
+      functionTypeId
+      options
+    }
+    functionTypes {
+      value: _id
+      label: name
+      optionsParams
     }
   }
 `)
@@ -27,13 +39,33 @@ export default class Hook extends React.Component {
     history: PropTypes.object,
     hook: PropTypes.object,
     showMessage: PropTypes.func,
-    match: PropTypes.object
+    match: PropTypes.object,
+    functionTypes: PropTypes.object
   }
 
   remove() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento eliminado satisfactoriamente!')
     this.props.history.push(`/${environmentId}/hooks`)
+  }
+
+  @autobind
+  renderOptions(item) {
+    if (!item.functionTypeId) return
+    const functionType = this.props.functionTypes.find(f => f.value === item.functionTypeId)
+    if (!functionType) return
+    if (!functionType.optionsParams) return
+    const fields = Object.keys(functionType.optionsParams).map(name => {
+      const schema = functionType.optionsParams[name]
+      return <Option key={name} name={name} schema={schema} />
+    })
+    return (
+      <div className={styles.options}>
+        <Field fieldName="options" type={ObjectField}>
+          {fields}
+        </Field>
+      </div>
+    )
   }
 
   render() {
@@ -54,8 +86,19 @@ export default class Hook extends React.Component {
             doc={{
               hookId: this.props.hook._id,
               hook: this.props.hook
-            }}
-          />
+            }}>
+            <Field fieldName="hook" type={ObjectField}>
+              <div className="label">Nombre</div>
+              <Field fieldName="name" type={getField('string')} />
+              <div className="label">Función</div>
+              <Field
+                fieldName="functionTypeId"
+                type={getField('select')}
+                options={this.props.functionTypes}
+              />
+              <WithValue>{this.renderOptions}</WithValue>
+            </Field>
+          </AutoForm>
           <br />
           <Button to={`/${this.props.hook.environmentId}/hooks`} style={{marginRight: 10}}>
             Cancelar

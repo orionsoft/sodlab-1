@@ -40,5 +40,10 @@ export default {
   reset: {
     type: Boolean,
     optional: true
+  },
+  afterHooksIds: {
+    type: ['ID'],
+    label: 'Hooks',
+    optional: true
   }
 }

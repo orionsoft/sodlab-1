@@ -28,6 +28,7 @@ import Fields from './Fields'
       environmentId
       updateVariableName
       onSuccessViewPath
+      afterHooksIds
       fields {
         fieldName
         type
@@ -55,6 +56,12 @@ import Fields from './Fields'
         label: name
       }
     }
+    hooks(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
     indicators(environmentId: $environmentId) {
       items {
         value: _id
@@ -70,8 +77,9 @@ export default class Form extends React.Component {
     history: PropTypes.object,
     form: PropTypes.object,
     collections: PropTypes.object,
-    match: PropTypes.object,
-    indicators: PropTypes.object
+    hooks: PropTypes.object,
+    indicators: PropTypes.object,
+    match: PropTypes.object
   }
 
   getFormTypes() {
@@ -149,6 +157,13 @@ export default class Form extends React.Component {
               <Field fieldName="reset" type={Checkbox} label="Habilitar limpiar formulario" />
               <div className="label">Ir a una ruta al terminar</div>
               <Field fieldName="onSuccessViewPath" type={Text} />
+              <div className="label">Hooks</div>
+              <Field
+                fieldName="afterHooksIds"
+                type={Select}
+                multi
+                options={this.props.hooks.items}
+              />
             </Field>
           </AutoForm>
           <br />
