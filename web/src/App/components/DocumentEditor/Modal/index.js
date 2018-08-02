@@ -15,7 +15,9 @@ import cleanFileUrl from '../helpers/cleanFileUrl'
 import {ClientConsumer} from '../context'
 import {withRouter} from 'react-router'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
+import withMutation from 'react-apollo-decorators/lib/withMutation'
 import gql from 'graphql-tag'
+import autobind from 'autobind-decorator'
 /*
   PENDING:
   - Refactor this whole component. Every section in the modal must have its own component
@@ -28,6 +30,16 @@ import gql from 'graphql-tag'
     selectOptions(environmentId: $environmentId, formId: $formId, fieldName: $fieldName) {
       label
       value
+    }
+  }
+`)
+@withMutation(gql`
+  mutation generateUploadCredentials($name: String, $size: Float, $type: String) {
+    result: generateUploadCredentials(name: $name, size: $size, type: $type) {
+      fileId
+      url
+      fields
+      key
     }
   }
 `)
@@ -68,29 +80,29 @@ export default class Main extends React.Component {
     isOptionsMenuOpen: false
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.value !== prevProps.value) {
-      const pdfFileName = cleanFileUrl(this.props.value.meta.s3Path)
-      const uploadedFileName = this.props.value.meta.s3Path.split('.')[1]
-
-      this.setState({loading: true, uploadedFileName, pdfFileName})
-      fetch(`${API_URL}/api/files/aws/get`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify(this.props.value)
-      })
-        .then(res => res.json())
-        .then(data => {
-          this.setState({
-            pdfImages: data.message
-          })
-          this.fetchPdfImages()
-        })
-        .catch(err => console.log(err))
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.value !== prevProps.value) {
+  //     const pdfFileName = cleanFileUrl(this.props.value.meta.s3Path)
+  //     const uploadedFileName = this.props.value.meta.s3Path.split('.')[1]
+  //
+  //     this.setState({loading: true, uploadedFileName, pdfFileName})
+  //     fetch(`${API_URL}/api/files/aws/get`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json; charset=utf-8'
+  //       },
+  //       body: JSON.stringify(this.props.value)
+  //     })
+  //       .then(res => res.json())
+  //       .then(data => {
+  //         this.setState({
+  //           pdfImages: data.message
+  //         })
+  //         this.fetchPdfImages()
+  //       })
+  //       .catch(err => console.log(err))
+  //   }
+  // }
 
   resetState = () => {
     this.setState({
@@ -116,6 +128,7 @@ export default class Main extends React.Component {
 
   handleSubmitPdf = () => {
     this.setState({
+      size: 0,
       file: null,
       uploadedFileName: '',
       pdfFileName: '',
@@ -127,6 +140,7 @@ export default class Main extends React.Component {
     })
     const file = document.getElementById('pdf_file').files[0]
     const form = document.createElement('form')
+    const size = file.size
     form.enctype = 'multipart/form-data'
     const formData = new FormData(form)
     const date = new Date()
@@ -141,7 +155,7 @@ export default class Main extends React.Component {
     })
       .then(res => res.json())
       .then(data => {
-        this.setState({pdfImages: data.message})
+        this.setState({pdfImages: data.message, size: size})
         this.fetchPdfImages()
       })
       .catch(err => console.log(err))
@@ -249,28 +263,49 @@ export default class Main extends React.Component {
       .catch(err => console.log(err))
   }
 
-  handleConfirm = () => {
+  @autobind
+  async requestCredentials(body) {
+    const {size, uploadedFileName} = this.state
+    const {result} = await this.props.generateUploadCredentials({
+      name: uploadedFileName,
+      size: size,
+      type: body.fileType
+    })
+    return result
+  }
+
+  @autobind
+  async complete(fileId) {
+    this.props.onChange({fileId})
+    // await this.props.completeUpload({fileId})
+    this.props.showMessage('El archivo se cargó correctamente')
+  }
+
+  handleConfirm = async () => {
     const body = {
       fileName: this.state.pdfFileName,
       fileType: 'application/pdf'
     }
-
-    fetch(`${API_URL}/api/files`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(body)
-    })
-      .then(res => res.json())
-      .then(data => {
-        this.props.showMessage('Documento guardado con éxito')
-        this.props.onChange(data)
-        this.handleClose()
-      })
-      .catch(err => {
-        this.props.showMessage('Error al guardar documento')
-      })
+    // const fileId = await this.requestCredentials(body)
+    const credentials = await this.requestCredentials(body)
+    // await this.uploadFile(credentials, file)
+    await this.complete(credentials.fileId)
+    // fetch(`${API_URL}/api/files`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json; charset=utf-8'
+    //   },
+    //   body: JSON.stringify(body)
+    // })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     this.props.showMessage('Documento guardado con éxito')
+    //     this.props.onChange(data)
+    //     this.handleClose()
+    //   })
+    //   .catch(err => {
+    //     this.props.showMessage('Error al guardar documento')
+    //   })
   }
 
   handleClose = () => {
@@ -593,9 +628,7 @@ export default class Main extends React.Component {
             <ClientConsumer>
               {rutClient => (
                 <FingerprintAndSignature
-                  client={
-                    this.state.client ? this.state.client[Object.keys(this.state.client)[0]] : null
-                  }
+                  client={this.state.client || null}
                   addFingerprintOrPenSignature={this.addFingerprintOrPenSignature}
                   handleSubmitImg={this.handleSubmitImg}
                   {...this.props.passProps}

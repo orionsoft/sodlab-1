@@ -23,6 +23,9 @@ export default resolver({
   returns: Item,
   mutation: true,
   async resolve({formId, itemId, data: rawData}, viewer) {
+    console.log('Document: ')
+    console.log(formId, itemId)
+    console.log({rawData})
     const form = await Forms.findOne(formId)
     const collection = await form.collectionDb()
     const data = await validate({form, rawData})
