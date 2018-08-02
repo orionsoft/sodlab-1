@@ -17,6 +17,10 @@ export default resolver({
       collection = await col.db()
     }
 
+    if (!filterId && !indicator.allowsNoFilter && indicator.filtersIds.length === 1) {
+      filterId = indicator.filtersIds[0]
+    }
+
     if (type.requireCollection) {
       query = {}
       if (filterId) {
@@ -28,6 +32,9 @@ export default resolver({
 
     const {environmentId} = indicator
     const options = await indicator.getOptions({params})
-    return await type.getResult({query, collection, fieldName, options, environmentId}, viewer)
+    return await type.getResult(
+      {query, collection, fieldName, options, environmentId, params},
+      viewer
+    )
   }
 })

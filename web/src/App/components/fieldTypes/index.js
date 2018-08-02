@@ -19,8 +19,10 @@ import file from './file'
 import selectOptions from './selectOptions'
 import singleSelect from './singleSelect'
 import multipleSelect from './multipleSelect'
+import indicatorSelect from './indicatorSelect'
 
 export default {
+  indicatorSelect,
   percentage,
   currency,
   email,
