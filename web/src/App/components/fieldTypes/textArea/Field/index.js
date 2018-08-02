@@ -11,13 +11,9 @@ export default class Field extends React.Component {
   }
 
   render() {
-    const {
-      passProps: {minHeight},
-      ...rest
-    } = this.props
     return (
       <div className={styles.container}>
-        <TextArea rows={minHeight} {...rest} />
+        <TextArea {...this.props} />
       </div>
     )
   }

@@ -49,7 +49,7 @@ export default class Textarea extends React.Component {
           <textarea
             ref="input"
             className="os-input-text"
-            rows={this.props.rows || 1}
+            rows={2}
             value={this.state.value}
             placeholder={this.props.placeholder}
             onChange={this.onChange}
