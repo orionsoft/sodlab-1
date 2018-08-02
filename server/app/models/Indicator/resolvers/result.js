@@ -5,7 +5,7 @@ import Collections from 'app/collections/Collections'
 export default resolver({
   returns: 'blackbox',
   private: true,
-  async resolve(indicator, {filterId, filterOptions}, viewer) {
+  async resolve(indicator, {filterId, filterOptions, params}, viewer) {
     const type = await indicator.indicatorType()
 
     let query = null
@@ -26,8 +26,8 @@ export default resolver({
       }
     }
 
-    const {options, environmentId} = indicator
-    const params = {query, collection, fieldName, options, environmentId}
-    return await type.getResult(params, viewer)
+    const {environmentId} = indicator
+    const options = await indicator.getOptions({params})
+    return await type.getResult({query, collection, fieldName, options, environmentId}, viewer)
   }
 })

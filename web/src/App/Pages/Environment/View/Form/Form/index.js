@@ -106,7 +106,6 @@ export default class Form extends React.Component {
         doc[key] = this.props.parameters[field.parameterName]
       }
     }
-    console.log(doc)
     return doc
   }
 

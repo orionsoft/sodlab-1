@@ -7,11 +7,12 @@ import isNil from 'lodash/isNil'
 import NumberIncrement from 'App/components/NumberIncrement'
 
 @withGraphQL(gql`
-  query getIndicatorResult($indicatorId: ID, $filterId: ID, $filterOptions: JSON) {
+  query getIndicatorResult($indicatorId: ID, $filterId: ID, $filterOptions: JSON, $params: JSON) {
     result: indicatorResult(
       indicatorId: $indicatorId
       filterId: $filterId
       filterOptions: $filterOptions
+      params: $params
     ) {
       value
       renderType
