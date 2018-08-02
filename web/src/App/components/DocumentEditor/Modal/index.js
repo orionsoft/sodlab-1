@@ -43,6 +43,13 @@ import autobind from 'autobind-decorator'
     }
   }
 `)
+@withMutation(gql`
+  mutation completeUpload($fileId: ID) {
+    completeUpload(fileId: $fileId) {
+      _id
+    }
+  }
+`)
 @withMessage
 export default class Main extends React.Component {
   static propTypes = {
@@ -55,7 +62,8 @@ export default class Main extends React.Component {
     passProps: PropTypes.object,
     environmentId: PropTypes.string,
     selectOptions: PropTypes.object,
-    errorMessage: PropTypes.func
+    errorMessage: PropTypes.func,
+    completeUpload: PropTypes.func
   }
 
   state = {
@@ -274,10 +282,9 @@ export default class Main extends React.Component {
     return result
   }
 
-  @autobind
   async complete(fileId) {
-    this.props.onChange({fileId})
-    // await this.props.completeUpload({fileId})
+    this.props.onChange({_id: fileId})
+    await this.props.completeUpload({fileId})
     this.props.showMessage('El archivo se cargó correctamente')
   }
 
@@ -289,23 +296,23 @@ export default class Main extends React.Component {
     // const fileId = await this.requestCredentials(body)
     const credentials = await this.requestCredentials(body)
     // await this.uploadFile(credentials, file)
-    await this.complete(credentials.fileId)
-    // fetch(`${API_URL}/api/files`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json; charset=utf-8'
-    //   },
-    //   body: JSON.stringify(body)
-    // })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     this.props.showMessage('Documento guardado con éxito')
-    //     this.props.onChange(data)
-    //     this.handleClose()
-    //   })
-    //   .catch(err => {
-    //     this.props.showMessage('Error al guardar documento')
-    //   })
+    this.complete(credentials.fileId)
+    fetch(`${API_URL}/api/files`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify(body)
+    })
+      .then(res => res.json())
+      .then(data => {
+        this.props.showMessage('Documento guardado con éxito')
+        // this.props.onChange(data)
+        this.handleClose()
+      })
+      .catch(err => {
+        this.props.showMessage('Error al guardar documento')
+      })
   }
 
   handleClose = () => {

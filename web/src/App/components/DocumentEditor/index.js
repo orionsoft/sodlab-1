@@ -10,6 +10,7 @@ import {withRouter} from 'react-router'
 export default class DocumentEditor extends React.Component {
   static propTypes = {
     history: PropTypes.object,
+    onChange: PropTypes.func,
     value: PropTypes.object,
     placeholder: PropTypes.node,
     upload: PropTypes.func.isRequired,
@@ -37,9 +38,7 @@ export default class DocumentEditor extends React.Component {
 
   renderPlaceholderOrName() {
     if (this.props.value) {
-      const clean = cleanFileURL(this.props.value.url)
-      const pdfFileName = clean.split('.')[1]
-      return pdfFileName
+      return 'Subido'
     } else {
       return this.props.placeholder
     }
