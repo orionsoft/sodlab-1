@@ -5,6 +5,7 @@ import autoIncrement from './autoIncrement'
 import currentDate from './currentDate'
 import valueOfFieldInItem from './valueOfFieldInItem'
 import indicatorSubtraction from './indicatorSubtraction'
+import booleanByIndicatorComparison from './booleanByIndicatorComparison'
 
 export default {
   count,
@@ -13,5 +14,6 @@ export default {
   autoIncrement,
   currentDate,
   valueOfFieldInItem,
-  indicatorSubtraction
+  indicatorSubtraction,
+  booleanByIndicatorComparison
 }

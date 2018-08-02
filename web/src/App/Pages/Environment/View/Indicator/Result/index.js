@@ -54,6 +54,9 @@ export default class Result extends React.Component {
     if (renderType === 'money') {
       return this.renderValue(value, '$0,0.[00]')
     }
+    if (renderType === 'boolean') {
+      return value ? 'Verdadero' : 'Falso'
+    }
 
     return value
   }
