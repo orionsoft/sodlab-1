@@ -14,6 +14,8 @@ import styles from './styles.css'
       serializedParams
       updateVariableName
       reset
+      submitButtonText
+      resetButtonText
       onSuccessViewPath
     }
   }

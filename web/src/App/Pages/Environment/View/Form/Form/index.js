@@ -43,14 +43,18 @@ export default class Form extends React.Component {
 
   renderResetButton() {
     if (!this.props.form.reset) return null
-    return <Button onClick={() => this.setState({data: {}})}>Limpiar</Button>
+    return (
+      <Button onClick={() => this.setState({data: {}})}>
+        {this.props.form.resetButtonText || 'Limpiar'}
+      </Button>
+    )
   }
 
   renderSubmitButton() {
     const text = this.props.form.type === 'create' ? 'Crear' : 'Guardar'
     return (
       <Button onClick={() => this.refs.form.submit()} primary>
-        {text}
+        {this.props.form.submitButtonText || text}
       </Button>
     )
   }

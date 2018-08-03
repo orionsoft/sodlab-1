@@ -1,4 +1,4 @@
-import checkJSON from 'app/helpers/misc/checkJSON'
+import checkJSONArray from 'app/helpers/misc/checkJSONArray'
 
 export default {
   name: 'Selección multiple',
@@ -18,7 +18,7 @@ export default {
       type: ['blackbox'],
       fieldType: 'selectOptions',
       async custom(options) {
-        if (checkJSON(options, ['value', 'label'])) {
+        if (checkJSONArray(options, ['value', 'label'])) {
           return 'missing Option'
         }
       }

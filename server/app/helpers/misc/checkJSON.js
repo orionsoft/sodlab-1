@@ -1,6 +1,3 @@
-export default function(array, fields) {
-  const missingFieldItem = array.find(item => {
-    return !fields.every(field => !!item[field])
-  })
-  return !!missingFieldItem
+export default function(obj, key) {
+  return obj.hasOwnProperty(key)
 }
