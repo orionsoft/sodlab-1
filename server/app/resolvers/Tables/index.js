@@ -6,6 +6,8 @@ import tableResult from './tableResult'
 import removeTable from './removeTable'
 import tableRelationLabel from './tableRelationLabel'
 import tableRelationLabels from './tableRelationLabels'
+import tableDeleteItem from './tableDeleteItem'
+import tableRunHooks from './tableRunHooks'
 
 export default {
   tableRelationLabel,
@@ -15,5 +17,7 @@ export default {
   table,
   updateTable,
   createTable,
-  removeTable
+  removeTable,
+  tableDeleteItem,
+  tableRunHooks
 }

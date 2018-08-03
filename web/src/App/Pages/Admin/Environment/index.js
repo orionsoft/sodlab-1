@@ -19,6 +19,7 @@ import Filters from './Filters'
 import Hooks from './Hooks'
 import EnvironmentUsers from './EnvironmentUsers'
 import Indicators from './Indicators'
+import Endpoints from './Endpoints'
 
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
@@ -61,6 +62,7 @@ export default class Environment extends React.Component {
             <Route path="/:environmentId/indicators" component={Indicators} />
             <Route path="/:environmentId/configuration" component={Configuration} />
             <Route path="/:environmentId/users" component={EnvironmentUsers} />
+            <Route path="/:environmentId/endpoints" component={Endpoints} />
           </Switch>
         </Layout>
       </div>

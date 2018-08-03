@@ -8,6 +8,7 @@ import Links from 'app/collections/Links'
 import Roles from 'app/collections/Roles'
 import Tables from 'app/collections/Tables'
 import Views from 'app/collections/Views'
+import Endpoints from 'app/collections/Endpoints'
 
 export default async function(environment) {
   const environmentId = environment._id
@@ -21,4 +22,5 @@ export default async function(environment) {
   await Roles.remove({environmentId})
   await Tables.remove({environmentId})
   await Views.remove({environmentId})
+  await Endpoints.remove({environmentId})
 }

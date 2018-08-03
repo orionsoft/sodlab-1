@@ -20,8 +20,12 @@ import selectOptions from './selectOptions'
 import singleSelect from './singleSelect'
 import multipleSelect from './multipleSelect'
 import textArea from './textArea'
+import indicatorSelect from './indicatorSelect'
+import hookSelect from './hookSelect'
 
 export default {
+  hookSelect,
+  indicatorSelect,
   percentage,
   currency,
   email,

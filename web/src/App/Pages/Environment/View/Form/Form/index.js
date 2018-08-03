@@ -41,10 +41,6 @@ export default class Form extends React.Component {
 
   state = {}
 
-  componentDidMount() {
-    this.setState({data: this.getData()})
-  }
-
   renderResetButton() {
     if (!this.props.form.reset) return null
     return <Button onClick={() => this.setState({data: {}})}>Limpiar</Button>
@@ -144,7 +140,7 @@ export default class Form extends React.Component {
           getErrorFieldLabel={this.getErrorFieldLabel}
           doc={{
             formId: this.props.form._id,
-            data: this.state.data,
+            data: this.getData(),
             itemId: this.getItemId()
           }}
           onSuccess={this.onSuccess}>

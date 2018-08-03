@@ -78,6 +78,12 @@ export default class Link extends React.Component {
     this.setState(cloneDeep(this.props.table))
   }
 
+  static getDerivedStateFromProps(props, state) {
+    return {
+      fields: props.table.fields || []
+    }
+  }
+
   getFilters() {
     return this.props.filters.items.filter(
       filter => filter.collectionId === this.props.table.collectionId
@@ -120,7 +126,9 @@ export default class Link extends React.Component {
       {value: 'field', label: 'Campo'},
       {value: 'selectIconButton', label: 'Seleccionar variable'},
       {value: 'routeIconButton', label: 'Ir a una ruta'},
-      {value: 'deleteRowByUser', label: 'Eliminar documento'}
+      {value: 'deleteRowByUser', label: 'Eliminar documento'},
+      {value: 'runHooks', label: 'Ejecutar hooks'},
+      {value: 'postItem', label: 'Enviar documento a una URL'}
     ]
     return (
       <Field fieldName="fields" type={ArrayComponent}>
@@ -174,7 +182,7 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
-              table: this.state || cloneDeep(this.props.table) || {}
+              table: cloneDeep(this.state) || cloneDeep(this.props.table) || {}
             }}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Nombre</div>

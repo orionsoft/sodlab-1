@@ -16,9 +16,10 @@ export default resolver({
     }
 
     if (formField.type === 'indicator' && formField.indicatorId) {
-      schema.autoValue = async () => {
+      schema.autoValue = async (val, {doc}) => {
         const indicator = await Indicators.findOne(formField.indicatorId)
-        const value = await indicator.result({}, viewer)
+        const params = {...doc}
+        const value = await indicator.result({params}, viewer)
         return value
       }
     }

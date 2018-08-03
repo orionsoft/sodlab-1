@@ -1,17 +1,13 @@
 import React from 'react'
 import styles from './styles.css'
-import {WithValue, Field} from 'simple-react-form'
+import {Field} from 'simple-react-form'
 import ObjectField from 'App/components/fields/ObjectField'
-import Fields from 'App/components/AutoForm/Fields'
-import schemaToField from 'App/components/schemaToField'
 import PropTypes from 'prop-types'
+import Option from './Option'
 
 export default class IndicatorOptions extends React.Component {
   static propTypes = {
-    indicatorType: PropTypes.object,
-    fieldName: PropTypes.string,
-    label: PropTypes.node,
-    field: PropTypes.object
+    indicatorType: PropTypes.object
   }
 
   static defaultProps = {
@@ -20,23 +16,19 @@ export default class IndicatorOptions extends React.Component {
   }
 
   render() {
-    if (!this.props.indicatorType.optionsParams) return null
+    const {indicatorType} = this.props
+    if (!indicatorType.optionsParams) return null
+
+    const fields = Object.keys(indicatorType.optionsParams).map(name => {
+      const schema = indicatorType.optionsParams[name]
+      return <Option key={name} name={name} schema={schema} />
+    })
+
     return (
       <div className={styles.container}>
-        <WithValue>
-          {field => (
-            <div className={styles.container}>
-              <div className="description">{this.props.label}</div>
-              <Field fieldName={this.props.fieldName} type={ObjectField}>
-                <Fields
-                  schemaToField={schemaToField}
-                  params={this.props.indicatorType.optionsParams}
-                  passProps={{field}}
-                />
-              </Field>
-            </div>
-          )}
-        </WithValue>
+        <Field fieldName="options" type={ObjectField}>
+          {fields}
+        </Field>
       </div>
     )
   }

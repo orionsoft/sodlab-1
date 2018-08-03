@@ -23,9 +23,12 @@ export default resolver({
       type: String,
       label: 'Nombre',
       description: 'Solo puede haber una tabla con este nombre',
-      async custom(name) {
-        const result = await Tables.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
-        if (result) return 'notUnique'
+      async custom(name, {doc}) {
+        const table = await Tables.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: doc.environmentId
+        })
+        if (table) return 'notUnique'
       }
     }
   },

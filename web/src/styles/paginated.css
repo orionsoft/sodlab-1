@@ -47,6 +47,7 @@
 .paginated-pagination {
   margin: 0;
   padding: 20px;
+  overflow-x: scroll;
 }
 
 .paginated-table {
@@ -98,10 +99,12 @@
 
 .paginated-pagination-pages {
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .paginated-pagination-limit {
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .paginated-pagination-page-input-container {

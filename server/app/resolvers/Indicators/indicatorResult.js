@@ -25,12 +25,16 @@ export default resolver({
     filterOptions: {
       type: 'blackbox',
       optional: true
+    },
+    params: {
+      type: 'blackbox',
+      optional: true
     }
   },
   returns: Result,
-  async resolve({indicatorId, filterId, filterOptions}, viewer) {
+  async resolve({indicatorId, filterId, filterOptions, params}, viewer) {
     const indicator = await Indicators.findOne(indicatorId)
-    const value = await indicator.result({filterId, filterOptions}, viewer)
+    const value = await indicator.result({filterId, filterOptions, params}, viewer)
     const renderType = await indicator.renderType({filterId, filterOptions}, viewer)
     return {
       renderType,

@@ -16,9 +16,12 @@ export default resolver({
       type: String,
       label: 'Nombre',
       description: 'Solo puede haber un rol con este nombre',
-      async custom(name) {
-        const result = await Roles.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
-        if (result) return 'notUnique'
+      async custom(name, {doc}) {
+        const role = await Roles.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: doc.environmentId
+        })
+        if (role) return 'notUnique'
       }
     }
   },

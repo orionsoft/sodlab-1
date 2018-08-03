@@ -6,6 +6,8 @@ import Text from 'orionsoft-parts/lib/components/fields/Text'
 import iconOptions from 'App/components/Icon/options'
 import RouteIconButton from './RouteIconButton'
 import DeleteDocument from './DeleteDocument'
+import RunHooks from './RunHooks'
+import PostItem from './PostItem'
 
 export default class FieldOptions extends React.Component {
   static propTypes = {
@@ -64,6 +66,14 @@ export default class FieldOptions extends React.Component {
     return <DeleteDocument {...this.props} />
   }
 
+  renderRunHooks() {
+    return <RunHooks {...this.props} />
+  }
+
+  renderPostItem() {
+    return <PostItem {...this.props} />
+  }
+
   render() {
     const {field} = this.props
     if (!field.type) return null
@@ -71,6 +81,8 @@ export default class FieldOptions extends React.Component {
     if (field.type === 'selectIconButton') return this.renderTypeSelectIconButton()
     if (field.type === 'routeIconButton') return this.renderTypeRouteIconButton()
     if (field.type === 'deleteRowByUser') return this.renderDeleteOption()
+    if (field.type === 'runHooks') return this.renderRunHooks()
+    if (field.type === 'postItem') return this.renderPostItem()
 
     return 'undefined type'
   }
