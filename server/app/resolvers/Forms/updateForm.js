@@ -1,7 +1,6 @@
 import Forms from 'app/collections/Forms'
 import {resolver} from '@orion-js/app'
 import Form from 'app/models/Form'
-import checkJSON from 'app/helpers/misc/checkJSON'
 
 export default resolver({
   params: {
