@@ -11,6 +11,7 @@ export default resolver({
     if (isNil(value)) return
 
     const query = await operator.getQuery({value}, viewer)
-    return {[`data.${rule.fieldName}`]: query}
+    const key = rule.fieldName === '_id' ? '_id' : `data.${rule.fieldName}`
+    return {[key]: query}
   }
 })
