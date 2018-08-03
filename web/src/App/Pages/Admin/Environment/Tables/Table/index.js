@@ -127,7 +127,8 @@ export default class Link extends React.Component {
       {value: 'selectIconButton', label: 'Seleccionar variable'},
       {value: 'routeIconButton', label: 'Ir a una ruta'},
       {value: 'deleteRowByUser', label: 'Eliminar documento'},
-      {value: 'runHooks', label: 'Ejecutar hooks'}
+      {value: 'runHooks', label: 'Ejecutar hooks'},
+      {value: 'postItem', label: 'Enviar documento a una URL'}
     ]
     return (
       <Field fieldName="fields" type={ArrayComponent}>
