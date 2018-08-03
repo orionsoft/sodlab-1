@@ -8,7 +8,7 @@ export default class View extends React.Component {
   }
 
   render() {
-    if (!this.props.value) return
+    if (!this.props.value) return null
     return (
       <div className={styles.container}>
         <a href={this.props.value} target="blank" className={styles.hyperlink}>
