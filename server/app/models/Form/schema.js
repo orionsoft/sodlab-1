@@ -45,5 +45,13 @@ export default {
     type: ['ID'],
     label: 'Hooks',
     optional: true
+  },
+  submitButtonText: {
+    type: String,
+    optional: true
+  },
+  resetButtonText: {
+    type: String,
+    optional: true
   }
 }
