@@ -14,13 +14,25 @@ export default paginatedResolver({
   },
   async getCursor({filter}, viewer) {
     const query = {}
-    const user = await Users.findOne(viewer.userId)
-    if (viewer.roles && !viewer.roles.includes('superAdmin')) {
-      query._id = {$in: user.environmentsAuthorized}
+    if (
+      !viewer.roles ||
+      (!viewer.roles.includes('superAdmin') && !viewer.roles.includes('admin'))
+    ) {
+      throw new Error(`No tienes permisos`)
     }
-    if (filter) {
-      query._id = {$regex: new RegExp(`^${escape(filter)}`)}
+
+    if (viewer.roles.includes('superAdmin')) {
+      if (filter) {
+        query._id = {$regex: new RegExp(`^${escape(filter)}`)}
+      }
+    } else if (viewer.roles.includes('admin')) {
+      const admin = await Users.findOne(viewer.userId)
+      const environments = {$in: admin.environmentsAuthorized || []}
+      query._id = filter
+        ? {...environments, ...{$regex: new RegExp(`^${escape(filter)}`)}}
+        : environments
     }
+
     return Environments.find(query)
   }
 })

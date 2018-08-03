@@ -6,6 +6,7 @@ import currentDate from './currentDate'
 import valueOfFieldInItem from './valueOfFieldInItem'
 import indicatorSubtraction from './indicatorSubtraction'
 import booleanByIndicatorComparison from './booleanByIndicatorComparison'
+import currentDateTime from './currentDateTime'
 
 export default {
   count,
@@ -13,6 +14,7 @@ export default {
   economicIndicator,
   autoIncrement,
   currentDate,
+  currentDateTime,
   valueOfFieldInItem,
   indicatorSubtraction,
   booleanByIndicatorComparison
