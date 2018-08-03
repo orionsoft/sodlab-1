@@ -7,6 +7,7 @@ import valueOfFieldInItem from './valueOfFieldInItem'
 import indicatorSubtraction from './indicatorSubtraction'
 import booleanByIndicatorComparison from './booleanByIndicatorComparison'
 import currentDateTime from './currentDateTime'
+import mathOperation from './mathOperation'
 
 export default {
   count,
@@ -17,5 +18,6 @@ export default {
   currentDateTime,
   valueOfFieldInItem,
   indicatorSubtraction,
-  booleanByIndicatorComparison
+  booleanByIndicatorComparison,
+  mathOperation
 }
