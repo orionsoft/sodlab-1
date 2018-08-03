@@ -80,7 +80,7 @@ export default class Link extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     return {
-      fields: props.table.fields || []
+      fields: state.fields || props.table.fields || []
     }
   }
 
@@ -143,7 +143,7 @@ export default class Link extends React.Component {
 
   @autobind
   reset() {
-    const reseted = this.props.table.collection.fields.map(field => {
+    const fields = this.props.table.collection.fields.map(field => {
       return {
         type: 'field',
         label: field.label,
@@ -151,7 +151,7 @@ export default class Link extends React.Component {
         options: null
       }
     })
-    this.setState({fields: reseted})
+    this.setState({fields})
   }
 
   renderCollection() {
