@@ -26,9 +26,9 @@ export default class Item extends React.Component {
 
   getFields() {
     const fields = [{value: '_id', label: 'ID'}]
-    this.props.collection.fields.map(field => {
+    for (const field of this.props.collection.fields) {
       fields.push({value: field.name, label: field.label})
-    })
+    }
     return fields
   }
 
