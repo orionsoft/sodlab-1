@@ -3,7 +3,7 @@ import clean from './clean'
 export default {
   name: 'RUT',
   rootType: String,
-  allowedOperatorsIds: ['exists'],
+  allowedOperatorsIds: ['exists', 'equalString'],
   optionsSchema: {},
   validate(value, options) {
     if (!value) return

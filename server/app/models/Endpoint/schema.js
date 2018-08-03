@@ -1,5 +1,3 @@
-import isEmpty from 'lodash/isEmpty'
-
 export default {
   _id: {
     type: 'ID'
