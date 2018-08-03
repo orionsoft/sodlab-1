@@ -102,7 +102,7 @@ export default class Link extends React.Component {
         <Breadcrumbs>{this.props.endpoint.title}</Breadcrumbs>
         <Section
           top
-          title={`Editar endpoint ${this.props.endpoint.title}`}
+          title={`Editar endpoint`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
           ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
