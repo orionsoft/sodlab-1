@@ -9,6 +9,7 @@ import Roles from 'app/collections/Roles'
 import Tables from 'app/collections/Tables'
 import Views from 'app/collections/Views'
 import Environments from 'app/collections/Environments'
+import Endpoints from 'app/collections/Endpoints'
 
 export default async function(environment, data) {
   const environmentId = environment._id
@@ -43,5 +44,8 @@ export default async function(environment, data) {
   }
   for (const item of data.views) {
     await Views.insert(item)
+  }
+  for (const item of data.endpoints) {
+    await Endpoints.insert(item)
   }
 }
