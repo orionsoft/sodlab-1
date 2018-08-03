@@ -4,7 +4,7 @@ export default {
   allowedOperatorsIds: ['exists'],
   optionsSchema: null,
   validate(value, options) {
-    if (!/https?:.*/.test(value)) {
+    if (value && value !== '' && !/^https?:.*/.test(value)) {
       return 'invalidLink'
     }
   }
