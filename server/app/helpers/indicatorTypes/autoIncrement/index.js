@@ -19,6 +19,7 @@ export default {
       {upsert: true, new: true}
     )
 
-    return result.counter
+    if (!result) return 1
+    return result.counter + 1
   }
 }
