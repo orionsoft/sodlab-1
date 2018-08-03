@@ -95,6 +95,22 @@ export default class Field extends React.Component {
     )
   }
 
+  renderRunHooks() {
+    const {table, doc, field, fieldIndex} = this.props
+    const icon = icons[field.options.icon]
+    const itemId = doc._id
+    return (
+      <MutationButton
+        title={field.options.tooltip}
+        confirmText="Confirmar"
+        mutation="tableRunHooks"
+        onSuccess={() => this.props.showMessage('Se ha ejecutado correctamente')}
+        params={{tableId: table._id, itemId, fieldIndex}}>
+        <IconButton icon={icon} tooltip={field.options.tooltip} size={18} />
+      </MutationButton>
+    )
+  }
+
   render() {
     const {field} = this.props
     if (!field.type) return null
@@ -102,6 +118,7 @@ export default class Field extends React.Component {
     if (field.type === 'selectIconButton') return this.renderTypeSelectIconButton()
     if (field.type === 'routeIconButton') return this.renderTypeRouteIconButton()
     if (field.type === 'deleteRowByUser') return this.renderDeleteDocumentByUser()
+    if (field.type === 'runHooks') return this.renderRunHooks()
 
     return 'undefined type ' + field.type
   }
