@@ -16,9 +16,12 @@ export default resolver({
       type: String,
       label: 'Nombre',
       description: 'Solo puede haber un formulario con este nombre',
-      async custom(name) {
-        const result = await Forms.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
-        if (result) return 'notUnique'
+      async custom(name, {doc}) {
+        const form = await Forms.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: doc.environmentId
+        })
+        if (form) return 'notUnique'
       }
     },
     title: {

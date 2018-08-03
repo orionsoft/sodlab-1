@@ -15,10 +15,13 @@ export default resolver({
     name: {
       type: String,
       label: 'Nombre',
-      description: 'Solo puede haber un formulario con este nombre',
-      async custom(name) {
-        const result = await Hooks.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
-        if (result) return 'notUnique'
+      description: 'Solo puede haber un hook con este nombre',
+      async custom(name, {doc}) {
+        const hook = await Hooks.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: doc.environmentId
+        })
+        if (hook) return 'notUnique'
       }
     }
   },

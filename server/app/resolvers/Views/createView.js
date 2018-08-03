@@ -24,9 +24,12 @@ export default resolver({
       type: String,
       label: 'Nombre',
       description: 'Solo puede haber una vista con este nombre',
-      async custom(name) {
-        const result = await Views.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
-        if (result) return 'notUnique'
+      async custom(name, {doc}) {
+        const view = await Views.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: doc.environmentId
+        })
+        if (view) return 'notUnique'
       }
     },
     title: {
