@@ -1,0 +1,31 @@
+:local(.container) {
+}
+
+:local(.content) {
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #eee;
+}
+
+:local(.buttonContainer) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+:local(.name) {
+  flex: 1 1;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: inherit;
+  border: 1px solid #c2c2c2;
+  border-radius: 4px;
+  padding: 10px;
+  outline: none;
+  -webkit-transition: border 0.2s ease;
+  -o-transition: border 0.2s ease;
+  transition: border 0.2s ease;
+  -webkit-box-shadow: 0 0 0 1px rgba(220, 220, 220, 0.2);
+  box-shadow: 0 0 0 1px rgba(220, 220, 220, 0.2);
+}

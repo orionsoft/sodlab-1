@@ -15,6 +15,7 @@ import Hooks from './Hooks'
 import Info from './Info'
 import EnvironmentUsers from './EnvironmentUsers'
 import Indicators from './Indicators'
+import Endpoints from './Endpoints'
 
 export default {
   ...EnvironmentUsers,
@@ -33,5 +34,6 @@ export default {
   ...Auth,
   ...Users,
   ...Roles,
-  ...Indicators
+  ...Indicators,
+  ...Endpoints
 }
