@@ -5,7 +5,7 @@ import Collections from 'app/collections/Collections'
 export default resolver({
   returns: 'blackbox',
   private: true,
-  async resolve(indicator, {filterId, filterOptions}, viewer) {
+  async resolve(indicator, {filterId, filterOptions, params}, viewer) {
     const type = await indicator.indicatorType()
 
     let query = null
@@ -17,6 +17,10 @@ export default resolver({
       collection = await col.db()
     }
 
+    if (!filterId && !indicator.allowsNoFilter && indicator.filtersIds.length === 1) {
+      filterId = indicator.filtersIds[0]
+    }
+
     if (type.requireCollection) {
       query = {}
       if (filterId) {
@@ -26,7 +30,11 @@ export default resolver({
       }
     }
 
-    const {options} = indicator
-    return await type.getResult({query, collection, fieldName, options}, viewer)
+    const {environmentId} = indicator
+    const options = await indicator.getOptions({params})
+    return await type.getResult(
+      {query, collection, fieldName, options, environmentId, params},
+      viewer
+    )
   }
 })

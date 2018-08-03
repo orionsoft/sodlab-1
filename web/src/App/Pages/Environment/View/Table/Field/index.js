@@ -22,7 +22,8 @@ export default class Field extends React.Component {
     state: PropTypes.object,
     table: PropTypes.object,
     collectionId: PropTypes.string,
-    parameters: PropTypes.object
+    parameters: PropTypes.object,
+    fieldIndex: PropTypes.number
   }
 
   renderTypeField() {
@@ -78,17 +79,17 @@ export default class Field extends React.Component {
   }
 
   renderDeleteDocumentByUser() {
-    const {collectionId, doc, field} = this.props
+    const {table, doc, field, fieldIndex} = this.props
     const icon = icons[field.options.icon]
-    const elementId = doc._id
+    const itemId = doc._id
     return (
       <MutationButton
         label="Eliminar"
         title="¿Quieres eliminar este documento?"
         confirmText="Confirmar"
-        mutation="removeDocumentFromCollection"
+        mutation="tableDeleteItem"
         onSuccess={() => this.props.showMessage('Elemento eliminado satisfactoriamente!')}
-        params={{collectionId, elementId}}>
+        params={{tableId: table._id, itemId, fieldIndex}}>
         <IconButton icon={icon} tooltip={field.options.tooltip} size={18} />
       </MutationButton>
     )

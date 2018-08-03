@@ -91,7 +91,11 @@ export default class View extends React.Component {
       )
     }
     if (item.type === 'indicator') {
-      return <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
+      return (
+        <div className={styles.item}>
+          <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
+        </div>
+      )
     }
     if (item.type === 'layout') {
       return this.renderItems(item.subItems, preIndex)
@@ -138,12 +142,13 @@ export default class View extends React.Component {
       let key = preIndex ? preIndex + '-' + index.toString() : index.toString()
       return (
         <div
+          key={index}
           className={
             this.state.fullSize && this.state.key === key
               ? styles.fullSize
               : `col-xs-${item.sizeSmall} col-sm-${item.sizeMedium} col-md-${item.sizeLarge}`
           }>
-          <div className={styles.item}>
+          <div className={styles.itemContainer}>
             {this.renderButtons(item, key)}
             {this.renderItem(item, this.state.fullSize, key)}
           </div>

@@ -41,10 +41,6 @@ export default class Form extends React.Component {
 
   state = {}
 
-  componentDidMount() {
-    this.setState({data: this.getData()})
-  }
-
   renderResetButton() {
     if (!this.props.form.reset) return null
     return <Button onClick={() => this.setState({data: {}})}>Limpiar</Button>
@@ -106,9 +102,6 @@ export default class Form extends React.Component {
     const params = this.props.form.serializedParams || {}
     for (const key of Object.keys(params)) {
       const field = params[key]
-      if (field.formFieldType === 'fixed') {
-        doc[key] = field.defaultValue
-      }
       if (field.formFieldType === 'parameter') {
         doc[key] = this.props.parameters[field.parameterName]
       }
@@ -120,10 +113,7 @@ export default class Form extends React.Component {
     const schema = cloneDeep(this.props.form.serializedParams) || {}
     for (const key of Object.keys(schema)) {
       const field = schema[key]
-      if (field.formFieldType === 'fixed') {
-        delete schema[key]
-      }
-      if (field.formFieldType === 'parameter') {
+      if (field.formFieldType !== 'editable') {
         delete schema[key]
       }
     }
@@ -150,7 +140,7 @@ export default class Form extends React.Component {
           getErrorFieldLabel={this.getErrorFieldLabel}
           doc={{
             formId: this.props.form._id,
-            data: this.state.data,
+            data: this.getData(),
             itemId: this.getItemId()
           }}
           onSuccess={this.onSuccess}>

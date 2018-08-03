@@ -11,7 +11,8 @@ export default resolver({
       type: ['ID']
     },
     environmentsAuthorized: {
-      type: ['ID']
+      type: ['ID'],
+      optional: true
     }
   },
   returns: User,

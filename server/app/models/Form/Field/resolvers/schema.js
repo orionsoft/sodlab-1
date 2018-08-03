@@ -1,4 +1,5 @@
 import {resolver} from '@orion-js/app'
+import Indicators from 'app/collections/Indicators'
 
 export default resolver({
   private: true,
@@ -11,7 +12,16 @@ export default resolver({
     schema.optional = formField.optional
 
     if (formField.type === 'fixed' && formField.fixed) {
-      schema.defaultValue = formField.fixed.value
+      schema.autoValue = () => formField.fixed.value
+    }
+
+    if (formField.type === 'indicator' && formField.indicatorId) {
+      schema.autoValue = async (val, {doc}) => {
+        const indicator = await Indicators.findOne(formField.indicatorId)
+        const params = {...doc}
+        const value = await indicator.result({params}, viewer)
+        return value
+      }
     }
 
     if (formField.type === 'editable') {

@@ -126,13 +126,23 @@ export default class Kpi extends React.Component {
     )
   }
 
+  // renderOptions(indicator) {
+  //
+  //   return (
+  //     <div>
+  //       {this.renderIndicatorCollectionOptions(indicator, indicatorType)}
+  //       <IndicatorOptions indicatorType={indicatorType} type={indicatorTypeId} />
+  //     </div>
+  //   )
+  // }
+
   renderOptions(indicator) {
     const {indicatorTypeId} = indicator
     if (!indicatorTypeId) return
     const indicatorType = this.props.indicatorTypes.find(t => t._id === indicatorTypeId)
     if (!indicatorType) return
     return (
-      <div>
+      <div className={styles.options}>
         {this.renderIndicatorCollectionOptions(indicator, indicatorType)}
         <IndicatorOptions indicatorType={indicatorType} type={indicatorTypeId} />
       </div>

@@ -11,6 +11,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import {Field, WithValue} from 'simple-react-form'
@@ -28,6 +29,7 @@ import Fields from './Fields'
       environmentId
       updateVariableName
       onSuccessViewPath
+      afterHooksIds
       fields {
         fieldName
         type
@@ -35,6 +37,7 @@ import Fields from './Fields'
         fixed
         parameterName
         editableLabel
+        indicatorId
       }
       reset
       collection {
@@ -54,6 +57,18 @@ import Fields from './Fields'
         label: name
       }
     }
+    hooks(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
+    indicators(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -63,6 +78,8 @@ export default class Form extends React.Component {
     history: PropTypes.object,
     form: PropTypes.object,
     collections: PropTypes.object,
+    hooks: PropTypes.object,
+    indicators: PropTypes.object,
     match: PropTypes.object
   }
 
@@ -141,6 +158,13 @@ export default class Form extends React.Component {
               <Field fieldName="reset" type={Checkbox} label="Habilitar limpiar formulario" />
               <div className="label">Ir a una ruta al terminar</div>
               <Field fieldName="onSuccessViewPath" type={Text} />
+              <div className="label">Hooks</div>
+              <Field
+                fieldName="afterHooksIds"
+                type={Select}
+                multi
+                options={this.props.hooks.items}
+              />
             </Field>
           </AutoForm>
           <br />
@@ -151,8 +175,8 @@ export default class Form extends React.Component {
               </Button>
               <MutationButton
                 label="Eliminar"
-                title="¿Confirma que desea eliminar este formulario?"
-                confirmText="Confirmar"
+                title="¿Quieres eliminar este formulario?"
+                confirmText="Eliminar"
                 mutation="removeForm"
                 onSuccess={this.removeForm}
                 params={{formId: this.props.form._id}}
@@ -166,7 +190,7 @@ export default class Form extends React.Component {
             </div>
           </div>
         </Section>
-        <Fields form={this.props.form} />
+        <Fields form={this.props.form} indicators={this.props.indicators} />
       </div>
     )
   }

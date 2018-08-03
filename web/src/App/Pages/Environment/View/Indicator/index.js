@@ -51,12 +51,14 @@ export default class Indicator extends React.Component {
         filterId={filterId}
         filterOptions={filterOptions}
         fullSize={this.props.fullSize}
+        params={this.props.parameters}
       />
     )
   }
 
   renderForCollection() {
     const {indicator, parameters} = this.props
+    if (!indicator.indicatorType) return
     if (!indicator.indicatorType.requireCollection) return
     return (
       <div>
