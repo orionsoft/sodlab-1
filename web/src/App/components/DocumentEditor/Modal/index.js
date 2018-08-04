@@ -75,9 +75,7 @@ export default class Main extends React.Component {
     onClose: this.props.onClose,
     loading: false,
     file: null,
-    // original name of the uploaded file
     uploadedFileName: '',
-    // timestamp + uploadedFileName. This is sent to the backend
     pdfFileName: '',
     pdfImagesSrc: [],
     activePdfImageSrc: '',
@@ -180,13 +178,9 @@ export default class Main extends React.Component {
     const appendDataToForm = (type, signature, formData) => {
       if (typeof signature === 'undefined' || signature === null) return
 
-      // Split the base64 string in data and contentType
       const block = signature.imageSrc.split(';')
-      // Get the content type of the image
       const contentType = block[0].split(':')[1]
-      // get the real base64 content of the file
       const realData = block[1].split(',')[1]
-      // Convert it to a blob to upload
       const blob = b64toBlob(realData, contentType)
       const imageIdArray = signature.id.split('.')
       const identifier =
@@ -601,7 +595,6 @@ export default class Main extends React.Component {
         </div>
         <div className={styles.editorContainer}>
           <div className={styles.pdfImageContainer}>
-            {/* <div className={styles.helpMessageContainer}>{this.renderHelpMessages()}</div> */}
             {this.state.loading ? (
               <div className={styles.loaderContainer}>
                 <FaSpinner className={styles.iconSpinBig} />
@@ -641,27 +634,6 @@ export default class Main extends React.Component {
           overlayClassName={styles.optionsMenuOverlay}
         >
           <div className={styles.btnContainer}>
-            {/*  not */}
-            {/* <ClientConsumer>
-              {rutClient => (
-                <Fingerprint
-                  client={this.state.client}
-                  addSignatureImage={this.addSignatureImage}
-                  handleSubmitImg={this.handleSubmitImg}
-                  {...this.props} // form
-                />
-              )}
-            </ClientConsumer> */}
-            {/* <ClientConsumer>
-              {rutClient => (
-                <Signature
-                  client={this.state.client}
-                  addSignatureImage={this.addSignatureImage}
-                  handleSubmitImg={this.handleSubmitImg}
-                  {...this.props} // form
-                />
-              )}
-            </ClientConsumer> */}
             <ClientConsumer>
               {rutClient => (
                 <FingerprintAndSignature
@@ -717,8 +689,6 @@ function b64toBlob(b64Data, contentType, sliceSize) {
 function getOffset(el) {
   el = el.getBoundingClientRect()
   return {
-    // left: el.left + window.scrollX,
-    // top: el.top + window.scrollY
     left: el.left + document.documentElement.scrollLeft,
     top: el.top + document.documentElement.scrollTop
   }

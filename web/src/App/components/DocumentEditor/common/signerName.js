@@ -23,8 +23,6 @@ export default class SignerData extends React.Component {
 
   componentDidMount() {
     if (!this.props.documentFromCollection) return
-    // if (typeof data.nombres === 'undefined' || typeof data.apellidos === 'undefined') return
-    // const signerName = data.nombre_completo
     const signerName = 'nombre_completo'
     this.props.handleWhoChange(signerName)
   }

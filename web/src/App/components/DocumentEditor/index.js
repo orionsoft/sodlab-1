@@ -46,7 +46,7 @@ export default class DocumentEditor extends React.Component {
   render() {
     return (
       <div>
-        <ClientProvider value={'holanda'}>
+        <ClientProvider>
           <Modal
             appElement={document.querySelector('#root')}
             isOpen={this.state.modalIsOpen}
