@@ -29,6 +29,8 @@ import Fields from './Fields'
       updateVariableName
       onSuccessViewPath
       afterHooksIds
+      submitButtonText
+      resetButtonText
       fields {
         fieldName
         type
@@ -165,12 +167,6 @@ export default class Form extends React.Component {
               <div className="label">Colección (No se puede cambiar)</div>
               {this.renderCollection()}
               <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
-              <div className="label">Habilitar limpiar formulario</div>
-              <Field
-                fieldName="reset"
-                type={Checkbox}
-                label="Habilitar limpiar formulario"
-              />
               <div className="label">Ir a una ruta al terminar</div>
               <Field fieldName="onSuccessViewPath" type={Text} />
               <div className="label">Hooks</div>
@@ -180,6 +176,12 @@ export default class Form extends React.Component {
                 multi
                 options={this.props.hooks.items}
               />
+              <div className="label">Texto de botón para confirmar (opcional)</div>
+              <Field fieldName="submitButtonText" type={Text} />
+              <div className="label">Habilitar limpiar formulario</div>
+              <Field fieldName="reset" type={Checkbox} label="Habilitar limpiar formulario" />
+              <div className="label">Texto de botón para limpiar formulario (opcional)</div>
+              <Field fieldName="resetButtonText" type={Text} />
             </Field>
           </AutoForm>
           <br />

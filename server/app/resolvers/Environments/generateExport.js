@@ -10,6 +10,7 @@ import Roles from 'app/collections/Roles'
 import Tables from 'app/collections/Tables'
 import Views from 'app/collections/Views'
 import Environments from 'app/collections/Environments'
+import Endpoints from 'app/collections/Endpoints'
 
 export default resolver({
   params: {
@@ -33,7 +34,8 @@ export default resolver({
       links: await Links.find({environmentId}).toArray(),
       roles: await Roles.find({environmentId}).toArray(),
       tables: await Tables.find({environmentId}).toArray(),
-      views: await Views.find({environmentId}).toArray()
+      views: await Views.find({environmentId}).toArray(),
+      endpoints: await Endpoints.find({environmentId}).toArray()
     }
 
     return JSON.stringify(result)

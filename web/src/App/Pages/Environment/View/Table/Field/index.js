@@ -7,6 +7,7 @@ import {withRouter} from 'react-router'
 import MutationButton from 'App/components/MutationButton'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import styles from './styles.css'
+import autobind from 'autobind-decorator'
 
 @withMessage
 @withRouter
@@ -24,6 +25,29 @@ export default class Field extends React.Component {
     collectionId: PropTypes.string,
     parameters: PropTypes.object,
     fieldIndex: PropTypes.number
+  }
+
+  state = {}
+
+  @autobind
+  async sendPostItem({url, data}) {
+    this.setState({sendingPostItem: true})
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      const content = await response.text()
+      console.log('Item sent, response:', content)
+      this.props.showMessage('Enviado correctamente')
+    } catch (error) {
+      this.props.showMessage(error)
+    }
+    this.setState({sendingPostItem: false})
   }
 
   renderTypeField() {
@@ -95,6 +119,41 @@ export default class Field extends React.Component {
     )
   }
 
+  renderRunHooks() {
+    const {table, doc, field, fieldIndex} = this.props
+    const icon = icons[field.options.icon]
+    const itemId = doc._id
+    return (
+      <MutationButton
+        title={field.options.tooltip}
+        confirmText="Confirmar"
+        mutation="tableRunHooks"
+        onSuccess={() => this.props.showMessage('Se ha ejecutado correctamente')}
+        params={{tableId: table._id, itemId, fieldIndex}}>
+        <IconButton icon={icon} tooltip={field.options.tooltip} size={18} />
+      </MutationButton>
+    )
+  }
+
+  renderPostItem() {
+    const {doc, field} = this.props
+    const icon = icons[field.options.icon]
+    const data = {
+      _id: doc._id,
+      ...doc.data
+    }
+    const url = field.options.url
+    return (
+      <IconButton
+        icon={icon}
+        onPress={() => this.sendPostItem({url, data})}
+        tooltip={field.options.tooltip}
+        disabled={this.state.sendingPostItem}
+        size={18}
+      />
+    )
+  }
+
   render() {
     const {field} = this.props
     if (!field.type) return null
@@ -102,6 +161,8 @@ export default class Field extends React.Component {
     if (field.type === 'selectIconButton') return this.renderTypeSelectIconButton()
     if (field.type === 'routeIconButton') return this.renderTypeRouteIconButton()
     if (field.type === 'deleteRowByUser') return this.renderDeleteDocumentByUser()
+    if (field.type === 'runHooks') return this.renderRunHooks()
+    if (field.type === 'postItem') return this.renderPostItem()
 
     return 'undefined type ' + field.type
   }

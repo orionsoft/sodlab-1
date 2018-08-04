@@ -4,7 +4,14 @@ import optionsSchemas from './optionsSchemas'
 export default {
   type: {
     type: String,
-    allowedValues: ['field', 'selectIconButton', 'routeIconButton', 'deleteRowByUser']
+    allowedValues: [
+      'field',
+      'selectIconButton',
+      'routeIconButton',
+      'deleteRowByUser',
+      'runHooks',
+      'postItem'
+    ]
   },
   fieldName: {
     type: String,

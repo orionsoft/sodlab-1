@@ -25,14 +25,16 @@ export default class Item extends React.Component {
   }
 
   getFields() {
-    return this.props.collection.fields.map(field => {
-      return {value: field.name, label: field.label}
-    })
+    const fields = [{value: '_id', label: 'ID'}]
+    for (const field of this.props.collection.fields) {
+      fields.push({value: field.name, label: field.label})
+    }
+    return fields
   }
 
   getOperators() {
     const {rule, collection, operators} = this.props
-    return operators
+    const list = operators
       .filter(operator => {
         if (!rule.fieldName) return false
         const collectionField = collection.fields.find(field => field.name === rule.fieldName)
@@ -42,6 +44,12 @@ export default class Item extends React.Component {
       .map(operator => {
         return {value: operator._id, label: operator.name}
       })
+
+    if (list.length === 0) {
+      return [{value: 'idEquals', label: 'Es igual'}]
+    }
+
+    return list
   }
 
   renderOperationFieldOptions() {

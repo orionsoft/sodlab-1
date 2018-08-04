@@ -80,7 +80,7 @@ export default class Link extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     return {
-      fields: props.table.fields || []
+      fields: state.fields || props.table.fields || []
     }
   }
 
@@ -126,7 +126,9 @@ export default class Link extends React.Component {
       {value: 'field', label: 'Campo'},
       {value: 'selectIconButton', label: 'Seleccionar variable'},
       {value: 'routeIconButton', label: 'Ir a una ruta'},
-      {value: 'deleteRowByUser', label: 'Eliminar documento'}
+      {value: 'deleteRowByUser', label: 'Eliminar documento'},
+      {value: 'runHooks', label: 'Ejecutar hooks'},
+      {value: 'postItem', label: 'Enviar documento a una URL'}
     ]
     return (
       <Field fieldName="fields" type={ArrayComponent}>
@@ -143,7 +145,7 @@ export default class Link extends React.Component {
 
   @autobind
   reset() {
-    const reseted = this.props.table.collection.fields.map(field => {
+    const fields = this.props.table.collection.fields.map(field => {
       return {
         type: 'field',
         label: field.label,
@@ -151,7 +153,7 @@ export default class Link extends React.Component {
         options: null
       }
     })
-    this.setState({fields: reseted})
+    this.setState({fields})
   }
 
   renderCollection() {
