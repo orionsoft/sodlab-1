@@ -23,7 +23,6 @@ export default class SignerData extends React.Component {
 
   componentDidMount() {
     if (!this.props.documentFromCollection) return
-    const {data} = this.props.documentFromCollection
     // if (typeof data.nombres === 'undefined' || typeof data.apellidos === 'undefined') return
     // const signerName = data.nombre_completo
     const signerName = 'nombre_completo'
@@ -32,8 +31,8 @@ export default class SignerData extends React.Component {
 
   validate = () =>
     this.props.who === ''
-      ? this.setState({checked: true, valid: false})
-      : this.setState({checked: true, valid: true})
+      ? this.setState({ checked: true, valid: false })
+      : this.setState({ checked: true, valid: true })
 
   render() {
     return (
@@ -47,7 +46,7 @@ export default class SignerData extends React.Component {
           value={this.props.who}
           onBlur={this.validate}
           {...this.state.checked && {
-            style: this.state.valid ? null : {border: '1px solid #ff0000'}
+            style: this.state.valid ? null : { border: '1px solid #ff0000' }
           }}
         />
       </div>
