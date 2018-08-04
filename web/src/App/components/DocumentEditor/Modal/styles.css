@@ -1,0 +1,333 @@
+:local(.overlay) {
+	position: fixed;
+	z-index: 980;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.55);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: opacity 2000ms ease-in-out;
+}
+
+:local(.modal) {
+	width: 90%;
+	height: 90%;
+	border: 1px solid rgb(204, 204, 204);
+	background: rgb(255, 255, 255);
+	overflow: auto;
+	border-radius: 4px;
+	outline: none;
+	display: flex;
+	flex-direction: column;
+}
+
+:local(.headerContainer) {
+	flex: 1;
+	background-color: #fafafa;
+	display: flex;
+	align-items: center;
+}
+
+:local(.headerContainer) span {
+	margin-right: auto;
+	margin-left: 10px;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .025em;
+	color: #282828;
+}
+
+:local(.headerContainer) div {
+	margin-right: 10px;
+	margin-left: auto;
+	height: 100%;
+	display: flex;
+	align-items: center;	
+}
+
+:local(.headerContainer) div input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+:local(.headerContainer) div label {
+	margin: 0;
+	cursor: pointer;
+	padding: 5px 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .025em;
+	border: none;
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+:local(.headerContainer) div label svg {
+	margin-right: 10px;
+}
+
+:local(.pagesContainer) {
+	flex: 2;
+	background-color: rgba(70,70,70,.2);
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+
+:local(.pagesContainer) img {
+	width: 4%;
+	height: 80%;
+	margin: 0 10px;
+	background-color: white;
+}
+
+:local(.editorContainer) {
+	flex: 12;
+	display: flex;
+	flex-direction: row;
+}
+
+:local(.pdfImageContainer) {
+	flex: 7;
+	background-color: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	overflow-y: scroll;
+	border-right: 1px solid rgba(70,70,70,.2);
+}
+
+:local(.pdfImageContainer) :local(.helpMessageContainer) {
+	width: 100%;
+	display: flex;
+	justify-content: left;
+}
+
+:local(.pdfImageContainer) :local(.helpMessageContainer) span {
+	font-size: 15px;
+}
+
+:local(.pdfImageContainer) img {
+	margin: 10px 0;
+}
+
+:local(.imagesContainer) {
+	flex: 1;
+	background-color: #fafafa;
+	/* display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center; */
+	overflow-y: auto;
+	border-right: 1px solid rgba(70,70,70,.2);
+}
+
+:local(.imagesContainer) div {
+	width: 100%;
+	/* height: 25%; */
+	margin: 10px 0;
+	display: flex;
+	flex-direction: column;
+	/* justify-content: flex-start; */
+	align-items: center;
+}
+
+:local(.imagesContainer) div img {
+	margin: 10px 0;
+	width: 80%;
+	/* height: 70%; */
+	background-color: white;
+}
+
+:local(.imagesContainer) div span {
+	margin: 2px 0 10px;
+	padding: 0;
+	width: 80%;
+	/* height: 15%; */
+	/* display: flex;
+	flex-wrap: wrap; */
+	font-size: 10px;
+	overflow-x: hidden;
+}
+
+:local(.optionsContainer) {
+	flex: 2;
+	background-color: #fafafa;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+:local(.optionsContainer) div {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+:local(.optionsContainer) div button {
+	cursor: pointer;
+	padding: 10px 20px;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .025em;
+	border: none;
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+	outline: none;
+}
+
+:local(.optionsContainer) div button svg {
+	margin-right: 10px;
+}
+
+:local(.optionsContainer) div:nth-last-child(2) button {
+	color: #fff;
+	background-color: #0069ff;
+}
+
+:local(.optionsContainer) div:last-child button {
+	color: #fff;
+	background-color: #f44336;
+}
+
+:local(.optionsMenuOverlay) {
+	position: fixed;
+	z-index: 990;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.55);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: opacity 2000ms ease-in-out;
+}
+
+:local(.optionsMenuModal) {
+	border: 1px solid dimgray;
+	overflow: auto;
+	border-radius: 4px;
+	outline: none;
+	display: flex;
+	flex-direction: column;
+}
+
+:local(.btnContainer) {
+	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+:local(.btnContainer) div {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+:local(.btnContainer) div:first-child {
+	margin: 10px 5px 5px;
+}
+
+:local(.btnContainer) div:nth-child(2) {
+	margin: 5px;
+}
+
+:local(.btnContainer) div:last-child {
+	margin: 5px 5px 10px;
+}
+
+:local(.btnContainer) button {
+	color: black;
+	background-color: #fff;
+	cursor: pointer;
+	padding: 10px 20px;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .025em;
+	border: none;
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+:local(.btnContainer) button svg {
+	margin: 10px;
+	width: 2em;
+	height: 2em;
+}
+
+.orion_button:hover {
+	-ms-transform: null;
+}
+
+:local(.loaderContainer) {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+:local(.iconSpinBig) {
+		font-size: 30px;
+			color: rgb(0,159,255);
+-webkit-animation: icon-spin 2s infinite linear;
+		animation: icon-spin 2s infinite linear;
+}
+
+:local(.iconSpinMedium) {
+	font-size: 20px;
+		color: rgb(0,159,255);
+-webkit-animation: icon-spin 2s infinite linear;
+	animation: icon-spin 2s infinite linear;
+}
+
+@-webkit-keyframes icon-spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+				transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+				transform: rotate(359deg);
+	}
+}
+
+@keyframes icon-spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+				transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+				transform: rotate(359deg);
+	}
+}

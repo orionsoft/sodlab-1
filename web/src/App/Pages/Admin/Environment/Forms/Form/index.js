@@ -13,7 +13,7 @@ import MutationButton from 'App/components/MutationButton'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
-import {Field, WithValue} from 'simple-react-form'
+import { Field, WithValue } from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import Fields from './Fields'
 
@@ -85,7 +85,10 @@ export default class Form extends React.Component {
   }
 
   getFormTypes() {
-    return [{label: 'Crear', value: 'create'}, {label: 'Editar', value: 'update'}]
+    return [
+      { label: 'Crear', value: 'create' },
+      { label: 'Editar', value: 'update' }
+    ]
   }
 
   @autobind
@@ -95,18 +98,21 @@ export default class Form extends React.Component {
 
   @autobind
   removeForm() {
-    const {environmentId} = this.props.match.params
+    const { environmentId } = this.props.match.params
     this.props.showMessage('El formulario fue eliminado')
     this.props.history.push(`/${environmentId}/forms`)
   }
 
   getUpdateVariableTypes() {
-    return [{label: 'Parametro', value: 'parameter'}, {label: 'Editable', value: 'editable'}]
+    return [
+      { label: 'Parametro', value: 'parameter' },
+      { label: 'Editable', value: 'editable' }
+    ]
   }
 
   renderUpdateOptions(form) {
     return (
-      <div style={{marginTop: 15}}>
+      <div style={{ marginTop: 15 }}>
         <div className="label">Nombre de la variable</div>
         <Field fieldName="updateVariableName" type={Text} />
       </div>
@@ -119,7 +125,7 @@ export default class Form extends React.Component {
   }
 
   renderCollection() {
-    const {form, collections} = this.props
+    const { form, collections } = this.props
     const data = collections.items.find(collection => {
       return form.collectionId === collection.value
     })
@@ -135,7 +141,8 @@ export default class Form extends React.Component {
           top
           title={`Editar formulario ${this.props.form.name}`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
-          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
+          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit."
+        >
           <AutoForm
             mutation="updateForm"
             ref="form"
@@ -144,14 +151,19 @@ export default class Form extends React.Component {
             doc={{
               formId: this.props.form._id,
               form: this.props.form
-            }}>
+            }}
+          >
             <Field fieldName="form" type={ObjectField}>
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
               <div className="label">Nombre</div>
               <Field fieldName="name" type={Text} />
               <div className="label">Tipo</div>
-              <Field fieldName="type" type={Select} options={this.getFormTypes()} />
+              <Field
+                fieldName="type"
+                type={Select}
+                options={this.getFormTypes()}
+              />
               <div className="label">Colección (No se puede cambiar)</div>
               {this.renderCollection()}
               <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
@@ -175,7 +187,10 @@ export default class Form extends React.Component {
           <br />
           <div className={styles.buttonContainer}>
             <div>
-              <Button to={`/${this.props.form.environmentId}/forms`} style={{marginRight: 10}}>
+              <Button
+                to={`/${this.props.form.environmentId}/forms`}
+                style={{ marginRight: 10 }}
+              >
                 Cancelar
               </Button>
               <MutationButton
@@ -184,7 +199,7 @@ export default class Form extends React.Component {
                 confirmText="Eliminar"
                 mutation="removeForm"
                 onSuccess={this.removeForm}
-                params={{formId: this.props.form._id}}
+                params={{ formId: this.props.form._id }}
                 danger
               />
             </div>
