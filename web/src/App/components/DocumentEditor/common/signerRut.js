@@ -49,7 +49,6 @@ export default class SignerData extends React.Component {
   }
 
   validate = rut => {
-    // let valor = this.props.rut
     if (rutValidation(rut)) {
       this.props.handleRutValidation(true, true)
     } else {
@@ -67,7 +66,6 @@ export default class SignerData extends React.Component {
           name="signatureRut"
           onChange={this.handleRutChange}
           value={this.props.rut}
-          // onBlur={this.validate}
           {...this.props.checked && {
             style: this.props.valid ? null : { border: '1px solid #ff0000' }
           }}
