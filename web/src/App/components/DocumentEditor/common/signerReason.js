@@ -10,16 +10,24 @@ import gql from 'graphql-tag'
 `)
 export default class SignerReason extends React.Component {
   static propTypes = {
+    elementId: PropTypes.object,
+    collectionId: PropTypes.string,
     documentFromCollection: PropTypes.object,
     styles: PropTypes.object,
-    handleWhyChange: PropTypes.func
+    why: PropTypes.string,
+    handleWhyChange: PropTypes.func,
+    uploadedFileName: PropTypes.string
   }
 
   componentDidMount() {
-    if (!this.props.documentFromCollection) return
-    const {data} = this.props.documentFromCollection
-    if (typeof data.nombre === 'undefined') return
-    this.props.handleWhyChange(data.nombre)
+    const { uploadedFileName } = this.props
+    if (!uploadedFileName) return
+    const fileNameLength = uploadedFileName.split('.').length
+    const fileName = this.props.uploadedFileName
+      .split('.')
+      .splice(0, fileNameLength - 1)
+      .join(' ')
+    this.props.handleWhyChange(fileName)
   }
 
   render() {

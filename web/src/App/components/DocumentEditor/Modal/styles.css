@@ -41,15 +41,30 @@
 	color: #282828;
 }
 
-:local(.headerContainer) div {
+:local(.headerOptions) {
 	margin-right: 10px;
 	margin-left: auto;
 	height: 100%;
 	display: flex;
-	align-items: center;	
 }
 
-:local(.headerContainer) div input[type="file"] {
+@media only screen and (min-width: 1400px) {
+	:local(.headerOptions) {
+		align-items: center;
+	}
+}
+
+:local(.headerSelectContainer) {
+	width: 160px;
+	height: 70%;
+	margin: 0 10px;
+}
+
+:local(.headerInputContainer) {
+	align-self: center;
+}
+
+:local(.headerInputContainer) input[type="file"] {
 	width: 0.1px;
 	height: 0.1px;
 	opacity: 0;

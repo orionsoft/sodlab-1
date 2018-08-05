@@ -111,6 +111,10 @@ export default class Main extends React.Component {
   }
 
   handleSubmitPdf = () => {
+    if (this.state.pdfFileName) {
+      this.requestFileDeletion()
+    }
+
     this.setState({
       size: 0,
       file: null,
@@ -122,6 +126,7 @@ export default class Main extends React.Component {
       pdfImagesSrc: [],
       loading: true
     })
+
     const file = document.getElementById('pdf_file').files[0]
     const form = document.createElement('form')
     const size = file.size
@@ -142,7 +147,9 @@ export default class Main extends React.Component {
         this.setState({ pdfImages: data.message, size: size })
         this.fetchPdfImages()
       })
-      .catch(err => console.log(err))
+      .catch(err =>
+        this.props.showMessage('No se ha podido procesar el documento')
+      )
   }
 
   handleSubmitImg = () => {
@@ -222,7 +229,9 @@ export default class Main extends React.Component {
           )
         }
       })
-      .catch(err => console.log(err))
+      .catch(err =>
+        this.props.showMessage('No se ha podido firmar el documento')
+      )
   }
 
   handleImageClick = e => {
@@ -248,14 +257,16 @@ export default class Main extends React.Component {
     fetch(`${API_URL}/api/pdf/${this.state.pdfFileName}`)
       .then(response => response.blob())
       .then(blob => FileSaver.saveAs(blob, filename))
-      .catch(err => console.log(err))
+      .catch(err =>
+        this.props.showMessage('No se ha podido descargar el archivo')
+      )
   }
 
   @autobind
   async requestCredentials(body) {
-    const { size, uploadedFileName } = this.state
+    const { size } = this.state
     const { result } = await this.props.generateUploadCredentials({
-      name: uploadedFileName,
+      name: body.fileName,
       size: size,
       type: body.fileType
     })
@@ -274,7 +285,6 @@ export default class Main extends React.Component {
       fileType: 'application/pdf'
     }
     const credentials = await this.requestCredentials(body)
-    console.log({ credentials })
     body.key = credentials.key
     body.url = credentials.url
 
@@ -296,9 +306,7 @@ export default class Main extends React.Component {
       })
   }
 
-  handleClose = () => {
-    this.props.onClose()
-    this.resetState()
+  requestFileDeletion = () => {
     const splitFileName = this.state.pdfFileName.split('.')
     const fileName = `${splitFileName[0]}.${splitFileName[1]}`
     const body = { fileName, secret: 'sodlab_allow_delete' }
@@ -310,6 +318,12 @@ export default class Main extends React.Component {
       },
       body: JSON.stringify(body)
     })
+  }
+
+  handleClose = () => {
+    this.props.onClose()
+    this.resetState()
+    this.requestFileDeletion()
   }
 
   handlePdfImagePageChange = e => {
@@ -398,7 +412,6 @@ export default class Main extends React.Component {
           })
         })
         .catch(err => {
-          console.log(err)
           this.setState({ loading: false })
           this.props.showMessage(
             'No se pudo completar la solicitud. Favor volver a intentarlo'
@@ -550,6 +563,7 @@ export default class Main extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     const { uploadedFileName } = this.state
     return (
       <Modal
@@ -566,22 +580,26 @@ export default class Main extends React.Component {
             {uploadedFileName.toUpperCase() ||
               'NO SE HA SELECCIONADO NINGÚN DOCUMENTO'}
           </span>
-          <div>
-            <Select
-              value={
-                this.state.client &&
-                this.state.client[this.props.passProps.valueKey]
-              }
-              onChange={change =>
-                this.setState({
-                  client: { [this.props.passProps.valueKey]: change }
-                })
-              }
-              options={this.props.selectOptions}
-              errorMessage={this.props.errorMessage}
-              {...this.props.passProps}
-            />
-            {this.renderPDFSelect()}
+          <div className={styles.headerOptions}>
+            <div className={styles.headerSelectContainer}>
+              <Select
+                value={
+                  this.state.client &&
+                  this.state.client[this.props.passProps.valueKey]
+                }
+                onChange={change =>
+                  this.setState({
+                    client: { [this.props.passProps.valueKey]: change }
+                  })
+                }
+                options={this.props.selectOptions}
+                errorMessage={this.props.errorMessage}
+                {...this.props.passProps}
+              />
+            </div>
+            <div className={styles.headerInputContainer}>
+              {this.renderPDFSelect()}
+            </div>
           </div>
         </div>
         <div id="pdfPagesRowContainer" className={styles.pagesContainer}>
@@ -638,6 +656,7 @@ export default class Main extends React.Component {
               {rutClient => (
                 <FingerprintAndSignature
                   client={this.state.client || null}
+                  uploadedFileName={this.state.uploadedFileName}
                   addFingerprintOrPenSignature={
                     this.addFingerprintOrPenSignature
                   }

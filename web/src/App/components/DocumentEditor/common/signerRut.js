@@ -12,18 +12,23 @@ import gql from 'graphql-tag'
 `)
 export default class SignerData extends React.Component {
   static propTypes = {
+    elementId: PropTypes.object,
+    collectionId: PropTypes.string,
     documentFromCollection: PropTypes.object,
     styles: PropTypes.object,
     handleRutChange: PropTypes.func,
-    valid: PropTypes.object,
-    checked: PropTypes.object
+    handleRutValidation: PropTypes.func,
+    valid: PropTypes.bool,
+    checked: PropTypes.bool,
+    rut: PropTypes.string
   }
 
   componentDidMount() {
     if (!this.props.documentFromCollection) return
-    const {data} = this.props.documentFromCollection
+    const { data } = this.props.documentFromCollection
     if (typeof data.rut === 'undefined') return
     this.props.handleRutChange(data.rut)
+    this.validate(data.rut)
   }
 
   handleRutChange = e => {
@@ -40,11 +45,12 @@ export default class SignerData extends React.Component {
     let final = numeral(parts.join('')).format('0,0') + '-' + last
     final = final.replace(/,/g, '.')
     this.props.handleRutChange(final)
+    this.validate(final)
   }
 
-  validate = () => {
-    let valor = this.props.rut
-    if (rutValidation(valor)) {
+  validate = rut => {
+    // let valor = this.props.rut
+    if (rutValidation(rut)) {
       this.props.handleRutValidation(true, true)
     } else {
       this.props.handleRutValidation(false, true)
@@ -61,9 +67,9 @@ export default class SignerData extends React.Component {
           name="signatureRut"
           onChange={this.handleRutChange}
           value={this.props.rut}
-          onBlur={this.validate}
+          // onBlur={this.validate}
           {...this.props.checked && {
-            style: this.props.valid ? null : {border: '1px solid #ff0000'}
+            style: this.props.valid ? null : { border: '1px solid #ff0000' }
           }}
         />
       </div>

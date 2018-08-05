@@ -23,11 +23,12 @@ class FingerprintAndSignature extends React.Component {
     form: PropTypes.object,
     addFingerprintOrPenSignature: PropTypes.func,
     handleSubmitImg: PropTypes.func,
-    renderToggleConnectedStatus: PropTypes.string,
-    renderToggleHelpMessages: PropTypes.string,
+    renderToggleConnectedStatus: PropTypes.func,
+    renderToggleHelpMessages: PropTypes.func,
     signatureState: PropTypes.object,
     handleSubmitSignature: PropTypes.func,
-    isCaptured: PropTypes.bool
+    isCaptured: PropTypes.bool,
+    uploadedFileName: PropTypes.string
   }
 
   state = {
@@ -40,22 +41,24 @@ class FingerprintAndSignature extends React.Component {
   }
 
   openModal = () => {
-    this.setState({modalIsOpen: true})
+    this.setState({ modalIsOpen: true })
     this.props.startFingerprint()
   }
 
   closeModal = () => {
-    this.setState({modalIsOpen: false})
+    this.setState({ modalIsOpen: false })
     this.props.stopFingerprintCapturing()
   }
 
-  handleWhoChange = who => this.props.handleWhoChange(who, () => this.setState({who}))
+  handleWhoChange = who =>
+    this.props.handleWhoChange(who, () => this.setState({ who }))
 
-  handleWhyChange = why => this.props.handleWhyChange(why, () => this.setState({why}))
+  handleWhyChange = why =>
+    this.props.handleWhyChange(why, () => this.setState({ why }))
 
-  handleRutChange = rut => this.setState({rut})
+  handleRutChange = rut => this.setState({ rut })
 
-  handleRutValidation = (valid, checked) => this.setState({valid, checked})
+  handleRutValidation = (valid, checked) => this.setState({ valid, checked })
 
   startSignatureCapture = () => {
     this.props.startCapture()
@@ -67,7 +70,8 @@ class FingerprintAndSignature extends React.Component {
   }
 
   saveCapture = () => {
-    const penSignatureImg = document.getElementById('signatureImageBox').firstChild
+    const penSignatureImg = document.getElementById('signatureImageBox')
+      .firstChild
     if (penSignatureImg.src === null || penSignatureImg.src === '') return
     const penSignatureImgSrc = penSignatureImg.src
 
@@ -106,7 +110,8 @@ class FingerprintAndSignature extends React.Component {
           onClose={this.closeModal}
           className={styles.modal}
           overlayClassName={styles.overlay}
-          contentLabel="Confirmación">
+          contentLabel="Confirmación"
+        >
           <div className={styles.contentContainer}>
             <div className={styles.deviceContainer}>
               <div className={styles.imageContainer}>
@@ -115,16 +120,20 @@ class FingerprintAndSignature extends React.Component {
                   textStyle={styles.statusText}
                   staticText={'Captura de Firma'}
                 />
-                <TextSection
+                {/* <TextSection
                   containerStyle={styles.helpContainer}
                   textStyle={styles.helpText}
                   staticText={this.props.signatureState.helpText}
+                /> */}
+                <div
+                  id="signatureImageBox"
+                  className={styles.signatureImageBox}
                 />
-                <div id="signatureImageBox" className={styles.signatureImageBox} />
                 <button
                   id="startSignatureCapture"
                   className={styles.startCapture}
-                  onClick={this.startSignatureCapture}>
+                  onClick={this.startSignatureCapture}
+                >
                   Iniciar Captura
                 </button>
               </div>
@@ -134,12 +143,17 @@ class FingerprintAndSignature extends React.Component {
                   textStyle={styles.statusText}
                   text={this.props.renderToggleConnectedStatus}
                 />
-                <TextSection
+                {/* <TextSection
                   containerStyle={styles.helpContainer}
                   textStyle={styles.helpText}
                   text={this.props.renderToggleHelpMessages}
+                /> */}
+                <img
+                  id="fingerprintImage"
+                  alt=""
+                  src=""
+                  className={styles.fingerprintImage}
                 />
-                <img id="fingerprintImage" alt="" src="" className={styles.fingerprintImage} />
               </div>
             </div>
             <div className={styles.personalInfoContainer}>
@@ -149,6 +163,8 @@ class FingerprintAndSignature extends React.Component {
                 who={this.state.who}
                 handleWhoChange={this.handleWhoChange}
                 collectionId={this.props.collectionId}
+                firstNameKey={this.props.firstNameKey}
+                lastNameKey={this.props.lastNameKey}
               />
               <SignerRut
                 styles={styles}
@@ -163,10 +179,10 @@ class FingerprintAndSignature extends React.Component {
               <SignerReason
                 styles={styles}
                 elementId={this.props.client || {}}
-                materia={this.props.client || ''}
                 why={this.state.why}
                 handleWhyChange={this.handleWhyChange}
                 collectionId={this.props.collectionId}
+                uploadedFileName={this.props.uploadedFileName}
               />
             </div>
             <div className={styles.buttonsContainer}>
@@ -174,9 +190,17 @@ class FingerprintAndSignature extends React.Component {
                 type="button"
                 id="saveSignature"
                 value="aceptar"
-                disabled={!(this.state.who !== '' && this.state.valid && this.props.isCaptured)}
+                disabled={
+                  !(
+                    this.state.who !== '' &&
+                    this.state.valid &&
+                    this.props.isCaptured
+                  )
+                }
                 style={
-                  this.state.who !== '' && this.state.valid && this.props.isCaptured
+                  this.state.who !== '' &&
+                  this.state.valid &&
+                  this.props.isCaptured
                     ? {
                         color: '#fff',
                         backgroundColor: '#2196f3'
