@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@orion-js/app": "^0.6.0",
-    "@orion-js/auth": "^0.6.0",
+    "@orion-js/auth": "^0.6.1",
     "@orion-js/file-manager": "^0.6.0",
     "@orion-js/graphql": "^0.6.0",
     "@orion-js/jobs": "^0.6.0",
