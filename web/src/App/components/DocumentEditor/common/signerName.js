@@ -10,10 +10,14 @@ import gql from 'graphql-tag'
 `)
 export default class SignerData extends React.Component {
   static propTypes = {
+    elementId: PropTypes.object,
     collectionId: PropTypes.string,
     documentFromCollection: PropTypes.object,
     styles: PropTypes.object,
-    handleWhoChange: PropTypes.func
+    who: PropTypes.string,
+    handleWhoChange: PropTypes.func,
+    firstNameKey: PropTypes.string,
+    lastNameKey: PropTypes.string
   }
 
   state = {
@@ -23,7 +27,10 @@ export default class SignerData extends React.Component {
 
   componentDidMount() {
     if (!this.props.documentFromCollection) return
-    const signerName = 'nombre_completo'
+    const { documentFromCollection, firstNameKey, lastNameKey } = this.props
+    const firstName = documentFromCollection.data[firstNameKey]
+    const lastName = documentFromCollection.data[lastNameKey]
+    const signerName = `${firstName} ${lastName}`
     this.props.handleWhoChange(signerName)
   }
 
