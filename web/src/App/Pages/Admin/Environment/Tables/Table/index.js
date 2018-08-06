@@ -30,6 +30,7 @@ import FieldOptions from './FieldOptions'
       collectionId
       filtersIds
       allowsNoFilter
+      orderFiltersByName
       fields {
         type
         fieldName
@@ -193,8 +194,24 @@ export default class Link extends React.Component {
               {this.renderCollection()}
               <div className="label">Filtros</div>
               <Field fieldName="filtersIds" type={Select} multi options={this.getFilters()} />
-              <div className="label">Se puede usar sin filtro</div>
-              <Field fieldName="allowsNoFilter" type={Checkbox} label="Se puede usar sin filtro" />
+              <div className="row">
+                <div className="col-xs-6 col-sm-">
+                  <div className="label">Se puede usar sin filtro</div>
+                  <Field
+                    fieldName="allowsNoFilter"
+                    type={Checkbox}
+                    label="Se puede usar sin filtro"
+                  />
+                </div>
+                <div className="col-xs-6 col-sm-">
+                  <div className="label">Ordenar filtros alfabéticamente</div>
+                  <Field
+                    fieldName="orderFiltersByName"
+                    type={Checkbox}
+                    label="Ordenar filtros alfabéticamente"
+                  />
+                </div>
+              </div>
               <div className="label">Que campos mostrar</div>
               {this.renderCollectionFields()}
             </Field>
