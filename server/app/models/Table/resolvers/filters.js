@@ -6,6 +6,11 @@ export default resolver({
   returns: [Filter],
   async resolve(table, params, viewer) {
     if (!table.filtersIds || !table.filtersIds.length) return []
-    return await Filters.find({_id: {$in: table.filtersIds}}).toArray()
+    const filters = Promise.all(
+      table.filtersIds.map(async filterId => {
+        return await Filters.findOne(filterId)
+      })
+    )
+    return filters
   }
 })
