@@ -19,6 +19,8 @@ import file from './file'
 import selectOptions from './selectOptions'
 import singleSelect from './singleSelect'
 import multipleSelect from './multipleSelect'
+import document from './document'
+import textArea from './textArea'
 import indicatorSelect from './indicatorSelect'
 import hookSelect from './hookSelect'
 
@@ -45,5 +47,7 @@ export default {
   file,
   selectOptions,
   singleSelect,
-  multipleSelect
+  multipleSelect,
+  document,
+  textArea
 }

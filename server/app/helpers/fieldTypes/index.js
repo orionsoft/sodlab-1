@@ -15,6 +15,8 @@ import percentage from './percentage'
 import file from './file'
 import singleSelect from './singleSelect'
 import multipleSelect from './multipleSelect'
+import document from './document'
+import textArea from './textArea'
 
 export default {
   percentage,
@@ -33,5 +35,7 @@ export default {
   manyOf,
   file,
   singleSelect,
-  multipleSelect
+  multipleSelect,
+  document,
+  textArea
 }
