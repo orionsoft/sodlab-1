@@ -6,11 +6,15 @@ export default resolver({
   returns: [Filter],
   async resolve(indicator, params, viewer) {
     if (!indicator.filtersIds || !indicator.filtersIds.length) return []
-    const filters = Promise.all(
-      indicator.filtersIds.map(async filterId => {
-        return await Filters.findOne(filterId)
-      })
-    )
+    const filters = indicator.orderFiltersByName
+      ? await Filters.find({_id: {$in: indicator.filtersIds}})
+          .sort({title: 1})
+          .toArray()
+      : Promise.all(
+          indicator.filtersIds.map(async filterId => {
+            return await Filters.findOne(filterId)
+          })
+        )
     return filters
   }
 })

@@ -51,5 +51,9 @@ export default {
   options: {
     type: 'blackbox',
     optional: true
+  },
+  orderFiltersByName: {
+    type: Boolean,
+    optional: true
   }
 }
