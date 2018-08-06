@@ -14,12 +14,14 @@ import autobind from 'autobind-decorator'
     $formId: ID
     $fieldName: String
     $collectionFieldName: String
+    $filterId: ID
   ) {
     selectOptions(
       environmentId: $environmentId
       formId: $formId
       fieldName: $fieldName
       collectionFieldName: $collectionFieldName
+      filterId: $filterId
     ) {
       label
       value
@@ -56,6 +58,7 @@ export default class OneOf extends React.Component {
     passProps: PropTypes.object,
     collectionFieldName: PropTypes.string,
     collectionId: PropTypes.string,
+    filterId: PropTypes.string,
     refetch: PropTypes.func
   }
 
