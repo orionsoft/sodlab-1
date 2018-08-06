@@ -35,7 +35,7 @@ export default resolver({
       const searchBy = valueKey === '_id' ? '_id' : `data.${valueKey}`
       const item = await db.findOne({[searchBy]: value})
       if (!item) return
-      return valueKey === '_id' ? item._id : item.data[labelKey]
+      return labelKey === '_id' ? item._id : item.data[labelKey]
     }
   }
 })
