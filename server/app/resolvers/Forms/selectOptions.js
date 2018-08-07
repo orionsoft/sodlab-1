@@ -2,6 +2,7 @@ import {resolver, Model} from '@orion-js/app'
 import Forms from 'app/collections/Forms'
 import Collections from 'app/collections/Collections'
 import Environments from 'app/collections/Environments'
+import Filters from 'app/collections/Filters'
 
 const SelectOption = new Model({
   name: 'SelectOption',
@@ -31,10 +32,14 @@ export default resolver({
     collectionFieldName: {
       type: String,
       optional: true
+    },
+    filterId: {
+      type: 'ID',
+      optional: true
     }
   },
   returns: [SelectOption],
-  async resolve({environmentId, formId, fieldName, collectionFieldName}, viewer) {
+  async resolve({environmentId, formId, fieldName, collectionFieldName, filterId}, viewer) {
     const form = formId ? await Forms.findOne(formId) : await Environments.findOne(environmentId)
 
     const schema = formId ? await form.schema() : await form.profileSchema()
@@ -54,7 +59,9 @@ export default resolver({
       [`data.${valueKey}`]: 1,
       [`data.${labelKey}`]: 1
     }
-    const items = await db.find({}, {fields}).toArray()
+
+    const query = filterId ? await (await Filters.findOne(filterId)).createQuery({}, viewer) : {}
+    const items = await db.find(query, {fields}).toArray()
     return items.map(item => {
       return {
         value: valueKey === '_id' ? item._id : item.data[valueKey],
