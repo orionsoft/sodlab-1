@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@orion-js/graphql-client@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@orion-js/graphql-client/-/graphql-client-0.3.1.tgz#32e9b8d4e52ccccaad9e7bcd036cf69d7f575f65"
+"@orion-js/graphql-client@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@orion-js/graphql-client/-/graphql-client-0.6.3.tgz#8a71b15b82b36e229df734e4667b15fbdcf123d3"
   dependencies:
     apollo-cache-inmemory "^1.2.5"
     apollo-client "^2.3.5"
@@ -21,9 +21,9 @@
     subscriptions-transport-ws "^0.9.12"
     unfetch "^3.0.0"
 
-"@orion-js/schema@^0.5.8":
-  version "0.5.13"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.5.13.tgz#d164d9e76abda71dc325a77cb8ebdf15d8a9803f"
+"@orion-js/schema@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.6.0.tgz#7ab7bf6c6ff43b9fa22554b9616eae1ff86d222d"
   dependencies:
     lodash "^4.17.10"
 
