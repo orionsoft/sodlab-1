@@ -30,7 +30,8 @@ export default {
     filterId: {
       type: String,
       label: 'Filtro',
-      fieldType: 'filterSelect'
+      fieldType: 'filterSelect',
+      optional: true
     }
   }
 }
