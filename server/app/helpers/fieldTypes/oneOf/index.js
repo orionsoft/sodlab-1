@@ -27,6 +27,12 @@ export default {
       type: String,
       label: 'Campo de título',
       fieldType: 'collectionFieldSelect'
+    },
+    filterId: {
+      type: String,
+      label: 'Filtro',
+      fieldType: 'filterSelect',
+      optional: true
     }
   }
 }

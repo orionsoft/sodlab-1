@@ -55,7 +55,7 @@ export default class Fields extends React.Component {
   @autobind
   fieldsFromState() {
     if (this.state.fields) return this.state.fields
-    if (this.props.collection.fields) return this.props.collection.fields
+    if (this.props.collection.fields) return cloneDeep(this.props.collection.fields)
     return []
   }
 

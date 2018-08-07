@@ -45,5 +45,9 @@ export default {
     type: [TableField],
     defaultValue: [],
     optional: true
+  },
+  orderFiltersByName: {
+    type: Boolean,
+    optional: true
   }
 }

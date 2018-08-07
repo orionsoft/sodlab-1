@@ -11,6 +11,7 @@ import email from './email'
 import select from './select'
 import collectionSelect from './collectionSelect'
 import collectionFieldSelect from './collectionFieldSelect'
+import filterSelect from './filterSelect'
 import oneOf from './oneOf'
 import manyOf from './manyOf'
 import currency from './currency'
@@ -42,6 +43,7 @@ export default {
   select,
   collectionSelect,
   collectionFieldSelect,
+  filterSelect,
   oneOf,
   manyOf,
   file,
