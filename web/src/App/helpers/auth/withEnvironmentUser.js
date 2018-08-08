@@ -1,68 +1,46 @@
 import React from 'react'
-import {withApollo} from 'react-apollo'
-import {withRouter} from 'react-router'
-import withSession from './withSession'
+import withUserId from './withUserId'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
 import PropTypes from 'prop-types'
+import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import ForceLogout from 'App/Pages/Auth/ForceLogout'
 
-let envUserId = null
 let envFetched = false
 
-const fetchEnvironmentUser = async function(apollo, userId, environmentId) {
-  envFetched = true
-  const {data} = await apollo.query({
-    query: gql`
+export default function(ComposedComponent) {
+  @withUserId
+  @withEnvironmentId
+  @withGraphQL(
+    gql`
       query getEnvironmentUser($userId: ID) {
         environmentUser(userId: $userId) {
           _id
           environmentId
         }
       }
-    `,
-    variables: {userId}
-  })
-  console.log('comparar')
-  console.log(data.environmentUser, environmentId)
-  if (data.environmentUser && data.environmentUser.environmentId === environmentId) {
-    console.log('ENTRA')
-    envUserId = data.environmentUser._id
-  }
-}
-
-export default function(ComposedComponent) {
-  @withRouter
-  @withApollo
-  @withSession
-  @withEnvironmentId
+    `
+  )
   class WithEnvironmentUserId extends React.Component {
     static propTypes = {
-      history: PropTypes.object,
-      session: PropTypes.object,
+      userId: PropTypes.string,
       environmentId: PropTypes.string,
-      client: PropTypes.object
+      environmentUser: PropTypes.object
     }
 
-    state = {loading: true}
+    state = {envUserId: false}
 
-    async componentWillMount() {
-      if (envFetched) return this.setState({loading: false, envUserId})
-      const {userId} = this.props.session
-      const {environmentId} = this.props
-      await fetchEnvironmentUser(this.props.client, userId, environmentId)
-      this.setState({envUserId, loading: false})
-    }
-
-    getEnvironmentId() {
-      return envUserId
+    static getDerivedStateFromProps(props, state) {
+      if (envFetched) return {envUserId: true}
+      const {environmentUser, environmentId} = props
+      if (!environmentUser || environmentUser.environmentId !== environmentId) {
+        return {envUserId: false}
+      }
+      return {envUserId: true}
     }
 
     render() {
-      console.log('props and state')
-      console.log(this.props)
-      console.log(this.state)
-      if (this.state.loading || !this.state.envUserId) return <ForceLogout />
+      if (!this.state.envUserId) return <ForceLogout />
       return <ComposedComponent {...this.props} />
     }
   }

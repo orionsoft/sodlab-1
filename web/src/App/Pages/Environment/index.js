@@ -16,7 +16,6 @@ import Watch from './Watch'
 
 @forceLogin
 @withEnvironmentId
-@withEnvironmentUser
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
     environment(environmentId: $environmentId) {
@@ -31,14 +30,16 @@ import Watch from './Watch'
     }
   }
 `)
+@withEnvironmentUser
 export default class Environment extends React.Component {
   static propTypes = {
     environment: PropTypes.object,
     views: PropTypes.object,
-    environmentUserId: PropTypes.string
+    environmentId: PropTypes.string
   }
 
   componentDidMount() {
+    console.log(this.props)
     const {environment} = this.props
     document.title = `${environment.name}`
   }
