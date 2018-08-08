@@ -18,7 +18,7 @@ export default class Logout extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <p>This account doesn't have permissions, please log out.</p>
+        <p>Esta cuenta no pertenece a este ambiente. Por favor, cerrar sesión</p>
         <Button onClick={this.logout} danger>
           Sign out
         </Button>
