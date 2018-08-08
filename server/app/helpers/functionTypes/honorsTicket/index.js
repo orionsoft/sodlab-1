@@ -10,7 +10,13 @@ const fields = [
   'receptorId',
   'productsIds',
   'productsCollectionId',
-  'clientsCollectionId'
+  'clientsCollectionId',
+  'receptorRut',
+  'receptorRs',
+  'receptorComuna',
+  'receptorDirection',
+  'productsName',
+  'productsPrice'
 ]
 
 export default {
@@ -23,12 +29,12 @@ export default {
     },
     date: {
       type: String,
-      label: 'Campo fecha',
+      label: 'Fecha (desde formulario)',
       fieldType: 'collectionFieldSelect'
     },
     retention: {
       type: String,
-      label: 'Retención',
+      label: 'Retención (desde formulario)',
       fieldType: 'collectionFieldSelect'
     },
     clientsCollectionId: {
@@ -38,30 +44,30 @@ export default {
     },
     receptorId: {
       type: String,
-      label: 'Identificador Cliente',
+      label: 'Identificador Cliente (desde formulario)',
       fieldType: 'collectionFieldSelect'
     },
     receptorRut: {
       type: String,
-      label: 'Campo RUT Cliente',
+      label: 'Campo RUT Cliente (de colección Cliente)',
       fieldType: 'collectionFieldSelect',
       optional: true
     },
     receptorRs: {
       type: String,
-      label: 'Campo Razón Social Cliente',
+      label: 'Campo Razón Social Cliente (de colección Cliente)',
       fieldType: 'collectionFieldSelect',
       optional: true
     },
     receptorComuna: {
       type: String,
-      label: 'Campo Comuna Cliente',
+      label: 'Campo Comuna Cliente (de colección Cliente)',
       fieldType: 'collectionFieldSelect',
       optional: true
     },
     receptorDirection: {
       type: String,
-      label: 'Campo Dirección Cliente',
+      label: 'Campo Dirección Cliente (de colección Cliente)',
       fieldType: 'collectionFieldSelect',
       optional: true
     },
@@ -72,18 +78,18 @@ export default {
     },
     productsIds: {
       type: [String],
-      label: 'Identificador Producto',
+      label: 'Identificador Producto (desde formulario)',
       fieldType: 'collectionFieldSelect'
     },
     productsName: {
       type: String,
-      label: 'Campo Nombre Productos',
+      label: 'Campo Nombre Productos (de colección Productos)',
       fieldType: 'collectionFieldSelect',
       optional: true
     },
     productsPrice: {
       type: String,
-      label: 'Campo Precio Productos',
+      label: 'Campo Precio Productos (de colección Productos)',
       fieldType: 'collectionFieldSelect',
       optional: true
     }
@@ -116,7 +122,10 @@ export default {
     const products = await Promise.all(promises)
 
     const productsList = products.map(product => {
-      return {nombre: product.data.name, precio: parseInt(product.data.price)}
+      return {
+        nombre: product.data[params.productsName],
+        precio: parseInt(product.data[params.productsPrice])
+      }
     })
 
     const options = {
@@ -130,10 +139,10 @@ export default {
           retencion: params.retention
         },
         receptor: {
-          rut: client.data['rut'],
-          rs: client.data['rs'],
-          comuna: client.data['comuna'],
-          direccion: client.data['direction']
+          rut: client.data[params.receptorRut],
+          rs: client.data[params.receptorRs],
+          comuna: client.data[params.receptorComuna],
+          direccion: client.data[params.receptorDireccion]
         },
         detalles: productsList,
         expects: 'all'
