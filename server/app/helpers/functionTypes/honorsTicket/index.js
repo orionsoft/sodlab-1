@@ -2,6 +2,7 @@ import Collections from 'app/collections/Collections'
 import Environments from 'app/collections/Environments'
 import formatDate from 'app/helpers/misc/formatDate'
 import DTEEmission from 'app/helpers/functionTypes/helpers/DTEEmission'
+import clean from 'app/helpers/fieldTypes/rut/clean'
 
 const fields = [
   'collectionId',
@@ -50,26 +51,22 @@ export default {
     receptorRut: {
       type: String,
       label: 'Campo RUT Cliente (de colección Cliente)',
-      fieldType: 'collectionFieldSelect',
-      optional: true
+      fieldType: 'collectionFieldSelect'
     },
     receptorRs: {
       type: String,
       label: 'Campo Razón Social Cliente (de colección Cliente)',
-      fieldType: 'collectionFieldSelect',
-      optional: true
+      fieldType: 'collectionFieldSelect'
     },
     receptorComuna: {
       type: String,
       label: 'Campo Comuna Cliente (de colección Cliente)',
-      fieldType: 'collectionFieldSelect',
-      optional: true
+      fieldType: 'collectionFieldSelect'
     },
     receptorDirection: {
       type: String,
       label: 'Campo Dirección Cliente (de colección Cliente)',
-      fieldType: 'collectionFieldSelect',
-      optional: true
+      fieldType: 'collectionFieldSelect'
     },
     productsCollectionId: {
       type: String,
@@ -84,14 +81,22 @@ export default {
     productsName: {
       type: String,
       label: 'Campo Nombre Productos (de colección Productos)',
-      fieldType: 'collectionFieldSelect',
-      optional: true
+      fieldType: 'collectionFieldSelect'
     },
     productsPrice: {
       type: String,
       label: 'Campo Precio Productos (de colección Productos)',
-      fieldType: 'collectionFieldSelect',
-      optional: true
+      fieldType: 'collectionFieldSelect'
+    },
+    ticketPdf: {
+      type: String,
+      label: 'Campo para almacenar pdf (de colección Boletas)',
+      fieldType: 'collectionFieldSelect'
+    },
+    ticketIdDoc: {
+      type: String,
+      label: 'Campo para almacenar id de documento (de colección Boletas)',
+      fieldType: 'collectionFieldSelect'
     }
   },
   async execute(params) {
@@ -118,9 +123,7 @@ export default {
     const promises = params.productsIds.map(async productId => {
       return await productsDB.findOne(productId)
     })
-
     const products = await Promise.all(promises)
-
     const productsList = products.map(product => {
       return {
         nombre: product.data[params.productsName],
@@ -131,28 +134,27 @@ export default {
     const options = {
       headers: {
         Accept: 'application/json',
-        Authorization: 'Bearer ' + liorenId
+        Authorization: 'Bearer ' + liorenId,
+        'Content-Type': 'application/json'
       },
-      data: {
-        emisor: {
-          fecha: formatDate(params.date),
-          retencion: params.retention
-        },
+      body: {
+        fecha: formatDate(params.date),
+        retencion: params.retention,
         receptor: {
-          rut: client.data[params.receptorRut],
+          rut: clean(client.data[params.receptorRut]),
           rs: client.data[params.receptorRs],
           comuna: client.data[params.receptorComuna],
-          direccion: client.data[params.receptorDireccion]
+          direccion: client.data[params.receptorDirection]
         },
         detalles: productsList,
         expects: 'all'
       }
     }
 
-    console.log(JSON.stringify(options))
+    console.log(JSON.stringify(options, undefined, 4))
 
     const dte = await DTEEmission(options)
 
-    console.log(dte)
+    console.log(await dte)
   }
 }

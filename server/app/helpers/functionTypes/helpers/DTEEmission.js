@@ -1,12 +1,10 @@
 import fetch from 'node-fetch'
 
-export default async function emitirDTE(options) {
-  var url = 'https://lioren.cl/api/bhe'
-
+export default async function emitirDTE(options, url) {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
   const call = await fetch(url, {
-    method: 'POST', // or 'PUT'
-    body: options.data, // data can be `string` or {object}!
+    method: 'POST',
+    body: JSON.stringify(options.body),
     headers: options.headers
   })
     .then(res => {
@@ -17,6 +15,7 @@ export default async function emitirDTE(options) {
     })
     .then(response => {
       console.log('Success: ', response)
+      return response
     })
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1'
   return await call
