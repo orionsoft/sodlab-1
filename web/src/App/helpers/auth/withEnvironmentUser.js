@@ -6,8 +6,6 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import ForceLogout from 'App/Pages/Auth/ForceLogout'
 
-let envFetched = false
-
 export default function(ComposedComponent) {
   @withUserId
   @withEnvironmentId
@@ -31,7 +29,6 @@ export default function(ComposedComponent) {
     state = {envUserId: false}
 
     static getDerivedStateFromProps(props, state) {
-      if (envFetched) return {envUserId: true}
       const {environmentUser, environmentId} = props
       if (!environmentUser || environmentUser.environmentId !== environmentId) {
         return {envUserId: false}
