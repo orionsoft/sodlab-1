@@ -161,9 +161,6 @@ export default class Link extends React.Component {
 
   render() {
     if (!this.props.table) return null
-    console.log('1')
-    console.log(this.props)
-    console.log(this.state)
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.table.title}</Breadcrumbs>
