@@ -75,14 +75,8 @@ export default class Link extends React.Component {
 
   state = {}
 
-  componentDidMount() {
-    this.setState(cloneDeep(this.props.table))
-  }
-
   static getDerivedStateFromProps(props, state) {
-    return {
-      fields: state.fields || props.table.fields || []
-    }
+    return props.table || {}
   }
 
   getFilters() {
