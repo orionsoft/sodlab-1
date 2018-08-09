@@ -1,8 +1,4 @@
 import {resolvers} from '@orion-js/file-manager'
-import FormData from 'form-data'
-import fetch from 'unfetch'
-import rp from 'request-promise'
-import fs from 'fs'
 import AWS from 'aws-sdk'
 
 export default async function uploadPDF(dte, tipoDoc) {
@@ -14,51 +10,6 @@ export default async function uploadPDF(dte, tipoDoc) {
     type: 'application/pdf',
     size: fileSize
   })
-
-  console.log({credentials})
-
-  // let data = {
-  //   ...credentials.fields,
-  //   key: credentials.key,
-  //   file: {
-  //     value: file,
-  //     contentType: 'application/pdf'
-  //   }
-  // }
-  // console.log({data})
-  //
-  // await rp({
-  //   method: 'POST',
-  //   uri: credentials.url,
-  //   formData: JSON.stringify(data)
-  // })
-  ////
-  // var formData = new FormData()
-  // const data = {
-  //   ...credentials.fields,
-  //   key: credentials.key,
-  //   file: file
-  // }
-  //
-  // for (const name in data) {
-  //   formData.append(name, data[name])
-  // }
-  //
-  // await fetch(credentials.url, {
-  //   method: 'POST',
-  //   // body: formData
-  //   body: JSON.stringify(data)
-  // })
-  //   .then(res => {
-  //     return res.json()
-  //   })
-  //   .catch(error => {
-  //     console.log('Error: ', error)
-  //   })
-  //   .then(response => {
-  //     console.log('Success: ', response)
-  //     return response
-  //   })
 
   AWS.config.update({
     accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
@@ -79,9 +30,6 @@ export default async function uploadPDF(dte, tipoDoc) {
     if (err) console.log(err)
     else console.log(data)
   })
-  console.log({uploadData})
-
-  console.log('enviado')
 
   const completeUpload = await resolvers.completeUpload({
     fileId: credentials.fileId
