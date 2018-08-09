@@ -4,12 +4,12 @@ import EnvironmentUsers from 'app/collections/EnvironmentUsers'
 
 export default resolver({
   params: {
-    environmentUserId: {
+    userId: {
       type: 'ID'
     }
   },
   returns: EnvironmentUser,
-  async resolve({environmentUserId}, viewer) {
-    return await EnvironmentUsers.findOne(environmentUserId)
+  async resolve({userId}, viewer) {
+    return await EnvironmentUsers.findOne({userId})
   }
 })
