@@ -14,7 +14,6 @@ export default async function emitirDTE(options, url) {
       console.log('Error: ', error)
     })
     .then(response => {
-      console.log('Success: ', response)
       return response
     })
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1'

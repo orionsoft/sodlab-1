@@ -16,7 +16,7 @@ export default {
       label: 'Mensaje'
     }
   },
-  async execute({to, subject, message}) {
+  async execute({options: {to, subject, message}, itemId}) {
     await sendEmail({
       to,
       subject,

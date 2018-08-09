@@ -11,6 +11,7 @@ export default class Field extends React.Component {
   }
 
   render() {
+    const passProps = {...this.props.passProps, placeholder: 'Seleccionar...'}
     return (
       <Select
         value={this.props.value}
@@ -18,7 +19,7 @@ export default class Field extends React.Component {
         options={this.props.passProps.options}
         errorMessage={this.props.errorMessage}
         multi
-        {...this.props.passProps}
+        passProps={passProps}
       />
     )
   }

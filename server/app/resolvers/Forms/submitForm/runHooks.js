@@ -3,7 +3,7 @@ export default async function({form, item}) {
   const params = {_id: item._id, ...item.data}
   for (const hook of hooks) {
     try {
-      await hook.execute({params})
+      await hook.execute({params, itemId: item._id})
     } catch (e) {
       console.log('Error running hook', e)
     }

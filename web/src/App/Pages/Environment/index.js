@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
+import withEnvironmentUser from 'App/helpers/auth/withEnvironmentUser'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
@@ -29,10 +30,12 @@ import Watch from './Watch'
     }
   }
 `)
+@withEnvironmentUser
 export default class Environment extends React.Component {
   static propTypes = {
     environment: PropTypes.object,
-    views: PropTypes.object
+    views: PropTypes.object,
+    environmentId: PropTypes.string
   }
 
   componentDidMount() {
