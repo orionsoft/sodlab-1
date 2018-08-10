@@ -140,3 +140,9 @@
   border-radius: 4px;
   padding: 4px 7px;
 }
+
+@media only screen and (max-width: 768px) {
+  .paginated-container {
+    max-width: calc(100vw - 40px);
+  }
+}
