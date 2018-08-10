@@ -1,4 +1,5 @@
 import {File} from '@orion-js/file-manager'
+import isUndefined from 'lodash/isUndefined'
 
 export default {
   name: 'Archivo',
@@ -8,6 +9,8 @@ export default {
   optionsSchema: null,
   _clean: File._clean,
   autoValue: async function(value) {
-    return await File._clean(value)
+    if (!isUndefined(value)) {
+      return await File._clean(value)
+    }
   }
 }
