@@ -6,10 +6,13 @@ export default resolver({
   params: {
     userId: {
       type: 'ID'
+    },
+    environmentId: {
+      type: 'ID'
     }
   },
   returns: EnvironmentUser,
-  async resolve({userId}, viewer) {
-    return await EnvironmentUsers.findOne({userId})
+  async resolve({userId, environmentId}, viewer) {
+    return await EnvironmentUsers.findOne({userId, environmentId})
   }
 })

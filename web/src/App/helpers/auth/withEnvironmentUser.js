@@ -11,8 +11,8 @@ export default function(ComposedComponent) {
   @withEnvironmentId
   @withGraphQL(
     gql`
-      query getEnvironmentUserByUserId($userId: ID) {
-        environmentUser: environmentUserByUserId(userId: $userId) {
+      query getEnvironmentUserByUserId($userId: ID, $environmentId: ID) {
+        environmentUser: environmentUserByUserId(userId: $userId, environmentId: $environmentId) {
           _id
           environmentId
         }
