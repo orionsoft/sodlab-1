@@ -37,6 +37,7 @@ export default function(ComposedComponent) {
     }
 
     render() {
+      if (!this.props.environmentUser) return null
       if (!this.state.envUserId) return <ForceLogout />
       return <ComposedComponent {...this.props} />
     }
