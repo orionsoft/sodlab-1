@@ -18,7 +18,7 @@ export default {
       label: 'URL'
     }
   },
-  async execute({collectionId, itemId, url}) {
+  async execute({options: {collectionId, itemId, url}}) {
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)

@@ -28,7 +28,7 @@ export default {
       fieldType: 'indicatorSelect'
     }
   },
-  async execute({collectionId, valueKey, itemIdParamName, itemId, indicatorId}) {
+  async execute({options: {collectionId, valueKey, itemIdParamName, itemId, indicatorId}}) {
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)

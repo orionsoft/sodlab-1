@@ -15,7 +15,11 @@ export default class Option extends React.Component {
   }
 
   getTypes() {
-    return [{value: 'fixed', label: 'Valor fijo'}, {value: 'parameter', label: 'Parametro'}]
+    return [
+      {value: 'fixed', label: 'Valor fijo'},
+      {value: 'parameter', label: 'Parámetro'},
+      {value: 'extracted', label: 'Campo a rescatar'}
+    ]
   }
 
   renderParameterOptions() {
@@ -23,6 +27,15 @@ export default class Option extends React.Component {
       <div>
         <div className="label">Nombre de la variable</div>
         <Field fieldName="parameterName" type={getField('string')} />
+      </div>
+    )
+  }
+
+  renderExtractedOptions() {
+    return (
+      <div>
+        <div className="label">Nombre de la variable</div>
+        <Field fieldName="extractedName" type={getField('string')} />
       </div>
     )
   }
@@ -48,6 +61,8 @@ export default class Option extends React.Component {
       return this.renderFixedValue()
     } else if (option.type === 'parameter') {
       return this.renderParameterOptions()
+    } else if (option.type === 'extracted') {
+      return this.renderExtractedOptions()
     }
   }
 

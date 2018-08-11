@@ -53,5 +53,10 @@ export default {
     type: [Field],
     defaultValue: [],
     optional: true
+  },
+  liorenId: {
+    type: String,
+    label: 'Lioren ID',
+    optional: true
   }
 }
