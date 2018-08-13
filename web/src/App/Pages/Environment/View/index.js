@@ -164,7 +164,7 @@ export default class View extends React.Component {
       <div className={styles.container}>
         {this.renderFullSizeStyles()}
         <Container>
-          <h1>{view.title}</h1>
+          <h1>{view.title && view.title}</h1>
           {this.renderItems(view.items)}
         </Container>
       </div>
