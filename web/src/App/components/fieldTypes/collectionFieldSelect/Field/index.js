@@ -10,7 +10,9 @@ export default class FieldSelect extends React.Component {
     field: PropTypes.object,
     errorMessage: PropTypes.node,
     collectionId: PropTypes.string,
-    includeId: PropTypes.bool
+    includeId: PropTypes.bool,
+    passProps: PropTypes.object,
+    parentCollection: PropTypes.string
   }
 
   static defaultProps = {
@@ -31,7 +33,14 @@ export default class FieldSelect extends React.Component {
   }
 
   render() {
-    if (this.props.collectionId) {
+    if (this.props.parentCollection) {
+      if (!this.props.field) return this.renderSelectCollection()
+      if (!this.props.field.options) return this.renderSelectCollection()
+      if (!this.props.field.options[this.props.parentCollection]) {
+        return this.renderSelectCollection()
+      }
+      return this.renderField(this.props.field.options[this.props.parentCollection])
+    } else if (this.props.collectionId) {
       return this.renderField(this.props.collectionId)
     } else {
       if (!this.props.field) return this.renderSelectCollection()

@@ -4,136 +4,48 @@ import formatDate from 'app/helpers/misc/formatDate'
 import DTEEmission from 'app/helpers/functionTypes/helpers/DTEEmission'
 import clean from 'app/helpers/fieldTypes/rut/clean'
 import uploadPDF from 'app/helpers/functionTypes/helpers/uploadPDF'
+import optionsSchema from './optionsSchema'
 
 const fields = [
-  'collectionId',
-  'date',
-  'retention',
-  'receptorId',
-  'productsIds',
-  'productsCollectionId',
+  'ticketsCollectionId',
+  'ticketDateField',
+  'ticketRetentionField',
+  'ticketReceptorIdField',
+  'ticketProductsIdsField',
   'clientsCollectionId',
-  'receptorRut',
-  'receptorRs',
-  'receptorComuna',
-  'receptorDirection',
-  'productsName',
-  'productsPrice'
+  'receptorRutField',
+  'receptorRsField',
+  'receptorComunaField',
+  'receptorDirectionField',
+  'productsCollectionId',
+  'productsNameField',
+  'productsPriceField',
+  'ticketPDFField',
+  'ticketIDField',
+  'ticketFolioField',
+  'ticketTotalHonorarioField',
+  'ticketTotalRetencionField',
+  'ticketTotalPagoField',
+  'ticketBarCodeField'
 ]
 
 export default {
   name: 'Emitir Boleta de Honorarios',
-  optionsSchema: {
-    collectionId: {
-      label: 'Colección Boletas de Honorarios',
-      type: String,
-      fieldType: 'collectionSelect'
-    },
-    date: {
-      type: String,
-      label: 'Fecha (desde formulario)',
-      fieldType: 'collectionFieldSelect'
-    },
-    retention: {
-      type: String,
-      label: 'Retención (desde formulario)',
-      fieldType: 'collectionFieldSelect'
-    },
-    clientsCollectionId: {
-      type: String,
-      label: 'Colección de Clientes',
-      fieldType: 'collectionSelect'
-    },
-    receptorId: {
-      type: String,
-      label: 'Identificador Cliente (desde formulario)',
-      fieldType: 'collectionFieldSelect'
-    },
-    receptorRut: {
-      type: String,
-      label: 'Campo RUT Cliente (de colección Cliente)',
-      fieldType: 'collectionFieldSelect'
-    },
-    receptorRs: {
-      type: String,
-      label: 'Campo Razón Social Cliente (de colección Cliente)',
-      fieldType: 'collectionFieldSelect'
-    },
-    receptorComuna: {
-      type: String,
-      label: 'Campo Comuna Cliente (de colección Cliente)',
-      fieldType: 'collectionFieldSelect'
-    },
-    receptorDirection: {
-      type: String,
-      label: 'Campo Dirección Cliente (de colección Cliente)',
-      fieldType: 'collectionFieldSelect'
-    },
-    productsCollectionId: {
-      type: String,
-      label: 'Colección de Productos',
-      fieldType: 'collectionSelect'
-    },
-    productsIds: {
-      type: [String],
-      label: 'Identificador Producto (desde formulario)',
-      fieldType: 'collectionFieldSelect'
-    },
-    productsName: {
-      type: String,
-      label: 'Campo Nombre Productos (de colección Productos)',
-      fieldType: 'collectionFieldSelect'
-    },
-    productsPrice: {
-      type: String,
-      label: 'Campo Precio Productos (de colección Productos)',
-      fieldType: 'collectionFieldSelect'
-    },
-    ticketID: {
-      type: String,
-      label: 'Campo para almacenar ID de boleta (de colección Boletas) (opcional)',
-      fieldType: 'collectionFieldSelect',
-      optional: true
-    },
-    ticketFolio: {
-      type: String,
-      label: 'Campo para almacenar folio de boleta (de colección Boletas) (opcional)',
-      fieldType: 'collectionFieldSelect'
-    },
-    ticketTotalHonorario: {
-      type: String,
-      label:
-        'Campo para almacenar el total de honorario de boleta (de colección Boletas) (opcional)',
-      fieldType: 'collectionFieldSelect'
-    },
-    ticketTotalRetencion: {
-      type: String,
-      label:
-        'Campo para almacenar el total de retención de boleta (de colección Boletas) (opcional)',
-      fieldType: 'collectionFieldSelect'
-    },
-    ticketTotalPago: {
-      type: String,
-      label: 'Campo para almacenar el total de pago de boleta (de colección Boletas) (opcional)',
-      fieldType: 'collectionFieldSelect'
-    },
-    ticketBarCode: {
-      type: String,
-      label: 'Campo para almacenar Código de barras de boleta (de colección Boletas) (opcional)',
-      fieldType: 'collectionFieldSelect'
-    }
-  },
+  optionsSchema: optionsSchema,
   async execute({options: params, itemId}) {
     fields.map(field => {
       if (!params.hasOwnProperty(field)) {
-        throw new Error('Información faltante')
+        throw new Error('Información faltante: ' + field)
       }
     })
 
-    const collection = await Collections.findOne(params.collectionId)
+    const collection = await Collections.findOne(params.ticketsCollectionId)
     const environment = await Environments.findOne({_id: collection.environmentId})
     const {liorenId} = environment
     if (!liorenId) throw new Error('No hay ID de Lioren para emisión de documentos')
+
+    const ticketsDB = await collection.db()
+    const ticket = await ticketsDB.findOne(itemId)
 
     const clientsCol = await Collections.findOne(params.clientsCollectionId)
     const productsCol = await Collections.findOne(params.productsCollectionId)
@@ -141,16 +53,17 @@ export default {
     const clientsDB = await clientsCol.db()
     const productsDB = await productsCol.db()
 
-    const client = await clientsDB.findOne(params.receptorId)
+    const client = await clientsDB.findOne(ticket.data[params.ticketReceptorIdField])
 
-    const promises = params.productsIds.map(async productId => {
-      return await productsDB.findOne(productId)
-    })
-    const products = await Promise.all(promises)
+    const products = await Promise.all(
+      ticket.data[params.ticketProductsIdsField].map(async productId => {
+        return await productsDB.findOne(productId)
+      })
+    )
     const productsList = products.map(product => {
       return {
-        nombre: product.data[params.productsName],
-        precio: parseInt(product.data[params.productsPrice])
+        nombre: product.data[params.productsNameField],
+        precio: parseInt(product.data[params.productsPriceField])
       }
     })
 
@@ -161,13 +74,13 @@ export default {
         'Content-Type': 'application/json'
       },
       body: {
-        fecha: formatDate(params.date),
-        retencion: params.retention,
+        fecha: formatDate(ticket.data[params.ticketDateField]),
+        retencion: ticket.data[params.ticketRetentionField],
         receptor: {
-          rut: clean(client.data[params.receptorRut]),
-          rs: client.data[params.receptorRs],
-          comuna: client.data[params.receptorComuna],
-          direccion: client.data[params.receptorDirection]
+          rut: clean(client.data[params.receptorRutField]),
+          rs: client.data[params.receptorRsField],
+          comuna: client.data[params.receptorComunaField],
+          direccion: client.data[params.receptorDirectionField]
         },
         detalles: productsList,
         expects: 'all'
@@ -187,16 +100,15 @@ export default {
       size: pdf.size
     }
 
-    const ticketsDB = await collection.db()
-    const ticket = await ticketsDB.findOne(itemId)
     await ticket.update({
       $set: {
-        [`data.${params.ticketID}`]: dte.id,
-        [`data.${params.ticketFolio}`]: dte.folio,
-        [`data.${params.ticketTotalHonorario}`]: dte.totalhonorario,
-        [`data.${params.ticketTotalRetencion}`]: dte.totalretencion,
-        [`data.${params.ticketTotalPago}`]: dte.totalpago,
-        [`data.${params.ticketBarCode}`]: dte.barcode
+        [`data.${params.ticketPDFField}`]: file,
+        [`data.${params.ticketIDField}`]: dte.id,
+        [`data.${params.ticketFolioField}`]: dte.folio,
+        [`data.${params.ticketTotalHonorarioField}`]: dte.totalhonorario,
+        [`data.${params.ticketTotalRetencionField}`]: dte.totalretencion,
+        [`data.${params.ticketTotalPagoField}`]: dte.totalpago,
+        [`data.${params.ticketBarCodeField}`]: dte.barcode
       }
     })
   }
