@@ -69,14 +69,13 @@ export default class OneOf extends React.Component {
 
   render() {
     if (!this.props.selectOptions) return null
-    const passProps = {...this.props.passProps, placeholder: 'Seleccionar...'}
     return (
       <Select
         value={this.props.value}
         onChange={this.props.onChange}
         options={this.props.selectOptions}
         errorMessage={this.props.errorMessage}
-        passProps={passProps}
+        passProps={{placeholder: 'Seleccionar...'}}
       />
     )
   }

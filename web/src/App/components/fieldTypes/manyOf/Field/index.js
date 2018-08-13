@@ -69,7 +69,6 @@ export default class ManyOf extends React.Component {
 
   render() {
     if (!this.props.selectOptions) return null
-    const passProps = {...this.props.passProps, placeholder: 'Seleccionar...'}
     return (
       <Select
         value={this.props.value}
@@ -77,7 +76,7 @@ export default class ManyOf extends React.Component {
         options={this.props.selectOptions}
         errorMessage={this.props.errorMessage}
         multi
-        passProps={passProps}
+        passProps={{placeholder: 'Seleccionar...'}}
       />
     )
   }
