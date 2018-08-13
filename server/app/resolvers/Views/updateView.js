@@ -18,6 +18,9 @@ export default resolver({
   mutation: true,
   role: 'admin',
   async resolve({viewId, view: viewData}, viewer) {
+    if (!viewData.hasOwnProperty('title')) {
+      viewData['title'] = null
+    }
     const view = await Views.findOne(viewId)
     await view.update({$set: viewData})
     return view
