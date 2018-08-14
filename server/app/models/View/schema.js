@@ -11,8 +11,13 @@ export default {
   path: {
     type: String,
     label: 'Ruta',
-    custom(path) {
+    async custom(path, {doc}) {
       if (!path.startsWith('/')) return 'invalidPath'
+      if (doc.viewId) {
+        const view = await Views.findOne(doc.viewId)
+        const result = await Views.findOne({path, environmentId: view.environmentId})
+        if (result && view._id !== result._id) return 'notUnique'
+      }
     }
   },
   name: {
@@ -20,12 +25,14 @@ export default {
     label: 'Nombre',
     description: 'Solo puede haber una vista con este nombre',
     async custom(name, {doc}) {
-      const view = await Views.findOne({
-        name: {$regex: `^${name}$`, $options: 'i'},
-        environmentId: doc.environmentId
-      })
-      console.log({view})
-      if (view) return 'notUnique'
+      if (doc.viewId) {
+        const view = await Views.findOne(doc.viewId)
+        const result = await Views.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: view.environmentId
+        })
+        if (result && view._id !== result._id) return 'notUnique'
+      }
     }
   },
   title: {

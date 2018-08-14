@@ -1,3 +1,4 @@
+import Forms from 'app/collections/Forms'
 import Field from './Field'
 export default {
   _id: {
@@ -8,7 +9,18 @@ export default {
   },
   name: {
     type: String,
-    label: 'Nombre'
+    label: 'Nombre',
+    description: 'Solo puede haber un formulario con este nombre',
+    async custom(name, {doc}) {
+      if (doc.formId) {
+        const form = await Forms.findOne(doc.formId)
+        const result = await Forms.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: form.environmentId
+        })
+        if (result && form._id !== result._id) return 'notUnique'
+      }
+    }
   },
   title: {
     type: String,

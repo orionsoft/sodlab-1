@@ -1,10 +1,22 @@
+import Hooks from 'app/collections/Hooks'
 export default {
   _id: {
     type: 'ID'
   },
   name: {
     type: String,
-    label: 'Nombre'
+    label: 'Nombre',
+    description: 'Solo puede haber un hook con este nombre',
+    async custom(name, {doc}) {
+      if (doc.hookId) {
+        const hook = await Hooks.findOne(doc.hookId)
+        const result = await Hooks.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: hook.environmentId
+        })
+        if (result && hook._id !== result._id) return 'notUnique'
+      }
+    }
   },
   environmentId: {
     type: 'ID'

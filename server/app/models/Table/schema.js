@@ -1,5 +1,6 @@
 import isEmpty from 'lodash/isEmpty'
 import TableField from './TableField'
+import Tables from 'app/collections/Tables'
 
 export default {
   _id: {
@@ -14,7 +15,18 @@ export default {
   },
   name: {
     type: String,
-    label: 'Nombre'
+    label: 'Nombre',
+    description: 'Solo puede haber una tabla con este nombre',
+    async custom(name, {doc}) {
+      if (doc.tableId) {
+        const table = await Tables.findOne(doc.tableId)
+        const result = await Tables.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: table.environmentId
+        })
+        if (result && table._id !== result._id) return 'notUnique'
+      }
+    }
   },
   createdAt: {
     type: Date

@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
+import Indicators from 'app/collections/Indicators'
 
 export default {
   _id: {
@@ -6,7 +7,18 @@ export default {
   },
   name: {
     type: String,
-    label: 'Nombre'
+    label: 'Nombre',
+    description: 'Solo puede haber un indicador con este nombre',
+    async custom(name, {doc}) {
+      if (doc.indicatorId) {
+        const indicator = await Indicators.findOne(doc.indicatorId)
+        const result = await Indicators.findOne({
+          name: {$regex: `^${name}$`, $options: 'i'},
+          environmentId: indicator.environmentId
+        })
+        if (result && indicator._id !== result._id) return 'notUnique'
+      }
+    }
   },
   title: {
     type: String,
