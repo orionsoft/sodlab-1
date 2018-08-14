@@ -62,11 +62,16 @@ export default resolver({
 
     const query = filterId ? await (await Filters.findOne(filterId)).createQuery({}, viewer) : {}
     const items = await db.find(query, {fields}).toArray()
-    return items.map(item => {
-      return {
-        value: valueKey === '_id' ? item._id : item.data[valueKey],
-        label: labelKey === '_id' ? item._id : item.data[labelKey]
-      }
-    })
+    return items
+      .filter(
+        item =>
+          (valueKey === '_id' || item.data[valueKey]) && (labelKey === '_id' || item.data[labelKey])
+      )
+      .map(item => {
+        return {
+          value: valueKey === '_id' ? item._id : item.data[valueKey],
+          label: labelKey === '_id' ? item._id : item.data[labelKey]
+        }
+      })
   }
 })
