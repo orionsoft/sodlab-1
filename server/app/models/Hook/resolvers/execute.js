@@ -1,4 +1,5 @@
 import {resolver} from '@orion-js/app'
+import Validations from 'app/collections/Validations'
 
 export default resolver({
   params: {
@@ -6,15 +7,25 @@ export default resolver({
       type: 'blackbox'
     },
     itemId: {
-      type: 'ID'
+      type: 'ID',
+      optional: true
     }
   },
   returns: Boolean,
   mutation: true,
   private: true,
   async resolve(hook, {params, itemId}, viewer) {
+    for (const validationId of hook.validationsIds || []) {
+      const validation = await Validations.findOne(validationId)
+      try {
+        await validation.execute({params})
+      } catch (error) {
+        console.log('Hook validation did not pass', error)
+        return
+      }
+    }
     const functionType = await hook.functionType()
     const options = await hook.getOptions({params})
-    return await functionType.executeFunction({options, itemId})
+    return await functionType.executeFunction({options, itemId, params})
   }
 })

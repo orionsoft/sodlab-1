@@ -31,5 +31,10 @@ export default {
   options: {
     type: 'blackbox',
     optional: true
+  },
+  validationsIds: {
+    type: ['ID'],
+    label: 'Validaciones',
+    optional: true
   }
 }

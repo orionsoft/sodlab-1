@@ -9,6 +9,7 @@ export default [
   {title: 'Hooks', path: '/hooks'},
   {title: 'Links', path: '/links'},
   {title: 'Indicadores', path: '/indicators'},
+  {title: 'Validaciones', path: '/validations'},
   {title: 'Endpoints', path: '/endpoints'},
   {title: 'Usuarios', path: '/users'},
   {title: 'Configuración', path: '/configuration'}

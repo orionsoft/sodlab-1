@@ -8,10 +8,10 @@ export default resolver({
   },
   returns: 'blackbox',
   private: true,
-  async resolve(hook, {params}, viewer) {
+  async resolve(validation, {params}, viewer) {
     const result = {}
-    for (const key of Object.keys(hook.options)) {
-      const option = hook.options[key]
+    for (const key of Object.keys(validation.options)) {
+      const option = validation.options[key]
       if (option.type === 'parameter') {
         result[key] = params[option.parameterName]
       } else if (option.type === 'fixed') {
