@@ -1,4 +1,5 @@
 import ViewItem from './ViewItem'
+import Views from 'app/collections/Views'
 
 export default {
   _id: {
@@ -16,7 +17,16 @@ export default {
   },
   name: {
     type: String,
-    label: 'Nombre'
+    label: 'Nombre',
+    description: 'Solo puede haber una vista con este nombre',
+    async custom(name, {doc}) {
+      const view = await Views.findOne({
+        name: {$regex: `^${name}$`, $options: 'i'},
+        environmentId: doc.environmentId
+      })
+      console.log({view})
+      if (view) return 'notUnique'
+    }
   },
   title: {
     type: String,
