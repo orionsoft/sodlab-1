@@ -25,18 +25,14 @@ export default class Data extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (!state || isEmpty(state)) {
-      return {
-        props
-      }
+    if (isEmpty(state)) {
+      return {props}
     }
     if (
       JSON.stringify(props.data.data.result) !== JSON.stringify(state.props.data.data.result) ||
       JSON.stringify(props.data.variables) !== JSON.stringify(state.props.data.variables)
     ) {
-      return {
-        props
-      }
+      return {props}
     }
   }
 
