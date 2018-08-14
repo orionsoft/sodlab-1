@@ -3,6 +3,7 @@ import Pagination from './Pagination'
 import Table from './Table'
 import Message from './Message'
 import PropTypes from 'prop-types'
+import isEmpty from 'lodash/isEmpty'
 
 export default class Data extends React.Component {
   static propTypes = {
@@ -15,6 +16,24 @@ export default class Data extends React.Component {
     debouncing: PropTypes.bool,
     selectedItemId: PropTypes.string,
     loadingComponent: PropTypes.any
+  }
+
+  state = {}
+
+  componentDidMount() {
+    this.setState(this.props)
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (isEmpty(state)) {
+      return {props}
+    }
+    if (
+      JSON.stringify(props.data.data.result) !== JSON.stringify(state.props.data.data.result) ||
+      JSON.stringify(props.data.variables) !== JSON.stringify(state.props.data.variables)
+    ) {
+      return {props}
+    }
   }
 
   renderLoading() {
@@ -59,12 +78,13 @@ export default class Data extends React.Component {
   }
 
   render() {
-    if (this.props.data.error) {
+    if (!this.state || isEmpty(this.state)) return null
+    if (this.state.props.data.error) {
       return this.renderError()
-    } else if (!this.props.data.data.result) {
+    } else if (!this.state.props.data.data.result) {
       if (
-        (this.props.data.networkStatus === 1 && Object.keys(this.props.data).length === 10) ||
-        this.props.data.networkStatus === 2
+        this.state.props.data.networkStatus === 1 &&
+        Object.keys(this.state.props.data).length === 10
       ) {
         return this.renderLoading()
       }
@@ -73,7 +93,7 @@ export default class Data extends React.Component {
     return (
       <div className="paginated-container box">
         {this.renderTable()}
-        <Pagination {...this.props} result={this.props.data.data.result} />
+        <Pagination {...this.props} result={this.state.props.data.data.result} />
       </div>
     )
   }
