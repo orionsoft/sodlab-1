@@ -24,6 +24,8 @@ export default paginatedResolver({
     if (filter) {
       query.name = {$regex: new RegExp(`^${escape(filter)}`)}
     }
-    return Links.find(query).sort({name: 1})
+    return Links.find(query)
+      .rawCursor.collation({locale: 'es'})
+      .sort({title: 1})
   }
 })
