@@ -75,8 +75,12 @@ export default class Link extends React.Component {
 
   state = {}
 
+  componentDidMount() {
+    this.setState(this.props.table)
+  }
+
   static getDerivedStateFromProps(props, state) {
-    return props.table || {}
+    return state || props.table || {}
   }
 
   getFilters() {
