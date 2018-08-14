@@ -1,5 +1,6 @@
 import {File} from '@orion-js/file-manager'
 import Field from 'app/models/Field'
+import Environments from 'app/collections/Environments'
 
 export default {
   _id: {
@@ -11,7 +12,15 @@ export default {
   },
   name: {
     type: String,
-    label: 'Nombre'
+    label: 'Nombre',
+    description: 'Solo puede haber un ambiente con este nombre',
+    async custom(name, {doc}) {
+      if (doc.environmentId) {
+        const environment = await Environments.findOne(doc.environmentId)
+        const result = await Environments.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
+        if (result && environment._id !== result._id) return 'notUnique'
+      }
+    }
   },
   createdAt: {
     type: Date

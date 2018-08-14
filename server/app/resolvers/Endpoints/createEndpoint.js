@@ -17,12 +17,19 @@ export default resolver({
     },
     identifier: {
       type: String,
-      label: 'Identificador'
+      label: 'Identificador',
+      description: 'Identificador único',
+      async custom(identifier) {
+        const result = await Endpoints.findOne({
+          identifier: {$regex: `^${identifier}$`, $options: 'i'}
+        })
+        if (result) return 'notUnique'
+      }
     },
     name: {
       type: String,
       label: 'Nombre',
-      description: 'Solo puede haber una tabla con este nombre',
+      description: 'Solo puede haber un endpoint con este nombre',
       async custom(name) {
         const result = await Endpoints.findOne({name: {$regex: `^${name}$`, $options: 'i'}})
         if (result) return 'notUnique'
