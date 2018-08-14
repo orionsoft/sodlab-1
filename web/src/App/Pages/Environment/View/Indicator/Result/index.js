@@ -56,7 +56,7 @@ export default class Result extends React.Component {
     if (renderType === 'number') {
       return this.renderNumberValue(value, '0,0.[00]')
     }
-    if (renderType === 'money') {
+    if (renderType === 'money' || renderType === 'currency') {
       return this.renderNumberValue(value, '$0,0.[00]')
     }
     if (renderType === 'boolean') {

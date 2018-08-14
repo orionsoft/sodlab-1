@@ -14,7 +14,7 @@ export default resolver({
   returns: String,
   async resolve(indicator, params, viewer) {
     const type = await indicator.indicatorType()
-    const {options} = indicator
-    return await type.getRenderType({options}, viewer)
+    const {options, collectionId, fieldName} = indicator
+    return await type.getRenderType({options, collectionId, fieldName}, viewer)
   }
 })
