@@ -9,7 +9,7 @@ export default {
   },
   identifier: {
     type: String,
-    label: 'Título',
+    label: 'Identificador',
     description: 'Identificador único',
     async custom(identifier, {doc}) {
       if (doc.endpointId) {
@@ -24,7 +24,7 @@ export default {
   name: {
     type: String,
     label: 'Nombre',
-    description: 'Solo puede haber una tabla con este nombre',
+    description: 'Solo puede haber un endpoint con este nombre',
     async custom(name, {doc}) {
       if (doc.endpointId) {
         const endpoint = await Endpoints.findOne(doc.endpointId)
