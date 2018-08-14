@@ -5,6 +5,6 @@ import getEnvironmentUpdatedHooks from 'app/helpers/misc/getEnvironmentUpdatedHo
 export default new Collection({
   name: 'roles',
   model: Role,
-  indexes: [],
+  indexes: [{keys: {name: 1}, options: {collation: {locale: 'es', strength: 1}}}],
   hooks: getEnvironmentUpdatedHooks
 })
