@@ -12,17 +12,12 @@ export default {
   createdAt: {
     type: Date
   },
-  functionTypeId: {
+  validationTypeId: {
     type: 'ID',
     optional: true
   },
   options: {
     type: 'blackbox',
-    optional: true
-  },
-  validationsIds: {
-    type: ['ID'],
-    label: 'Validaciones',
     optional: true
   }
 }

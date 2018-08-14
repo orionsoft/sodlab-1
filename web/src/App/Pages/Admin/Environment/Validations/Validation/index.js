@@ -16,28 +16,20 @@ import ObjectField from 'App/components/fields/ObjectField'
 import autobind from 'autobind-decorator'
 import Option from './Option'
 import mapValues from 'lodash/mapValues'
-import Select from 'orionsoft-parts/lib/components/fields/Select'
 
 @withGraphQL(gql`
-  query hook($hookId: ID, $environmentId: ID) {
-    hook(hookId: $hookId) {
+  query validation($validationId: ID) {
+    validation(validationId: $validationId) {
       _id
       name
       environmentId
-      functionTypeId
+      validationTypeId
       options
-      validationsIds
     }
-    functionTypes {
+    validationTypes {
       value: _id
       label: name
       optionsParams
-    }
-    validations(environmentId: $environmentId) {
-      items {
-        value: _id
-        label: name
-      }
     }
   }
 `)
@@ -46,17 +38,16 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 export default class Hook extends React.Component {
   static propTypes = {
     history: PropTypes.object,
-    hook: PropTypes.object,
+    validation: PropTypes.object,
     showMessage: PropTypes.func,
     match: PropTypes.object,
-    functionTypes: PropTypes.array,
-    validations: PropTypes.object
+    validationTypes: PropTypes.object
   }
 
   remove() {
     const {environmentId} = this.props.match.params
-    this.props.showMessage('Elemento eliminado satisfactoriamente!')
-    this.props.history.push(`/${environmentId}/hooks`)
+    this.props.showMessage('Validación eliminada satisfactoriamente!')
+    this.props.history.push(`/${environmentId}/validations`)
   }
 
   getOptionsPreview(item) {
@@ -65,12 +56,12 @@ export default class Hook extends React.Component {
 
   @autobind
   renderOptions(item) {
-    if (!item.functionTypeId) return
-    const functionType = this.props.functionTypes.find(f => f.value === item.functionTypeId)
-    if (!functionType) return
-    if (!functionType.optionsParams) return
-    const fields = Object.keys(functionType.optionsParams).map(name => {
-      const schema = functionType.optionsParams[name]
+    if (!item.validationTypeId) return
+    const validationType = this.props.validationTypes.find(f => f.value === item.validationTypeId)
+    if (!validationType) return
+    if (!validationType.optionsParams) return
+    const fields = Object.keys(validationType.optionsParams).map(name => {
+      const schema = validationType.optionsParams[name]
       return (
         <Option
           key={name}
@@ -90,56 +81,50 @@ export default class Hook extends React.Component {
   }
 
   render() {
-    if (!this.props.hook) return null
+    if (!this.props.validation) return null
     return (
       <div className={styles.container}>
-        <Breadcrumbs>{this.props.hook.name}</Breadcrumbs>
+        <Breadcrumbs>{this.props.validation.name}</Breadcrumbs>
         <Section
           top
-          title={`Editar hook ${this.props.hook.name}`}
+          title={`Editar validation ${this.props.validation.name}`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
         ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
-            mutation="updateHook"
+            mutation="updateValidation"
             ref="form"
-            only="hook"
+            only="validation"
             onSuccess={() => this.props.showMessage('Los campos fueron guardados')}
             doc={{
-              hookId: this.props.hook._id,
-              hook: this.props.hook
+              validationId: this.props.validation._id,
+              validation: this.props.validation
             }}>
-            <Field fieldName="hook" type={ObjectField}>
+            <Field fieldName="validation" type={ObjectField}>
               <div className="label">Nombre</div>
               <Field fieldName="name" type={getField('string')} />
               <div className="label">Función</div>
               <Field
-                fieldName="functionTypeId"
+                fieldName="validationTypeId"
                 type={getField('select')}
-                options={this.props.functionTypes}
+                options={this.props.validationTypes}
               />
-              <div className="label">Validaciones</div>
-              <Field
-                fieldName="validationsIds"
-                type={Select}
-                multi
-                options={this.props.validations.items}
-              />
-              <div className="description">Si pasa todas las validaciones el hook se ejecuta</div>
               <WithValue>{this.renderOptions}</WithValue>
             </Field>
           </AutoForm>
           <br />
-          <Button to={`/${this.props.hook.environmentId}/hooks`} style={{marginRight: 10}}>
+          <Button
+            to={`/${this.props.validation.environmentId}/validations`}
+            style={{marginRight: 10}}>
             Cancelar
           </Button>
           <MutationButton
             label="Eliminar"
             title="Eliminar Hook"
-            message="¿Quieres eliminar este hook?"
+            message="¿Quieres eliminar este validation?"
             confirmText="Eliminar"
             mutation="removeHook"
             onSuccess={() => this.remove()}
-            params={{hookId: this.props.hook._id}}
+            params={{validationId: this.props.validation._id}}
             danger
           />
           <Button onClick={() => this.refs.form.submit()} primary>

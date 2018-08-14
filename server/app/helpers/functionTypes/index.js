@@ -3,11 +3,15 @@ import updateValueWithIndicator from './updateValueWithIndicator'
 import postItem from './postItem'
 import honorsTicket from './honorsTicket'
 import signDocumentWithHSM from './signDocumentWithHSM'
+import log from './log'
+import validationSwitch from './validationSwitch'
 
 export default {
   sendEmail,
   updateValueWithIndicator,
   postItem,
   honorsTicket,
-  signDocumentWithHSM
+  signDocumentWithHSM,
+  validationSwitch,
+  log
 }

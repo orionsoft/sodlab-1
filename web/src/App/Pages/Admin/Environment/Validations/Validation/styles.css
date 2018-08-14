@@ -1,0 +1,9 @@
+:local(.container) {
+}
+
+:local(.options) {
+  border-top: 1px solid #eee;
+  margin-top: 30px;
+  padding-top: 20px;
+  margin-bottom: 10px;
+}

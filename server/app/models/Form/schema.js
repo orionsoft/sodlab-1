@@ -46,6 +46,11 @@ export default {
     label: 'Hooks',
     optional: true
   },
+  validationsIds: {
+    type: ['ID'],
+    label: 'Validaciones',
+    optional: true
+  },
   submitButtonText: {
     type: String,
     optional: true

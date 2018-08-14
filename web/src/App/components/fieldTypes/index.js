@@ -25,6 +25,7 @@ import textArea from './textArea'
 import indicatorSelect from './indicatorSelect'
 import hookSelect from './hookSelect'
 import fileURL from './fileURL'
+import validationSelect from './validationSelect'
 
 export default {
   hookSelect,
@@ -53,5 +54,6 @@ export default {
   multipleSelect,
   document,
   textArea,
-  fileURL
+  fileURL,
+  validationSelect
 }

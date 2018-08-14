@@ -7,12 +7,7 @@ export default resolver({
   async resolve(form, params, viewer) {
     const hooksIds = form.afterHooksIds
     if (!hooksIds || !hooksIds.length) return []
-    const hooks = Promise.all(
-      hooksIds.map(async hookId => {
-        return await Hooks.findOne(hookId)
-      })
-    )
-    // sort maybe?
+    const hooks = Promise.all(hooksIds.map(hookId => Hooks.findOne(hookId)))
     return hooks
   }
 })
