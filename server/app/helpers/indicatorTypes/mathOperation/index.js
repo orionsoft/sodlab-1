@@ -1,4 +1,5 @@
 import Indicators from 'app/collections/Indicators'
+import get from 'lodash/get'
 import * as math from 'mathjs'
 
 export default {
@@ -15,9 +16,23 @@ export default {
     operation: {
       type: String,
       label: 'Operación'
+    },
+    renderType: {
+      type: String,
+      label: 'Formato',
+      fieldType: 'select',
+      fieldOptions: {
+        options: [
+          {label: 'Número', value: 'number'},
+          {label: 'Porcentaje', value: 'percentage'},
+          {label: 'Moneda', value: 'money'}
+        ]
+      }
     }
   },
-  getRenderType: () => 'number',
+  getRenderType: ({options}) => {
+    return get(options, 'renderType.fixed.value', 'number')
+  },
   async getResult({options, params}) {
     const values = []
     if (options.indicatorsIds) {
