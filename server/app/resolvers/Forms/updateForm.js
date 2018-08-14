@@ -18,6 +18,12 @@ export default resolver({
   mutation: true,
   role: 'admin',
   async resolve({formId, form: formData}, viewer) {
+    if (!formData.type) throw new Error('Tipo requerido')
+    if (
+      formData.type === 'update' &&
+      (!formData.updateVariableName || formData.updateVariableName === '')
+    )
+      throw new Error('Nombre de variable requerido')
     const buttons = ['submitButtonText', 'resetButtonText']
     buttons.map(button => {
       if (!formData.hasOwnProperty(button)) {
