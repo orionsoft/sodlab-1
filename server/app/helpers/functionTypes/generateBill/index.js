@@ -68,7 +68,7 @@ export default {
 
     const productsId = await productsDB.find({[`data.${params.productsOrdersIds}`]: itemId}).toArray()
 
-    const productsList = productsId.map(async product => {
+    const mapProducts = productsId.map(async product => {
       const sku = await masterProductsDB.findOne({_id: product.data[params.productsSku]})
       return {
         codigo: sku.data[params.skuMaestroProductosCollection],
@@ -80,6 +80,7 @@ export default {
       }
     })
 
+    const productsList = await Promise.all(mapProducts)
     const options = {
       headers: {
         Accept: 'application/json',
