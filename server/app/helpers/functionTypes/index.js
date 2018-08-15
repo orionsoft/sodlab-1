@@ -5,6 +5,7 @@ import honorsTicket from './honorsTicket'
 import signDocumentWithHSM from './signDocumentWithHSM'
 import log from './log'
 import validationSwitch from './validationSwitch'
+import generateBill from './generateBill'
 
 export default {
   sendEmail,
@@ -13,5 +14,6 @@ export default {
   honorsTicket,
   signDocumentWithHSM,
   validationSwitch,
-  log
+  log,
+  generateBill
 }
