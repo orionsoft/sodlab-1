@@ -42,13 +42,13 @@ import clone from 'lodash/clone'
         subItems
       }
     }
-    forms(limit: null, environmentId: $environmentId) {
+    forms(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name
       }
     }
-    tables(limit: null, environmentId: $environmentId) {
+    tables(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name
@@ -60,7 +60,7 @@ import clone from 'lodash/clone'
         label: name
       }
     }
-    indicators(environmentId: $environmentId) {
+    indicators(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name
