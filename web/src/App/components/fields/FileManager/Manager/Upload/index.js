@@ -80,7 +80,7 @@ export default class Upload extends React.Component {
 
   @autobind
   async complete(fileId) {
-    await this.props.completeUpload({fileId})
+    await this.props.completeUpload({fileId}, {refetchQueries: ['getFiles']})
     this.props.showMessage('El archivo se cargó correctamente')
   }
 

@@ -21,6 +21,7 @@ export default class Manager extends React.Component {
   }
 
   render() {
+    console.log('file', this.selectFile)
     return (
       <div className={styles.container}>
         <div className={styles.content}>
