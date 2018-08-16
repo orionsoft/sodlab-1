@@ -5019,9 +5019,9 @@ original@>=0.0.5:
   dependencies:
     url-parse "1.0.x"
 
-orionsoft-parts@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/orionsoft-parts/-/orionsoft-parts-1.11.0.tgz#1b80285674fc74304f3fed3553ecd9e0cbf3c816"
+orionsoft-parts@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/orionsoft-parts/-/orionsoft-parts-1.11.1.tgz#4a092643ad67db9087dabf9d845a9ba815aa3cf5"
   dependencies:
     autobind-decorator "^2.1.0"
     boron "^0.2.3"

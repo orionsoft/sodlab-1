@@ -22,7 +22,7 @@
     "mime-types": "^2.1.19",
     "moment": "^2.22.2",
     "numeral": "^2.0.6",
-    "orionsoft-parts": "^1.11.0",
+    "orionsoft-parts": "^1.11.1",
     "payment-icons": "^1.1.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
