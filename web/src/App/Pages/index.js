@@ -8,6 +8,7 @@ import ErrorPage from './ErrorPage'
 import withRoles from 'App/helpers/auth/withRoles'
 import withUserId from 'App/helpers/auth/withUserId'
 import includes from 'lodash/includes'
+import NotAllowed from 'App/Pages/Auth/NotAllowed'
 
 const adminHosts = ['localhost:3010', 'beta.sodlab.com', 'admin.sodlab.com']
 
@@ -43,8 +44,7 @@ export default class Component extends React.Component {
       }
       return false
     } else {
-      console.log('Should check if the user has access to this env')
-      return false
+      return <NotAllowed />
     }
   }
 
@@ -53,7 +53,7 @@ export default class Component extends React.Component {
   }
 
   renderNotAllowed() {
-    return <ErrorPage text="No tienes permisos para estar aquí" />
+    return <NotAllowed />
   }
 
   render() {
@@ -67,7 +67,6 @@ export default class Component extends React.Component {
       if (isInAdmin && this.props.location.pathname === '/') {
         this.props.history.replace('/admin')
       }
-
       if (isInAdmin) {
         const Admin = DynamicComponent(() => import('./Admin'))
         return <Admin />
