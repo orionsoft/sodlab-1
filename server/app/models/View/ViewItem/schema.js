@@ -1,4 +1,6 @@
-export default {
+import {validate, clean} from '@orion-js/schema'
+
+const viewItemSchema = {
   sizeSmall: {
     type: String
   },
@@ -45,6 +47,26 @@ export default {
   },
   subItems: {
     type: ['blackbox'],
-    optional: true
+    optional: true,
+    async custom(subItems, {currentDoc}) {
+      if (currentDoc.type !== 'layout') return
+      for (const item in subItems) {
+        try {
+          await validate(viewItemSchema, subItems[item])
+        } catch (error) {
+          if (error.isValidationError) {
+            return 'missing Option'
+          }
+          return 'missing Option'
+        }
+      }
+    },
+    autoValue(subItems, {currentDoc}) {
+      if (subItems) {
+        return Promise.all(subItems.map(item => clean(viewItemSchema, item)))
+      }
+    }
   }
 }
+
+export default viewItemSchema
