@@ -48,7 +48,6 @@ export default class Files extends React.Component {
   }
 
   render() {
-    console.log('props', this.props)
     return (
       <div className={styles.container}>
         <div className="row">{this.renderFiles()}</div>

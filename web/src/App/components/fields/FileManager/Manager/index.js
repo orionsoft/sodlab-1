@@ -23,7 +23,6 @@ export default class Manager extends React.Component {
   }
 
   render() {
-    console.log('state', this.state)
     return (
       <div className={styles.container}>
         <div className={styles.content}>
