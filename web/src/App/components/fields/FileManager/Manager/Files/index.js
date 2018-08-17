@@ -7,7 +7,7 @@ import File from './File'
 
 @withGraphQL(gql`
   query getFiles($filter: String) {
-    files: fileManagerFiles(page: 1, limit: 20, filter: $filter) {
+    files: fileManagerFiles(page: 1, limit: 200, filter: $filter) {
       items {
         _id
         genericType
