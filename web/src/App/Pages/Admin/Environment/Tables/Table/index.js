@@ -75,12 +75,11 @@ export default class Link extends React.Component {
 
   state = {}
 
-  componentDidMount() {
-    this.setState(this.props.table)
-  }
-
   static getDerivedStateFromProps(props, state) {
-    return state || props.table || {}
+    if (state.reset) {
+      return {table: state.reset, reset: null}
+    }
+    return {table: props.table}
   }
 
   getFilters() {
@@ -144,7 +143,8 @@ export default class Link extends React.Component {
 
   @autobind
   reset() {
-    const fields = this.props.table.collection.fields.map(field => {
+    let table = cloneDeep(this.state.table)
+    const newFields = this.props.table.collection.fields.map(field => {
       return {
         type: 'field',
         label: field.label,
@@ -152,7 +152,8 @@ export default class Link extends React.Component {
         options: null
       }
     })
-    this.setState({fields})
+    table.fields = newFields
+    this.setState({reset: table})
   }
 
   renderCollection() {
@@ -181,7 +182,7 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
-              table: cloneDeep(this.state) || cloneDeep(this.props.table) || {}
+              table: cloneDeep(this.state.table)
             }}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Nombre</div>
