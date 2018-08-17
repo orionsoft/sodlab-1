@@ -7,21 +7,17 @@ route('/callbacks/cloud-hsm', async function({getBody, ...params}) {
   console.log('hsm callback body', body)
   if (!body) return 'invalid request'
   const data = JSON.parse(body)
-  console.log(data)
-  if (!data.request_id) {
-    console.log('invalid request')
+  if (!data.requestId) {
     return 'invalid request'
   }
 
-  const request = await Requests.findOne({requestId: data.request_id, status: 'pending'})
+  const request = await Requests.findOne({requestId: data.requestId, status: 'pending'})
   if (!request) {
-    console.log('invalid request')
     return 'invalid request'
   }
 
-  const result = data.results[0]
+  const result = data.documents[0]
   if (!result) {
-    console.log('no result in results')
     return 'no result in results'
   }
 
