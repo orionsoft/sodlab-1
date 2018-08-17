@@ -54,9 +54,6 @@ const viewItemSchema = {
         try {
           await validate(viewItemSchema, subItems[item])
         } catch (error) {
-          if (error.isValidationError) {
-            return 'missing Option'
-          }
           return 'missing Option'
         }
       }
