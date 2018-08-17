@@ -23,6 +23,7 @@ export default {
           {label: 'Valor de 1 es mayor o igual a 2', value: 'biggerOrEqual'},
           {label: 'Valor de 1 es mayor a 2', value: 'biggerThan'},
           {label: 'Valor de 1 es igual a 2', value: 'equal'},
+          {label: 'Valor de 1 es distinto a 2', value: 'notEqual'},
           {label: 'Valor de 1 es menor a 2', value: 'smallerThan'},
           {label: 'Valor de 1 es menor o igual a 2', value: 'smallerOrEqual'}
         ]
@@ -44,6 +45,9 @@ export default {
     }
     if (options.operation === 'equal') {
       return value1 === value2
+    }
+    if (options.operation === 'notEqual') {
+      return value1 !== value2
     }
     if (options.operation === 'smallerThan') {
       return value1 < value2
