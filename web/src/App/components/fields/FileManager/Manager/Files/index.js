@@ -28,7 +28,8 @@ import File from './File'
 export default class Files extends React.Component {
   static propTypes = {
     files: PropTypes.object,
-    selectFile: PropTypes.func
+    selectFile: PropTypes.func,
+    filter: PropTypes.string
   }
 
   renderNoFiles() {
