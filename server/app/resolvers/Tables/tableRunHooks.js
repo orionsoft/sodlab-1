@@ -38,7 +38,7 @@ export default resolver({
     const params = {_id: item._id, ...item.data}
     for (const hook of hooks) {
       try {
-        await hook.execute({params})
+        await hook.execute({itemId: params._id, params})
       } catch (e) {
         console.log('Error running hook', e)
       }

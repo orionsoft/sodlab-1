@@ -24,21 +24,21 @@ const fields = [
   'productsPrice',
   'productsQuantity',
   'productsUnit',
-  'billsCollectionId',
-  'billID',
-  'billTipodoc',
-  'billFolio',
-  'billMontoNeto',
-  'billMontoExento',
-  'billMontoIva',
-  'billMontoTotal',
-  'billDetalles',
-  'billEstado',
-  'billFile'
+  'deliveryCollectionId',
+  'deliveryID',
+  'deliveryTipodoc',
+  'deliveryFolio',
+  'deliveryMontoNeto',
+  'deliveryMontoIva',
+  'deliveryMontoTotal',
+  'deliveryTipodespacho',
+  'deliveryTipotraslado',
+  'deliveryDetalles',
+  'deliveryFile'
 ]
 
 export default {
-  name: 'Emitir Factura Electrónica',
+  name: 'Emitir Guía de Despacho',
   optionsSchema,
   async execute({options: params, itemId}) {
     fields.map(field => {
@@ -47,25 +47,25 @@ export default {
       }
     })
 
-    const billCollection = await Collections.findOne(params.billsCollectionId)
+    const deliveryCollection = await Collections.findOne(params.deliveryCollectionId)
     const orderCollection = await Collections.findOne(params.pedidosCollectionId)
     const clientsCollection = await Collections.findOne(params.clientsCollectionId)
     const productsCollection = await Collections.findOne(params.productsCollectionId)
     const masterProductsCollection = await Collections.findOne(params.maestroProductosCollectionId)
 
-    const billsDB = await billCollection.db()
+    const deliveryDB = await deliveryCollection.db()
     const clientsDB = await clientsCollection.db()
     const productsDB = await productsCollection.db()
     const ordersDB = await orderCollection.db()
     const masterProductsDB = await masterProductsCollection.db()
 
-    const {liorenId, billExempt} = await Environments.findOne({_id: billCollection.environmentId})
+    const {liorenId, billExempt} = await Environments.findOne({_id: deliveryCollection.environmentId})
 
     if (!liorenId) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const order = await ordersDB.findOne(itemId)
-
     const client = await clientsDB.findOne({[`data.${params.receptorRs}`]: order.data[params.pedidosCliente]})
+
     const productsId = await productsDB.find({[`data.${params.productsOrdersIds}`]: itemId}).toArray()
 
     const mapProducts = productsId.map(async product => {
@@ -89,7 +89,9 @@ export default {
       },
       body: {
         emisor: {
-          tipodoc: '33',
+          tipodoc: '52',
+          tipodespacho: parseInt(order.data[params.deliveryTipodespacho]),
+          tipotraslado: parseInt(order.data[params.deliveryTipotraslado]),
           fecha: formatDate()
         },
         receptor: {
@@ -104,6 +106,7 @@ export default {
         expects: 'all'
       }
     }
+
     const dte = await DTEEmission(options, 'https://lioren.io/api/dtes')
     const pdf = await uploadPDF(await dte, 'facturas')
     const file = {
@@ -115,24 +118,16 @@ export default {
       size: pdf.size
     }
 
-    await billsDB.insert({
-      [`data.${params.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
-      [`data.${params.billID}`]: dte.id,
-      [`data.${params.billTipodoc}`]: dte.tipodoc,
-      [`data.${params.billFolio}`]: dte.folio,
-      [`data.${params.billMontoNeto}`]: dte.montoneto,
-      [`data.${params.billMontoExento}`]: dte.montoexento,
-      [`data.${params.billMontoIva}`]: dte.montoiva,
-      [`data.${params.billMontoTotal}`]: dte.montototal,
-      [`data.${params.billDetalles}`]: dte.detalles
-    })
-
-    const {data} = await ordersDB.findOne(itemId)
-    await ordersDB.update(itemId, {
-      $set: {
-        [`data.${params.billEstado}`]: 'facturado',
-        ...data
-      }
+    await deliveryDB.insert({
+      [`data.${params.deliveryFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
+      [`data.${params.deliveryID}`]: dte.id,
+      [`data.${params.deliveryTipodoc}`]: dte.tipodoc,
+      [`data.${params.deliveryFolio}`]: dte.folio,
+      [`data.${params.deliveryMontoNeto}`]: dte.montoneto,
+      [`data.${params.deliveryMontoExento}`]: dte.montoexento,
+      [`data.${params.deliveryMontoIva}`]: dte.montoiva,
+      [`data.${params.deliveryMontoTotal}`]: dte.montototal,
+      [`data.${params.deliveryDetalles}`]: dte.detalles,
     })
   }
 } 

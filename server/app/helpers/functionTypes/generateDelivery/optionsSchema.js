@@ -1,7 +1,7 @@
 export default {
   maestroProductosCollectionId: {
     type: String,
-    label: 'Colección de Maestro Productos',
+    label: 'Colleción de Maestro Productos',
     fieldType: 'collectionSelect'
   },
   skuMaestroProductosCollection: {
@@ -12,7 +12,7 @@ export default {
   },
   pedidosCollectionId: {
     type: String,
-    label: 'Colección de Pedidos',
+    label: 'Colleción de Pedidos',
     fieldType: 'collectionSelect'
   },
   pedidosCliente: {
@@ -23,7 +23,7 @@ export default {
   },
   clientsCollectionId: {
     type: String,
-    label: 'Colección de Clientes',
+    label: 'Colleción de Clientes',
     fieldType: 'collectionSelect'
   },
   receptorRut: {
@@ -109,79 +109,81 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'
   },
-  billsCollectionId: {
-    label: 'Colección de Factura Electrónica',
+  deliveryCollectionId: {
     type: String,
+    label: 'Colección de Guía de Despacho',
     fieldType: 'collectionSelect'
   },
-  billID: {
+  deliveryID: {
     type: String,
-    label: 'Campo para almacenar ID de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar ID de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionId'
+    parentCollection: 'deliveryCollectionId'
   },
-  billTipodoc: {
+  deliveryTipodoc: {
     type: String,
-    label: 'Campo para almacenar Tipo de Documento(de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Tipo de Documento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionId'
+    parentCollection: 'deliveryCollectionId'
   },
-  billFolio: {
+  deliveryFolio: {
     type: String,
-    label: 'Campo para almacenar Folio de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Folio de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionId'
+    parentCollection: 'deliveryCollectionId'
   },
-  billMontoNeto: {
+  deliveryMontoNeto: {
     type: String,
-    label: 'Campo para almacenar Monto Neto de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Monto Neto de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionId'
+    parentCollection: 'deliveryCollectionId'
   },
-  billMontoExento: {
+  deliveryExento: {
     type: String,
-    label: 'Campo para almacenar Monto Exento de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Monto Exento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionId'
+    parentCollection: 'deliveryCollectionId'
   },
-  billMontoIva: {
+  deliveryMontoIva: {
     type: String,
-    label: 'Campo para almacenar Monto Iva de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Monto Iva de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionId'
+    parentCollection: 'deliveryCollectionId'
   },
-  billMontoTotal: {
+  deliveryMontoTotal: {
     type: String,
-    label: 'Campo para almacenar Monto Total de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Monto Total de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentCollection: 'deliveryCollectionId'
   },
-  billDetalles: {
+  deliveryDetalles: {
     type: String,
-    label: 'Campo para almacenar Detalles de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Detalles de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentCollection: 'deliveryCollectionId'
   },
-  billEstado: {
+  deliveryTipodespacho: {
     type: String,
-    label: 'Campo para almacenar estado de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Tipo Despacho de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentCollection: 'deliveryCollectionId'
   },
-  billFile: {
+  deliveryTipotraslado: {
     type: String,
-    label: 'Campo para almacenar Archivo de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Tipo Traslado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentCollection: 'deliveryCollectionId'
+  },
+  deliveryDetalles: {
+    type: String,
+    label: 'Campo para almacenar Detalles de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'deliveryCollectionId'
+  },
+  deliveryFile: {
+    type: String,
+    label: 'Campo para almacenar Archivo de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'deliveryCollectionId'
   }
 }

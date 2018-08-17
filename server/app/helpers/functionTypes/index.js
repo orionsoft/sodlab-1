@@ -6,6 +6,7 @@ import signDocumentWithHSM from './signDocumentWithHSM'
 import log from './log'
 import validationSwitch from './validationSwitch'
 import generateBill from './generateBill'
+import generateDelivery from './generateDelivery'
 
 export default {
   sendEmail,
@@ -15,5 +16,6 @@ export default {
   signDocumentWithHSM,
   validationSwitch,
   log,
-  generateBill
+  generateBill,
+  generateDelivery
 }
