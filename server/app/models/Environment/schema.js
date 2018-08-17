@@ -67,5 +67,10 @@ export default {
     type: String,
     label: 'Lioren ID',
     optional: true
+  },
+  intercomId: {
+    type: String,
+    label: 'Intercom ID',
+    optional: true
   }
 }

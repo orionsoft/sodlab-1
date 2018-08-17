@@ -30,6 +30,7 @@ import clone from 'lodash/clone'
       title
       path
       roles
+      intercom
       items {
         sizeSmall
         sizeMedium
@@ -211,6 +212,8 @@ export default class View extends React.Component {
               <Field fieldName="name" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
+              <div className="label">Mostrar Intercom</div>
+              <Field fieldName="intercom" type={Checkbox} />
               <div className="label">Contenido</div>
               <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
               <div className="label">Roles</div>

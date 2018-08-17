@@ -21,6 +21,7 @@ import Watch from './Watch'
     environment(environmentId: $environmentId) {
       _id
       name
+      intercomId
     }
     views(limit: null, environmentId: $environmentId) {
       items {
@@ -52,7 +53,12 @@ export default class Environment extends React.Component {
           path={view.path}
           exact
           component={({match}) => (
-            <View params={match.params} viewId={view._id} environmentId={environment._id} />
+            <View
+              params={match.params}
+              viewId={view._id}
+              environmentId={environment._id}
+              intercomId={environment.intercomId}
+            />
           )}
         />
       )
