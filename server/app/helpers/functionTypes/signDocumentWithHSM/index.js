@@ -83,7 +83,7 @@ export default {
       documents: [doc],
       clientId,
       userId,
-      callback: [callback]
+      callbacks: [callback]
     }
     console.log('sending hsm request with callback', {callback})
     const result = await rp({
