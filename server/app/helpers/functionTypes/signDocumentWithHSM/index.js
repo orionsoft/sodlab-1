@@ -38,7 +38,8 @@ export default {
       fieldType: 'collectionFieldSelect'
     }
   },
-  async execute({clientId, signingReason, layout, collectionId, itemId, fileKey, signedFileKey}) {
+  async execute({options}) {
+    const {clientId, signingReason, layout, collectionId, itemId, fileKey, signedFileKey} = options
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
