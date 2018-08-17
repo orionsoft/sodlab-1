@@ -14,6 +14,8 @@ export default class Manager extends React.Component {
     onChange: PropTypes.func
   }
 
+  state = {}
+
   @autobind
   selectFile(fileId) {
     this.props.onChange({_id: fileId})
@@ -21,6 +23,7 @@ export default class Manager extends React.Component {
   }
 
   render() {
+    console.log('state', this.state)
     return (
       <div className={styles.container}>
         <div className={styles.content}>
@@ -32,10 +35,14 @@ export default class Manager extends React.Component {
           </div>
           <div className={styles.header2}>
             <div className={styles.search}>
-              <Text placeholder="Buscar archivos..." />
+              <Text
+                placeholder="Buscar archivos..."
+                onChange={filter => this.setState({filter})}
+                value={this.state.filter}
+              />
             </div>
           </div>
-          <Files selectFile={this.selectFile} />
+          <Files selectFile={this.selectFile} filter={this.state.filter} />
           <Upload />
         </div>
       </div>

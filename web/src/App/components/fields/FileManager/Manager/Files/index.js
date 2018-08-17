@@ -28,7 +28,8 @@ import File from './File'
 export default class Files extends React.Component {
   static propTypes = {
     files: PropTypes.object,
-    selectFile: PropTypes.func
+    selectFile: PropTypes.func,
+    filter: PropTypes.string
   }
 
   renderNoFiles() {
@@ -47,6 +48,7 @@ export default class Files extends React.Component {
   }
 
   render() {
+    console.log('props', this.props)
     return (
       <div className={styles.container}>
         <div className="row">{this.renderFiles()}</div>

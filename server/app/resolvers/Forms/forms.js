@@ -17,7 +17,7 @@ export default paginatedResolver({
   async getCursor({filter, environmentId}, viewer) {
     const query = {environmentId}
     if (filter) {
-      query._id = {$regex: new RegExp(`^${escape(filter)}`)}
+      query.name = {$regex: new RegExp(`^${escape(filter)}`)}
     }
     return Forms.find(query).sort({name: 1})
   }
