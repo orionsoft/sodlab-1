@@ -7,7 +7,7 @@ import Button from 'orionsoft-parts/lib/components/Button'
 import AutoForm from 'App/components/AutoForm'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
-import {Field} from 'simple-react-form'
+import {Field, WithValue} from 'simple-react-form'
 import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
 import Breadcrumbs from '../../Breadcrumbs'
@@ -30,6 +30,24 @@ export default class List extends React.Component {
     collections: PropTypes.object
   }
 
+  getFormTypes() {
+    return [{label: 'Crear', value: 'create'}, {label: 'Editar', value: 'update'}]
+  }
+
+  renderUpdateOptions(form) {
+    return (
+      <div style={{marginTop: 15}}>
+        <div className="label">Nombre de la variable</div>
+        <Field fieldName="updateVariableName" type={Text} />
+      </div>
+    )
+  }
+
+  renderExtraOptions(form) {
+    if (form.type === 'update') return this.renderUpdateOptions(form)
+    return null
+  }
+
   render() {
     const {environmentId} = this.props.match.params
     return (
@@ -49,8 +67,11 @@ export default class List extends React.Component {
             <Field fieldName="name" type={Text} />
             <div className="label">Título</div>
             <Field fieldName="title" type={Text} />
+            <div className="label">Tipo</div>
+            <Field fieldName="type" type={Select} options={this.getFormTypes()} />
             <div className="label">Colección</div>
             <Field fieldName="collectionId" type={Select} options={this.props.collections.items} />
+            <WithValue>{form => this.renderExtraOptions(form)}</WithValue>
           </AutoForm>
           <br />
           <Button to={`/${environmentId}/forms`} style={{marginRight: 10}}>

@@ -22,8 +22,7 @@ export default resolver({
     if (
       formData.type === 'update' &&
       (!formData.updateVariableName || formData.updateVariableName === '')
-    )
-      throw new Error('Nombre de variable requerido')
+    ) { throw new Error('Nombre de variable requerido') }
     const buttons = ['submitButtonText', 'resetButtonText']
     buttons.map(button => {
       if (!formData.hasOwnProperty(button)) {
