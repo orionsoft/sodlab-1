@@ -7,6 +7,7 @@ import uploadPDF from 'app/helpers/functionTypes/helpers/uploadPDF'
 import optionsSchema from './optionsSchema'
 
 const fields = [
+  'itemId',
   'maestroProductosCollectionId',
   'skuMaestroProductosCollection',
   'pedidosCollectionId',
@@ -33,14 +34,13 @@ const fields = [
   'billMontoIva',
   'billMontoTotal',
   'billDetalles',
-  'billEstado',
   'billFile'
 ]
 
 export default {
   name: 'Emitir Factura Electrónica',
   optionsSchema,
-  async execute({options: params, itemId}) {
+  async execute({options: params}) {
     fields.map(field => {
       if (!params.hasOwnProperty(field)) {
         throw new Error('Falta completar el siguiente campo' + field)
@@ -63,10 +63,10 @@ export default {
 
     if (!liorenId) throw new Error('No hay ID de Lioren para emisión de documentos')
 
-    const order = await ordersDB.findOne(itemId)
+    const order = await ordersDB.findOne(params.itemId)
     const client = await clientsDB.findOne({[`data.${params.receptorRs}`]: order.data[params.pedidosCliente]})
 
-    const productsId = await productsDB.find({[`data.${params.productsOrdersIds}`]: itemId}).toArray()
+    const productsId = await productsDB.find({[`data.${params.productsOrdersIds}`]: params.itemId}).toArray()
 
     const mapProducts = productsId.map(async product => {
       const sku = await masterProductsDB.findOne({_id: product.data[params.productsSku]})
@@ -104,7 +104,6 @@ export default {
         expects: 'all'
       }
     }
-
     const dte = await DTEEmission(options, 'https://lioren.io/api/dtes')
     const pdf = await uploadPDF(await dte, 'facturas')
     const file = {
@@ -128,12 +127,12 @@ export default {
       [`data.${params.billDetalles}`]: dte.detalles
     })
 
-    const {data} = await ordersDB.findOne(itemId)
-    await ordersDB.update(itemId, {
+    const {data} = await ordersDB.findOne(params.itemId)
+    await ordersDB.update(params.itemId, {
       $set: {
         [`data.${params.billEstado}`]: 'facturado',
         ...data
       }
     })
   }
-}
+} 
