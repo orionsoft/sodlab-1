@@ -1,3 +1,4 @@
+import updateValue from './updateValue'
 import sendEmail from './sendEmail'
 import updateValueWithIndicator from './updateValueWithIndicator'
 import postItem from './postItem'
@@ -7,6 +8,7 @@ import log from './log'
 import validationSwitch from './validationSwitch'
 
 export default {
+  updateValue,
   sendEmail,
   updateValueWithIndicator,
   postItem,
