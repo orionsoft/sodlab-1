@@ -67,12 +67,5 @@ export default {
     type: String,
     label: 'Lioren ID',
     optional: true
-  },
-  billExempt: {
-    type: Boolean,
-    label: 'Facturas con exento',
-    fieldType: 'checkbox',
-    fieldOptions: {label: 'Activar exento en facturas'},
-    defaultValue: false
-  },
+  }
 }
