@@ -17,8 +17,10 @@ import EnvironmentUsers from './EnvironmentUsers'
 import Indicators from './Indicators'
 import Endpoints from './Endpoints'
 import Validations from './Validations'
+import Buttons from './Buttons'
 
 export default {
+  ...Buttons,
   ...Validations,
   ...EnvironmentUsers,
   ...Hooks,
