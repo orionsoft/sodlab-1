@@ -59,9 +59,9 @@ export default {
     const ordersDB = await orderCollection.db()
     const masterProductsDB = await masterProductsCollection.db()
 
-    const {liorenId, billExempt} = await Environments.findOne({_id: deliveryCollection.environmentId})
+    const {liorenIdDelivery} = await Environments.findOne({_id: deliveryCollection.environmentId})
 
-    if (!liorenId) throw new Error('No hay ID de Lioren para emisión de documentos')
+    if (!liorenIdDelivery) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const order = await ordersDB.findOne(params._id)
     const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
@@ -76,7 +76,7 @@ export default {
         precio: parseInt(product.data[options.productsPrice]),
         cantidad: parseInt(product.data[options.productsQuantity]),
         unidad: product.data[options.productsUnit],
-        exento: billExempt
+        exento: false
       }
     })
 
@@ -84,7 +84,7 @@ export default {
     const optionsRequest = {
       headers: {
         Accept: 'application/json',
-        Authorization: 'Bearer ' + liorenId,
+        Authorization: 'Bearer ' + liorenIdDelivery,
         'Content-Type': 'application/json'
       },
       body: {
@@ -123,7 +123,6 @@ export default {
       [`data.${options.deliveryTipodoc}`]: dte.tipodoc,
       [`data.${options.deliveryFolio}`]: dte.folio,
       [`data.${options.deliveryMontoNeto}`]: dte.montoneto,
-      [`data.${options.deliveryMontoExento}`]: dte.montoexento,
       [`data.${options.deliveryMontoIva}`]: dte.montoiva,
       [`data.${options.deliveryMontoTotal}`]: dte.montototal,
       [`data.${options.deliveryDetalles}`]: dte.detalles,

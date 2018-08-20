@@ -138,12 +138,6 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
-  deliveryExento: {
-    type: String,
-    label: 'Campo para almacenar Monto Exento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'deliveryCollectionId'
-  },
   deliveryMontoIva: {
     type: String,
     label: 'Campo para almacenar Monto Iva de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',

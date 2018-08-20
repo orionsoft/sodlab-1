@@ -142,13 +142,6 @@ export default {
     optional: true,
     parentsCollection: 'billsCollectionId'
   },
-  billMontoExento: {
-    type: String,
-    label: 'Campo para almacenar Monto Exento de Factura Electrónica (de colección Factura Electrónica) (opcional)',
-    fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionId'
-  },
   billMontoIva: {
     type: String,
     label: 'Campo para almacenar Monto Iva de Factura Electrónica (de colección Factura Electrónica) (opcional)',

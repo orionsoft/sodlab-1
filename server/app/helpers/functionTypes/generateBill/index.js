@@ -29,7 +29,6 @@ const fields = [
   'billTipodoc',
   'billFolio',
   'billMontoNeto',
-  'billMontoExento',
   'billMontoIva',
   'billMontoTotal',
   'billDetalles',
@@ -59,9 +58,9 @@ export default {
     const ordersDB = await orderCollection.db()
     const masterProductsDB = await masterProductsCollection.db()
 
-    const {liorenId, billExempt} = await Environments.findOne({_id: billCollection.environmentId})
+    const {liorenIdBill} = await Environments.findOne({_id: billCollection.environmentId})
 
-    if (!liorenId) throw new Error('No hay ID de Lioren para emisión de documentos')
+    if (!liorenIdBill) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const order = await ordersDB.findOne(params._id)
     const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
@@ -75,7 +74,7 @@ export default {
         precio: parseInt(product.data[options.productsPrice]),
         cantidad: parseInt(product.data[options.productsQuantity]),
         unidad: product.data[options.productsUnit],
-        exento: billExempt
+        exento: false
       }
     })
 
@@ -83,7 +82,7 @@ export default {
     const optionsRequest = {
       headers: {
         Accept: 'application/json',
-        Authorization: 'Bearer ' + liorenId,
+        Authorization: 'Bearer ' + liorenIdBill,
         'Content-Type': 'application/json'
       },
       body: {
@@ -120,7 +119,6 @@ export default {
       [`data.${options.billTipodoc}`]: dte.tipodoc,
       [`data.${options.billFolio}`]: dte.folio,
       [`data.${options.billMontoNeto}`]: dte.montoneto,
-      [`data.${options.billMontoExento}`]: dte.montoexento,
       [`data.${options.billMontoIva}`]: dte.montoiva,
       [`data.${options.billMontoTotal}`]: dte.montototal,
       [`data.${options.billDetalles}`]: dte.detalles
