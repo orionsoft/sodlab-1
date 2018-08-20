@@ -79,7 +79,7 @@ export default class Indicator extends React.Component {
 
   renderWithoutCollection() {
     const {indicator} = this.props
-    if (indicator.indicatorType.requireCollection) return
+    if (!indicator.indicatorType || indicator.indicatorType.requireCollection) return
     return this.renderResult({})
   }
 
