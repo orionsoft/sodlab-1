@@ -67,7 +67,7 @@ export default {
       }
     })
 
-    const options = {
+    const optionsRequest = {
       headers: {
         Accept: 'application/json',
         Authorization: 'Bearer ' + liorenId,
@@ -87,7 +87,7 @@ export default {
       }
     }
 
-    const dte = await DTEEmission(options, 'https://lioren.cl/api/bhe')
+    const dte = await DTEEmission(optionsRequest, 'https://lioren.cl/api/bhe')
 
     const pdf = await uploadPDF(await dte, 'boletas')
 
