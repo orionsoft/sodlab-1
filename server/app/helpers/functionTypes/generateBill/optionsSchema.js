@@ -80,7 +80,7 @@ export default {
     parentCollection: 'productsCollectionId'
   },
   productsSku: {
-    type: [String],
+    type: String,
     label: 'Sku del Producto (desde formulario)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'

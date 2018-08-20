@@ -32,38 +32,38 @@ const fields = [
 export default {
   name: 'Emitir Boleta de Honorarios',
   optionsSchema: optionsSchema,
-  async execute({options: params, itemId}) {
+  async execute({options, params}) {
     fields.map(field => {
-      if (!params.hasOwnProperty(field)) {
+      if (!options.hasOwnProperty(field)) {
         throw new Error('Información faltante: ' + field)
       }
     })
 
-    const collection = await Collections.findOne(params.ticketsCollectionId)
+    const collection = await Collections.findOne(options.ticketsCollectionId)
     const environment = await Environments.findOne({_id: collection.environmentId})
     const {liorenId} = environment
     if (!liorenId) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const ticketsDB = await collection.db()
-    const ticket = await ticketsDB.findOne(itemId)
+    const ticket = await ticketsDB.findOne(params._id)
 
-    const clientsCol = await Collections.findOne(params.clientsCollectionId)
-    const productsCol = await Collections.findOne(params.productsCollectionId)
+    const clientsCol = await Collections.findOne(options.clientsCollectionId)
+    const productsCol = await Collections.findOne(options.productsCollectionId)
 
     const clientsDB = await clientsCol.db()
     const productsDB = await productsCol.db()
 
-    const client = await clientsDB.findOne(ticket.data[params.ticketReceptorIdField])
+    const client = await clientsDB.findOne(ticket.data[options.ticketReceptorIdField])
 
     const products = await Promise.all(
-      ticket.data[params.ticketProductsIdsField].map(async productId => {
+      ticket.data[options.ticketProductsIdsField].map(async productId => {
         return await productsDB.findOne(productId)
       })
     )
     const productsList = products.map(product => {
       return {
-        nombre: product.data[params.productsNameField],
-        precio: parseInt(product.data[params.productsPriceField])
+        nombre: product.data[options.productsNameField],
+        precio: parseInt(product.data[options.productsPriceField])
       }
     })
 
@@ -74,13 +74,13 @@ export default {
         'Content-Type': 'application/json'
       },
       body: {
-        fecha: formatDate(ticket.data[params.ticketDateField]),
-        retencion: ticket.data[params.ticketRetentionField],
+        fecha: formatDate(ticket.data[options.ticketDateField]),
+        retencion: ticket.data[options.ticketRetentionField],
         receptor: {
-          rut: clean(client.data[params.receptorRutField]),
-          rs: client.data[params.receptorRsField],
-          comuna: client.data[params.receptorComunaField],
-          direccion: client.data[params.receptorDirectionField]
+          rut: clean(client.data[options.receptorRutField]),
+          rs: client.data[options.receptorRsField],
+          comuna: client.data[options.receptorComunaField],
+          direccion: client.data[options.receptorDirectionField]
         },
         detalles: productsList,
         expects: 'all'
@@ -102,13 +102,13 @@ export default {
 
     await ticket.update({
       $set: {
-        [`data.${params.ticketPDFField}`]: file,
-        [`data.${params.ticketIDField}`]: dte.id,
-        [`data.${params.ticketFolioField}`]: dte.folio,
-        [`data.${params.ticketTotalHonorarioField}`]: dte.totalhonorario,
-        [`data.${params.ticketTotalRetencionField}`]: dte.totalretencion,
-        [`data.${params.ticketTotalPagoField}`]: dte.totalpago,
-        [`data.${params.ticketBarCodeField}`]: dte.barcode
+        [`data.${options.ticketPDFField}`]: file,
+        [`data.${options.ticketIDField}`]: dte.id,
+        [`data.${options.ticketFolioField}`]: dte.folio,
+        [`data.${options.ticketTotalHonorarioField}`]: dte.totalhonorario,
+        [`data.${options.ticketTotalRetencionField}`]: dte.totalretencion,
+        [`data.${options.ticketTotalPagoField}`]: dte.totalpago,
+        [`data.${options.ticketBarCodeField}`]: dte.barcode
       }
     })
   }

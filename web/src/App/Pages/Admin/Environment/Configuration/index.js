@@ -28,7 +28,6 @@ import RemoveEnvironment from './RemoveEnvironment'
       }
       fontName
       liorenId
-      billExempt
       ...adminEnvironmentProfilesUpdateFragment
     }
   }
