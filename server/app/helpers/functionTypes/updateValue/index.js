@@ -22,10 +22,11 @@ export default {
       label: 'Valor a insertar'
     }
   },
-  async execute({options: {collectionId, valueKey, itemId, value}}) {
+  async execute({options}) {
+    const {collectionId, valueKey, itemId, value} = options
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
-    const item = await collection.findOne({[`data.${valueKey}`]: itemId})
+    const item = await collection.findOne(itemId)
     if (!item) return
 
     await item.update({$set: {[`data.${valueKey}`]: value}})
