@@ -3663,14 +3663,6 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-intercom-react@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/intercom-react/-/intercom-react-1.0.0.tgz#a1b620ef531d6525e2f96138fae2e9e2a656ade9"
-  dependencies:
-    lodash-decorators "^5.0.1"
-    react "^16.3.2"
-    react-dom "^16.3.2"
-
 internal-ip@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/internal-ip/-/internal-ip-2.0.3.tgz#ed3cf9b671ac7ff23037bfacad42eb439cd9546c"
@@ -4454,12 +4446,6 @@ locate-path@^2.0.0:
   dependencies:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
-
-lodash-decorators@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/lodash-decorators/-/lodash-decorators-5.0.1.tgz#5b0eca821787bf748c8311b20db88556df10ce11"
-  dependencies:
-    tslib "^1.7.1"
 
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
@@ -5678,6 +5664,12 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
+
 prop-types@^15.5.0, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
@@ -5861,7 +5853,7 @@ react-dev-utils@^5.0.1:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-react-dom@^16.3.2, react-dom@^16.4.1:
+react-dom@^16.4.1:
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.4.2.tgz#4afed569689f2c561d2b8da0b819669c38a0bda4"
   dependencies:
@@ -5911,6 +5903,12 @@ react-input-autosize@^2.1.2:
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"
   dependencies:
     prop-types "^15.5.8"
+
+react-intercom@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/react-intercom/-/react-intercom-1.0.14.tgz#d6e8f88a6d9826b4aa7a40bf6db2feb9b6f1eefd"
+  dependencies:
+    prop-types "15.5.8"
 
 react-ios-switch@^0.1.19:
   version "0.1.19"
@@ -6017,7 +6015,7 @@ react-transition-group@^1.2.0:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
-react@^16.3.2, react@^16.4.1:
+react@^16.4.1:
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.2.tgz#2cd90154e3a9d9dd8da2991149fdca3c260e129f"
   dependencies:
@@ -6998,10 +6996,6 @@ trim-right@^1.0.1:
 tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
-
-tslib@^1.7.1:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 
 tslib@^1.9.0:
   version "1.9.2"
