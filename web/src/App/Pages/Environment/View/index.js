@@ -12,30 +12,35 @@ import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 import prependKey from 'App/helpers/misc/prependKey'
 import autobind from 'autobind-decorator'
 
-@withGraphQL(gql`
-  query getView($viewId: ID, $environmentId: ID) {
-    view(viewId: $viewId) {
-      _id
-      title
-      items {
-        sizeSmall
-        sizeLarge
-        sizeMedium
-        type
-        formId
-        tableId
-        indicatorId
-        fullSize
-        subItems
+@withGraphQL(
+  gql`
+    query getView($viewId: ID, $environmentId: ID) {
+      view(viewId: $viewId) {
+        _id
+        title
+        items {
+          sizeSmall
+          sizeLarge
+          sizeMedium
+          type
+          formId
+          tableId
+          indicatorId
+          fullSize
+          subItems
+        }
+      }
+      userByEnvironment(environmentId: $environmentId) {
+        userId
+        email
+        profile
       }
     }
-    userByEnvironment(environmentId: $environmentId) {
-      userId
-      email
-      profile
-    }
+  `,
+  {
+    options: {fetchPolicy: 'network-only'}
   }
-`)
+)
 @withApollo
 export default class View extends React.Component {
   static propTypes = {
