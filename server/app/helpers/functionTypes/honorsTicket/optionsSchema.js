@@ -1,32 +1,36 @@
 export default {
-  ticketsCollectionId: {
-    label: 'Colección Boletas de Honorarios',
+  paymentsCollectionId: {
+    label: 'Colección',
     type: String,
     fieldType: 'collectionSelect'
   },
-  ticketDateField: {
+  // itemId: {
+  //   type: String,
+  //   label: 'Id del item'
+  // },
+  paymentReceptorIdField: {
     type: String,
-    label: 'Fecha (desde formulario)',
+    label: 'Campo Cliente',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'paymentsCollectionId'
   },
-  ticketRetentionField: {
+  paymentField: {
     type: String,
-    label: 'Retención (desde formulario)',
+    label: 'Campo Monto',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'paymentsCollectionId'
   },
-  ticketReceptorIdField: {
+  paymentRetentionField: {
     type: String,
-    label: 'Identificador Cliente (desde formulario)',
+    label: 'Campo Retención',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'paymentsCollectionId'
   },
-  ticketProductsIdsField: {
+  paymentDetailNameField: {
     type: String,
-    label: 'Identificador Producto (desde formulario)',
+    label: 'Campo Nombre Detalle',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'paymentsCollectionId'
   },
   clientsCollectionId: {
     type: String,
@@ -57,22 +61,10 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'clientsCollectionId'
   },
-  productsCollectionId: {
+  ticketsCollectionId: {
+    label: 'Colección para guardar Boleta (opcional)',
     type: String,
-    label: 'Colección de Productos',
     fieldType: 'collectionSelect'
-  },
-  productsNameField: {
-    type: String,
-    label: 'Campo Nombre Productos (de colección Productos)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'productsCollectionId'
-  },
-  productsPriceField: {
-    type: String,
-    label: 'Campo Precio Productos (de colección Productos)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'productsCollectionId'
   },
   ticketPDFField: {
     type: String,
@@ -92,30 +84,35 @@ export default {
     type: String,
     label: 'Campo para almacenar folio de boleta (de colección Boletas) (opcional)',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'ticketsCollectionId',
+    optional: true
   },
   ticketTotalHonorarioField: {
     type: String,
     label: 'Campo para almacenar el total de honorario de boleta (de colección Boletas) (opcional)',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'ticketsCollectionId',
+    optional: true
   },
   ticketTotalRetencionField: {
     type: String,
     label: 'Campo para almacenar el total de retención de boleta (de colección Boletas) (opcional)',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'ticketsCollectionId',
+    optional: true
   },
   ticketTotalPagoField: {
     type: String,
     label: 'Campo para almacenar el total de pago de boleta (de colección Boletas) (opcional)',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'ticketsCollectionId',
+    optional: true
   },
   ticketBarCodeField: {
     type: String,
     label: 'Campo para almacenar Código de barras de boleta (de colección Boletas) (opcional)',
     fieldType: 'collectionFieldSelect',
-    parentCollection: 'ticketsCollectionId'
+    parentCollection: 'ticketsCollectionId',
+    optional: true
   }
 }
