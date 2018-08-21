@@ -6,6 +6,8 @@ import honorsTicket from './honorsTicket'
 import signDocumentWithHSM from './signDocumentWithHSM'
 import log from './log'
 import validationSwitch from './validationSwitch'
+import generateBill from './generateBill'
+import generateDelivery from './generateDelivery'
 
 export default {
   updateValue,
@@ -15,5 +17,7 @@ export default {
   honorsTicket,
   signDocumentWithHSM,
   validationSwitch,
-  log
+  log,
+  generateBill,
+  generateDelivery
 }
