@@ -7,6 +7,7 @@ import gql from 'graphql-tag'
 import Form from './Form'
 import Table from './Table'
 import Indicator from './Indicator'
+import Button from './Button'
 import {withApollo} from 'react-apollo'
 import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 import prependKey from 'App/helpers/misc/prependKey'
@@ -25,6 +26,7 @@ import autobind from 'autobind-decorator'
         formId
         tableId
         indicatorId
+        buttonId
         fullSize
         subItems
       }
@@ -76,6 +78,7 @@ export default class View extends React.Component {
       parameters: this.getParameters(),
       setEnvironment: changes => this.setState(changes)
     }
+
     if (item.type === 'form') {
       return (
         <div className={styles.item}>
@@ -99,6 +102,13 @@ export default class View extends React.Component {
     }
     if (item.type === 'layout') {
       return this.renderItems(item.subItems, preIndex)
+    }
+    if (item.type === 'button') {
+      return (
+        <div className={styles.item}>
+          <Button {...props} buttonId={item.buttonId} />
+        </div>
+      )
     }
   }
 

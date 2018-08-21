@@ -12,7 +12,7 @@ const viewItemSchema = {
   },
   type: {
     type: String,
-    allowedValues: ['form', 'table', 'chart', 'indicator', 'layout']
+    allowedValues: ['form', 'table', 'chart', 'indicator', 'layout', 'button']
   },
   formId: {
     type: 'ID',
@@ -37,6 +37,15 @@ const viewItemSchema = {
     optional: true,
     async custom(indicatorId, {currentDoc}) {
       if (currentDoc.type === 'indicator' && !indicatorId) {
+        return 'required'
+      }
+    }
+  },
+  buttonId: {
+    type: 'ID',
+    optional: true,
+    async custom(buttonId, {currentDoc}) {
+      if (currentDoc.type === 'button' && !buttonId) {
         return 'required'
       }
     }

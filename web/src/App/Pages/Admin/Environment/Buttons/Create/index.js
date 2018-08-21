@@ -20,7 +20,7 @@ export default class Create extends React.Component {
   }
 
   success(environmentId) {
-    this.props.showMessage('Button creado satisfactoriamente!')
+    this.props.showMessage('Botón creado satisfactoriamente!')
     this.props.history.push(`/${environmentId}/buttons`)
   }
 
@@ -30,7 +30,7 @@ export default class Create extends React.Component {
       <div className={styles.container}>
         <Breadcrumbs>Crear Button</Breadcrumbs>
         <Section
-          title="Crear button"
+          title="Crear Botón"
           description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
           top>
           <AutoForm
@@ -49,7 +49,7 @@ export default class Create extends React.Component {
             Cancelar
           </Button>
           <Button onClick={() => this.refs.form.submit()} primary>
-            Crear button
+            Crear botón
           </Button>
         </Section>
       </div>

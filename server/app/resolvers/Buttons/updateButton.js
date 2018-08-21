@@ -19,11 +19,18 @@ export default resolver({
   mutation: true,
   role: 'admin',
   async resolve({buttonId, button: buttonData}, viewer) {
-    if (!buttonData.buttonText) {
-      throw Error('Etiqueta requerida')
-    }
     if (!buttonData.buttonType) {
       throw Error('Tipo requerido')
+    }
+    if (
+      (buttonData.buttonType === 'button' || buttonData.buttonType === 'text') &&
+      !buttonData.buttonText
+    ) {
+      throw Error('Etiqueta requerida')
+    }
+
+    if (buttonData.buttonType === 'icon' && !buttonData.icon) {
+      throw Error('Icono requerido')
     }
 
     let buttonDataCopy = cloneDeep(buttonData)

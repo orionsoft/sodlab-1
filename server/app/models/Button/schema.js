@@ -1,4 +1,5 @@
 import Buttons from 'app/collections/Buttons'
+import Parameter from './Parameter'
 
 export default {
   _id: {
@@ -38,12 +39,20 @@ export default {
     type: String,
     optional: true
   },
+  icon: {
+    type: String,
+    optional: true
+  },
   buttonText: {
     type: String,
     optional: true
   },
   url: {
     type: String,
+    optional: true
+  },
+  parameters: {
+    type: [Parameter],
     optional: true
   },
   orderFiltersByName: {

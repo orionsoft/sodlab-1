@@ -11,3 +11,9 @@
   background: #333;
   color: #fff;
 }
+
+:local(.buttonContainer) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

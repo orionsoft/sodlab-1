@@ -18,9 +18,7 @@ export default class List extends React.Component {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
-        <Breadcrumbs
-          right={<Button to={`/${environmentId}/buttons/create`}>Crear button</Button>}
-        />
+        <Breadcrumbs right={<Button to={`/${environmentId}/buttons/create`}>Crear botón</Button>} />
         <br />
         <PaginatedList
           title={null}

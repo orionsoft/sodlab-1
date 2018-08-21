@@ -13,5 +13,5 @@ export default [
   {title: 'Endpoints', path: '/endpoints'},
   {title: 'Usuarios', path: '/users'},
   {title: 'Configuración', path: '/configuration'},
-  {title: 'Buttons', path: '/buttons'}
+  {title: 'Botones', path: '/buttons'}
 ]
