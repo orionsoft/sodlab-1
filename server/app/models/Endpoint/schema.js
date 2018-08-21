@@ -38,16 +38,29 @@ export default {
   createdAt: {
     type: Date
   },
-  collectionId: {
-    type: 'ID'
-  },
-  password: {
+  type: {
     type: String,
-    label: 'Contraseña',
+    allowedValues: ['list', 'view', 'form'],
+    optional: true
+  },
+  formId: {
+    type: 'ID',
+    optional: true
+  },
+  collectionId: {
+    type: 'ID',
     optional: true
   },
   filterId: {
     type: String,
+    optional: true
+  },
+  requireToken: {
+    type: Boolean,
+    optional: true
+  },
+  tokens: {
+    type: [String],
     optional: true
   }
 }

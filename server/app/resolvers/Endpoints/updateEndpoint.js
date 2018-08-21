@@ -10,7 +10,7 @@ export default resolver({
     endpoint: {
       type: Endpoint.clone({
         name: 'UpdateEndpoint',
-        omitFields: ['_id', 'environmentId', 'createdAt', 'collectionId']
+        omitFields: ['_id', 'environmentId', 'createdAt', 'tokens']
       })
     }
   },
