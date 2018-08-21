@@ -53,25 +53,25 @@ import Fields from './Fields'
         }
       }
     }
-    collections(environmentId: $environmentId) {
+    collections(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name
       }
     }
-    hooks(environmentId: $environmentId) {
+    hooks(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name
       }
     }
-    validations(environmentId: $environmentId) {
+    validations(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name
       }
     }
-    indicators(environmentId: $environmentId) {
+    indicators(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name

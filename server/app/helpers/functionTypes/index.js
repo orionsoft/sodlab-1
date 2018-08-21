@@ -1,3 +1,4 @@
+import updateValue from './updateValue'
 import sendEmail from './sendEmail'
 import updateValueWithIndicator from './updateValueWithIndicator'
 import postItem from './postItem'
@@ -9,6 +10,7 @@ import generateBill from './generateBill'
 import generateDelivery from './generateDelivery'
 
 export default {
+  updateValue,
   sendEmail,
   updateValueWithIndicator,
   postItem,

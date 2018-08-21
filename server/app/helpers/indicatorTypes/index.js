@@ -1,3 +1,4 @@
+import concatValues from './concatValues'
 import economicIndicator from './economicIndicator'
 import sum from './sum'
 import count from './count'
@@ -10,6 +11,7 @@ import currentDateTime from './currentDateTime'
 import mathOperation from './mathOperation'
 
 export default {
+  concatValues,
   count,
   sum,
   economicIndicator,

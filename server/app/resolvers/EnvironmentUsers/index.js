@@ -6,8 +6,10 @@ import removeEnvironmentUser from './removeEnvironmentUser'
 import setEnvironmentUserRoles from './setEnvironmentUserRoles'
 import userByEnvironment from './userByEnvironment'
 import environmentUserByUserId from './environmentUserByUserId'
+import environmentUserAuthorization from './environmentUserAuthorization'
 
 export default {
+  environmentUserAuthorization,
   environmentUserByUserId,
   userByEnvironment,
   setEnvironmentUserRoles,

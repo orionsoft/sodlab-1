@@ -1,4 +1,5 @@
 import Hooks from 'app/collections/Hooks'
+
 export default {
   _id: {
     type: 'ID'

@@ -23,6 +23,10 @@ export default {
       type: String,
       fieldType: 'collectionSelect'
     },
+    userId: {
+      label: 'Id del usuario',
+      type: String
+    },
     itemId: {
       type: String,
       label: 'Id del item'
@@ -38,7 +42,17 @@ export default {
       fieldType: 'collectionFieldSelect'
     }
   },
-  async execute({clientId, signingReason, layout, collectionId, itemId, fileKey, signedFileKey}) {
+  async execute({options}) {
+    const {
+      clientId,
+      signingReason,
+      layout,
+      collectionId,
+      itemId,
+      fileKey,
+      signedFileKey,
+      userId
+    } = options
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
@@ -68,7 +82,8 @@ export default {
     const params = {
       documents: [doc],
       clientId,
-      callback
+      userId,
+      callbacks: [callback]
     }
     console.log('sending hsm request with callback', {callback})
     const result = await rp({

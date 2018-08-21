@@ -58,7 +58,10 @@ export default class Data extends React.Component {
 
   renderTable() {
     if (this.props.debouncing) return this.renderLoading()
-    if (this.props.data.loading) return this.renderLoading()
+    if (this.props.data.loading) {
+      this.props.data.refetch()
+      return this.renderLoading()
+    }
     if (!this.props.data.data.result.items || this.props.data.data.result.items.length === 0) {
       return this.renderNotFound()
     }
@@ -83,8 +86,9 @@ export default class Data extends React.Component {
       return this.renderError()
     } else if (!this.state.props.data.data.result) {
       if (
-        this.state.props.data.networkStatus === 1 &&
-        Object.keys(this.state.props.data).length === 10
+        (this.state.props.data.networkStatus === 1 &&
+          Object.keys(this.state.props.data).length === 10) ||
+        this.state.props.data.networkStatus === 2
       ) {
         return this.renderLoading()
       }
