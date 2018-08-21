@@ -29,6 +29,7 @@ import autobind from 'autobind-decorator'
           indicatorId
           fullSize
           subItems
+          buttonId
         }
       }
       userByEnvironment(environmentId: $environmentId) {
