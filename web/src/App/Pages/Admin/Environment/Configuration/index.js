@@ -28,6 +28,9 @@ import RemoveEnvironment from './RemoveEnvironment'
       }
       fontName
       liorenId
+      liorenIdBill
+      liorenIdCreditNote
+      liorenIdDelivery
       ...adminEnvironmentProfilesUpdateFragment
     }
   }

@@ -7,87 +7,66 @@ import uploadPDF from 'app/helpers/functionTypes/helpers/uploadPDF'
 import optionsSchema from './optionsSchema'
 
 const fields = [
-  'ticketsCollectionId',
-  'ticketDateField',
-  'ticketRetentionField',
-  'ticketReceptorIdField',
-  'ticketProductsIdsField',
+  'paymentsCollectionId',
+  // 'itemId',
+  'paymentReceptorIdField',
+  'paymentField',
+  'paymentRetentionField',
+  'paymentDetailNameField',
   'clientsCollectionId',
   'receptorRutField',
   'receptorRsField',
   'receptorComunaField',
-  'receptorDirectionField',
-  'productsCollectionId',
-  'productsNameField',
-  'productsPriceField',
-  'ticketPDFField',
-  'ticketIDField',
-  'ticketFolioField',
-  'ticketTotalHonorarioField',
-  'ticketTotalRetencionField',
-  'ticketTotalPagoField',
-  'ticketBarCodeField'
+  'receptorDirectionField'
 ]
 
 export default {
   name: 'Emitir Boleta de Honorarios',
   optionsSchema: optionsSchema,
-  async execute({options: params, itemId}) {
+  async execute({options, params}) {
     fields.map(field => {
-      if (!params.hasOwnProperty(field)) {
+      if (!options.hasOwnProperty(field)) {
         throw new Error('Información faltante: ' + field)
       }
     })
 
-    const collection = await Collections.findOne(params.ticketsCollectionId)
+    const collection = await Collections.findOne(options.paymentsCollectionId)
     const environment = await Environments.findOne({_id: collection.environmentId})
     const {liorenId} = environment
     if (!liorenId) throw new Error('No hay ID de Lioren para emisión de documentos')
 
-    const ticketsDB = await collection.db()
-    const ticket = await ticketsDB.findOne(itemId)
+    const paymentsDB = await collection.db()
+    const item = await paymentsDB.findOne(params._id)
 
-    const clientsCol = await Collections.findOne(params.clientsCollectionId)
-    const productsCol = await Collections.findOne(params.productsCollectionId)
+    if (!item) return
 
+    const clientsCol = await Collections.findOne(options.clientsCollectionId)
     const clientsDB = await clientsCol.db()
-    const productsDB = await productsCol.db()
+    const client = await clientsDB.findOne(item.data[options.paymentReceptorIdField])
 
-    const client = await clientsDB.findOne(ticket.data[params.ticketReceptorIdField])
+    const price = item.data[options.paymentField]
 
-    const products = await Promise.all(
-      ticket.data[params.ticketProductsIdsField].map(async productId => {
-        return await productsDB.findOne(productId)
-      })
-    )
-    const productsList = products.map(product => {
-      return {
-        nombre: product.data[params.productsNameField],
-        precio: parseInt(product.data[params.productsPriceField])
-      }
-    })
-
-    const options = {
+    const optionsRequest = {
       headers: {
         Accept: 'application/json',
         Authorization: 'Bearer ' + liorenId,
         'Content-Type': 'application/json'
       },
       body: {
-        fecha: formatDate(ticket.data[params.ticketDateField]),
-        retencion: ticket.data[params.ticketRetentionField],
+        fecha: formatDate(),
+        retencion: item.data[options.paymentRetentionField],
         receptor: {
-          rut: clean(client.data[params.receptorRutField]),
-          rs: client.data[params.receptorRsField],
-          comuna: client.data[params.receptorComunaField],
-          direccion: client.data[params.receptorDirectionField]
+          rut: clean(client.data[options.receptorRutField]),
+          rs: client.data[options.receptorRsField],
+          comuna: client.data[options.receptorComunaField],
+          direccion: client.data[options.receptorDirectionField]
         },
-        detalles: productsList,
+        detalles: [{nombre: item.data[options.paymentDetailNameField], precio: price}],
         expects: 'all'
       }
     }
 
-    const dte = await DTEEmission(options, 'https://lioren.cl/api/bhe')
+    const dte = await DTEEmission(optionsRequest, 'https://lioren.cl/api/bhe')
 
     const pdf = await uploadPDF(await dte, 'boletas')
 
@@ -100,16 +79,22 @@ export default {
       size: pdf.size
     }
 
-    await ticket.update({
-      $set: {
-        [`data.${params.ticketPDFField}`]: file,
-        [`data.${params.ticketIDField}`]: dte.id,
-        [`data.${params.ticketFolioField}`]: dte.folio,
-        [`data.${params.ticketTotalHonorarioField}`]: dte.totalhonorario,
-        [`data.${params.ticketTotalRetencionField}`]: dte.totalretencion,
-        [`data.${params.ticketTotalPagoField}`]: dte.totalpago,
-        [`data.${params.ticketBarCodeField}`]: dte.barcode
-      }
-    })
+    if (options.ticketsCollectionId) {
+      const ticketCol = await Collections.findOne(options.ticketsCollectionId)
+      const ticketsDB = await ticketCol.db()
+      await ticketsDB.insert({
+        ...(options.ticketPDFField && {[options.ticketPDFField]: file}),
+        ...(options.ticketIDField && {[options.ticketIDField]: dte.id}),
+        ...(options.ticketFolioField && {[options.ticketFolioField]: dte.folio}),
+        ...(options.ticketTotalHonorarioField && {
+          [options.ticketTotalHonorarioField]: dte.totalhonorario
+        }),
+        ...(options.ticketTotalRetencionField && {
+          [options.ticketTotalRetencionField]: dte.totalretencion
+        }),
+        ...(options.ticketTotalPagoField && {[options.ticketTotalPagoField]: dte.totalpago}),
+        ...(options.ticketBarCodeField && {[options.ticketBarCodeField]: dte.barcode})
+      })
+    }
   }
 }
