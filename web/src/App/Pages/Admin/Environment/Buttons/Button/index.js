@@ -67,7 +67,7 @@ export default class ButtonComponent extends React.Component {
   renderTextField() {
     return (
       <div style={{marginTop: 20}}>
-        <div className="label">Texto</div>
+        <div className="label">Etiqueta</div>
         <Field fieldName="buttonText" type={Text} />
         <div className="label">Redireccionar a esta url (opcional)</div>
         <Field fieldName="url" type={Text} />

@@ -1,6 +1,7 @@
 import {resolver} from '@orion-js/app'
 import Button from 'app/models/Button'
 import Buttons from 'app/collections/Buttons'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default resolver({
   params: {
@@ -18,9 +19,20 @@ export default resolver({
   mutation: true,
   role: 'admin',
   async resolve({buttonId, button: buttonData}, viewer) {
-    console.log(buttonData)
+    if (!buttonData.buttonText) {
+      throw Error('Etiqueta requerida')
+    }
+    if (!buttonData.buttonType) {
+      throw Error('Tipo requerido')
+    }
+
+    let buttonDataCopy = cloneDeep(buttonData)
+    if (!buttonDataCopy.url) {
+      buttonDataCopy['url'] = null
+    }
+
     const button = await Buttons.findOne(buttonId)
-    await button.update({$set: buttonData})
+    await button.update({$set: buttonDataCopy})
     return button
   }
 })

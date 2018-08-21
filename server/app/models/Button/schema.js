@@ -7,7 +7,7 @@ export default {
   name: {
     type: String,
     label: 'Nombre',
-    description: 'Solo puede haber un indicador con este nombre',
+    description: 'Solo puede haber un button con este nombre',
     async custom(name, {doc}) {
       if (doc.buttonId) {
         const button = await Buttons.findOne(doc.buttonId)
