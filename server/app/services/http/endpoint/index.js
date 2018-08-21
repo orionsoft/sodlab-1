@@ -4,12 +4,8 @@ import getParameters from './getParameters'
 import getResult from './getResult'
 import checkAuth from './checkAuth'
 
-route('/endpoint/:environmentId/:identifier', async function({params, request, headers}) {
-  if (request.method !== 'POST') {
-    return 'Only post requests are accepted'
-  }
-
-  const parameters = getParameters(request)
+route('/endpoint/:environmentId/:identifier', async function({params, request, headers, query}) {
+  const parameters = await getParameters({request, query})
 
   const {environmentId, identifier} = params
   const endpoint = await Endpoints.findOne({environmentId, identifier})
