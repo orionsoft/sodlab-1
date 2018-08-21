@@ -1,5 +1,6 @@
 import isEmpty from 'lodash/isEmpty'
 import TableField from './TableField'
+import FooterField from './FooterField'
 import Tables from 'app/collections/Tables'
 
 export default {
@@ -60,6 +61,12 @@ export default {
   },
   orderFiltersByName: {
     type: Boolean,
+    optional: true
+  },
+  footer: {
+    label: 'Footer',
+    type: [FooterField],
+    defaultValue: [],
     optional: true
   }
 }

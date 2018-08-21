@@ -5,6 +5,7 @@ import Sort from './Sort'
 import icons from 'App/components/Icon/icons'
 import IconButton from 'orionsoft-parts/lib/components/IconButton'
 import PropTypes from 'prop-types'
+import IndicatorResult from './IndicatorResult'
 
 export default class Table extends React.Component {
   static propTypes = {
@@ -14,7 +15,9 @@ export default class Table extends React.Component {
     sortBy: PropTypes.string,
     sortType: PropTypes.string,
     setSort: PropTypes.func.isRequired,
-    selectedItemId: PropTypes.string
+    selectedItemId: PropTypes.string,
+    dynamicFooter: PropTypes.array,
+    parameters: PropTypes.object
   }
 
   getSortProps(field) {
@@ -106,6 +109,26 @@ export default class Table extends React.Component {
     })
   }
 
+  renderFooterItem(item) {
+    if (item.type === 'indicator') {
+      return (
+        <div className={styles.footerText}>
+          <IndicatorResult params={this.props.parameters} indicatorId={item.indicatorId} />
+        </div>
+      )
+    }
+    if (item.type === 'text') {
+      return <div className={styles.footerText}>{item.text}</div>
+    }
+  }
+
+  renderFooter() {
+    if (!this.props.dynamicFooter || !this.props.dynamicFooter.length) return null
+    return this.props.dynamicFooter.map(item => {
+      return this.renderFooterItem(item)
+    })
+  }
+
   render() {
     return (
       <div className="paginated-table table hoverable">
@@ -113,6 +136,7 @@ export default class Table extends React.Component {
           <thead>{this.renderHead()}</thead>
           <tbody>{this.renderBody()}</tbody>
         </table>
+        {this.renderFooter()}
       </div>
     )
   }

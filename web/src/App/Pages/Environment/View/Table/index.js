@@ -19,6 +19,11 @@ import {clean, validate} from '@orion-js/schema'
       collectionId
       environmentId
       allowsNoFilter
+      footer {
+        type
+        text
+        indicatorId
+      }
       filters {
         _id
         title
@@ -148,7 +153,7 @@ export default class Table extends React.Component {
 
   @autobind
   renderPaginated({filterId, filterOptions}) {
-    const {table} = this.props
+    const {table, parameters} = this.props
     return (
       <PaginatedList
         title={null}
@@ -164,6 +169,8 @@ export default class Table extends React.Component {
         fields={this.getFields()}
         onSelect={this.onSelect}
         allowSearch={false}
+        dynamicFooter={table.footer}
+        parameters={parameters}
       />
     )
   }

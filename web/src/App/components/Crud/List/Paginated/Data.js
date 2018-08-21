@@ -15,7 +15,9 @@ export default class Data extends React.Component {
     setSort: PropTypes.func,
     debouncing: PropTypes.bool,
     selectedItemId: PropTypes.string,
-    loadingComponent: PropTypes.any
+    loadingComponent: PropTypes.any,
+    dynamicFooter: PropTypes.array,
+    parameters: PropTypes.object
   }
 
   state = {}
@@ -75,6 +77,8 @@ export default class Data extends React.Component {
           selectedItemId={this.props.selectedItemId}
           items={this.props.data.data.result.items}
           fields={this.props.fields}
+          dynamicFooter={this.props.dynamicFooter}
+          parameters={this.props.parameters}
         />
       </div>
     )
