@@ -15,9 +15,39 @@ export default {
     label: 'Colleción de Pedidos',
     fieldType: 'collectionSelect'
   },
+  pedidosMedioPago: {
+    type: String,
+    label: 'Campo Medio de Pago (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  pedidosGlosa: {
+    type: String,
+    label: 'Campo Glosa (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  pedidosCobrar: {
+    type: String,
+    label: 'Campo Cobrar (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  pedidosMontoTotal: {
+    type: String,
+    label: 'Campo Monto Total (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  pedidosId: {
+    type: String,
+    label: 'Campo Número de Pedido (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
   pedidosCliente: {
     type: String,
-    label: 'Campo Cliente (de colección Cliente)',
+    label: 'Campo Cliente (de colección Pedidos)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'pedidosCollectionId'
   },
@@ -177,6 +207,12 @@ export default {
   deliveryFile: {
     type: String,
     label: 'Campo para almacenar Archivo de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'deliveryCollectionId'
+  },
+  deliveryPagos: {
+    type: String,
+    label: 'Campo para almacenar Pagos de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   }

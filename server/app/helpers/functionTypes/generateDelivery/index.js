@@ -11,6 +11,11 @@ const fields = [
   'skuMaestroProductosCollection',
   'pedidosCollectionId',
   'pedidosCliente',
+  'pedidosMedioPago',
+  'pedidosGlosa',
+  'pedidosCobrar',
+  'pedidosMontoTotal',
+  'pedidosId',
   'clientsCollectionId',
   'receptorRut',
   'receptorRs',
@@ -34,7 +39,8 @@ const fields = [
   'deliveryTipodespacho',
   'deliveryTipotraslado',
   'deliveryDetalles',
-  'deliveryFile'
+  'deliveryFile',
+  'deliveryPagos',
 ]
 
 export default {
@@ -102,6 +108,13 @@ export default {
           comuna: client.data[options.receptorComunaCodigo],
           direccion: client.data[options.receptorDireccion]
         },
+        pagos: [{
+          fecha: formatDate(),
+          mediopago: parseInt(order.data[options.pedidosMedioPago]),
+          monto: parseInt(order.data[options.pedidosMontoTotal]),
+          glosa: order.data[options.pedidosGlosa],
+          cobrar: order.data[options.pedidosCobrar]
+        }],
         detalles: productsList,
         expects: 'all'
       }
@@ -119,6 +132,7 @@ export default {
 
     await deliveryDB.insert({
       [`data.${options.deliveryFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
+      [`data.${options.pedidosId}`]: order.data[options.pedidosId],
       [`data.${options.deliveryID}`]: dte.id,
       [`data.${options.deliveryTipodoc}`]: dte.tipodoc,
       [`data.${options.deliveryFolio}`]: dte.folio,
@@ -126,6 +140,7 @@ export default {
       [`data.${options.deliveryMontoIva}`]: dte.montoiva,
       [`data.${options.deliveryMontoTotal}`]: dte.montototal,
       [`data.${options.deliveryDetalles}`]: dte.detalles,
+      [`data.${options.deliveryPagos}`]: dte.pagos,
     })
   }
 } 

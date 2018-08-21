@@ -11,6 +11,11 @@ const fields = [
   'skuMaestroProductosCollection',
   'pedidosCollectionId',
   'pedidosCliente',
+  'pedidosMedioPago',
+  'pedidosGlosa',
+  'pedidosCobrar',
+  'pedidosId',
+  'pedidosMontoTotal',
   'clientsCollectionId',
   'receptorRut',
   'receptorRs',
@@ -33,7 +38,10 @@ const fields = [
   'billMontoTotal',
   'billDetalles',
   'billEstado',
-  'billFile'
+  'billFile',
+  'billReceptor',
+  'billFechaEmision',
+  'billPagos',
 ]
 
 export default {
@@ -90,6 +98,13 @@ export default {
           tipodoc: '33',
           fecha: formatDate()
         },
+        pagos: [{
+          fecha: formatDate(),
+          mediopago: parseInt(order.data[options.pedidosMedioPago]),
+          monto: parseInt(order.data[options.pedidosMontoTotal]),
+          glosa: order.data[options.pedidosGlosa],
+          cobrar: order.data[options.pedidosCobrar]
+        }],
         receptor: {
           rut: clean(client.data[options.receptorRut]),
           rs: client.data[options.receptorRs],
@@ -114,6 +129,9 @@ export default {
     }
 
     await billsDB.insert({
+      [`data.${options.billFechaEmision}`]: formatDate(),
+      [`data.${options.pedidosId}`]: order.data[options.pedidosId],
+      [`data.${options.billReceptor}`]: optionsRequest.body.receptor,
       [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
       [`data.${options.billID}`]: dte.id,
       [`data.${options.billTipodoc}`]: dte.tipodoc,
@@ -121,7 +139,8 @@ export default {
       [`data.${options.billMontoNeto}`]: dte.montoneto,
       [`data.${options.billMontoIva}`]: dte.montoiva,
       [`data.${options.billMontoTotal}`]: dte.montototal,
-      [`data.${options.billDetalles}`]: dte.detalles
+      [`data.${options.billDetalles}`]: dte.detalles,
+      [`data.${options.billPagos}`]: dte.pagos,
     })
 
     const {data} = await ordersDB.findOne(params._id)
