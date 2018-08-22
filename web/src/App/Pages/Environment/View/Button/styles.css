@@ -1,0 +1,31 @@
+:local(.container) {
+  padding: 20px;
+  position: relative;
+}
+
+:local(.header) {
+  margin-bottom: 10px;
+}
+
+:local(.title) {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+:local(.button) {
+  height: 100%;
+  text-align: center;
+  align-items: center;
+}
+
+:local(.text) {
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 400;
+  transition: all ease-out 0.3s;
+}
+
+:local(.text):hover {
+  color: #555;
+  text-decoration: underline;
+}

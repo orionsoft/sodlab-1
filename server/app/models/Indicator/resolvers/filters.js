@@ -8,13 +8,13 @@ export default resolver({
     if (!indicator.filtersIds || !indicator.filtersIds.length) return []
     const filters = indicator.orderFiltersByName
       ? await Filters.find({_id: {$in: indicator.filtersIds}})
-          .sort({title: 1})
-          .toArray()
+        .sort({title: 1})
+        .toArray()
       : Promise.all(
-          indicator.filtersIds.map(async filterId => {
-            return await Filters.findOne(filterId)
-          })
-        )
+        indicator.filtersIds.map(async filterId => {
+          return await Filters.findOne(filterId)
+        })
+      )
     return filters
   }
 })
