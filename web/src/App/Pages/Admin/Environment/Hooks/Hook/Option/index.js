@@ -28,6 +28,7 @@ export default class Option extends React.Component {
   }
 
   renderFixedValue() {
+    console.log(this.props.optionsPreview)
     return (
       <div className={styles.fixedValue}>
         <div className="label">Valor</div>
