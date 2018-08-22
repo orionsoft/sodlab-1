@@ -18,7 +18,7 @@ import Option from './Option'
 import mapValues from 'lodash/mapValues'
 
 @withGraphQL(gql`
-  query validation($validationId: ID) {
+  query validation($validationId: ID, $environmentId: ID) {
     validation(validationId: $validationId) {
       _id
       name
@@ -31,6 +31,12 @@ import mapValues from 'lodash/mapValues'
       label: name
       optionsParams
     }
+    indicators(limit: 200, environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withRouter
@@ -41,7 +47,8 @@ export default class Hook extends React.Component {
     validation: PropTypes.object,
     showMessage: PropTypes.func,
     match: PropTypes.object,
-    validationTypes: PropTypes.object
+    validationTypes: PropTypes.object,
+    indicators: PropTypes.object
   }
 
   remove() {
@@ -67,6 +74,7 @@ export default class Hook extends React.Component {
           key={name}
           name={name}
           schema={schema}
+          indicators={this.props.indicators}
           optionsPreview={this.getOptionsPreview(item)}
         />
       )
