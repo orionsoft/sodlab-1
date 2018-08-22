@@ -9,7 +9,6 @@ import Breadcrumbs from '../../Breadcrumbs'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import {Field} from 'simple-react-form'
-import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 
 @withGraphQL(gql`
@@ -46,8 +45,6 @@ export default class Create extends React.Component {
             <Field fieldName="name" type={Text} />
             <div className="label">Identificador</div>
             <Field fieldName="identifier" type={Text} />
-            <div className="label">Colección</div>
-            <Field fieldName="collectionId" type={Select} options={this.props.collections.items} />
           </AutoForm>
           <br />
           <Button to={`/${environmentId}/endpoints`} style={{marginRight: 10}}>

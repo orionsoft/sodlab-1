@@ -12,9 +12,6 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
-    collectionId: {
-      type: 'ID'
-    },
     identifier: {
       type: String,
       label: 'Identificador',
@@ -39,10 +36,9 @@ export default resolver({
   returns: Endpoint,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, collectionId, identifier, name}, viewer) {
+  async resolve({environmentId, identifier, name}, viewer) {
     const endpointId = await Endpoints.insert({
       environmentId,
-      collectionId,
       identifier,
       name,
       createdAt: new Date()

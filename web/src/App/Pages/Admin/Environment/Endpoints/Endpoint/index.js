@@ -9,13 +9,15 @@ import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
-import {Field} from 'simple-react-form'
+import {Field, WithValue} from 'simple-react-form'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Toggle from 'orionsoft-parts/lib/components/fields/Toggle'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import ObjectField from 'App/components/fields/ObjectField'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
 import translate from 'App/i18n/translate'
+import Tokens from './Tokens'
 
 @withGraphQL(gql`
   query getEndpoint($endpointId: ID, $environmentId: ID) {
@@ -26,7 +28,10 @@ import translate from 'App/i18n/translate'
       environmentId
       collectionId
       filterId
-      password
+      type
+      formId
+      requireToken
+      tokens
       collection {
         _id
         environmentId
@@ -49,6 +54,12 @@ import translate from 'App/i18n/translate'
         label: name
       }
     }
+    forms(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -65,10 +76,9 @@ export default class Link extends React.Component {
 
   state = {}
 
-  getFilters() {
-    return this.props.filters.items.filter(
-      filter => filter.collectionId === this.props.endpoint.collectionId
-    )
+  getFilters(endpoint) {
+    if (!endpoint.collectionId) return []
+    return this.props.filters.items.filter(filter => filter.collectionId === endpoint.collectionId)
   }
 
   getErrorFieldLabel() {
@@ -87,12 +97,49 @@ export default class Link extends React.Component {
     this.props.showMessage('Los campos fueron guardados')
   }
 
-  renderCollection() {
-    const {endpoint, collections} = this.props
-    const data = collections.items.find(collection => {
-      return endpoint.collectionId === collection.value
-    })
-    return <div className={styles.name}>{data.label}</div>
+  renderListType(endpoint) {
+    if (endpoint.type !== 'list' && endpoint.type !== 'view') return
+    return (
+      <div>
+        <div className="label">Colección</div>
+        <Field fieldName="collectionId" type={Select} options={this.props.collections.items} />
+        <div className="label">Filtro</div>
+        <Field fieldName="filterId" type={Select} options={this.getFilters(endpoint)} />
+      </div>
+    )
+  }
+
+  renderFormType(endpoint) {
+    if (endpoint.type !== 'form') return
+    return (
+      <div>
+        <div className="label">Formulario</div>
+        <Field fieldName="formId" type={Select} options={this.props.forms.items} />
+      </div>
+    )
+  }
+
+  renderForm(endpoint) {
+    const types = [
+      {label: 'Formulario', value: 'form'},
+      {label: 'Lista', value: 'list'},
+      {label: 'Ver uno', value: 'view'}
+    ]
+    return (
+      <div>
+        <div className="label">Nombre</div>
+        <Field fieldName="name" type={Text} />
+        <div className="label">Identificador</div>
+        <Field fieldName="identifier" type={Text} />
+        <div className="label">Require auth token</div>
+        <Field fieldName="requireToken" type={Toggle} />
+        <div className="label">Tipo</div>
+        <Field fieldName="type" type={Select} options={types} />
+        <br />
+        {this.renderListType(endpoint)}
+        {this.renderFormType(endpoint)}
+      </div>
+    )
   }
 
   render() {
@@ -115,16 +162,7 @@ export default class Link extends React.Component {
               endpoint: cloneDeep(this.props.endpoint) || {}
             }}>
             <Field fieldName="endpoint" type={ObjectField}>
-              <div className="label">Nombre</div>
-              <Field fieldName="name" type={Text} />
-              <div className="label">Password</div>
-              <Field fieldName="password" type={Text} />
-              <div className="label">Identificador</div>
-              <Field fieldName="identifier" type={Text} />
-              <div className="label">Colección (No se puede cambiar)</div>
-              {this.renderCollection()}
-              <div className="label">Filtro</div>
-              <Field fieldName="filterId" type={Select} options={this.getFilters()} />
+              <WithValue>{endpoint => this.renderForm(endpoint)}</WithValue>
             </Field>
           </AutoForm>
           <br />
@@ -153,6 +191,7 @@ export default class Link extends React.Component {
             </div>
           </div>
         </Section>
+        <Tokens endpoint={this.props.endpoint} />
       </div>
     )
   }
