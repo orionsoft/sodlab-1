@@ -41,7 +41,7 @@ const fields = [
   'billFile',
   'billReceptor',
   'billFechaEmision',
-  'billPagos',
+  'billPagos'
 ]
 
 export default {
@@ -72,10 +72,14 @@ export default {
 
     const order = await ordersDB.findOne(params._id)
     const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
-    const productsId = await productsDB.find({[`data.${options.productsOrdersIds}`]: params._id}).toArray()
+    const productsId = await productsDB
+      .find({[`data.${options.productsOrdersIds}`]: params._id})
+      .toArray()
 
     const mapProducts = productsId.map(async product => {
-      const sku = await masterProductsDB.findOne({_id: product.data[options.productsSku]})
+      const sku = await masterProductsDB.findOne({
+        _id: product.data[options.productsSku]
+      })
       return {
         codigo: sku.data[options.skuMaestroProductosCollection],
         nombre: product.data[options.productsName],
@@ -98,13 +102,15 @@ export default {
           tipodoc: '33',
           fecha: formatDate()
         },
-        pagos: [{
-          fecha: formatDate(),
-          mediopago: parseInt(order.data[options.pedidosMedioPago]),
-          monto: parseInt(order.data[options.pedidosMontoTotal]),
-          glosa: order.data[options.pedidosGlosa],
-          cobrar: order.data[options.pedidosCobrar]
-        }],
+        pagos: [
+          {
+            fecha: formatDate(),
+            mediopago: parseInt(order.data[options.pedidosMedioPago]),
+            monto: parseInt(order.data[options.pedidosMontoTotal]),
+            glosa: order.data[options.pedidosGlosa],
+            cobrar: order.data[options.pedidosCobrar]
+          }
+        ],
         receptor: {
           rut: clean(client.data[options.receptorRut]),
           rs: client.data[options.receptorRs],
@@ -127,20 +133,38 @@ export default {
       type: pdf.type,
       size: pdf.size
     }
-
     await billsDB.insert({
       [`data.${options.billFechaEmision}`]: formatDate(),
       [`data.${options.pedidosId}`]: order.data[options.pedidosId],
-      [`data.${options.billReceptor}`]: optionsRequest.body.receptor,
-      [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
+      [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${
+        file.key
+        }`,
+      [`data.${options.receptorRut}`]: client.data[options.receptorRut],
+      [`data.${options.receptorRs}`]: client.data[options.receptorRs],
+      [`data.${options.receptorGiro}`]: client.data[options.receptorGiro],
+      [`data.${options.receptorComunaCiudad}`]: client.data[
+        options.receptorComunaCiudad
+      ],
+      [`data.${options.receptorComunaCodigo}`]: client.data[
+        options.receptorComunaCodigo
+      ],
+      [`data.${options.receptorDireccion}`]: client.data[
+        options.receptorDireccion
+      ],
       [`data.${options.billID}`]: dte.id,
       [`data.${options.billTipodoc}`]: dte.tipodoc,
       [`data.${options.billFolio}`]: dte.folio,
       [`data.${options.billMontoNeto}`]: dte.montoneto,
       [`data.${options.billMontoIva}`]: dte.montoiva,
       [`data.${options.billMontoTotal}`]: dte.montototal,
-      [`data.${options.billDetalles}`]: dte.detalles,
-      [`data.${options.billPagos}`]: dte.pagos,
+      [`data.${options.pedidosMedioPago}`]: dte.pagos[0][
+        options.pedidosMedioPago
+      ],
+      [`data.${options.pedidosGlosa}`]: dte.pagos[0][options.pedidosGlosa],
+      [`data.${options.pedidosCobrar}`]: dte.pagos[0][options.pedidosCobrar],
+      [`data.${options.pedidosMontoTotal}`]: dte.pagos[0][
+        options.pedidosMontoTotal
+      ]
     })
 
     const {data} = await ordersDB.findOne(params._id)
@@ -151,4 +175,4 @@ export default {
       }
     })
   }
-} 
+}

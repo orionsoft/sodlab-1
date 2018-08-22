@@ -7,6 +7,105 @@ export default {
     type: String,
     label: 'Razón desde el formulario'
   },
+  maestroProductosCollectionId: {
+    type: String,
+    label: 'Colección de Maestro Productos',
+    fieldType: 'collectionSelect'
+  },
+  skuMaestroProductosCollection: {
+    type: String,
+    label: 'Campo SKU (de colección Maestro Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'maestroProductosCollectionId'
+  },
+  clientsCollectionId: {
+    type: String,
+    label: 'Colleción de Clientes',
+    fieldType: 'collectionSelect'
+  },
+  pedidosCliente: {
+    type: String,
+    label: 'Campo Cliente (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  receptorRut: {
+    type: String,
+    label: 'Campo RUT Cliente (de colección Cliente)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'clientsCollectionId'
+  },
+  receptorRs: {
+    type: String,
+    label: 'Campo Razón Social Cliente (de colección Cliente)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'clientsCollectionId'
+  },
+  receptorGiro: {
+    type: String,
+    label: 'Campo Giro Cliente (de colección Cliente)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'clientsCollectionId'
+  },
+  receptorComunaCodigo: {
+    type: String,
+    label: 'Campo Código Comuna Cliente (de colección Cliente)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'clientsCollectionId'
+  },
+  receptorComunaCiudad: {
+    type: String,
+    label: 'Campo Código Región Cliente (de colección Cliente)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'clientsCollectionId'
+  },
+  receptorDireccion: {
+    type: String,
+    label: 'Campo Dirección Cliente (de colección Cliente)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'clientsCollectionId'
+  },
+  productsCollectionId: {
+    type: String,
+    label: 'Colección de Productos',
+    fieldType: 'collectionSelect'
+  },
+  productsOrdersIds: {
+    type: String,
+    label: 'Identificador Producto (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
+  productsSku: {
+    type: String,
+    label: 'Sku del Producto (desde formulario)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
+  productsName: {
+    type: String,
+    label: 'Campo Nombre Productos (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
+  productsPrice: {
+    type: String,
+    label: 'Campo Precio Productos (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
+  productsQuantity: {
+    type: String,
+    label: 'Campo Cantidad Productos (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
+  productsUnit: {
+    type: String,
+    label: 'Campo Unidad Productos (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
   pedidosCollectionId: {
     type: String,
     label: 'Colección de Pedidos',
