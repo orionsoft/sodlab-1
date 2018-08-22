@@ -19,13 +19,16 @@ export default resolver({
       schema.autoValue = async (val, {doc}) => {
         const indicator = await Indicators.findOne(formField.indicatorId)
         const params = {...doc}
-        const value = await indicator.result({filterOptions: params, params}, viewer)
+        const value =
+          (await indicator.result({filterOptions: params, params}, viewer)) ||
+          formField.indicatorDefaultValue
         return value
       }
     }
 
     if (formField.type === 'editable') {
       schema.label = formField.editableLabel
+      schema.defaultValue = formField.editableDefaultValue
     }
 
     if (formField.type === 'parameter') {

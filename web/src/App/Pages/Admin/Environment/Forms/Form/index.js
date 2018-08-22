@@ -40,6 +40,8 @@ import Fields from './Fields'
         parameterName
         editableLabel
         indicatorId
+        editableDefaultValue
+        indicatorDefaultValue
       }
       reset
       collection {
