@@ -19,7 +19,7 @@ export default resolver({
       schema.autoValue = async (val, {doc}) => {
         const indicator = await Indicators.findOne(formField.indicatorId)
         const params = {...doc}
-        const value = await indicator.result({params}, viewer)
+        const value = await indicator.result({filterOptions: params, params}, viewer)
         return value
       }
     }

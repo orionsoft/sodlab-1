@@ -3,12 +3,13 @@ export default {
   optionsSchema: {
     value: {
       type: String,
-      label: 'Valor (usar parametro)'
+      label: 'Valor'
     },
     type: {
       type: String,
       label: 'Tipo de validación',
       fieldType: 'select',
+      fixed: true,
       fieldOptions: {
         options: [
           {label: 'Mayor o igual que', value: 'biggerOrEqual'},
