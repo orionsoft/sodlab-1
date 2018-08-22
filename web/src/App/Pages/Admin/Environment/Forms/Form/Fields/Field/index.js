@@ -98,15 +98,39 @@ export default class FormField extends React.Component {
     )
   }
 
+  renderDefault() {
+    if (this.props.field.type !== 'editable' && this.props.field.type !== 'indicator') return
+    const {field, collection} = this.props
+    if (!field.fieldName) return
+    if (!collection) return
+    const collectionField = collection.fields.find(cf => cf.name === field.fieldName)
+    if (!collectionField) return
+    const FieldComponent = fieldTypes[collectionField.type].field
+    return (
+      <div className={styles.fixedValue}>
+        <div className="label">Valor por Defecto</div>
+        <Field
+          collectionFieldName={
+            (collectionField.type === 'manyOf' || collectionField.type === 'oneOf') &&
+            collectionField.name
+          }
+          fieldName={`${this.props.field.type}DefaultValue`}
+          type={FieldComponent}
+          {...collectionField.options}
+        />
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className={styles.container}>
         <div className="row">
-          <div className="col-xs-12 col-sm-4 col-lg-3">
+          <div className="col-xs-12 col-sm-5 col-lg-2">
             <div className="label">Tipo</div>
             <Field fieldName="type" type={Select} options={this.getTypes()} />
           </div>
-          <div className="col-xs-12 col-sm-4 col-lg-3">
+          <div className="col-xs-12 col-sm-5 col-lg-3">
             <div className="label">Campo</div>
             <Field
               fieldName="fieldName"
@@ -116,12 +140,13 @@ export default class FormField extends React.Component {
             />
           </div>
           <div className="col-xs-12 col-sm-2 col-lg-2">{this.renderOptional()}</div>
-          <div className="col-xs-12 col-sm-8 col-lg-4">
+          <div className="col-xs-12 col-sm-6 col-lg-3">
             {this.renderEditableLabel()}
             {this.renderFixedValue()}
             {this.renderParameterOptions()}
             {this.renderIndicatorId()}
           </div>
+          <div className="col-xs-12 col-sm-6 col-lg-2">{this.renderDefault()}</div>
         </div>
       </div>
     )
