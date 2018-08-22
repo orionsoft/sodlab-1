@@ -19,11 +19,7 @@ import {clean, validate} from '@orion-js/schema'
       collectionId
       environmentId
       allowsNoFilter
-      footer {
-        type
-        text
-        indicatorId
-      }
+      footer
       filters {
         _id
         title

@@ -32,11 +32,7 @@ import FooterOptions from './FooterOptions'
       filtersIds
       allowsNoFilter
       orderFiltersByName
-      footer {
-        type
-        indicatorId
-        text
-      }
+      footer
       fields {
         type
         fieldName
@@ -178,8 +174,14 @@ export default class Link extends React.Component {
   }
 
   @autobind
-  renderFooterItem(item) {
-    return <FooterOptions item={item} indicators={this.props.indicators.items} />
+  renderFooterRow() {
+    const length =
+      (this.refs.form &&
+        this.refs.form.form &&
+        this.refs.form.form.state.value &&
+        this.refs.form.form.state.value.table.fields.length) ||
+      this.state.table.fields.length
+    return <FooterOptions columns={length} indicators={this.props.indicators.items} />
   }
 
   render() {
@@ -232,7 +234,7 @@ export default class Link extends React.Component {
               <div className="label">Que campos mostrar</div>
               {this.renderCollectionFields()}
               <div className="label">Footer</div>
-              <Field fieldName="footer" type={ArrayComponent} renderItem={this.renderFooterItem} />
+              <Field fieldName="footer" type={ArrayComponent} renderItem={this.renderFooterRow} />
             </Field>
           </AutoForm>
           <br />

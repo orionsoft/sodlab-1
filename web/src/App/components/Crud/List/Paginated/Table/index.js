@@ -75,7 +75,6 @@ export default class Table extends React.Component {
 
   renderValue(item, field, index) {
     const value = dot.pick(field.name, item)
-
     if (field.render) {
       try {
         return field.render(item, value, index)
@@ -112,7 +111,7 @@ export default class Table extends React.Component {
   renderFooterItem(item) {
     if (item.type === 'indicator') {
       return (
-        <div className={styles.footerText}>
+        <div>
           <IndicatorResult params={this.props.parameters} indicatorId={item.indicatorId} />
         </div>
       )
@@ -120,12 +119,26 @@ export default class Table extends React.Component {
     if (item.type === 'text') {
       return <div className={styles.footerText}>{item.text}</div>
     }
+    if (item.type === 'parameter') {
+      return (
+        <div className={styles.footerText}>
+          {this.props.parameters[item.parameter] || 'Parámetro Vacío'}
+        </div>
+      )
+    }
   }
 
   renderFooter() {
     if (!this.props.dynamicFooter || !this.props.dynamicFooter.length) return null
-    return this.props.dynamicFooter.map(item => {
-      return this.renderFooterItem(item)
+    return this.props.dynamicFooter.map((row, index) => {
+      const cols = this.props.fields.map((field, fieldIndex) => {
+        if (row.items[fieldIndex]) {
+          return <td key={fieldIndex}>{this.renderFooterItem(row.items[fieldIndex])}</td>
+        } else {
+          return <td key={fieldIndex} />
+        }
+      })
+      return <tr key={index}>{cols}</tr>
     })
   }
 
@@ -135,8 +148,8 @@ export default class Table extends React.Component {
         <table>
           <thead>{this.renderHead()}</thead>
           <tbody>{this.renderBody()}</tbody>
+          <tfoot>{this.renderFooter()}</tfoot>
         </table>
-        {this.renderFooter()}
       </div>
     )
   }

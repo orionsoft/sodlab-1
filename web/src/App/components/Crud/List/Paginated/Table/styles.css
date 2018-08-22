@@ -3,22 +3,4 @@
 }
 :local(.footerText) {
   white-space: pre-line;
-  background-color: #f1f1f1;
-  border-bottom: 1px solid #ddd;
-  position: relative;
-  padding: 9px 10px;
-  line-height: 22px;
-  vertical-align: top;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  color: #32325d;
-  font-size: 13px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-:local(.indicator) {
-  container {
-    padding: 0px !important;
-  }
 }

@@ -1,6 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
 import TableField from './TableField'
-import FooterField from './FooterField'
 import Tables from 'app/collections/Tables'
 
 export default {
@@ -65,7 +64,7 @@ export default {
   },
   footer: {
     label: 'Footer',
-    type: [FooterField],
+    type: ['blackbox'],
     defaultValue: [],
     optional: true
   }
