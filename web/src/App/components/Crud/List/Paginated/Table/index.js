@@ -5,7 +5,6 @@ import Sort from './Sort'
 import icons from 'App/components/Icon/icons'
 import IconButton from 'orionsoft-parts/lib/components/IconButton'
 import PropTypes from 'prop-types'
-import IndicatorResult from './IndicatorResult'
 
 export default class Table extends React.Component {
   static propTypes = {
@@ -16,8 +15,7 @@ export default class Table extends React.Component {
     sortType: PropTypes.string,
     setSort: PropTypes.func.isRequired,
     selectedItemId: PropTypes.string,
-    dynamicFooter: PropTypes.array,
-    parameters: PropTypes.object
+    footer: PropTypes.any
   }
 
   getSortProps(field) {
@@ -108,47 +106,13 @@ export default class Table extends React.Component {
     })
   }
 
-  renderFooterItem(item) {
-    if (item.type === 'indicator') {
-      return (
-        <div>
-          <IndicatorResult params={this.props.parameters} indicatorId={item.indicatorId} />
-        </div>
-      )
-    }
-    if (item.type === 'text') {
-      return <div className={styles.footerText}>{item.text}</div>
-    }
-    if (item.type === 'parameter') {
-      return (
-        <div className={styles.footerText}>
-          {this.props.parameters[item.parameter] || 'Parámetro Vacío'}
-        </div>
-      )
-    }
-  }
-
-  renderFooter() {
-    if (!this.props.dynamicFooter || !this.props.dynamicFooter.length) return null
-    return this.props.dynamicFooter.map((row, index) => {
-      const cols = this.props.fields.map((field, fieldIndex) => {
-        if (row.items[fieldIndex]) {
-          return <td key={fieldIndex}>{this.renderFooterItem(row.items[fieldIndex])}</td>
-        } else {
-          return <td key={fieldIndex} />
-        }
-      })
-      return <tr key={index}>{cols}</tr>
-    })
-  }
-
   render() {
     return (
       <div className="paginated-table table hoverable">
         <table>
           <thead>{this.renderHead()}</thead>
           <tbody>{this.renderBody()}</tbody>
-          <tfoot>{this.renderFooter()}</tfoot>
+          <tfoot>{this.props.footer}</tfoot>
         </table>
       </div>
     )

@@ -16,8 +16,7 @@ export default class Data extends React.Component {
     debouncing: PropTypes.bool,
     selectedItemId: PropTypes.string,
     loadingComponent: PropTypes.any,
-    dynamicFooter: PropTypes.array,
-    parameters: PropTypes.object
+    footer: PropTypes.any
   }
 
   state = {}
@@ -77,8 +76,7 @@ export default class Data extends React.Component {
           selectedItemId={this.props.selectedItemId}
           items={this.props.data.data.result.items}
           fields={this.props.fields}
-          dynamicFooter={this.props.dynamicFooter}
-          parameters={this.props.parameters}
+          footer={this.props.footer}
         />
       </div>
     )

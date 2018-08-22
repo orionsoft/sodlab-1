@@ -25,8 +25,7 @@ export default class List extends React.Component {
     setRef: PropTypes.func,
     queryFunctionName: PropTypes.string,
     extraFields: PropTypes.object,
-    dynamicFooter: PropTypes.array,
-    parameters: PropTypes.object
+    footer: PropTypes.any
   }
 
   static defaultProps = {
@@ -78,8 +77,7 @@ export default class List extends React.Component {
                 headCenterComponent={this.renderCenter}
                 headRightComponent={this.props.allowSearch ? undefined : () => <span />}
                 extraFields={this.props.extraFields}
-                dynamicFooter={this.props.dynamicFooter}
-                parameters={this.props.parameters}
+                footer={this.props.footer}
               />
             )}
           </WithParams>

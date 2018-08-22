@@ -10,6 +10,7 @@ import Watch from './Watch'
 import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
+import IndicatorResult from './IndicatorResult'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -147,9 +148,39 @@ export default class Table extends React.Component {
     })
   }
 
+  renderFooterItem(item) {
+    const {parameters} = this.props
+    if (item.type === 'indicator') {
+      return <IndicatorResult params={this.props.parameters} indicatorId={item.indicatorId} />
+    }
+    if (item.type === 'text') {
+      return <div className={styles.footerText}>{item.text}</div>
+    }
+    if (item.type === 'parameter') {
+      return (
+        <div className={styles.footerText}>
+          {this.props.parameters[item.parameter] || 'Parámetro Vacío'}
+        </div>
+      )
+    }
+  }
+
+  renderFooter(footer) {
+    return footer.map((row, index) => {
+      const cols = this.getFields().map((field, fieldIndex) => {
+        if (row.items[fieldIndex]) {
+          return <td key={fieldIndex}>{this.renderFooterItem(row.items[fieldIndex])}</td>
+        } else {
+          return <td key={fieldIndex} />
+        }
+      })
+      return <tr key={index}>{cols}</tr>
+    })
+  }
+
   @autobind
   renderPaginated({filterId, filterOptions}) {
-    const {table, parameters} = this.props
+    const {table} = this.props
     return (
       <PaginatedList
         title={null}
@@ -165,8 +196,7 @@ export default class Table extends React.Component {
         fields={this.getFields()}
         onSelect={this.onSelect}
         allowSearch={false}
-        dynamicFooter={table.footer}
-        parameters={parameters}
+        footer={this.renderFooter(table.footer)}
       />
     )
   }
