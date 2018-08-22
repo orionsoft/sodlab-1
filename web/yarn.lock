@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@orion-js/graphql-client@^0.6.4":
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/@orion-js/graphql-client/-/graphql-client-0.6.4.tgz#7bf8fe41185b6f0849f7b30d80446c3c5379e1ef"
+"@orion-js/graphql-client@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@orion-js/graphql-client/-/graphql-client-0.6.7.tgz#7328ea6d317a433f9f762521e6de31dab29e8d0b"
   dependencies:
     apollo-cache-inmemory "^1.2.5"
     apollo-client "^2.3.5"
@@ -22,9 +22,9 @@
     subscriptions-transport-ws "^0.9.12"
     unfetch "^3.0.0"
 
-"@orion-js/schema@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.6.0.tgz#7ab7bf6c6ff43b9fa22554b9616eae1ff86d222d"
+"@orion-js/schema@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.6.7.tgz#26f046d00e8b7f8327946a048335119742fd5d35"
   dependencies:
     lodash "^4.17.10"
 
@@ -5871,9 +5871,9 @@ react-flatpickr@^3.6.4:
     flatpickr "^4.3.2"
     prop-types "^15.5.10"
 
-react-hot-loader@4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.3.3.tgz#37409a3341c7787563d0972007ba02521f82f5d5"
+react-hot-loader@4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.3.4.tgz#4f9bdd55bb20d77a6ae8931fa1c187e5f0ce6279"
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"

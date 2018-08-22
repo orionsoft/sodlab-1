@@ -12,5 +12,6 @@ export default [
   {title: 'Validaciones', path: '/validations'},
   {title: 'Endpoints', path: '/endpoints'},
   {title: 'Usuarios', path: '/users'},
-  {title: 'Configuración', path: '/configuration'}
+  {title: 'Configuración', path: '/configuration'},
+  {title: 'Botones', path: '/buttons'}
 ]

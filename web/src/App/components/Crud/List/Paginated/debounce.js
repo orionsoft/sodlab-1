@@ -29,7 +29,6 @@ export default function(Child) {
     }
 
     render() {
-      console.log(this.state.props)
       return <Child ref="child" debouncing={this.state.debouncing} {...this.state.props} />
     }
   }

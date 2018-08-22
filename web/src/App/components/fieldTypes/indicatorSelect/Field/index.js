@@ -8,7 +8,7 @@ import {withRouter} from 'react-router'
 @withRouter
 @withGraphQL(gql`
   query getEnvironmentIndicators($environmentId: ID) {
-    indicators(environmentId: $environmentId) {
+    indicators(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name
