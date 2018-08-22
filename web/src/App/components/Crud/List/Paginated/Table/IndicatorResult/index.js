@@ -24,10 +24,6 @@ export default class Result extends React.Component {
     result: PropTypes.any
   }
 
-  constructor(props) {
-    super(props)
-  }
-
   renderValue(node) {
     return node
   }
