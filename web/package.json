@@ -9,8 +9,8 @@
     "react-dev-utils": "^5.0.1"
   },
   "dependencies": {
-    "@orion-js/graphql-client": "^0.6.4",
-    "@orion-js/schema": "^0.6.0",
+    "@orion-js/graphql-client": "^0.7.0",
+    "@orion-js/schema": "^0.7.0",
     "FileSaver": "^0.10.0",
     "autobind-decorator": "^2.1.0",
     "babel-polyfill": "^6.26.0",
@@ -39,6 +39,7 @@
     "react-router-dom": "^4.3.1",
     "react-select": "^1.2.1",
     "react-stripe-elements": "^2.0.1",
+    "react-transition-group": "^2.4.0",
     "rxjs": "^6.2.2",
     "simple-react-form": "^2.1.5",
     "styled-jsx": "^2.2.7",
