@@ -12,6 +12,7 @@ import {Query} from 'react-apollo'
 
 export default class Fetch extends React.Component {
   static propTypes = {
+    footer: PropTypes.any,
     /**
      * Head title
      */
@@ -218,6 +219,7 @@ export default class Fetch extends React.Component {
               limit={variables.limit}
               setLimit={limit => this.setState({limit})}
               loadingComponent={this.props.loadingComponent}
+              footer={this.props.footer}
             />
           )}
         </Query>

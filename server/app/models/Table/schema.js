@@ -61,5 +61,11 @@ export default {
   orderFiltersByName: {
     type: Boolean,
     optional: true
+  },
+  footer: {
+    label: 'Footer',
+    type: ['blackbox'],
+    defaultValue: [],
+    optional: true
   }
 }
