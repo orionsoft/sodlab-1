@@ -149,7 +149,6 @@ export default class Table extends React.Component {
   }
 
   renderFooterItem(item) {
-    const {parameters} = this.props
     if (item.type === 'indicator') {
       return <IndicatorResult params={this.props.parameters} indicatorId={item.indicatorId} />
     }
@@ -166,6 +165,7 @@ export default class Table extends React.Component {
   }
 
   renderFooter(footer) {
+    if (!footer) return
     return footer.map((row, index) => {
       const cols = this.getFields().map((field, fieldIndex) => {
         if (row.items[fieldIndex]) {
