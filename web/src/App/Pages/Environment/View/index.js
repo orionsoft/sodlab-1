@@ -11,7 +11,7 @@ import {withApollo} from 'react-apollo'
 import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 import prependKey from 'App/helpers/misc/prependKey'
 import autobind from 'autobind-decorator'
-import Intercom from 'react-intercom'
+import Intercom from 'App/components/Intercom'
 
 @withGraphQL(gql`
   query getView($viewId: ID, $environmentId: ID) {
@@ -163,20 +163,14 @@ export default class View extends React.Component {
 
   render() {
     const {view, intercomId, userByEnvironment} = this.props
-    const user = {
-      name: 'name',
-      user_id: 123,
-      email: userByEnvironment.email
-    }
-    console.log(this.props)
     return (
       <div className={styles.container}>
         {this.renderFullSizeStyles()}
         <Container>
           <h1>{view.title && view.title}</h1>
           {this.renderItems(view.items)}
+          {view.intercom && <Intercom intercomId={intercomId} email={userByEnvironment.email} />}
         </Container>
-        {view.intercom && <Intercom appID={intercomId} {...user} />}
       </div>
     )
   }
