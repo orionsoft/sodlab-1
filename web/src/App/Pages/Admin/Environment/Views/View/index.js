@@ -39,6 +39,7 @@ import clone from 'lodash/clone'
         formId
         tableId
         indicatorId
+        buttonId
         fullSize
         subItems
       }
@@ -67,6 +68,12 @@ import clone from 'lodash/clone'
         label: name
       }
     }
+    buttons(limit: 200, environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -80,7 +87,8 @@ export default class View extends React.Component {
     tables: PropTypes.object,
     roles: PropTypes.object,
     indicators: PropTypes.object,
-    match: PropTypes.object
+    match: PropTypes.object,
+    buttons: PropTypes.object
   }
 
   getSizeOptions() {
@@ -93,7 +101,8 @@ export default class View extends React.Component {
       {label: 'Tabla', value: 'table', result: 'tables'},
       {label: 'Gráfico', value: 'chart', result: 'charts'},
       {label: 'Indicador', value: 'indicator', result: 'indicators'},
-      {label: 'Contenido', value: 'layout'}
+      {label: 'Contenido', value: 'layout'},
+      {label: 'Botón', value: 'button', result: 'buttons'}
     ]
   }
 

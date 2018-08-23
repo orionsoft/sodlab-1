@@ -1,5 +1,6 @@
 import Collections from 'app/collections/Collections'
 import Indicators from 'app/collections/Indicators'
+
 export default {
   name: 'Actualizar valor con un indicador',
   optionsSchema: {
@@ -10,7 +11,7 @@ export default {
     },
     valueKey: {
       type: String,
-      label: 'Campo de valor',
+      label: 'Campo a actualizar',
       fieldType: 'collectionFieldSelect'
     },
     itemId: {

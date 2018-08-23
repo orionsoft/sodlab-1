@@ -26,5 +26,13 @@ export default {
   indicatorId: {
     type: String,
     optional: true
+  },
+  editableDefaultValue: {
+    type: String,
+    optional: true
+  },
+  indicatorDefaultValue: {
+    type: String,
+    optional: true
   }
 }

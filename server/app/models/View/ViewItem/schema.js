@@ -1,4 +1,6 @@
-export default {
+import {validate, clean} from '@orion-js/schema'
+
+const viewItemSchema = {
   sizeSmall: {
     type: String
   },
@@ -10,7 +12,7 @@ export default {
   },
   type: {
     type: String,
-    allowedValues: ['form', 'table', 'chart', 'indicator', 'layout']
+    allowedValues: ['form', 'table', 'chart', 'indicator', 'layout', 'button']
   },
   formId: {
     type: 'ID',
@@ -39,12 +41,38 @@ export default {
       }
     }
   },
+  buttonId: {
+    type: 'ID',
+    optional: true,
+    async custom(buttonId, {currentDoc}) {
+      if (currentDoc.type === 'button' && !buttonId) {
+        return 'required'
+      }
+    }
+  },
   fullSize: {
     type: Boolean,
     optional: true
   },
   subItems: {
     type: ['blackbox'],
-    optional: true
+    optional: true,
+    async custom(subItems, {currentDoc}) {
+      if (currentDoc.type !== 'layout') return
+      for (const item in subItems) {
+        try {
+          await validate(viewItemSchema, subItems[item])
+        } catch (error) {
+          return 'missing Option'
+        }
+      }
+    },
+    autoValue(subItems, {currentDoc}) {
+      if (subItems) {
+        return Promise.all(subItems.map(item => clean(viewItemSchema, item)))
+      }
+    }
   }
 }
+
+export default viewItemSchema

@@ -65,7 +65,22 @@ export default {
   },
   liorenId: {
     type: String,
-    label: 'Lioren ID',
+    label: 'Lioren ID Boletas',
+    optional: true
+  },
+  liorenIdBill: {
+    type: String,
+    label: 'Lioren ID Facturas',
+    optional: true
+  },
+  liorenIdCreditNote: {
+    type: String,
+    label: 'Lioren ID Nota de Créditos',
+    optional: true
+  },
+  liorenIdDelivery: {
+    type: String,
+    label: 'Lioren Guía de Despachos',
     optional: true
   },
   intercomId: {

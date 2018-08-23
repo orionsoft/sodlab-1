@@ -19,6 +19,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import translate from 'App/i18n/translate'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import FieldOptions from './FieldOptions'
+import FooterOptions from './FooterOptions'
 
 @withGraphQL(gql`
   query getForm($tableId: ID, $environmentId: ID) {
@@ -31,6 +32,7 @@ import FieldOptions from './FieldOptions'
       filtersIds
       allowsNoFilter
       orderFiltersByName
+      footer
       fields {
         type
         fieldName
@@ -59,6 +61,12 @@ import FieldOptions from './FieldOptions'
         label: name
       }
     }
+    indicators(limit: 200, environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -66,6 +74,7 @@ export default class Link extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
     collections: PropTypes.object,
+    indicators: PropTypes.object,
     history: PropTypes.object,
     table: PropTypes.object,
     forms: PropTypes.object,
@@ -75,12 +84,11 @@ export default class Link extends React.Component {
 
   state = {}
 
-  componentDidMount() {
-    this.setState(this.props.table)
-  }
-
   static getDerivedStateFromProps(props, state) {
-    return state || props.table || {}
+    if (state.reset) {
+      return {table: state.reset, reset: null}
+    }
+    return {table: props.table}
   }
 
   getFilters() {
@@ -144,7 +152,8 @@ export default class Link extends React.Component {
 
   @autobind
   reset() {
-    const fields = this.props.table.collection.fields.map(field => {
+    let table = cloneDeep(this.state.table)
+    const newFields = this.props.table.collection.fields.map(field => {
       return {
         type: 'field',
         label: field.label,
@@ -152,7 +161,8 @@ export default class Link extends React.Component {
         options: null
       }
     })
-    this.setState({fields})
+    table.fields = newFields
+    this.setState({reset: table})
   }
 
   renderCollection() {
@@ -161,6 +171,17 @@ export default class Link extends React.Component {
       return table.collectionId === collection.value
     })
     return <div className={styles.name}>{data.label}</div>
+  }
+
+  @autobind
+  renderFooterRow() {
+    const length =
+      (this.refs.form &&
+        this.refs.form.form &&
+        this.refs.form.form.state.value &&
+        this.refs.form.form.state.value.table.fields.length) ||
+      this.state.table.fields.length
+    return <FooterOptions columns={length} indicators={this.props.indicators.items} />
   }
 
   render() {
@@ -181,7 +202,7 @@ export default class Link extends React.Component {
             onSuccess={this.onSuccess}
             doc={{
               tableId: this.props.table._id,
-              table: cloneDeep(this.state) || cloneDeep(this.props.table) || {}
+              table: cloneDeep(this.state.table)
             }}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Nombre</div>
@@ -212,6 +233,8 @@ export default class Link extends React.Component {
               </div>
               <div className="label">Que campos mostrar</div>
               {this.renderCollectionFields()}
+              <div className="label">Footer</div>
+              <Field fieldName="footer" type={ArrayComponent} renderItem={this.renderFooterRow} />
             </Field>
           </AutoForm>
           <br />

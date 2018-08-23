@@ -14,7 +14,8 @@ export default class Table extends React.Component {
     sortBy: PropTypes.string,
     sortType: PropTypes.string,
     setSort: PropTypes.func.isRequired,
-    selectedItemId: PropTypes.string
+    selectedItemId: PropTypes.string,
+    footer: PropTypes.any
   }
 
   getSortProps(field) {
@@ -72,7 +73,6 @@ export default class Table extends React.Component {
 
   renderValue(item, field, index) {
     const value = dot.pick(field.name, item)
-
     if (field.render) {
       try {
         return field.render(item, value, index)
@@ -112,6 +112,7 @@ export default class Table extends React.Component {
         <table>
           <thead>{this.renderHead()}</thead>
           <tbody>{this.renderBody()}</tbody>
+          <tfoot>{this.props.footer}</tfoot>
         </table>
       </div>
     )

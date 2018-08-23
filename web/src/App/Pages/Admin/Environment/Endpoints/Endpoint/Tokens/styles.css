@@ -1,0 +1,17 @@
+:local(.container) {
+}
+
+:local(.token) {
+  display: flex;
+  background: #fff;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  align-items: center;
+  border: 1px solid #ddd;
+}
+
+:local(.tokenContent) {
+  flex: 1;
+  font-family: 'Ubuntu mono', monospace;
+}

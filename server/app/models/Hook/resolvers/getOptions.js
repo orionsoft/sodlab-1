@@ -15,7 +15,7 @@ export default resolver({
       if (option.type === 'parameter') {
         result[key] = params[option.parameterName]
       } else if (option.type === 'fixed') {
-        result[key] = option.fixed.value
+        result[key] = option.fixed ? option.fixed.value : null
       }
     }
     return result

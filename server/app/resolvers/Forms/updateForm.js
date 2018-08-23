@@ -22,14 +22,21 @@ export default resolver({
     if (
       formData.type === 'update' &&
       (!formData.updateVariableName || formData.updateVariableName === '')
-    )
+    ) {
       throw new Error('Nombre de variable requerido')
+    }
+
     const buttons = ['submitButtonText', 'resetButtonText']
     buttons.map(button => {
       if (!formData.hasOwnProperty(button)) {
         formData[button] = null
       }
     })
+
+    if (!formData.onSuccessViewPath) {
+      formData['onSuccessViewPath'] = null
+    }
+
     const form = await Forms.findOne(formId)
     await form.update({$set: formData})
     return form
