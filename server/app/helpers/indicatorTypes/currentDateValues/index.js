@@ -15,6 +15,7 @@ export default {
           {label: 'Nº día del mes', value: 'dayNumber'},
           {label: 'Mes', value: 'monthText'},
           {label: 'Nº del mes', value: 'monthNumber'},
+          {label: 'Semana - Fin de semana', value: 'weekend'},
           {label: 'Semestre', value: 'semester'},
           {label: 'Trimestre', value: 'trimester'}
         ]
@@ -42,6 +43,13 @@ export default {
         break
       case 'monthNumber':
         return date.getMonth() + 1
+        break
+      case 'weekend':
+        if (date.getDay() - 1 < 5) {
+          return 'LUN - VIE'
+        } else {
+          return 'SAB - DOM'
+        }
         break
       case 'semester':
         return Math.floor((date.getMonth() + 6) / 6)
