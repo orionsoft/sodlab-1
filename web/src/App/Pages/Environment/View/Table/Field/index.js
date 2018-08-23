@@ -109,7 +109,7 @@ export default class Field extends React.Component {
     return (
       <MutationButton
         label="Eliminar"
-        title="¿Quieres eliminar este documento?"
+        title={field.options.modalText || '¿Quieres eliminar este documento?'}
         confirmText="Confirmar"
         mutation="tableDeleteItem"
         onSuccess={() => this.props.showMessage('Elemento eliminado satisfactoriamente!')}
@@ -125,7 +125,7 @@ export default class Field extends React.Component {
     const itemId = doc._id
     return (
       <MutationButton
-        title={field.options.tooltip}
+        title={field.options.modalText || field.options.tooltip}
         confirmText="Confirmar"
         mutation="tableRunHooks"
         onSuccess={() => this.props.showMessage('Se ha ejecutado correctamente')}
