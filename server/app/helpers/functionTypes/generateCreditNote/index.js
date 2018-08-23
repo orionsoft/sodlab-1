@@ -95,8 +95,6 @@ export default {
 
     const productsList = await Promise.all(mapProducts)
 
-    //TODO: implement differents cases with switch
-
     const optionsRequest = {
       headers: {
         Accept: 'application/json',
@@ -120,7 +118,7 @@ export default {
         referencias: [{
           fecha: data[options.billFechaEmision],
           tipodoc: data[options.billTipodocumento],
-          folio: 355,
+          folio: data[options.billFolio],
           razonref: params.razon,
           glosa: order.data[options.pedidosGlosa]
         }],
@@ -129,8 +127,6 @@ export default {
     }
 
     const dte = await DTEEmission(optionsRequest, 'https://lioren.io/api/dtes')
-    console.log('DTE', dte)
-    // console.log(JSON.stringify(optionsRequest, null, 2))
     const pdf = await uploadPDF(await dte, 'nota de crédito')
     const file = {
       _id: pdf._id,
