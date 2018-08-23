@@ -30,7 +30,9 @@ import RemoveEnvironment from './RemoveEnvironment'
       liorenId
       liorenIdBill
       liorenIdCreditNote
-      liorenIdDelivery
+      liorenIdDelivery,
+      exempt,
+      exemptTicket
       ...adminEnvironmentProfilesUpdateFragment
     }
   }
