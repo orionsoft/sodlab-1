@@ -8,7 +8,6 @@ import gql from 'graphql-tag'
 import Button from 'orionsoft-parts/lib/components/Button'
 import withFingerprint from '../../FingerprintReader/withFingerprint'
 import withSignature from '../../SignatureCapture/withSignature'
-import TextSection from '../../common/textSection'
 import SignerName from './Fields/name'
 import SignerRut from './Fields/rut'
 import SignerReason from './Fields/reason'
@@ -77,21 +76,21 @@ class DocumentEditorForm extends React.Component {
   }
 
   openModal = () => {
-    this.setState({ modalIsOpen: true })
+    this.setState({modalIsOpen: true})
   }
 
   closeModal = () => {
     localStorage.removeItem('fingerprintPng')
-    this.setState({ modalIsOpen: false })
+    this.setState({modalIsOpen: false})
   }
 
-  handleClientChange = client => this.setState({ client })
+  handleClientChange = client => this.setState({client})
 
-  handleWhoChange = who => this.props.handleWhoChange(who, () => this.setState({ who }))
+  handleWhoChange = who => this.props.handleWhoChange(who, () => this.setState({who}))
 
-  handleWhyChange = why => this.props.handleWhyChange(why, () => this.setState({ why }))
+  handleWhyChange = why => this.props.handleWhyChange(why, () => this.setState({why}))
 
-  handleRutChange = rut => this.setState({ rut })
+  handleRutChange = rut => this.setState({rut})
 
   startSignatureCapture = () => {
     this.props.startCapture()
@@ -109,10 +108,10 @@ class DocumentEditorForm extends React.Component {
   insertImage = (type, id, imageSrc, name, rut) => {
     return new Promise(resolve => {
       this.setState({
-        [type]: { id, imageSrc, name, rut }
+        [type]: {id, imageSrc, name, rut}
       })
       this.props.changeState({
-        signatureImages: [...this.props.signatureImages, { id, imageSrc, name, rut }]
+        signatureImages: [...this.props.signatureImages, {id, imageSrc, name, rut}]
       })
 
       return resolve()
@@ -162,7 +161,7 @@ class DocumentEditorForm extends React.Component {
           const base64Flag = 'data:image/png;base64,'
           const imageStr = arrayBufferToBase64(buffer)
           const src = base64Flag + imageStr
-          let { pagesSrc } = this.props
+          let {pagesSrc} = this.props
           pagesSrc[page - 1] = {
             name: fileInfo.name,
             src,
@@ -175,7 +174,7 @@ class DocumentEditorForm extends React.Component {
             loading: false
           })
         } catch (err) {
-          this.props.changeState({ loading: false })
+          this.props.changeState({loading: false})
           this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
         }
       })
@@ -201,7 +200,7 @@ class DocumentEditorForm extends React.Component {
       byteArrays.push(byteArray)
     }
 
-    let blob = new Blob(byteArrays, { type: contentType })
+    let blob = new Blob(byteArrays, {type: contentType})
     return blob
   }
 
@@ -234,8 +233,8 @@ class DocumentEditorForm extends React.Component {
       loading: true
     })
 
-    const { activeFingerprint, activeSignature } = this.state
-    const { posX, posY } = this.props
+    const {activeFingerprint, activeSignature} = this.state
+    const {posX, posY} = this.props
 
     if (activeFingerprint === null && activeSignature === null) {
       this.props.changeState({
@@ -267,7 +266,7 @@ class DocumentEditorForm extends React.Component {
       if (data.message === undefined) {
         this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
 
-        return this.props.changeState({ loading: false })
+        return this.props.changeState({loading: false})
       } else {
         const wsqKeys = [...this.props.wsqKeys, this.state.rut]
         localStorage.removeItem('fingerprintPng')
@@ -291,8 +290,7 @@ class DocumentEditorForm extends React.Component {
           onClose={this.closeModal}
           className={styles.modal}
           overlayClassName={styles.overlay}
-          contentLabel="Confirmación"
-        >
+          contentLabel="Confirmación">
           <div className={styles.contentContainer}>
             <div className={styles.deviceContainer}>
               <Device

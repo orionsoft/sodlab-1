@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Select from 'orionsoft-parts/lib/components/fields/Select'
-import { MdNoteAdd } from 'react-icons/lib/md'
+import {MdNoteAdd} from 'react-icons/lib/md'
 import apiUrl from '../../helpers/url'
 import arrayBufferToBase64 from '../../helpers/arrayBufferToBase64'
 import styles from './styles.css'
@@ -22,7 +21,8 @@ export default class DocumentEditorHeader extends React.Component {
     fetchPdfImages: PropTypes.func,
     changeState: PropTypes.func,
     pages: PropTypes.array,
-    pagesSrc: PropTypes.array
+    pagesSrc: PropTypes.array,
+    wsqKeys: PropTypes.array
   }
 
   fetchPdfPages = () => {
@@ -34,7 +34,7 @@ export default class DocumentEditorHeader extends React.Component {
         const base64Flag = 'data:image/png;base64,'
         const imageStr = arrayBufferToBase64(buffer)
         const src = base64Flag + imageStr
-        const pagesSrc = [...this.props.pagesSrc, { name: fileInfo.name, src, index }].sort(
+        const pagesSrc = [...this.props.pagesSrc, {name: fileInfo.name, src, index}].sort(
           (a, b) => a.index - b.index
         )
 
@@ -43,7 +43,7 @@ export default class DocumentEditorHeader extends React.Component {
           loading: false
         })
       } catch (err) {
-        this.props.changeState({ loading: false })
+        this.props.changeState({loading: false})
         this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
       }
     })
@@ -54,8 +54,13 @@ export default class DocumentEditorHeader extends React.Component {
       this.props.requestFileDeletion()
     }
 
+    if (this.props.wsqKeys.length > 0) {
+      this.props.wsqKeys.map(key => localStorage.removeItem(key))
+      if (localStorage.getItem('fingerprintPng')) {
+        localStorage.removeItem('fingerprintPng')
+      }
+    }
     this.props.resetState()
-    // !! check localstorage in clear it if needed
     this.props.toggleLoading()
 
     try {
@@ -102,17 +107,6 @@ export default class DocumentEditorHeader extends React.Component {
       <div className={styles.headerContainer}>
         <span>{this.props.filename.toUpperCase() || 'NO SE HA SELECCIONADO NINGÚN DOCUMENTO'}</span>
         <div className={styles.headerOptions}>
-          {/* <div className={styles.headerSelectContainer}>
-            <Select
-              value={this.props.client && this.props.client[this.props.passProps.valueKey]}
-              onChange={change =>
-                this.props.changeState({ client: { [this.props.passProps.valueKey]: change } })
-              }
-              options={this.props.selectOptions}
-              errorMessage={this.props.errorMessage}
-              {...this.props.passProps}
-            />
-          </div> */}
           <div className={styles.headerInputContainer}>{this.renderUploadButton()}</div>
         </div>
       </div>

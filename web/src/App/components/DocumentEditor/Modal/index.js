@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Modal from 'react-modal'
-import { withRouter } from 'react-router'
+import {withRouter} from 'react-router'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
-import { ClientConsumer } from '../context'
+import {ClientConsumer} from '../context'
 import Header from './Header'
 import Pagination from './Pagination'
 import Body from './Body'
@@ -54,7 +54,7 @@ export default class Main extends React.Component {
   }
 
   toggleLoading = () => {
-    this.setState({ loading: !this.state.loading })
+    this.setState({loading: !this.state.loading})
   }
 
   resetState = () => {
@@ -75,12 +75,12 @@ export default class Main extends React.Component {
     })
   }
 
-  changeState = changes => this.setState({ ...changes })
+  changeState = changes => this.setState({...changes})
 
   requestFileDeletion = () => {
     const splitFileName = this.state.pdfFileName.split('.')
     const fileName = `${splitFileName[0]}.${splitFileName[1]}`
-    const body = { fileName, secret: 'sodlab_allow_delete' }
+    const body = {fileName, secret: 'sodlab_allow_delete'}
 
     fetch(`${apiUrl}/api/files`, {
       method: 'DELETE',
@@ -91,7 +91,7 @@ export default class Main extends React.Component {
     })
   }
 
-  closeOptionsMenu = () => this.setState({ isOptionsMenuOpen: false })
+  closeOptionsMenu = () => this.setState({isOptionsMenuOpen: false})
 
   render() {
     return (
@@ -102,8 +102,7 @@ export default class Main extends React.Component {
         onRequestClose={() => this.props.onClose()}
         className={styles.modal}
         overlayClassName={styles.overlay}
-        contentLabel="Confirmación"
-      >
+        contentLabel="Confirmación">
         <Header
           value={this.props.value}
           passProps={this.props.passProps}
@@ -120,6 +119,7 @@ export default class Main extends React.Component {
           changeState={this.changeState}
           pages={this.state.pages}
           pagesSrc={this.state.pagesSrc}
+          wsqKeys={this.state.wsqKeys}
         />
         <Pagination
           loading={this.state.loading}
@@ -146,7 +146,6 @@ export default class Main extends React.Component {
           updatePlaceholder={this.props.updatePlaceholder}
           wsqKeys={this.state.wsqKeys}
           collectionId={this.props.passProps.collectionId}
-          wsqKeys={this.state.wsqKeys}
         />
         <Modal
           appElement={document.querySelector('#root')}
@@ -154,8 +153,7 @@ export default class Main extends React.Component {
           isOpen={this.state.isOptionsMenuOpen}
           onRequestClose={this.closeOptionsMenu}
           className={styles.optionsMenuModal}
-          overlayClassName={styles.optionsMenuOverlay}
-        >
+          overlayClassName={styles.optionsMenuOverlay}>
           <div className={styles.btnContainer}>
             <ClientConsumer>
               {rutClient => (

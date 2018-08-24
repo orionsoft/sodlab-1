@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FileSaver from 'file-saver'
-import { FaSpinner } from 'react-icons/lib/fa'
-import { MdFileDownload } from 'react-icons/lib/md'
+import {FaSpinner} from 'react-icons/lib/fa'
 import withMutation from 'react-apollo-decorators/lib/withMutation'
 import gql from 'graphql-tag'
 import Button from 'orionsoft-parts/lib/components/Button'
@@ -52,7 +51,7 @@ export default class DocumentEditorPagination extends React.Component {
     const rut = data[2]
     const imageSrc = e.currentTarget.src
     const newState = {
-      activeSignature: { id, imageSrc, name, rut }
+      activeSignature: {id, imageSrc, name, rut}
     }
     this.props.changeState(newState)
   }
@@ -67,7 +66,7 @@ export default class DocumentEditorPagination extends React.Component {
 
   handleImageClick = e => {
     const img = document.getElementById('pdfImage')
-    const { left, top } = this.getOffset(img)
+    const {left, top} = this.getOffset(img)
     const imgWidth = img.width
     const imgHeight = img.height
     const dX = e.pageX - left
@@ -93,7 +92,7 @@ export default class DocumentEditorPagination extends React.Component {
 
   requestCredentials = async body => {
     try {
-      const { result } = await this.props.generateUploadCredentials({
+      const {result} = await this.props.generateUploadCredentials({
         name: body.fileName,
         size: this.props.size,
         type: body.fileType
@@ -105,9 +104,9 @@ export default class DocumentEditorPagination extends React.Component {
   }
 
   complete = async fileId => {
-    this.props.onChange({ _id: fileId })
+    this.props.onChange({_id: fileId})
     try {
-      return await this.props.completeUpload({ fileId })
+      return await this.props.completeUpload({fileId})
     } catch (error) {
       this.props.showMessage('Error al generar credenciales')
     }
@@ -133,7 +132,7 @@ export default class DocumentEditorPagination extends React.Component {
       byteArrays.push(byteArray)
     }
 
-    let blob = new Blob(byteArrays, { type: contentType })
+    let blob = new Blob(byteArrays, {type: contentType})
     return blob
   }
 
@@ -192,7 +191,7 @@ export default class DocumentEditorPagination extends React.Component {
     }
     try {
       const credentials = await this.requestCredentials(fileData)
-      const body = { ...fileData, ...credentials }
+      const body = {...fileData, ...credentials}
       await this.complete(credentials.fileId)
       const response = await fetch(`${apiUrl}/api/files`, {
         method: 'POST',
