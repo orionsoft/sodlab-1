@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@orion-js/graphql-client@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/graphql-client/-/graphql-client-0.6.7.tgz#7328ea6d317a433f9f762521e6de31dab29e8d0b"
+"@orion-js/graphql-client@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/graphql-client/-/graphql-client-0.7.0.tgz#615f8ab417541f8df58579e98cecbb976dcf473a"
   dependencies:
     apollo-cache-inmemory "^1.2.5"
     apollo-client "^2.3.5"
@@ -22,9 +22,9 @@
     subscriptions-transport-ws "^0.9.12"
     unfetch "^3.0.0"
 
-"@orion-js/schema@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.6.7.tgz#26f046d00e8b7f8327946a048335119742fd5d35"
+"@orion-js/schema@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.7.0.tgz#db89a047806c03ce133dd9c3dc4379f91863a9a5"
   dependencies:
     lodash "^4.17.10"
 
@@ -2294,6 +2294,10 @@ dom-converter@~0.1:
 dom-helpers@^3.2.0:
   version "3.2.1"
   resolved "https://registry.npmjs.org/dom-helpers/-/dom-helpers-3.2.1.tgz#3203e07fed217bd1f424b019735582fc37b2825a"
+
+dom-helpers@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.3.1.tgz#fc1a4e15ffdf60ddde03a480a9c0fece821dd4a6"
 
 dom-scroll-into-view@1.0.1:
   version "1.0.1"
@@ -6050,6 +6054,15 @@ react-transition-group@^1.2.0:
     loose-envify "^1.3.1"
     prop-types "^15.5.6"
     warning "^3.0.0"
+
+react-transition-group@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.4.0.tgz#1d9391fabfd82e016f26fabd1eec329dbd922b5a"
+  dependencies:
+    dom-helpers "^3.3.1"
+    loose-envify "^1.3.1"
+    prop-types "^15.6.2"
+    react-lifecycles-compat "^3.0.4"
 
 react@^16.4.1:
   version "16.4.2"

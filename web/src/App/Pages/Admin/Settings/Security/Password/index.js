@@ -36,7 +36,12 @@ export default class ChangePassword extends React.Component {
     },
     confirm: {
       type: String,
-      custom(confirm, {doc: {newPassword}}) {
+      custom(
+        confirm,
+        {
+          doc: {newPassword}
+        }
+      ) {
         if (confirm !== newPassword) {
           return 'passwordsDontMatch'
         }
@@ -51,7 +56,7 @@ export default class ChangePassword extends React.Component {
   render() {
     return (
       <div className={styles.container}>
-        <Section top title="Cambiar contraseña" description="Cambia tu contraseña">
+        <Section title="Cambiar contraseña" description="Cambia tu contraseña">
           <AutoForm
             mutation="changePassword"
             ref="form"

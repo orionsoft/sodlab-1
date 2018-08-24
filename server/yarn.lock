@@ -2,40 +2,42 @@
 # yarn lockfile v1
 
 
-"@orion-js/app@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.6.7.tgz#5695706cbdb52ce796e7231a3d46e89f0db44fb7"
+"@orion-js/app@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/app/-/app-0.7.0.tgz#6e4ac2d33076675ae9fc4ee75177b4d9eb356e00"
   dependencies:
-    "@orion-js/schema" "^0.6.7"
+    "@orion-js/schema" "^0.7.0"
     babel-polyfill "^6.26.0"
-    colors "^1.2.5"
+    colors "^1.3.1"
     dot-object "^1.7.0"
-    micro "^9.3.0"
-    mongodb "^3.1.1"
+    micro "^9.3.3"
+    mongodb "^3.1.3"
     object-hash "^1.3.0"
     path-match "^1.2.4"
-    path-to-regexp "^2.2.0"
+    path-to-regexp "^2.3.0"
 
-"@orion-js/auth@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.6.7.tgz#0d6d7b5e09a5431f6d6471e45f921aab697561be"
+"@orion-js/auth@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/auth/-/auth-0.7.0.tgz#2df7c075d9f262c31ff88edb29caa07a547673f1"
   dependencies:
     bcryptjs "^2.4.3"
     jssha "^2.3.1"
     lodash "^4.17.10"
-    luxon "^1.2.0"
+    luxon "^1.3.3"
+    qr-image "^3.2.0"
+    speakeasy "^2.0.0"
 
-"@orion-js/file-manager@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.6.7.tgz#bcf272151a740aad4e8ace2d4f57c0339441f882"
+"@orion-js/file-manager@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/file-manager/-/file-manager-0.7.0.tgz#6d9a760c69c5ba7a1dfb9d1d3e7e39924bf8b47e"
   dependencies:
     aws-sdk "^2.258.1"
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/graphql@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.6.7.tgz#189211bb0ba3184b2fc4b54dad8877622a37021e"
+"@orion-js/graphql@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/graphql/-/graphql-0.7.0.tgz#dd80be2ce46daf847c1060e0679d596d50105e9c"
   dependencies:
     apollo-server-core "^1.3.6"
     deep-sort-object "^1.0.2"
@@ -44,24 +46,24 @@
     lodash "^4.17.10"
     subscriptions-transport-ws "^0.9.12"
 
-"@orion-js/jobs@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.6.7.tgz#227f9c3696322572b624218633fcf48dee743e60"
+"@orion-js/jobs@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/jobs/-/jobs-0.7.0.tgz#47b36ee8f99dcf6e57053c2aa4056d11d1509991"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
 
-"@orion-js/mailing@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.6.7.tgz#a12cef3394d46923b0ee0c84d51dea644f3025eb"
+"@orion-js/mailing@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/mailing/-/mailing-0.7.0.tgz#51d76db7148677232fd823c8da8a6366871d0b86"
   dependencies:
     lodash "^4.17.10"
     luxon "^1.2.0"
     nodemailer "^4.6.6"
 
-"@orion-js/schema@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.6.7.tgz#26f046d00e8b7f8327946a048335119742fd5d35"
+"@orion-js/schema@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@orion-js/schema/-/schema-0.7.0.tgz#db89a047806c03ce133dd9c3dc4379f91863a9a5"
   dependencies:
     lodash "^4.17.10"
 
@@ -250,9 +252,9 @@ aws-sdk@^2.258.1:
     uuid "3.1.0"
     xml2js "0.4.17"
 
-aws-sdk@^2.297.0:
-  version "2.297.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.297.0.tgz#2fe085076f6fd488285ef7cfaf883fdaa47acee9"
+aws-sdk@^2.298.0:
+  version "2.298.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.298.0.tgz#53259d06ca3bcde69d11f3b24b1c05088939c67f"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -797,6 +799,10 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
+base32.js@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/base32.js/-/base32.js-0.0.1.tgz#d045736a57b1f6c139f0c7df42518a84e91bb2ba"
+
 base64-js@^1.0.2:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.0.tgz#cab1e6118f051095e58b5281aea8c1cd22bfc0e3"
@@ -841,9 +847,9 @@ browserslist@^3.2.6:
     caniuse-lite "^1.0.30000844"
     electron-to-chromium "^1.3.47"
 
-bson@~1.0.4:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-1.0.9.tgz#12319f8323b1254739b7c6bef8d3e89ae05a2f57"
+bson@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-1.1.0.tgz#bee57d1fb6a87713471af4e32bcae36de814b5b0"
 
 buffer-from@^1.0.0:
   version "1.1.1"
@@ -986,7 +992,7 @@ color-name@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.1.tgz#4b1415304cf50028ea81643643bd82ea05803689"
 
-colors@^1.2.5:
+colors@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.1.tgz#4accdb89cf2cabc7f982771925e9468784f32f3d"
 
@@ -1215,9 +1221,9 @@ es-to-primitive@^1.1.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.1"
 
-escape-latex@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/escape-latex/-/escape-latex-1.1.0.tgz#c0a94a51eb8c73c3a67a95cc90fbb626cef54539"
+escape-latex@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/escape-latex/-/escape-latex-1.1.1.tgz#657d8632af8849a5db8766778d4a43da9dec3376"
 
 escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
@@ -2215,22 +2221,22 @@ math-random@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/math-random/-/math-random-1.0.1.tgz#8b3aac588b8a66e4975e3cdea67f7bb329601fac"
 
-mathjs@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-5.1.0.tgz#e25543e0ba6ce806250d71cee8400f513924e7cd"
+mathjs@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-5.1.1.tgz#8010cfc4711af155addc3358d58ff138a2e27247"
   dependencies:
     complex.js "2.0.11"
     decimal.js "10.0.1"
-    escape-latex "1.1.0"
+    escape-latex "1.1.1"
     fraction.js "4.0.8"
     javascript-natural-sort "0.7.1"
     seed-random "2.2.0"
     tiny-emitter "2.0.2"
     typed-function "1.1.0"
 
-micro@^9.3.0:
-  version "9.3.2"
-  resolved "https://registry.yarnpkg.com/micro/-/micro-9.3.2.tgz#41e249fe96a33db056f0a5dabb32c8fd4b69c5ca"
+micro@^9.3.3:
+  version "9.3.3"
+  resolved "https://registry.yarnpkg.com/micro/-/micro-9.3.3.tgz#32728c7be15e807691ead85da27fd8117a8bca24"
   dependencies:
     arg "2.0.0"
     chalk "2.4.0"
@@ -2320,20 +2326,20 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mongodb-core@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.1.0.tgz#af91f36fd560ed785f4e61e694432df4d3698aad"
+mongodb-core@3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.1.2.tgz#c85055a2691ac3661951e557a0d6482796ad5c42"
   dependencies:
-    bson "~1.0.4"
+    bson "^1.1.0"
     require_optional "^1.0.1"
   optionalDependencies:
     saslprep "^1.0.0"
 
-mongodb@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.1.tgz#c018c4b277614e8b1e08426d5bcbe1a7e5cdbd74"
+mongodb@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.3.tgz#7523d438d190e80a757c5947dbc226768cb7b1d5"
   dependencies:
-    mongodb-core "3.1.0"
+    mongodb-core "3.1.2"
 
 ms@2.0.0:
   version "2.0.0"
@@ -2577,9 +2583,9 @@ path-to-regexp@^1.0.0:
   dependencies:
     isarray "0.0.1"
 
-path-to-regexp@^2.2.0:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-2.2.1.tgz#90b617025a16381a879bc82a38d4e8bdeb2bcf45"
+path-to-regexp@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-2.3.0.tgz#690d682cb9e2dde26d25f41bcc2b4774b67d1fa2"
 
 path-type@^2.0.0:
   version "2.0.0"
@@ -2667,6 +2673,10 @@ punycode@1.3.2:
 punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+qr-image@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/qr-image/-/qr-image-3.2.0.tgz#9fa8295beae50c4a149cf9f909a1db464a8672e8"
 
 qs@~6.5.2:
   version "6.5.2"
@@ -3027,6 +3037,12 @@ spdx-expression-parse@^3.0.0:
 spdx-license-ids@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.0.tgz#7a7cd28470cc6d3a1cfe6d66886f6bc430d3ac87"
+
+speakeasy@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/speakeasy/-/speakeasy-2.0.0.tgz#85c91a071b09a5cb8642590d983566165f57613a"
+  dependencies:
+    base32.js "0.0.1"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
