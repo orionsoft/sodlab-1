@@ -128,16 +128,9 @@ export default class ImportDataTable extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className={styles.container}>
-        {/* {this.renderIcon()}
-        <ReactCSSTransitionGroup
-          transitionName="user-menu"
-          transitionEnterTimeout={200}
-          transitionLeaveTimeout={200}> */}
         {this.renderInput()}
-        {/* </ReactCSSTransitionGroup> */}
       </div>
     )
   }
