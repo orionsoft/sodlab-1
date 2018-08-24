@@ -33,7 +33,8 @@ export default {
   afterHooksIds: {
     type: ['ID'],
     label: 'Hooks',
-    optional: true
+    optional: true,
+    defaultValue: []
   },
   buttonType: {
     type: String,
