@@ -23,7 +23,6 @@ import Header from './Header'
       allowsNoFilter
       footer
       exportable
-      importData
       filters {
         _id
         title

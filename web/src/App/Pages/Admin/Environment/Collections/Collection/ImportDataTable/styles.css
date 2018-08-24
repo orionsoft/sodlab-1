@@ -1,0 +1,17 @@
+:local(.container) {
+}
+
+:local(.button) {
+}
+
+:local(.loading) {
+  padding: 0 100px;
+}
+
+:local(.input) {
+  display: none;
+}
+
+:local(.label) {
+  composes: orion_button from global;
+}
