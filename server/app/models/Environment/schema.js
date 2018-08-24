@@ -82,5 +82,19 @@ export default {
     type: String,
     label: 'Lioren Guía de Despachos',
     optional: true
-  }
+  },
+  exempt: {
+    type: Boolean,
+    label: 'Facturas, Guía de Despachos y Nota de Créditos',
+    fieldType: 'checkbox',
+    fieldOptions: {label: 'Activar exento en documentos'},
+    defaultValue: false
+  },
+   exemptTicket: {
+    type: Boolean,
+    label: 'Boletas',
+    fieldType: 'checkbox',
+    fieldOptions: {label: 'Activar exento en boletas'},
+    defaultValue: false
+  },
 }

@@ -133,6 +133,12 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'
   },
+  productsDscto: {
+    type: String,
+    label: 'Campo Descuento Productos (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
   productsUnit: {
     type: String,
     label: 'Campo Unidad Productos (de colección Productos)',
@@ -180,9 +186,15 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
-  deliveryDetalles: {
+  deliveryExento: {
     type: String,
-    label: 'Campo para almacenar Detalles de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label: 'Campo para almacenar Monto Exento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'deliveryCollectionId'
+  },
+  deliveryEstado: {
+    type: String,
+    label: 'Campo para almacenar Estado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
@@ -198,21 +210,15 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
-  deliveryDetalles: {
-    type: String,
-    label: 'Campo para almacenar Detalles de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'deliveryCollectionId'
-  },
   deliveryFile: {
     type: String,
     label: 'Campo para almacenar Archivo de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
-  deliveryPagos: {
+  deliveryFechaEmision: {
     type: String,
-    label: 'Campo para almacenar Pagos de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label: 'Campo para almacenar Fecha Emisión Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   }

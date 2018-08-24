@@ -29,9 +29,9 @@ const fields = [
   'productsPrice',
   'productsQuantity',
   'productsUnit',
+  'productsDscto',
   'billCollectionId',
   'billFolio',
-  'billDetalles',
   'billReceptor',
   'billFechaEmision',
   'billTipodocumento',
@@ -42,11 +42,9 @@ const fields = [
   'creditNoteMontoNeto',
   'creditNoteMontoIva',
   'creditNoteMontoTotal',
-  'creditNoteDetalles',
   'creditNoteFile',
   'creditNoteFechaEmision',
-  'creditNoteReceptor',
-  'creditNotePagos'
+  'creditNoteReceptor'
 ]
 
 export default {
@@ -55,7 +53,7 @@ export default {
   async execute({options, params}) {
     fields.map(field => {
       if (!options.hasOwnProperty(field)) {
-        throw new Error('Falta completar el siguiente campo' + field)
+        throw new Error('Falta completar el siguiente campo ' + field)
       }
     })
 
@@ -73,7 +71,7 @@ export default {
     const masterProductsDB = await masterProductsCollection.db()
     const productsDB = await productsCollection.db()
 
-    const {liorenIdCreditNote} = await Environments.findOne({_id: billCollection.environmentId})
+    const {liorenIdCreditNote, exempt} = await Environments.findOne({_id: billCollection.environmentId})
 
     if (!liorenIdCreditNote) throw new Error('No hay ID de Lioren para emisión de documentos')
 
@@ -90,7 +88,8 @@ export default {
         precio: parseInt(product.data[options.productsPrice]),
         cantidad: parseInt(product.data[options.productsQuantity]),
         unidad: product.data[options.productsUnit],
-        exento: false
+        descuento: parseInt(product.data[options.productsDscto]) || 0,
+        exento: exempt
       }
     })
 
@@ -116,19 +115,12 @@ export default {
           direccion: data[options.receptorRut]
         },
         detalles: productsList,
-        pagos: [{
-          fecha: formatDate(),
-          mediopago: parseInt(data[options.pedidosMedioPago]),
-          monto: parseInt(data[options.pedidosMontoTotal]),
-          glosa: data[options.pedidosGlosa],
-          cobrar: data[options.pedidosCobrar]
-        }],
         referencias: [{
           fecha: data[options.billFechaEmision],
           tipodoc: data[options.billTipodocumento],
           folio: data[options.billFolio],
           razonref: params.razon,
-          glosa: data[options.pedidosGlosa]
+          glosa: order.data[options.pedidosGlosa]
         }],
         expects: 'all'
       }
@@ -159,11 +151,7 @@ export default {
       [`data.${options.creditNoteFolio}`]: dte.folio,
       [`data.${options.creditNoteMontoNeto}`]: dte.montoneto,
       [`data.${options.creditNoteMontoIva}`]: dte.montoiva,
-      [`data.${options.creditNoteMontoTotal}`]: dte.montototal,
-      [`data.${options.pedidosMedioPago}`]: dte.pagos[0][options.pedidosMedioPago],
-      [`data.${options.pedidosGlosa}`]: dte.pagos[0][options.pedidosGlosa],
-      [`data.${options.pedidosCobrar}`]: dte.pagos[0][options.pedidosCobrar],
-      [`data.${options.pedidosMontoTotal}`]: dte.pagos[0][options.pedidosMontoTotal]
+      [`data.${options.creditNoteMontoTotal}`]: dte.montototal
     })
 
   }

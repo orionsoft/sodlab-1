@@ -28,6 +28,7 @@ const fields = [
   'productsName',
   'productsPrice',
   'productsQuantity',
+  'productsDscto',
   'productsUnit',
   'billsCollectionId',
   'billID',
@@ -36,12 +37,11 @@ const fields = [
   'billMontoNeto',
   'billMontoIva',
   'billMontoTotal',
-  'billDetalles',
   'billEstado',
   'billFile',
   'billReceptor',
-  'billFechaEmision',
-  'billPagos'
+  'billExento',
+  'billFechaEmision'
 ]
 
 export default {
@@ -50,7 +50,7 @@ export default {
   async execute({options, params}) {
     fields.map(field => {
       if (!options.hasOwnProperty(field)) {
-        throw new Error('Falta completar el siguiente campo' + field)
+        throw new Error('Falta completar el siguiente campo ' + field)
       }
     })
 
@@ -66,7 +66,7 @@ export default {
     const ordersDB = await orderCollection.db()
     const masterProductsDB = await masterProductsCollection.db()
 
-    const {liorenIdBill} = await Environments.findOne({_id: billCollection.environmentId})
+    const {liorenIdBill, exempt} = await Environments.findOne({_id: billCollection.environmentId})
 
     if (!liorenIdBill) throw new Error('No hay ID de Lioren para emisión de documentos')
 
@@ -77,16 +77,15 @@ export default {
       .toArray()
 
     const mapProducts = productsId.map(async product => {
-      const sku = await masterProductsDB.findOne({
-        _id: product.data[options.productsSku]
-      })
+      const sku = await masterProductsDB.findOne({_id: product.data[options.productsSku]})
       return {
         codigo: sku.data[options.skuMaestroProductosCollection],
         nombre: product.data[options.productsName],
         precio: parseInt(product.data[options.productsPrice]),
         cantidad: parseInt(product.data[options.productsQuantity]),
+        descuento: parseInt(product.data[options.productsDscto]) || 0,
         unidad: product.data[options.productsUnit],
-        exento: false
+        exento: exempt
       }
     })
 
@@ -102,15 +101,6 @@ export default {
           tipodoc: '33',
           fecha: formatDate()
         },
-        pagos: [
-          {
-            fecha: formatDate(),
-            mediopago: parseInt(order.data[options.pedidosMedioPago]),
-            monto: parseInt(order.data[options.pedidosMontoTotal]),
-            glosa: order.data[options.pedidosGlosa],
-            cobrar: order.data[options.pedidosCobrar]
-          }
-        ],
         receptor: {
           rut: clean(client.data[options.receptorRut]),
           rs: client.data[options.receptorRs],
@@ -133,46 +123,24 @@ export default {
       type: pdf.type,
       size: pdf.size
     }
+
     await billsDB.insert({
       [`data.${options.billFechaEmision}`]: formatDate(),
       [`data.${options.pedidosId}`]: order.data[options.pedidosId],
-      [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${
-        file.key
-        }`,
+      [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
       [`data.${options.receptorRut}`]: client.data[options.receptorRut],
       [`data.${options.receptorRs}`]: client.data[options.receptorRs],
       [`data.${options.receptorGiro}`]: client.data[options.receptorGiro],
-      [`data.${options.receptorComunaCiudad}`]: client.data[
-        options.receptorComunaCiudad
-      ],
-      [`data.${options.receptorComunaCodigo}`]: client.data[
-        options.receptorComunaCodigo
-      ],
-      [`data.${options.receptorDireccion}`]: client.data[
-        options.receptorDireccion
-      ],
+      [`data.${options.receptorComunaCiudad}`]: client.data[options.receptorComunaCiudad],
+      [`data.${options.receptorComunaCodigo}`]: client.data[options.receptorComunaCodigo],
+      [`data.${options.receptorDireccion}`]: client.data[options.receptorDireccion],
       [`data.${options.billID}`]: dte.id,
       [`data.${options.billTipodoc}`]: dte.tipodoc,
       [`data.${options.billFolio}`]: dte.folio,
       [`data.${options.billMontoNeto}`]: dte.montoneto,
       [`data.${options.billMontoIva}`]: dte.montoiva,
       [`data.${options.billMontoTotal}`]: dte.montototal,
-      [`data.${options.pedidosMedioPago}`]: dte.pagos[0][
-        options.pedidosMedioPago
-      ],
-      [`data.${options.pedidosGlosa}`]: dte.pagos[0][options.pedidosGlosa],
-      [`data.${options.pedidosCobrar}`]: dte.pagos[0][options.pedidosCobrar],
-      [`data.${options.pedidosMontoTotal}`]: dte.pagos[0][
-        options.pedidosMontoTotal
-      ]
-    })
-
-    const {data} = await ordersDB.findOne(params._id)
-    await ordersDB.update(params._id, {
-      $set: {
-        [`data.${options.billEstado}`]: 'facturado',
-        ...data
-      }
+      [`data.${options.billExento}`]: dte.montoexento
     })
   }
 }
