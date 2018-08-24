@@ -1,0 +1,72 @@
+:local(.overlay) {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 2000ms ease-in-out;
+}
+
+:local(.modal) {
+  width: 60%;
+  height: 80%;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 4px;
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+}
+
+:local(.contentContainer) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:local(.deviceContainer) {
+  margin-bottom: 10px;
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: row;
+}
+
+:local(.personalInfoContainer) {
+  margin: 10px 0 20px;
+  width: 50%;
+  /* height: 100px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+:local(.personalInfoContainer) .autoform-field {
+  width: 50%;
+}
+
+:local(.personalInfoContainer) .autoform-field .label {
+  margin-top: 10px;
+}
+
+:local(.personalInfoContainer) span.Select-clear {
+  display: none;
+}
+
+:local(.buttonsContainer) {
+  margin: 20px 0;
+  background-color: white;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

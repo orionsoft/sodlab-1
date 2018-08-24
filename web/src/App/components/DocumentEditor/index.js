@@ -8,23 +8,18 @@ import { withRouter } from 'react-router'
 @withRouter
 export default class DocumentEditor extends React.Component {
   static propTypes = {
-    history: PropTypes.object,
-    onChange: PropTypes.func,
-    value: PropTypes.object,
-    placeholder: PropTypes.node,
-    upload: PropTypes.func,
-    delete: PropTypes.func,
-    passProps: PropTypes.object,
     fieldName: PropTypes.string,
-    environmentId: PropTypes.string
-  }
-
-  static defaultProps = {
-    placeholder: 'PROCESAR DOCUMENTO'
+    history: PropTypes.object,
+    location: PropTypes.object,
+    match: PropTypes.object,
+    onChange: PropTypes.func,
+    passProps: PropTypes.object,
+    value: PropTypes.object
   }
 
   state = {
-    modalIsOpen: false
+    modalIsOpen: false,
+    placeholder: ''
   }
 
   openModal = () => {
@@ -35,11 +30,15 @@ export default class DocumentEditor extends React.Component {
     this.setState({ modalIsOpen: false })
   }
 
+  updatePlaceholder = placeholder => {
+    this.setState({ placeholder })
+  }
+
   renderPlaceholderOrName() {
     if (this.props.value) {
-      return 'Subido'
+      return this.state.placeholder
     } else {
-      return this.props.placeholder
+      return 'Generar Documento'
     }
   }
 
@@ -51,8 +50,9 @@ export default class DocumentEditor extends React.Component {
             appElement={document.querySelector('#root')}
             isOpen={this.state.modalIsOpen}
             onClose={this.closeModal}
+            formId={this.props.passProps.formId}
+            updatePlaceholder={this.updatePlaceholder}
             {...this.props}
-            {...this.props.passProps}
           />
           <div onClick={this.openModal} className={styles.button}>
             {this.renderPlaceholderOrName()}

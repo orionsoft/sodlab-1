@@ -1,4 +1,4 @@
-export default function(rut) {
+export default rut => {
   if (typeof rut !== 'string') {
     return false
   }
