@@ -1,4 +1,5 @@
 import {resolver} from '@orion-js/app'
+import Indicators from 'app/collections/Indicators'
 
 export default resolver({
   params: {
@@ -16,6 +17,11 @@ export default resolver({
         result[key] = params[option.parameterName]
       } else if (option.type === 'fixed') {
         result[key] = option.fixed.value
+      } else if (option.type === 'indicator') {
+        const indicator = await Indicators.findOne(option.indicatorId)
+        if (indicator) {
+          result[key] = await indicator.result({filterOptions: params, params})
+        }
       }
     }
     return result

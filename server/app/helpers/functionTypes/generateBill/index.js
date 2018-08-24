@@ -11,6 +11,11 @@ const fields = [
   'skuMaestroProductosCollection',
   'pedidosCollectionId',
   'pedidosCliente',
+  'pedidosMedioPago',
+  'pedidosGlosa',
+  'pedidosCobrar',
+  'pedidosId',
+  'pedidosMontoTotal',
   'clientsCollectionId',
   'receptorRut',
   'receptorRs',
@@ -23,6 +28,7 @@ const fields = [
   'productsName',
   'productsPrice',
   'productsQuantity',
+  'productsDscto',
   'productsUnit',
   'billsCollectionId',
   'billID',
@@ -31,9 +37,11 @@ const fields = [
   'billMontoNeto',
   'billMontoIva',
   'billMontoTotal',
-  'billDetalles',
   'billEstado',
-  'billFile'
+  'billFile',
+  'billReceptor',
+  'billExento',
+  'billFechaEmision'
 ]
 
 export default {
@@ -42,7 +50,7 @@ export default {
   async execute({options, params}) {
     fields.map(field => {
       if (!options.hasOwnProperty(field)) {
-        throw new Error('Falta completar el siguiente campo' + field)
+        throw new Error('Falta completar el siguiente campo ' + field)
       }
     })
 
@@ -58,13 +66,15 @@ export default {
     const ordersDB = await orderCollection.db()
     const masterProductsDB = await masterProductsCollection.db()
 
-    const {liorenIdBill} = await Environments.findOne({_id: billCollection.environmentId})
+    const {liorenIdBill, exempt} = await Environments.findOne({_id: billCollection.environmentId})
 
     if (!liorenIdBill) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const order = await ordersDB.findOne(params._id)
     const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
-    const productsId = await productsDB.find({[`data.${options.productsOrdersIds}`]: params._id}).toArray()
+    const productsId = await productsDB
+      .find({[`data.${options.productsOrdersIds}`]: params._id})
+      .toArray()
 
     const mapProducts = productsId.map(async product => {
       const sku = await masterProductsDB.findOne({_id: product.data[options.productsSku]})
@@ -73,8 +83,9 @@ export default {
         nombre: product.data[options.productsName],
         precio: parseInt(product.data[options.productsPrice]),
         cantidad: parseInt(product.data[options.productsQuantity]),
+        descuento: parseInt(product.data[options.productsDscto]) || 0,
         unidad: product.data[options.productsUnit],
-        exento: false
+        exento: exempt
       }
     })
 
@@ -114,22 +125,22 @@ export default {
     }
 
     await billsDB.insert({
+      [`data.${options.billFechaEmision}`]: formatDate(),
+      [`data.${options.pedidosId}`]: order.data[options.pedidosId],
       [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
+      [`data.${options.receptorRut}`]: client.data[options.receptorRut],
+      [`data.${options.receptorRs}`]: client.data[options.receptorRs],
+      [`data.${options.receptorGiro}`]: client.data[options.receptorGiro],
+      [`data.${options.receptorComunaCiudad}`]: client.data[options.receptorComunaCiudad],
+      [`data.${options.receptorComunaCodigo}`]: client.data[options.receptorComunaCodigo],
+      [`data.${options.receptorDireccion}`]: client.data[options.receptorDireccion],
       [`data.${options.billID}`]: dte.id,
       [`data.${options.billTipodoc}`]: dte.tipodoc,
       [`data.${options.billFolio}`]: dte.folio,
       [`data.${options.billMontoNeto}`]: dte.montoneto,
       [`data.${options.billMontoIva}`]: dte.montoiva,
       [`data.${options.billMontoTotal}`]: dte.montototal,
-      [`data.${options.billDetalles}`]: dte.detalles
-    })
-
-    const {data} = await ordersDB.findOne(params._id)
-    await ordersDB.update(params._id, {
-      $set: {
-        [`data.${options.billEstado}`]: 'facturado',
-        ...data
-      }
+      [`data.${options.billExento}`]: dte.montoexento
     })
   }
-} 
+}

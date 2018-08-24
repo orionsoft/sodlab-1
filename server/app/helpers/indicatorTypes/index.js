@@ -9,6 +9,7 @@ import indicatorSubtraction from './indicatorSubtraction'
 import booleanByIndicatorComparison from './booleanByIndicatorComparison'
 import currentDateTime from './currentDateTime'
 import mathOperation from './mathOperation'
+import currentDateValues from './currentDateValues'
 
 export default {
   concatValues,
@@ -21,5 +22,6 @@ export default {
   valueOfFieldInItem,
   indicatorSubtraction,
   booleanByIndicatorComparison,
-  mathOperation
+  mathOperation,
+  currentDateValues
 }

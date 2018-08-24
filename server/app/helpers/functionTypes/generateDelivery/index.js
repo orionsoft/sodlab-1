@@ -11,6 +11,11 @@ const fields = [
   'skuMaestroProductosCollection',
   'pedidosCollectionId',
   'pedidosCliente',
+  'pedidosMedioPago',
+  'pedidosGlosa',
+  'pedidosCobrar',
+  'pedidosMontoTotal',
+  'pedidosId',
   'clientsCollectionId',
   'receptorRut',
   'receptorRs',
@@ -22,6 +27,7 @@ const fields = [
   'productsSku',
   'productsName',
   'productsPrice',
+  'productsDscto',
   'productsQuantity',
   'productsUnit',
   'deliveryCollectionId',
@@ -29,12 +35,14 @@ const fields = [
   'deliveryTipodoc',
   'deliveryFolio',
   'deliveryMontoNeto',
+  'deliveryEstado',
   'deliveryMontoIva',
+  'deliveryMontoExento',
   'deliveryMontoTotal',
   'deliveryTipodespacho',
   'deliveryTipotraslado',
-  'deliveryDetalles',
-  'deliveryFile'
+  'deliveryFile',
+  'deliveryFechaEmision',
 ]
 
 export default {
@@ -43,7 +51,7 @@ export default {
   async execute({options, params}) {
     fields.map(field => {
       if (!options.hasOwnProperty(field)) {
-        throw new Error('Falta completar el siguiente campo' + field)
+        throw new Error('Falta completar el siguiente campo ' + field)
       }
     })
 
@@ -59,7 +67,7 @@ export default {
     const ordersDB = await orderCollection.db()
     const masterProductsDB = await masterProductsCollection.db()
 
-    const {liorenIdDelivery} = await Environments.findOne({_id: deliveryCollection.environmentId})
+    const {liorenIdDelivery, exempt} = await Environments.findOne({_id: deliveryCollection.environmentId})
 
     if (!liorenIdDelivery) throw new Error('No hay ID de Lioren para emisión de documentos')
 
@@ -75,8 +83,9 @@ export default {
         nombre: product.data[options.productsName],
         precio: parseInt(product.data[options.productsPrice]),
         cantidad: parseInt(product.data[options.productsQuantity]),
+        descuento: parseInt(product.data[options.productsDscto]) || 0,
         unidad: product.data[options.productsUnit],
-        exento: false
+        exento: exempt
       }
     })
 
@@ -106,6 +115,7 @@ export default {
         expects: 'all'
       }
     }
+
     const dte = await DTEEmission(optionsRequest, 'https://lioren.io/api/dtes')
     const pdf = await uploadPDF(await dte, 'facturas')
     const file = {
@@ -118,14 +128,22 @@ export default {
     }
 
     await deliveryDB.insert({
+      [`data.${options.deliveryFechaEmision}`]: formatDate(),
       [`data.${options.deliveryFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
+      [`data.${options.pedidosId}`]: order.data[options.pedidosId],
+      [`data.${options.receptorRut}`]: client.data[options.receptorRut],
+      [`data.${options.receptorRs}`]: client.data[options.receptorRs],
+      [`data.${options.receptorGiro}`]: client.data[options.receptorGiro],
+      [`data.${options.receptorComunaCiudad}`]: client.data[options.receptorComunaCiudad],
+      [`data.${options.receptorComunaCodigo}`]: client.data[options.receptorComunaCodigo],
+      [`data.${options.receptorDireccion}`]: client.data[options.receptorDireccion],
       [`data.${options.deliveryID}`]: dte.id,
       [`data.${options.deliveryTipodoc}`]: dte.tipodoc,
       [`data.${options.deliveryFolio}`]: dte.folio,
       [`data.${options.deliveryMontoNeto}`]: dte.montoneto,
       [`data.${options.deliveryMontoIva}`]: dte.montoiva,
       [`data.${options.deliveryMontoTotal}`]: dte.montototal,
-      [`data.${options.deliveryDetalles}`]: dte.detalles,
+      [`data.${options.deliveryMontoExento}`]: dte.montoexento
     })
   }
 } 

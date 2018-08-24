@@ -7,10 +7,12 @@ import gql from 'graphql-tag'
 import Form from './Form'
 import Table from './Table'
 import Indicator from './Indicator'
+import Button from './Button'
 import {withApollo} from 'react-apollo'
 import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 import prependKey from 'App/helpers/misc/prependKey'
 import autobind from 'autobind-decorator'
+import Intercom from 'App/components/Intercom'
 
 @withGraphQL(
   gql`
@@ -18,6 +20,7 @@ import autobind from 'autobind-decorator'
       view(viewId: $viewId) {
         _id
         title
+        intercom
         items {
           sizeSmall
           sizeLarge
@@ -28,6 +31,7 @@ import autobind from 'autobind-decorator'
           indicatorId
           fullSize
           subItems
+          buttonId
         }
       }
       userByEnvironment(environmentId: $environmentId) {
@@ -48,6 +52,7 @@ export default class View extends React.Component {
     params: PropTypes.object,
     view: PropTypes.object,
     environmentId: PropTypes.string,
+    intercomId: PropTypes.string,
     userByEnvironment: PropTypes.object
   }
 
@@ -81,6 +86,7 @@ export default class View extends React.Component {
       parameters: this.getParameters(),
       setEnvironment: changes => this.setState(changes)
     }
+
     if (item.type === 'form') {
       return (
         <div className={styles.item}>
@@ -104,6 +110,13 @@ export default class View extends React.Component {
     }
     if (item.type === 'layout') {
       return this.renderItems(item.subItems, preIndex)
+    }
+    if (item.type === 'button') {
+      return (
+        <div className={styles.item}>
+          <Button {...props} buttonId={item.buttonId} />
+        </div>
+      )
     }
   }
 
@@ -164,13 +177,14 @@ export default class View extends React.Component {
   }
 
   render() {
-    const {view} = this.props
+    const {view, intercomId, userByEnvironment} = this.props
     return (
       <div className={styles.container}>
         {this.renderFullSizeStyles()}
         <Container>
           <h1>{view.title && view.title}</h1>
           {this.renderItems(view.items)}
+          {view.intercom && <Intercom intercomId={intercomId} email={userByEnvironment.email} />}
         </Container>
       </div>
     )

@@ -8,6 +8,7 @@ import log from './log'
 import validationSwitch from './validationSwitch'
 import generateBill from './generateBill'
 import generateDelivery from './generateDelivery'
+import generateCreditNote from './generateCreditNote'
 
 export default {
   updateValue,
@@ -19,5 +20,6 @@ export default {
   validationSwitch,
   log,
   generateBill,
-  generateDelivery
+  generateDelivery,
+  generateCreditNote
 }

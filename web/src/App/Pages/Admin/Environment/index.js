@@ -21,6 +21,7 @@ import EnvironmentUsers from './EnvironmentUsers'
 import Indicators from './Indicators'
 import Endpoints from './Endpoints'
 import Validations from './Validations'
+import Buttons from './Buttons'
 
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
@@ -65,6 +66,7 @@ export default class Environment extends React.Component {
             <Route path="/:environmentId/users" component={EnvironmentUsers} />
             <Route path="/:environmentId/endpoints" component={Endpoints} />
             <Route path="/:environmentId/validations" component={Validations} />
+            <Route path="/:environmentId/buttons" component={Buttons} />
           </Switch>
         </Layout>
       </div>

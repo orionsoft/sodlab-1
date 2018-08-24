@@ -19,6 +19,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import translate from 'App/i18n/translate'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import FieldOptions from './FieldOptions'
+import FooterOptions from './FooterOptions'
 
 @withGraphQL(gql`
   query getForm($tableId: ID, $environmentId: ID) {
@@ -31,6 +32,8 @@ import FieldOptions from './FieldOptions'
       filtersIds
       allowsNoFilter
       orderFiltersByName
+      footer
+      exportable
       fields {
         type
         fieldName
@@ -59,6 +62,12 @@ import FieldOptions from './FieldOptions'
         label: name
       }
     }
+    indicators(limit: 200, environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -66,6 +75,7 @@ export default class Link extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
     collections: PropTypes.object,
+    indicators: PropTypes.object,
     history: PropTypes.object,
     table: PropTypes.object,
     forms: PropTypes.object,
@@ -164,6 +174,17 @@ export default class Link extends React.Component {
     return <div className={styles.name}>{data.label}</div>
   }
 
+  @autobind
+  renderFooterRow() {
+    const length =
+      (this.refs.form &&
+        this.refs.form.form &&
+        this.refs.form.form.state.value &&
+        this.refs.form.form.state.value.table.fields.length) ||
+      this.state.table.fields.length
+    return <FooterOptions columns={length} indicators={this.props.indicators.items} />
+  }
+
   render() {
     if (!this.props.table) return null
     return (
@@ -210,9 +231,15 @@ export default class Link extends React.Component {
                     label="Ordenar filtros alfabéticamente"
                   />
                 </div>
+                <div className="col-xs-6 col-sm-">
+                  <div className="label">Exportable</div>
+                  <Field fieldName="exportable" type={Checkbox} label="Exportable" />
+                </div>
               </div>
               <div className="label">Que campos mostrar</div>
               {this.renderCollectionFields()}
+              <div className="label">Footer</div>
+              <Field fieldName="footer" type={ArrayComponent} renderItem={this.renderFooterRow} />
             </Field>
           </AutoForm>
           <br />

@@ -31,7 +31,7 @@
     "react-apollo-decorators": "^2.0.2",
     "react-dom": "^16.4.1",
     "react-flatpickr": "^3.6.4",
-    "react-hot-loader": "4.3.3",
+    "react-hot-loader": "4.3.4",
     "react-icons": "^2.2.7",
     "react-loadable": "^5.3.1",
     "react-modal": "^3.5.1",
@@ -44,7 +44,8 @@
     "simple-react-form": "^2.1.5",
     "styled-jsx": "^2.2.7",
     "unfetch": "^3.0.0",
-    "unlink": "^0.0.2"
+    "unlink": "^0.0.2",
+    "xlsx": "^0.13.4"
   },
   "scripts": {
     "start": "./node_modules/orionsoft-react-scripts/bin/react-scripts.js start",

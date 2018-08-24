@@ -10,6 +10,8 @@ import Watch from './Watch'
 import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
+import IndicatorResult from './IndicatorResult'
+import Header from './Header'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -19,6 +21,8 @@ import {clean, validate} from '@orion-js/schema'
       collectionId
       environmentId
       allowsNoFilter
+      footer
+      exportable
       filters {
         _id
         title
@@ -146,25 +150,66 @@ export default class Table extends React.Component {
     })
   }
 
+  renderFooterItem(item) {
+    if (item.type === 'indicator') {
+      return <IndicatorResult params={this.props.parameters} indicatorId={item.indicatorId} />
+    }
+    if (item.type === 'text') {
+      return <div className={styles.footerText}>{item.text}</div>
+    }
+    if (item.type === 'parameter') {
+      return (
+        <div className={styles.footerText}>
+          {this.props.parameters[item.parameter] || 'Parámetro Vacío'}
+        </div>
+      )
+    }
+  }
+
+  renderFooter(footer) {
+    if (!footer) return
+    return footer.map((row, index) => {
+      const cols = this.getFields().map((field, fieldIndex) => {
+        if (row.items[fieldIndex]) {
+          return <td key={fieldIndex}>{this.renderFooterItem(row.items[fieldIndex])}</td>
+        } else {
+          return <td key={fieldIndex} />
+        }
+      })
+      return <tr key={index}>{cols}</tr>
+    })
+  }
+
   @autobind
   renderPaginated({filterId, filterOptions}) {
-    const {table} = this.props
+    const {table, parameters} = this.props
     return (
-      <PaginatedList
-        title={null}
-        setRef={ref => (this.paginated = ref)}
-        name="tableResult"
-        queryFunctionName={`paginated_${table.collectionId}`}
-        canUpdate={false}
-        params={{
-          tableId: table._id,
-          filterId,
-          filterOptions
-        }}
-        fields={this.getFields()}
-        onSelect={this.onSelect}
-        allowSearch={false}
-      />
+      <div>
+        <Header
+          table={table}
+          params={{
+            filterId,
+            filterOptions
+          }}
+          parameters={parameters}
+        />
+        <PaginatedList
+          title={null}
+          setRef={ref => (this.paginated = ref)}
+          name="tableResult"
+          queryFunctionName={`paginated_${table.collectionId}`}
+          canUpdate={false}
+          params={{
+            tableId: table._id,
+            filterId: this.state.filterId || filterId,
+            filterOptions
+          }}
+          fields={this.getFields()}
+          onSelect={this.onSelect}
+          allowSearch={false}
+          footer={this.renderFooter(table.footer)}
+        />
+      </div>
     )
   }
 

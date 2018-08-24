@@ -1,6 +1,12 @@
 :local(.container) {
 }
 
+:local(.buttonContainer) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 :local(.options) {
   border-top: 1px solid #eee;
   margin-top: 30px;

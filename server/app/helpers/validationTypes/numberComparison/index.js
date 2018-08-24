@@ -3,12 +3,13 @@ export default {
   optionsSchema: {
     value: {
       type: String,
-      label: 'Valor (usar parametro)'
+      label: 'Valor'
     },
     type: {
       type: String,
       label: 'Tipo de validación',
       fieldType: 'select',
+      fixed: true,
       fieldOptions: {
         options: [
           {label: 'Mayor o igual que', value: 'biggerOrEqual'},
@@ -48,7 +49,7 @@ export default {
       }
     } else if (type === 'smallerOrEqual') {
       if (!(value <= comparingValue)) {
-        throw new Error('El valor debe ser mayor a ' + comparingValue)
+        throw new Error('El valor debe ser menor o igual a ' + comparingValue)
       }
     }
   }

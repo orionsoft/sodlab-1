@@ -15,9 +15,39 @@ export default {
     label: 'Colleción de Pedidos',
     fieldType: 'collectionSelect'
   },
+  pedidosMedioPago: {
+    type: String,
+    label: 'Campo Medio de Pago (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  pedidosGlosa: {
+    type: String,
+    label: 'Campo Glosa (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  pedidosCobrar: {
+    type: String,
+    label: 'Campo Cobrar (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  pedidosMontoTotal: {
+    type: String,
+    label: 'Campo Monto Total (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
+  pedidosId: {
+    type: String,
+    label: 'Campo Número de Pedido (de colección Pedidos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'pedidosCollectionId'
+  },
   pedidosCliente: {
     type: String,
-    label: 'Campo Cliente (de colección Cliente)',
+    label: 'Campo Cliente (de colección Pedidos)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'pedidosCollectionId'
   },
@@ -103,6 +133,12 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'
   },
+  productsDscto: {
+    type: String,
+    label: 'Campo Descuento Productos (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
   productsUnit: {
     type: String,
     label: 'Campo Unidad Productos (de colección Productos)',
@@ -150,9 +186,15 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
-  deliveryDetalles: {
+  deliveryExento: {
     type: String,
-    label: 'Campo para almacenar Detalles de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label: 'Campo para almacenar Monto Exento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'deliveryCollectionId'
+  },
+  deliveryEstado: {
+    type: String,
+    label: 'Campo para almacenar Estado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
@@ -168,15 +210,15 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
-  deliveryDetalles: {
-    type: String,
-    label: 'Campo para almacenar Detalles de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'deliveryCollectionId'
-  },
   deliveryFile: {
     type: String,
     label: 'Campo para almacenar Archivo de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'deliveryCollectionId'
+  },
+  deliveryFechaEmision: {
+    type: String,
+    label: 'Campo para almacenar Fecha Emisión Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   }

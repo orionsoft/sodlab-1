@@ -33,7 +33,7 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
       label: name
       optionsParams
     }
-    validations(environmentId: $environmentId) {
+    validations(limit: 200, environmentId: $environmentId) {
       items {
         value: _id
         label: name
@@ -129,22 +129,28 @@ export default class Hook extends React.Component {
             </Field>
           </AutoForm>
           <br />
-          <Button to={`/${this.props.hook.environmentId}/hooks`} style={{marginRight: 10}}>
-            Cancelar
-          </Button>
-          <MutationButton
-            label="Eliminar"
-            title="Eliminar Hook"
-            message="¿Quieres eliminar este hook?"
-            confirmText="Eliminar"
-            mutation="removeHook"
-            onSuccess={() => this.remove()}
-            params={{hookId: this.props.hook._id}}
-            danger
-          />
-          <Button onClick={() => this.refs.form.submit()} primary>
-            Guardar
-          </Button>
+          <div className={styles.buttonContainer}>
+            <div>
+              <Button to={`/${this.props.hook.environmentId}/hooks`} style={{marginRight: 10}}>
+                Cancelar
+              </Button>
+              <MutationButton
+                label="Eliminar"
+                title="Eliminar Hook"
+                message="¿Quieres eliminar este hook?"
+                confirmText="Eliminar"
+                mutation="removeHook"
+                onSuccess={() => this.remove()}
+                params={{hookId: this.props.hook._id}}
+                danger
+              />
+            </div>
+            <div>
+              <Button onClick={() => this.refs.form.submit()} primary>
+                Guardar
+              </Button>
+            </div>
+          </div>
         </Section>
       </div>
     )

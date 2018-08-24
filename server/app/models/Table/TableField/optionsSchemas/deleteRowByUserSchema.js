@@ -3,6 +3,11 @@ export default {
     type: String,
     label: 'icon'
   },
+  modalText: {
+    type: String,
+    label: 'modalText',
+    optional: true
+  },
   tooltip: {
     type: String,
     label: 'tooltip',
