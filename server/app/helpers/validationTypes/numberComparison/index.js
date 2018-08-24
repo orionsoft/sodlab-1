@@ -49,7 +49,7 @@ export default {
       }
     } else if (type === 'smallerOrEqual') {
       if (!(value <= comparingValue)) {
-        throw new Error('El valor debe ser mayor a ' + comparingValue)
+        throw new Error('El valor debe ser menor o igual a ' + comparingValue)
       }
     }
   }
