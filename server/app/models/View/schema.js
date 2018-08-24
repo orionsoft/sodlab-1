@@ -51,5 +51,9 @@ export default {
   roles: {
     type: ['ID'],
     defaultValue: []
+  },
+  intercom: {
+    type: Boolean,
+    optional: true
   }
 }

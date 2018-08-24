@@ -27,6 +27,7 @@ const fields = [
   'productsSku',
   'productsName',
   'productsPrice',
+  'productsDscto',
   'productsQuantity',
   'productsUnit',
   'deliveryCollectionId',
@@ -34,13 +35,14 @@ const fields = [
   'deliveryTipodoc',
   'deliveryFolio',
   'deliveryMontoNeto',
+  'deliveryEstado',
   'deliveryMontoIva',
+  'deliveryMontoExento',
   'deliveryMontoTotal',
   'deliveryTipodespacho',
   'deliveryTipotraslado',
-  'deliveryDetalles',
   'deliveryFile',
-  'deliveryPagos',
+  'deliveryFechaEmision',
 ]
 
 export default {
@@ -49,7 +51,7 @@ export default {
   async execute({options, params}) {
     fields.map(field => {
       if (!options.hasOwnProperty(field)) {
-        throw new Error('Falta completar el siguiente campo' + field)
+        throw new Error('Falta completar el siguiente campo ' + field)
       }
     })
 
@@ -65,7 +67,7 @@ export default {
     const ordersDB = await orderCollection.db()
     const masterProductsDB = await masterProductsCollection.db()
 
-    const {liorenIdDelivery} = await Environments.findOne({_id: deliveryCollection.environmentId})
+    const {liorenIdDelivery, exempt} = await Environments.findOne({_id: deliveryCollection.environmentId})
 
     if (!liorenIdDelivery) throw new Error('No hay ID de Lioren para emisión de documentos')
 
@@ -81,8 +83,9 @@ export default {
         nombre: product.data[options.productsName],
         precio: parseInt(product.data[options.productsPrice]),
         cantidad: parseInt(product.data[options.productsQuantity]),
+        descuento: parseInt(product.data[options.productsDscto]) || 0,
         unidad: product.data[options.productsUnit],
-        exento: false
+        exento: exempt
       }
     })
 
@@ -108,13 +111,6 @@ export default {
           comuna: client.data[options.receptorComunaCodigo],
           direccion: client.data[options.receptorDireccion]
         },
-        pagos: [{
-          fecha: formatDate(),
-          mediopago: parseInt(order.data[options.pedidosMedioPago]),
-          monto: parseInt(order.data[options.pedidosMontoTotal]),
-          glosa: order.data[options.pedidosGlosa],
-          cobrar: order.data[options.pedidosCobrar]
-        }],
         detalles: productsList,
         expects: 'all'
       }
@@ -132,6 +128,7 @@ export default {
     }
 
     await deliveryDB.insert({
+      [`data.${options.deliveryFechaEmision}`]: formatDate(),
       [`data.${options.deliveryFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
       [`data.${options.pedidosId}`]: order.data[options.pedidosId],
       [`data.${options.receptorRut}`]: client.data[options.receptorRut],
@@ -146,10 +143,7 @@ export default {
       [`data.${options.deliveryMontoNeto}`]: dte.montoneto,
       [`data.${options.deliveryMontoIva}`]: dte.montoiva,
       [`data.${options.deliveryMontoTotal}`]: dte.montototal,
-      [`data.${options.pedidosMedioPago}`]: dte.pagos[0][options.pedidosMedioPago],
-      [`data.${options.pedidosGlosa}`]: dte.pagos[0][options.pedidosGlosa],
-      [`data.${options.pedidosCobrar}`]: dte.pagos[0][options.pedidosCobrar],
-      [`data.${options.pedidosMontoTotal}`]: dte.pagos[0][options.pedidosMontoTotal]
+      [`data.${options.deliveryMontoExento}`]: dte.montoexento
     })
   }
 } 

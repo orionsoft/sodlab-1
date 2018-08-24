@@ -28,9 +28,12 @@ import RemoveEnvironment from './RemoveEnvironment'
       }
       fontName
       liorenId
+      intercomId
       liorenIdBill
       liorenIdCreditNote
-      liorenIdDelivery
+      liorenIdDelivery,
+      exempt,
+      exemptTicket
       ...adminEnvironmentProfilesUpdateFragment
     }
   }

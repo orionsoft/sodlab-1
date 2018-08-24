@@ -100,6 +100,12 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'
   },
+  productsDscto: {
+    type: String,
+    label: 'Campo Descuento Productos (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
   productsUnit: {
     type: String,
     label: 'Campo Unidad Productos (de colección Productos)',
@@ -149,12 +155,6 @@ export default {
   billReceptor: {
     type: String,
     label: 'Campo Receptor (de colección Factura Electrónica)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'billCollectionId'
-  },
-  billDetalles: {
-    type: String,
-    label: 'Campo Detalles (de colección Factura Electrónica)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'billCollectionId'
   },
@@ -238,12 +238,6 @@ export default {
   creditNoteFile: {
     type: String,
     label: 'Campo para almacenar Archivo de Nota de Crédito Emitida (de colección Nota de Crédito Emitida)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'creditNoteCollectionId'
-  },
-  creditNotePagos: {
-    type: String,
-    label: 'Campo para almacenar Pagos de Nota de Crédito Emitida (de colección Nota de Crédito Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'creditNoteCollectionId'
   }

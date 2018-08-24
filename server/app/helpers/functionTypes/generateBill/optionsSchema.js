@@ -127,6 +127,12 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'
   },
+  productsDscto: {
+    type: String,
+    label: 'Campo Descuento Productos (de colección Productos)',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'productsCollectionId'
+  },
   productsQuantity: {
     type: String,
     label: 'Campo Cantidad Productos (de colección Productos)',
@@ -186,9 +192,9 @@ export default {
     optional: true,
     parentsCollection: 'billsCollectionID'
   },
-  billDetalles: {
+  billExento: {
     type: String,
-    label: 'Campo para almacenar Detalles de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label: 'Campo para almacenar Exento de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
     parentsCollection: 'billsCollectionID'
@@ -217,13 +223,6 @@ export default {
   billFechaEmision: {
     type: String,
     label: 'Campo para almacenar Fecha Emisión de Factura Electrónica (de colección Factura Electrónica) (opcional)',
-    fieldType: 'collectionFieldSelect',
-    optional: true,
-    parentsCollection: 'billsCollectionID'
-  },
-  billPagos: {
-    type: String,
-    label: 'Campo para almacenar Pagos de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
     parentsCollection: 'billsCollectionID'
