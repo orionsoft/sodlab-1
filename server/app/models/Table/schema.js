@@ -67,5 +67,10 @@ export default {
     type: ['blackbox'],
     defaultValue: [],
     optional: true
+  },
+  exportable: {
+    label: 'Exportable',
+    type: Boolean,
+    optional: true
   }
 }

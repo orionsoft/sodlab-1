@@ -11,6 +11,7 @@ import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
 import IndicatorResult from './IndicatorResult'
+import Header from './Header'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -21,6 +22,7 @@ import IndicatorResult from './IndicatorResult'
       environmentId
       allowsNoFilter
       footer
+      exportable
       filters {
         _id
         title
@@ -180,24 +182,34 @@ export default class Table extends React.Component {
 
   @autobind
   renderPaginated({filterId, filterOptions}) {
-    const {table} = this.props
+    const {table, parameters} = this.props
     return (
-      <PaginatedList
-        title={null}
-        setRef={ref => (this.paginated = ref)}
-        name="tableResult"
-        queryFunctionName={`paginated_${table.collectionId}`}
-        canUpdate={false}
-        params={{
-          tableId: table._id,
-          filterId,
-          filterOptions
-        }}
-        fields={this.getFields()}
-        onSelect={this.onSelect}
-        allowSearch={false}
-        footer={this.renderFooter(table.footer)}
-      />
+      <div>
+        <Header
+          table={table}
+          params={{
+            filterId,
+            filterOptions
+          }}
+          parameters={parameters}
+        />
+        <PaginatedList
+          title={null}
+          setRef={ref => (this.paginated = ref)}
+          name="tableResult"
+          queryFunctionName={`paginated_${table.collectionId}`}
+          canUpdate={false}
+          params={{
+            tableId: table._id,
+            filterId: this.state.filterId || filterId,
+            filterOptions
+          }}
+          fields={this.getFields()}
+          onSelect={this.onSelect}
+          allowSearch={false}
+          footer={this.renderFooter(table.footer)}
+        />
+      </div>
     )
   }
 

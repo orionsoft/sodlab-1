@@ -19,6 +19,15 @@
 
 :local(.header) {
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+:local(.headerComponent) {
+  position: absolute;
+  top: 22px;
+  right: 20px;
+  width: 50%;
 }
 
 :local(.title) {
