@@ -2,18 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import numeral from 'numeral'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
-import rutValidation from '../helpers/rutValidation'
+import rutValidation from '../../../helpers/rutValidation'
 
 export default class SignerData extends React.Component {
   static propTypes = {
     client: PropTypes.object,
     collectionId: PropTypes.string,
-    styles: PropTypes.object,
     handleRutChange: PropTypes.func,
     handleRutValidation: PropTypes.func,
-    // valid: PropTypes.bool,
-    // checked: PropTypes.bool,
-    // rut: PropTypes.string,
     valueKey: PropTypes.string,
     handleClientChange: PropTypes.func
   }
@@ -41,6 +37,7 @@ export default class SignerData extends React.Component {
 
   handleChange = value => {
     const client = { ...this.props.client, [this.props.valueKey]: value }
+    this.props.handleRutChange(value)
     return this.props.handleClientChange(client)
   }
 
@@ -53,7 +50,6 @@ export default class SignerData extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="autoform-field">
         <div className="label">RUT</div>
@@ -64,17 +60,6 @@ export default class SignerData extends React.Component {
           errorMessage={this.props.errorMessage}
           {...this.props.passProps}
         />
-        {/* <label htmlFor="signatureRut">Rut:</label> */}
-        {/* <input
-          type="text"
-          id="signatureRut"
-          name="signatureRut"
-          onChange={this.handleRutChange}
-          value={this.props.rut}
-          {...this.props.checked && {
-            style: this.props.valid ? null : { border: '1px solid #ff0000' }
-          }}
-        /> */}
       </div>
     )
   }

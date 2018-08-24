@@ -1,5 +1,13 @@
 export default class FingerprintAPI {
-  constructor() {
+  constructor(sampleFormat, wsqId) {
+    this.sampleFormat = sampleFormat
+    this.wsqId = wsqId
+    this.formatOptions = {
+      raw: 1,
+      intermediate: 2,
+      compressed: 3,
+      pngImage: 5
+    }
     this.sdk = new window.Fingerprint.WebApi()
     this.sdk.onSamplesAcquired = s => this.samplesAcquired(s)
   }
@@ -9,12 +17,12 @@ export default class FingerprintAPI {
   }
 
   startCapture() {
-    this.sdk.startAcquisition(window.Fingerprint.SampleFormat.PngImage).then(
+    this.sdk.startAcquisition(this.formatOptions[this.sampleFormat]).then(
       function() {
-        return console.log('Capturando huella...')
+        return 'Capturando huella...'
       },
       function(error) {
-        return console.log('Error al comenzar la captura de huella', error)
+        return 'Error al comenzar la captura de huella'
       }
     )
   }
@@ -22,21 +30,36 @@ export default class FingerprintAPI {
   stopCapture() {
     this.sdk.stopAcquisition().then(
       function() {
-        return console.log('Captura de huella detenida')
+        return 'Captura de huella detenida'
       },
       function(error) {
-        return console.log('Error al detener la captura de huella...', error)
+        return 'Error al detener la captura de huella...'
       }
     )
   }
 
   samplesAcquired(s) {
-    localStorage.setItem('fingerprintImgSrc', '')
-    const samples = JSON.parse(s.samples)
-    localStorage.setItem(
-      'fingerprintImgSrc',
-      'data:image/png;base64,' + window.Fingerprint.b64UrlTo64(samples[0])
-    )
-    document.getElementById('fingerprintImage').src = localStorage.getItem('fingerprintImgSrc')
+    const selection = this.formatOptions[this.sampleFormat]
+    if (selection === window.Fingerprint.SampleFormat.PngImage) {
+      localStorage.setItem('fingerprintPng', '')
+      const samples = JSON.parse(s.samples)
+      localStorage.setItem(
+        'fingerprintPng',
+        'data:image/png;base64,' + window.Fingerprint.b64UrlTo64(samples[0])
+      )
+      document.getElementById('fingerprintImage').src = localStorage.getItem('fingerprintPng')
+    } else if (selection === window.Fingerprint.SampleFormat.Compressed) {
+      if (localStorage.getItem(this.wsqId) === null) {
+        localStorage.removeItem(this.wsqId)
+      }
+      localStorage.setItem(this.wsqId, '')
+      const samples = JSON.parse(s.samples)
+      const sampleData = window.Fingerprint.b64UrlTo64(samples[0].Data)
+      const decodedData = JSON.parse(window.Fingerprint.b64UrlToUtf8(sampleData))
+      localStorage.setItem(
+        this.wsqId,
+        'data:application/octet-stream;base64,' + window.Fingerprint.b64UrlTo64(decodedData.Data)
+      )
+    }
   }
 }

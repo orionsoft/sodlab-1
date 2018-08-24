@@ -8,8 +8,11 @@ function withFingerprint(Component) {
       this.state = {
         Fingerprint: {},
         isFingerprintConnected: false,
+        // !! remove isCaptured in favor of isPngCaptured and isWsqCaptured
         isCaptured: false,
-        timer: {}
+        isPngCaptured: false,
+        isWsqCaptured: false,
+        timer: null
       }
     }
 
@@ -18,42 +21,57 @@ function withFingerprint(Component) {
         Fingerprint: {},
         isFingerprintConnected: false,
         isCaptured: false,
-        timer: {}
+        isPngCaptured: false,
+        isWsqCaptured: false,
+        timer: null
       })
     }
 
-    startCapturing = () => {
+    startCapturing = (sampleType, wsqId) => {
       this.state.Fingerprint.startCapture()
+
       this.setState({
         timer: setInterval(() => {
-          this.checkLocalStorage()
+          if (!this.state[sampleType]) {
+            this.checkLocalStorage(sampleType, wsqId)
+          } else {
+            this.state.Fingerprint.stopCapture()
+          }
         }, 500)
       })
     }
 
-    checkLocalStorage = () => {
-      if (localStorage.getItem('fingerprintImgSrc') !== null) this.setState({isCaptured: true})
+    checkLocalStorage = (sampleType, key) => {
+      if (sampleType === 'isPngCaptured') {
+        if (localStorage.getItem('fingerprintPng') !== null) this.setState({ isPngCaptured: true })
+      } else {
+        if (localStorage.getItem(key) !== null) this.setState({ isWsqCaptured: true })
+      }
     }
 
-    startFingerprint = () => {
-      const Fingerprint = new FingerprintAPI()
-      this.setState({Fingerprint}, () => {
+    startFingerprint = (format, wsqId) => {
+      const Fingerprint = new FingerprintAPI(format, wsqId)
+      this.setState({ Fingerprint }, () => {
         this.state.Fingerprint.getDeviceList()
           .then(devices => {
-            this.setState({isFingerprintConnected: true})
-            this.startCapturing()
+            this.setState({ isFingerprintConnected: true })
+            const sampleType = format === 'pngImage' ? 'isPngCaptured' : 'isWsqCaptured'
+            this.startCapturing(sampleType, wsqId)
           })
-          .catch(error => this.setState({isFingerprintConnected: false}))
+          .catch(error => this.setState({ isFingerprintConnected: false }))
       })
     }
 
     stopFingerprintCapturing = () => {
       this.state.Fingerprint.stopCapture()
-      localStorage.removeItem('fingerprintImgSrc')
       clearInterval(this.state.timer)
+
       this.setState({
-        isCaptured: false,
-        timer: {}
+        Fingerprint: {},
+        // isCaptured: false,
+        // isPngCaptured: false,
+        // isWsqCaptured: false,
+        timer: null
       })
     }
 
@@ -74,8 +92,8 @@ function withFingerprint(Component) {
     }
 
     renderToggleHelpMessages = () => {
-      const {isFingerprintConnected} = this.state
-      const imageSrc = localStorage.getItem('fingerprintImgSrc')
+      const { isFingerprintConnected } = this.state
+      const imageSrc = localStorage.getItem('fingerprintPng')
       if (isFingerprintConnected === false) {
         return 'Presione el botón INICIAR CAPTURA para comenzar la captura de huella'
       } else if (isFingerprintConnected && imageSrc === null) {
@@ -97,7 +115,8 @@ function withFingerprint(Component) {
       return (
         <Component
           isFingerprintConnected={this.state.isFingerprintConnected}
-          isCaptured={this.state.isCaptured}
+          isPngCaptured={this.state.isPngCaptured}
+          isWsqCaptured={this.state.isWsqCaptured}
           startFingerprint={this.startFingerprint}
           stopFingerprintCapturing={this.stopFingerprintCapturing}
           toggleFingerprintCapture={this.toggleFingerprintCapture}
