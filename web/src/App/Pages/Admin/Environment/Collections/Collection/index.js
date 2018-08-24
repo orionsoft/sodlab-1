@@ -11,6 +11,7 @@ import autobind from 'autobind-decorator'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import withRoles from 'App/helpers/auth/withRoles'
 import Export from './Export'
+import ImportDataTable from './ImportDataTable'
 
 @withGraphQL(gql`
   query getCollection($collectionId: ID) {
@@ -69,6 +70,7 @@ export default class Collection extends React.Component {
         <Fields collection={this.props.collection} params={params} />
         <Indexes collection={this.props.collection} />
         <Export collectionId={this.props.collection._id} />
+        <ImportDataTable collectionId={this.props.collection._id} />
         <br />
         <br />
         <br />

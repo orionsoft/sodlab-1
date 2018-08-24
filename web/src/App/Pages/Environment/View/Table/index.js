@@ -225,7 +225,6 @@ export default class Table extends React.Component {
 
   renderTable() {
     const {table, parameters} = this.props
-
     return (
       <div>
         <div className={styles.header}>

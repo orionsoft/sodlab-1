@@ -1,6 +1,10 @@
 import React from 'react'
 import styles from './styles.css'
 import PropTypes from 'prop-types'
+import icons from 'App/components/Icon/icons'
+import {withApollo} from 'react-apollo'
+import gql from 'graphql-tag'
+import exportToFile from './exportToFile'
 import ExportDataTable from './ExportDataTable'
 
 export default class Header extends React.Component {
