@@ -31,7 +31,9 @@ import RemoveEnvironment from './RemoveEnvironment'
       intercomId
       liorenIdBill
       liorenIdCreditNote
-      liorenIdDelivery
+      liorenIdDelivery,
+      exempt,
+      exemptTicket
       ...adminEnvironmentProfilesUpdateFragment
     }
   }

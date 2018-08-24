@@ -23,10 +23,8 @@ export default class NumberIncrement extends React.Component {
   }
 
   async setValue(value) {
-    console.log('after0', value.toString().split('.')[1])
     const decimals = value.toString().split('.')[1] || ''
     const digits = decimals.length
-    console.log(digits)
     const diff = value - this.state.value
     if (!diff) return
     const time = 600

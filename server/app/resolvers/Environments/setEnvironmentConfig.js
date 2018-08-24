@@ -14,7 +14,9 @@ const EnvironmentInput = Environment.clone({
     'intercomId',
     'liorenIdBill',
     'liorenIdCreditNote',
-    'liorenIdDelivery'
+    'liorenIdDelivery', 
+    'exempt', 
+    'exemptTicket'
   ]
 })
 
