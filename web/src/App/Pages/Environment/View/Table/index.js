@@ -23,7 +23,6 @@ import Header from './Header'
       allowsNoFilter
       footer
       exportable
-      importData
       filters {
         _id
         title
@@ -184,9 +183,16 @@ export default class Table extends React.Component {
   @autobind
   renderPaginated({filterId, filterOptions}) {
     const {table, parameters} = this.props
-    console.log(this)
     return (
       <div>
+        <Header
+          table={table}
+          params={{
+            filterId,
+            filterOptions
+          }}
+          parameters={parameters}
+        />
         <PaginatedList
           title={null}
           setRef={ref => (this.paginated = ref)}
@@ -207,29 +213,12 @@ export default class Table extends React.Component {
     )
   }
 
-  @autobind
-  renderHeader() {
-    const {table, parameters} = this.props
-    const {paginated} = this
-    if (!paginated) return null
-    return (
-      <Header
-        table={table}
-        params={{
-          ...paginated.props.variables
-        }}
-        parameters={parameters}
-      />
-    )
-  }
-
   renderTable() {
     const {table, parameters} = this.props
     return (
       <div>
         <div className={styles.header}>
           <div className={styles.title}>{table.title}</div>
-          {this.renderHeader}
         </div>
         <WithFilter
           filters={table.filters}
@@ -243,7 +232,6 @@ export default class Table extends React.Component {
   }
 
   render() {
-    console.log(this)
     return (
       <div className={styles.container} key="table">
         {this.renderTable()}
