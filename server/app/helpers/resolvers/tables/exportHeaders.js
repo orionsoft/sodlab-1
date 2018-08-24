@@ -6,8 +6,6 @@ export default async function(fields) {
     fieldObject[field.name] = null
   })
 
-  console.log(fieldObject)
-
   let headersSheet = XLSX.utils.json_to_sheet([fieldObject])
 
   let book = XLSX.utils.book_new()
