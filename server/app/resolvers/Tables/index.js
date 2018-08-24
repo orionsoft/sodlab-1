@@ -8,8 +8,10 @@ import tableRelationLabel from './tableRelationLabel'
 import tableRelationLabels from './tableRelationLabels'
 import tableDeleteItem from './tableDeleteItem'
 import tableRunHooks from './tableRunHooks'
+import importTable from './importTable'
 
 export default {
+  importTable,
   tableRelationLabel,
   tableRelationLabels,
   tableResult,

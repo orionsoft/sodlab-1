@@ -6,12 +6,14 @@ import icons from 'App/components/Icon/icons'
 import {withApollo} from 'react-apollo'
 import gql from 'graphql-tag'
 import exportToFile from './exportToFile'
+import ImportDataTable from './ImportDataTable'
 
 @withApollo
 export default class Header extends React.Component {
   static propTypes = {
     table: PropTypes.object,
-    params: PropTypes.object
+    params: PropTypes.object,
+    client: PropTypes.object
   }
 
   async getItems() {
@@ -60,12 +62,12 @@ export default class Header extends React.Component {
 
   render() {
     if (!this.props.table) return null
-    const {exportable} = this.props.table
+    const {exportable, importData, collectionId} = this.props.table
     return (
       <div className={styles.container}>
         <div className="row">
           {exportable && this.renderExportable()}
-          {this.renderExportable()}
+          {importData && <ImportDataTable collectionId={collectionId} />}
         </div>
       </div>
     )

@@ -23,6 +23,7 @@ import Header from './Header'
       allowsNoFilter
       footer
       exportable
+      importData
       filters {
         _id
         title
@@ -168,6 +169,7 @@ export default class Table extends React.Component {
   }
 
   renderFooter(footer) {
+    if (!footer) return
     return footer.map((row, index) => {
       const cols = this.getFields().map((field, fieldIndex) => {
         if (row.items[fieldIndex]) {

@@ -34,6 +34,7 @@ import FooterOptions from './FooterOptions'
       orderFiltersByName
       footer
       exportable
+      importData
       fields {
         type
         fieldName
@@ -234,6 +235,10 @@ export default class Link extends React.Component {
                 <div className="col-xs-6 col-sm-">
                   <div className="label">Exportable</div>
                   <Field fieldName="exportable" type={Checkbox} label="Exportable" />
+                </div>
+                <div className="col-xs-6 col-sm-">
+                  <div className="label">Importar datos</div>
+                  <Field fieldName="importData" type={Checkbox} label="Importar datos" />
                 </div>
               </div>
               <div className="label">Que campos mostrar</div>
