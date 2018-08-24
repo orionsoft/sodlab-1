@@ -8,8 +8,12 @@ import tableRelationLabel from './tableRelationLabel'
 import tableRelationLabels from './tableRelationLabels'
 import tableDeleteItem from './tableDeleteItem'
 import tableRunHooks from './tableRunHooks'
+import exportTable from './exportTable'
+import exportHeaders from './exportHeaders'
 
 export default {
+  exportHeaders,
+  exportTable,
   tableRelationLabel,
   tableRelationLabels,
   tableResult,

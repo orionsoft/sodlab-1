@@ -151,7 +151,6 @@ export default class Table extends React.Component {
   }
 
   renderFooterItem(item) {
-    const {parameters} = this.props
     if (item.type === 'indicator') {
       return <IndicatorResult params={this.props.parameters} indicatorId={item.indicatorId} />
     }
@@ -205,7 +204,7 @@ export default class Table extends React.Component {
 
   @autobind
   renderHeader({filterId, filterOptions}) {
-    const {table} = this.props
+    const {table, parameters} = this.props
     return (
       <Header
         table={table}
@@ -214,6 +213,7 @@ export default class Table extends React.Component {
           filterId,
           filterOptions
         }}
+        parameters={parameters}
       />
     )
   }
