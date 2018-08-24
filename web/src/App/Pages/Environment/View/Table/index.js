@@ -11,6 +11,7 @@ import WithFilter from '../WithFilter'
 import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
 import IndicatorResult from './IndicatorResult'
+import Header from './Header'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -21,6 +22,7 @@ import IndicatorResult from './IndicatorResult'
       environmentId
       allowsNoFilter
       footer
+      exportable
       filters {
         _id
         title
@@ -201,12 +203,33 @@ export default class Table extends React.Component {
     )
   }
 
+  @autobind
+  renderHeader({filterId, filterOptions}) {
+    const {table} = this.props
+    return (
+      <Header
+        table={table}
+        params={{
+          tableId: table._id,
+          filterId,
+          filterOptions
+        }}
+      />
+    )
+  }
+
   renderTable() {
     const {table, parameters} = this.props
     return (
       <div>
         <div className={styles.header}>
           <div className={styles.title}>{table.title}</div>
+          <WithFilter
+            filters={table.filters}
+            allowsNoFilter={table.allowsNoFilter}
+            parameters={parameters}>
+            {this.renderHeader}
+          </WithFilter>
         </div>
         <WithFilter
           filters={table.filters}
