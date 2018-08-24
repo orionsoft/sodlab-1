@@ -72,5 +72,10 @@ export default {
     label: 'Exportable',
     type: Boolean,
     optional: true
+  },
+  importData: {
+    label: 'Importar datos',
+    type: Boolean,
+    optional: true
   }
 }

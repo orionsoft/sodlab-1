@@ -10,10 +10,12 @@ import tableDeleteItem from './tableDeleteItem'
 import tableRunHooks from './tableRunHooks'
 import exportTable from './exportTable'
 import exportHeaders from './exportHeaders'
+import importTable from './importTable'
 
 export default {
   exportHeaders,
   exportTable,
+  importTable,
   tableRelationLabel,
   tableRelationLabels,
   tableResult,
