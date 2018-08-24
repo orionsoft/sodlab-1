@@ -10,15 +10,16 @@ export default async function(items, footerItems) {
     })
   )
 
-  let footerArray = [].concat(...footerItems)
-  let footerData = Object.assign(...footerArray)
-
   let dataSheet = XLSX.utils.json_to_sheet(await data)
-  let footerSheet = XLSX.utils.json_to_sheet([footerData])
-
   let book = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(book, dataSheet, 'Data')
-  XLSX.utils.book_append_sheet(book, footerSheet, 'Footer')
+
+  if (footerItems && footerItems.length) {
+    let footerArray = [].concat(...footerItems)
+    let footerData = Object.assign(...footerArray)
+    let footerSheet = XLSX.utils.json_to_sheet([footerData])
+    XLSX.utils.book_append_sheet(book, footerSheet, 'Footer')
+  }
 
   return book
 }

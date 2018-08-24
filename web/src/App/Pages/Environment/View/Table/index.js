@@ -183,37 +183,40 @@ export default class Table extends React.Component {
 
   @autobind
   renderPaginated({filterId, filterOptions}) {
-    const {table} = this.props
+    const {table, parameters} = this.props
+    console.log(this)
     return (
-      <PaginatedList
-        title={null}
-        setRef={ref => (this.paginated = ref)}
-        name="tableResult"
-        queryFunctionName={`paginated_${table.collectionId}`}
-        canUpdate={false}
-        params={{
-          tableId: table._id,
-          filterId,
-          filterOptions
-        }}
-        fields={this.getFields()}
-        onSelect={this.onSelect}
-        allowSearch={false}
-        footer={this.renderFooter(table.footer)}
-      />
+      <div>
+        <PaginatedList
+          title={null}
+          setRef={ref => (this.paginated = ref)}
+          name="tableResult"
+          queryFunctionName={`paginated_${table.collectionId}`}
+          canUpdate={false}
+          params={{
+            tableId: table._id,
+            filterId: this.state.filterId || filterId,
+            filterOptions
+          }}
+          fields={this.getFields()}
+          onSelect={this.onSelect}
+          allowSearch={false}
+          footer={this.renderFooter(table.footer)}
+        />
+      </div>
     )
   }
 
   @autobind
-  renderHeader({filterId, filterOptions}) {
+  renderHeader() {
     const {table, parameters} = this.props
+    const {paginated} = this
+    if (!paginated) return null
     return (
       <Header
         table={table}
         params={{
-          tableId: table._id,
-          filterId,
-          filterOptions
+          ...paginated.props.variables
         }}
         parameters={parameters}
       />
@@ -222,16 +225,12 @@ export default class Table extends React.Component {
 
   renderTable() {
     const {table, parameters} = this.props
+
     return (
       <div>
         <div className={styles.header}>
           <div className={styles.title}>{table.title}</div>
-          <WithFilter
-            filters={table.filters}
-            allowsNoFilter={table.allowsNoFilter}
-            parameters={parameters}>
-            {this.renderHeader}
-          </WithFilter>
+          {this.renderHeader}
         </div>
         <WithFilter
           filters={table.filters}
@@ -245,6 +244,7 @@ export default class Table extends React.Component {
   }
 
   render() {
+    console.log(this)
     return (
       <div className={styles.container} key="table">
         {this.renderTable()}

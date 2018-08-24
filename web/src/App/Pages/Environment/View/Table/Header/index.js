@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './styles.css'
 import PropTypes from 'prop-types'
 import ExportDataTable from './ExportDataTable'
-import ImportDataTable from './ImportDataTable'
 
 export default class Header extends React.Component {
   static propTypes = {
@@ -13,12 +12,23 @@ export default class Header extends React.Component {
 
   render() {
     if (!this.props.table) return null
-    const {exportable, importData, collectionId} = this.props.table
+    const {exportable} = this.props.table
     return (
       <div className={styles.container}>
-        <div className="row">
+        <div className={`col-xs-2 col-sm- end-xs`}>
           {exportable && <ExportDataTable {...this.props} />}
-          {importData && <ImportDataTable collectionId={collectionId} />}
+        </div>
+        <div className={`col-xs-2 col-sm- end-xs`}>
+          {exportable && <ExportDataTable {...this.props} />}
+        </div>
+        <div className={`col-xs-2 col-sm- end-xs`}>
+          {exportable && <ExportDataTable {...this.props} />}
+        </div>
+        <div className={`col-xs-2 col-sm- end-xs`}>
+          {exportable && <ExportDataTable {...this.props} />}
+        </div>
+        <div className={`col-xs-2 col-sm- end-xs`}>
+          {exportable && <ExportDataTable {...this.props} />}
         </div>
       </div>
     )
