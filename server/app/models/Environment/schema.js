@@ -83,6 +83,11 @@ export default {
     label: 'Lioren Guía de Despachos',
     optional: true
   },
+  intercomId: {
+    type: String,
+    label: 'Intercom ID',
+    optional: true
+  },
   exempt: {
     type: Boolean,
     label: 'Facturas, Guía de Despachos y Nota de Créditos',
