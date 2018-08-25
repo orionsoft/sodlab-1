@@ -5,13 +5,11 @@ export default {
     collectionId: {
       type: String,
       label: 'Colección donde buscar',
-      fixed: true,
       fieldType: 'collectionSelect'
     },
     valueKey: {
       type: String,
       label: 'Campo sobre el cual buscar',
-      fixed: true,
       fieldType: 'collectionFieldSelect'
     },
     value: {
