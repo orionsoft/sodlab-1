@@ -1,7 +1,7 @@
 import escape from 'escape-string-regexp'
 
 export default {
-  name: 'Comparación de números',
+  name: 'Comparación de textos',
   optionsSchema: {
     value: {
       type: String,
