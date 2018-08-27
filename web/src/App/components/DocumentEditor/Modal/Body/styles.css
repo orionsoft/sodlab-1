@@ -1,0 +1,101 @@
+
+:local(.editorContainer) {
+	flex: 12;
+	display: flex;
+	flex-direction: row;
+}
+
+:local(.pdfImageContainer) {
+	flex: 7;
+	background-color: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	overflow-y: auto;
+	border-right: 1px solid rgba(70,70,70,.2);
+}
+
+:local(.pdfImageContainer) :local(.helpMessageContainer) {
+	width: 100%;
+	display: flex;
+	justify-content: left;
+}
+
+:local(.pdfImageContainer) :local(.helpMessageContainer) span {
+	font-size: 15px;
+}
+
+:local(.pdfImageContainer) img {
+	margin: 10px 0;
+}
+
+:local(.imagesContainer) {
+	flex: 1;
+	background-color: #fafafa;
+	overflow-y: auto;
+	border-right: 1px solid rgba(70,70,70,.2);
+}
+
+:local(.imagesContainer) div {
+	width: 100%;
+	margin: 10px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+:local(.imagesContainer) div img {
+	margin: 10px 0;
+	width: 80%;
+	background-color: white;
+}
+
+:local(.imagesContainer) div span {
+	margin: 2px 0 10px;
+	padding: 0;
+	width: 80%;
+	font-size: 10px;
+	overflow-x: hidden;
+}
+
+:local(.optionsContainer) {
+	flex: 2;
+	background-color: #fafafa;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+:local(.optionsContainer) div {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+:local(.optionsContainer) .os_button_container {
+	width: 100%;
+	margin: 0 5px;
+}
+
+:local(.optionsContainer) .orion_button {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+:local(.loaderContainer) {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+:local(.iconSpinBig) {
+	font-size: 30px;
+	color: rgb(0,159,255);
+	-webkit-animation: icon-spin 2s infinite linear;
+	animation: icon-spin 2s infinite linear;
+}

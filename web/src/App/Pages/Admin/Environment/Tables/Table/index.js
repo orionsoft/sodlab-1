@@ -33,6 +33,7 @@ import FooterOptions from './FooterOptions'
       allowsNoFilter
       orderFiltersByName
       footer
+      exportable
       fields {
         type
         fieldName
@@ -229,6 +230,10 @@ export default class Link extends React.Component {
                     type={Checkbox}
                     label="Ordenar filtros alfabéticamente"
                   />
+                </div>
+                <div className="col-xs-6 col-sm-">
+                  <div className="label">Exportable</div>
+                  <Field fieldName="exportable" type={Checkbox} label="Exportable" />
                 </div>
               </div>
               <div className="label">Que campos mostrar</div>
