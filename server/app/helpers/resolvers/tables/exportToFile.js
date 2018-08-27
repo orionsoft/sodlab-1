@@ -9,7 +9,6 @@ export default async function(items, footerItems, tableTitle) {
       }
     })
   )
-
   data.push({_id: ''})
 
   let dataSheet = XLSX.utils.json_to_sheet(data)
