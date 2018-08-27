@@ -16,17 +16,14 @@ export default {
     }
   },
   getRenderType: async ({options, params}) => {
-    const indicator1 = await Indicators.findOne(
-      options.indicator1Id.type === 'fixed' && options.indicator1Id.fixed.value
-    )
-    if (await indicator1) {
-      return await indicator1.renderType({}, null)
-    } else {
-      const indicator2 = await Indicators.findOne(
-        options.indicator2Id.type === 'fixed' && options.indicator2Id.fixed.value
-      )
-      if (await indicator2) {
-        return await indicator2.renderType({}, null)
+    const value =
+      options.indicator1Id.type === 'fixed'
+        ? options.indicator1Id.fixed.value
+        : options.indicator2Id.fixed.value
+    if (value) {
+      const indicator = await Indicators.findOne(value)
+      if (indicator) {
+        return await indicator.renderType({}, null)
       }
     }
     return 'number'
