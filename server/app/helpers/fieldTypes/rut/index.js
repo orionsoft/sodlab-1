@@ -1,4 +1,5 @@
 import clean from './clean'
+import numeral from 'numeral'
 
 export default {
   name: 'RUT',
@@ -27,5 +28,13 @@ export default {
     if (v !== rut.slice(-1)) {
       return 'invalidRut'
     }
+  },
+  autoValue: async function(value, options) {
+    let parts = value.split('')
+    let last = parts.pop()
+    let final = numeral(parts.join('')).format('0,0') + '-' + last
+    final = final.replace(/,/g, '.')
+    if (final.length < 4) return value
+    return final
   }
 }

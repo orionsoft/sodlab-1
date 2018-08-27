@@ -29,6 +29,9 @@ export default class Data extends React.Component {
     if (isEmpty(state)) {
       return {props}
     }
+    if (!props.data.data) {
+      return
+    }
     if (
       JSON.stringify(props.data.data.result) !== JSON.stringify(state.props.data.data.result) ||
       JSON.stringify(props.data.variables) !== JSON.stringify(state.props.data.variables)
