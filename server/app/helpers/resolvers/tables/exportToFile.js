@@ -1,7 +1,7 @@
 import XLSX from 'xlsx'
 
-export default async function(items, footerItems) {
-  const data = Promise.all(
+export default async function(items, footerItems, tableTitle) {
+  const data = await Promise.all(
     items.map(async item => {
       return await {
         _id: item._id,
@@ -9,17 +9,17 @@ export default async function(items, footerItems) {
       }
     })
   )
+  data.push({_id: ''})
 
-  let dataSheet = XLSX.utils.json_to_sheet(await data)
-  let book = XLSX.utils.book_new()
-  XLSX.utils.book_append_sheet(book, dataSheet, 'Data')
-
+  let dataSheet = XLSX.utils.json_to_sheet(data)
   if (footerItems && footerItems.length) {
-    let footerArray = [].concat(...footerItems)
-    let footerData = Object.assign(...footerArray)
-    let footerSheet = XLSX.utils.json_to_sheet([footerData])
-    XLSX.utils.book_append_sheet(book, footerSheet, 'Footer')
+    XLSX.utils.sheet_add_json(dataSheet, footerItems, {
+      skipHeader: true,
+      origin: -1
+    })
   }
+  let book = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(book, dataSheet, tableTitle || 'Data')
 
   return book
 }

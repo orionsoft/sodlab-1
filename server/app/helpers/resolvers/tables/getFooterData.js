@@ -30,7 +30,7 @@ export const getIndicatorResult = async function(
   const indicator = await Indicators.findOne(indicatorId)
   const value = await indicator.result({filterId, filterOptions, params}, viewer)
   const renderType = await indicator.renderType({filterId, filterOptions}, viewer)
-  return {[indicator.title]: getIndicatorType(value, renderType)}
+  return getIndicatorType(value, renderType)
 }
 
 export const renderFooterItem = async function(item, parameters, filterId, filterOptions, viewer) {
@@ -38,10 +38,10 @@ export const renderFooterItem = async function(item, parameters, filterId, filte
     return await getIndicatorResult(item.indicatorId, parameters, filterId, filterOptions, viewer)
   }
   if (item.type === 'text') {
-    return {texto: item.text}
+    return item.text
   }
   if (item.type === 'parameter') {
-    return {[item.parameter]: parameters[item.parameter] || 'Parámetro Vacío'}
+    return parameters[item.parameter] || 'Parámetro Vacío'
   }
 }
 
