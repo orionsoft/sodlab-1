@@ -7,12 +7,24 @@ export default class Component extends React.Component {
   static propTypes = {
     limit: PropTypes.number,
     setLimit: PropTypes.func,
-    result: PropTypes.object
+    result: PropTypes.object,
+    defaultLimit: PropTypes.number
   }
 
   @autobind
   onChange(event) {
     this.props.setLimit(Number(event.target.value))
+  }
+
+  renderOptions() {
+    const {limit, defaultLimit} = this.props
+    let options = [10, 25, 50, 100, 200]
+    if (limit && !options.includes(defaultLimit)) {
+      options = [...options, ...[defaultLimit]]
+    }
+    return options.sort((a, b) => a - b).map(elem => {
+      return <option value={elem}>{elem}</option>
+    })
   }
 
   renderSelect() {
@@ -21,11 +33,7 @@ export default class Component extends React.Component {
         className="paginated-pagination-select"
         value={this.props.limit}
         onChange={this.onChange}>
-        <option value={10}>10</option>
-        <option value={25}>25</option>
-        <option value={50}>50</option>
-        <option value={100}>100</option>
-        <option value={200}>200</option>
+        {this.renderOptions()}
       </select>
     )
   }

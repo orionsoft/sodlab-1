@@ -20,6 +20,7 @@ import translate from 'App/i18n/translate'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import FieldOptions from './FieldOptions'
 import FooterOptions from './FooterOptions'
+import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
 
 @withGraphQL(gql`
   query getForm($tableId: ID, $environmentId: ID) {
@@ -34,6 +35,7 @@ import FooterOptions from './FooterOptions'
       orderFiltersByName
       footer
       exportable
+      defaultLimit
       fields {
         type
         fieldName
@@ -234,6 +236,10 @@ export default class Link extends React.Component {
                 <div className="col-xs-6 col-sm-">
                   <div className="label">Exportable</div>
                   <Field fieldName="exportable" type={Checkbox} label="Exportable" />
+                </div>
+                <div className="col-xs-6 col-sm-">
+                  <div className="label">Altura mínima</div>
+                  <Field fieldName="defaultLimit" type={NumberField} />
                 </div>
               </div>
               <div className="label">Que campos mostrar</div>

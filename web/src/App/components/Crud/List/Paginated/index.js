@@ -220,6 +220,7 @@ export default class Fetch extends React.Component {
               setLimit={limit => this.setState({limit})}
               loadingComponent={this.props.loadingComponent}
               footer={this.props.footer}
+              defaultLimit={this.props.defaultLimit}
             />
           )}
         </Query>

@@ -16,7 +16,9 @@ export default class Data extends React.Component {
     debouncing: PropTypes.bool,
     selectedItemId: PropTypes.string,
     loadingComponent: PropTypes.any,
-    footer: PropTypes.any
+    footer: PropTypes.any,
+    limit: PropTypes.number,
+    defaultLimit: PropTypes.number
   }
 
   state = {}
