@@ -15,13 +15,24 @@ export default {
       fieldType: 'indicatorSelect'
     }
   },
-  getRenderType: () => 'number',
+  getRenderType: async ({options, params}) => {
+    const value =
+      options.indicator1Id.type === 'fixed'
+        ? options.indicator1Id.fixed.value
+        : options.indicator2Id.fixed.value
+    if (value) {
+      const indicator = await Indicators.findOne(value)
+      if (indicator) {
+        return await indicator.renderType({}, null)
+      }
+    }
+    return 'number'
+  },
   async getResult({options, params}) {
     const indicator1 = await Indicators.findOne(options.indicator1Id)
     const value1 = await indicator1.result({filterOptions: params, params})
     const indicator2 = await Indicators.findOne(options.indicator2Id)
     const value2 = await indicator2.result({filterOptions: params, params})
-
     return value1 - value2
   }
 }
