@@ -36,7 +36,7 @@ export default resolver({
     const db = await collection.db()
     const items = await db.find(query).toArray()
     const footerItems = await getFooterData(table.footer, params, filterId, filterOptions, viewer)
-    const file = await exportToFile(items, footerItems)
+    const file = await exportToFile(items, footerItems, table.title)
     return await file
   }
 })
