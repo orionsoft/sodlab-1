@@ -4,19 +4,18 @@ export const destruct = function(keys, obj) {
   return keys.reduce((a, c) => ({...a, [c]: obj[c]}), {})
 }
 
-export default async function(items, footerItems, {title, fields}) {
+export default function(items, footerItems, {title, fields}) {
   const tableFields = fields.map(field => {
     return field.fieldName
   })
-  const data = await Promise.all(
-    items.map(async item => {
-      const dataFields = destruct(tableFields, await item.data)
-      return await {
-        _id: item._id,
-        ...(await dataFields)
-      }
-    })
-  )
+  const data = items.map(item => {
+    const dataFields = destruct(tableFields, item.data)
+    return {
+      _id: item._id,
+      ...dataFields
+    }
+  })
+
   data.push({_id: ''})
 
   let dataSheet = XLSX.utils.json_to_sheet(data)
