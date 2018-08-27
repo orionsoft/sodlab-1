@@ -1,12 +1,14 @@
 import XLSX from 'xlsx'
 
-export default function(items, footerItems, tableTitle) {
-  const data = items.map(item => {
-    return {
-      _id: item._id,
-      ...item.data
-    }
-  })
+export default async function(items, footerItems, tableTitle) {
+  const data = await Promise.all(
+    items.map(async item => {
+      return await {
+        _id: item._id,
+        ...item.data
+      }
+    })
+  )
 
   data.push({_id: ''})
 
