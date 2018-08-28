@@ -14,7 +14,6 @@ export default class Pagination extends React.Component {
   }
 
   render() {
-    console.log('pagination', this.props)
     return (
       <div className="paginated-pagination">
         <div className="paginated-pagination-limit">
