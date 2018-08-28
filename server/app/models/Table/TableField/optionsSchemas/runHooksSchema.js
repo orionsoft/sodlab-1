@@ -17,5 +17,10 @@ export default {
     type: [String],
     label: 'Hooks',
     optional: true
+  },
+  requireTwoFactor: {
+    type: Boolean,
+    label: 'Requiere dos factores',
+    optional: true
   }
 }

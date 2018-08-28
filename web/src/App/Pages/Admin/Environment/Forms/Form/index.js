@@ -189,7 +189,7 @@ export default class Form extends React.Component {
               <div className="label">Texto de botón para limpiar formulario (opcional)</div>
               <Field fieldName="resetButtonText" type={Text} />
               <div className="label">Requerir autenticación de dos factores</div>
-              <Field fieldName="requireTwoFactor" type={Checkbox} label="Require dos factores" />
+              <Field fieldName="requireTwoFactor" type={Checkbox} label="Requiere dos factores" />
             </Field>
           </AutoForm>
           <br />
