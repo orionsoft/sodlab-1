@@ -15,14 +15,18 @@ import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
+import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 
 @withGraphQL(gql`
   query getForm($linkId: ID, $environmentId: ID) {
     link(linkId: $linkId) {
       _id
-      path
       title
       roles
+      fields {
+        title
+        path
+      }
       environmentId
     }
     forms(limit: null, environmentId: $environmentId) {
@@ -83,12 +87,22 @@ export default class Link extends React.Component {
               link: cloneDeep(this.props.link)
             }}>
             <Field fieldName="link" type={ObjectField}>
-              <div className="label">Ruta</div>
-              <Field fieldName="path" type={Text} />
               <div className="label">Título</div>
               <Field fieldName="title" type={Text} />
               <div className="label">Roles</div>
               <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
+              <Field fieldName="fields" type={ArrayComponent}>
+                <div className="row">
+                  <div className="col-xs-12 col-sm-12 col-md-6">
+                    <div className="label">Título</div>
+                    <Field fieldName="title" type={Text} />
+                  </div>
+                  <div className="col-xs-12 col-sm-12 col-md-6">
+                    <div className="label">Ruta</div>
+                    <Field fieldName="path" type={Text} />
+                  </div>
+                </div>
+              </Field>
             </Field>
           </AutoForm>
           <br />

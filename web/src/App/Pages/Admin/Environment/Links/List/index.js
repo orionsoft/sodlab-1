@@ -25,7 +25,6 @@ export default class List extends React.Component {
   getFields() {
     return [
       {name: 'title', title: 'Título'},
-      {name: 'path', title: 'Ruta'},
       {name: 'linkRoles{name}', title: 'Roles', render: link => this.renderRoles(link)}
     ]
   }

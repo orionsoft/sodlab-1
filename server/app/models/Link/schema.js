@@ -1,3 +1,4 @@
+import LinkField from './LinkField'
 export default {
   _id: {
     type: 'ID'
@@ -9,12 +10,11 @@ export default {
     type: String,
     label: 'Titulo'
   },
-  path: {
-    type: String,
-    label: 'Ruta',
-    custom(path) {
-      if (!path.startsWith('/')) return 'invalidPath'
-    }
+  fields: {
+    label: 'Links',
+    type: [LinkField],
+    defaultValue: [],
+    optional: true
   },
   createdAt: {
     type: Date
