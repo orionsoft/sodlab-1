@@ -1,4 +1,5 @@
 import {resolver} from '@orion-js/app'
+import {requireTwoFactor} from '@orion-js/auth'
 import Item from 'app/models/Item'
 import Forms from 'app/collections/Forms'
 import runHooks from './runHooks'
@@ -24,6 +25,9 @@ export default resolver({
   mutation: true,
   async resolve({formId, itemId, data}, viewer) {
     const form = await Forms.findOne(formId)
+    if (form.requireTwoFactor) {
+      await requireTwoFactor(viewer)
+    }
     const item = await getResult({form, itemId, data})
     await runHooks({form, item})
     return item
