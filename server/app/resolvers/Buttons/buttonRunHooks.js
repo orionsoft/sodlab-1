@@ -1,4 +1,5 @@
 import {resolver} from '@orion-js/app'
+import {requireTwoFactor} from '@orion-js/auth'
 import Buttons from 'app/collections/Buttons'
 import Hooks from 'app/collections/Hooks'
 
@@ -17,6 +18,10 @@ export default resolver({
   mutation: true,
   async resolve({buttonId, parameters}, viewer) {
     const button = await Buttons.findOne(buttonId)
+    if (button.requireTwoFactor) {
+      await requireTwoFactor(viewer)
+    }
+
     const hooks = await Hooks.find({_id: {$in: button.afterHooksIds}}).toArray()
 
     const params = {...parameters, ...button.parameters}
