@@ -72,5 +72,11 @@ export default {
     label: 'Exportable',
     type: Boolean,
     optional: true
+  },
+  defaultLimit: {
+    type: Number,
+    optional: true,
+    label: 'Altura mínima',
+    defaultValue: 10
   }
 }
