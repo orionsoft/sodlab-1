@@ -10,6 +10,7 @@ import booleanByIndicatorComparison from './booleanByIndicatorComparison'
 import currentDateTime from './currentDateTime'
 import mathOperation from './mathOperation'
 import currentDateValues from './currentDateValues'
+import elapsedTime from './elapsedTime'
 
 export default {
   concatValues,
@@ -23,5 +24,6 @@ export default {
   indicatorSubtraction,
   booleanByIndicatorComparison,
   mathOperation,
-  currentDateValues
+  currentDateValues,
+  elapsedTime
 }
