@@ -28,6 +28,7 @@ export default class List extends React.Component {
           fields={this.getFields()}
           allowSearch
           basePath={`/${environmentId}/buttons`}
+          defaultLimit={50}
         />
       </div>
     )

@@ -33,6 +33,7 @@ export default class List extends React.Component {
           canUpdate
           allowSearch
           basePath={`/${environmentId}/collections`}
+          defaultLimit={50}
         />
       </div>
     )

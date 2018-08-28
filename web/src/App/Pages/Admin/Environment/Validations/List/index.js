@@ -30,6 +30,7 @@ export default class List extends React.Component {
           fields={this.getFields()}
           allowSearch
           basePath={`/${environmentId}/validations`}
+          defaultLimit={50}
         />
       </div>
     )

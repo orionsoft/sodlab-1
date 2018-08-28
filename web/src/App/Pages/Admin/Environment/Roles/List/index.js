@@ -31,6 +31,7 @@ export default class List extends React.Component {
           fields={this.getFields()}
           allowSearch
           basePath={`/${environmentId}/roles`}
+          defaultLimit={50}
         />
       </div>
     )
