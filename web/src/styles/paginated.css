@@ -4,15 +4,11 @@
 }
 
 .paginated-container,
-.paginated-table-items {
-  box-sizing: border-box;
-  flex: 1;
-}
-
+.paginated-table-items,
 .paginated-error {
-  min-height: 446px;
   box-sizing: border-box;
   flex: 1;
+  min-height: 446px;
 }
 
 .paginated-loading {
