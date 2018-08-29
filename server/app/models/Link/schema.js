@@ -15,6 +15,10 @@ export default {
     allowedValues: ['category', 'path'],
     optional: true
   },
+  icon: {
+    type: String,
+    optional: true
+  },
   path: {
     type: String,
     label: 'Ruta',
@@ -53,6 +57,7 @@ export default {
   },
   sizeSmall: {
     type: String,
+    optional: true,
     custom(sizeSmall, {currentDoc}) {
       if (currentDoc.showInHome && !sizeSmall) {
         return 'required'
@@ -61,6 +66,7 @@ export default {
   },
   sizeMedium: {
     type: String,
+    optional: true,
     custom(sizeMedium, {currentDoc}) {
       if (currentDoc.showInHome && !sizeMedium) {
         return 'required'
@@ -69,6 +75,7 @@ export default {
   },
   sizeLarge: {
     type: String,
+    optional: true,
     custom(sizeLarge, {currentDoc}) {
       if (currentDoc.showInHome && !sizeLarge) {
         return 'required'

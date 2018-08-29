@@ -17,6 +17,9 @@ import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
 import LinkOptions from './LinkOptions'
 import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
+import range from 'lodash/range'
+import iconOptions from 'App/components/Icon/options'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 
 @withGraphQL(gql`
   query getForm($linkId: ID, $environmentId: ID) {
@@ -26,10 +29,20 @@ import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
       path
       roles
       type
+      icon
       position
+      showInHome
+      sizeSmall
+      sizeMedium
+      sizeLarge
       fields {
         title
         path
+        icon
+        showInHome
+        sizeSmall
+        sizeMedium
+        sizeLarge
       }
       environmentId
     }
@@ -85,6 +98,33 @@ export default class Link extends React.Component {
     )
   }
 
+  getSizeOptions() {
+    return range(12).map(index => ({label: `${12 - index}/12`, value: String(12 - index)}))
+  }
+
+  renderCardOptions(link) {
+    if (!link.showInHome) return null
+    return (
+      <div>
+        <div className="label">Tamaño Tarjeta</div>
+        <div className="row">
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Móvil</div>
+            <Field fieldName="sizeSmall" type={Select} options={this.getSizeOptions()} />
+          </div>
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Mediano</div>
+            <Field fieldName="sizeMedium" type={Select} options={this.getSizeOptions()} />
+          </div>
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Largo</div>
+            <Field fieldName="sizeLarge" type={Select} options={this.getSizeOptions()} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     if (!this.props.link) return null
     return (
@@ -109,10 +149,24 @@ export default class Link extends React.Component {
               <Field fieldName="title" type={Text} />
               <div className="label">Roles</div>
               <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
+              <div className="label">Icono</div>
+              <Field fieldName="icon" type={Select} options={iconOptions} />
               <div className="label">Posición</div>
               <Field fieldName="position" type={NumberField} />
               <div className="label">Tipo</div>
               {this.renderTypes()}
+              <div className="divider" />
+              <WithValue>
+                {link =>
+                  link.type === 'path' && (
+                    <div>
+                      <div className="label">Mostrar en home</div>
+                      <Field fieldName="showInHome" type={Checkbox} label="Mostrar en home" />
+                      {this.renderCardOptions(link)}
+                    </div>
+                  )
+                }
+              </WithValue>
             </Field>
           </AutoForm>
           <br />

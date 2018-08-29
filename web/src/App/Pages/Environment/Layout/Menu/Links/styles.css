@@ -8,13 +8,17 @@
   margin: 20px;
 }
 
+:local(.icon) {
+  padding-right: 10px;
+}
+
 :local(.showItems) {
   display: block;
 }
 
 :local(.menuItem) {
   cursor: pointer;
-  display: block;
+  display: flex;
   color: #fff;
   padding: 10px 20px;
   opacity: 0.7;
