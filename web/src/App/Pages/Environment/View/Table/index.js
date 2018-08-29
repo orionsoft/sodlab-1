@@ -23,6 +23,7 @@ import Header from './Header'
       allowsNoFilter
       footer
       exportable
+      defaultLimit
       filters {
         _id
         title
@@ -208,6 +209,7 @@ export default class Table extends React.Component {
           onSelect={this.onSelect}
           allowSearch={false}
           footer={this.renderFooter(table.footer)}
+          defaultLimit={table.defaultLimit}
         />
       </div>
     )

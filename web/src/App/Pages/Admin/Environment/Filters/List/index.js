@@ -35,6 +35,7 @@ export default class List extends React.Component {
           allowSearch
           extraFields={['collection._id']}
           basePath={`/${environmentId}/filters`}
+          defaultLimit={50}
         />
       </div>
     )

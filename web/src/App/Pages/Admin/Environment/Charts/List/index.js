@@ -19,9 +19,7 @@ export default class List extends React.Component {
     return (
       <div className={styles.container}>
         <Breadcrumbs
-          right={
-            <Button to={`/${environmentId}/charts/create`}>Crear gráfico</Button>
-          }
+          right={<Button to={`/${environmentId}/charts/create`}>Crear gráfico</Button>}
         />
         <br />
         <PaginatedList
@@ -32,6 +30,7 @@ export default class List extends React.Component {
           fields={this.getFields()}
           allowSearch
           basePath={`/${environmentId}/charts`}
+          defaultLimit={50}
         />
       </div>
     )

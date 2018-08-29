@@ -18,11 +18,7 @@ export default class List extends React.Component {
     const {environmentId} = this.props.match.params
     return (
       <div className={styles.container}>
-        <Breadcrumbs
-          right={
-            <Button to={`/${environmentId}/hooks/create`}>Crear hook</Button>
-          }
-        />
+        <Breadcrumbs right={<Button to={`/${environmentId}/hooks/create`}>Crear hook</Button>} />
         <br />
         <PaginatedList
           title={null}
@@ -32,6 +28,7 @@ export default class List extends React.Component {
           fields={this.getFields()}
           allowSearch
           basePath={`/${environmentId}/hooks`}
+          defaultLimit={50}
         />
       </div>
     )
