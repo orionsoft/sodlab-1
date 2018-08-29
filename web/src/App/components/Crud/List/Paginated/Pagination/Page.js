@@ -9,7 +9,8 @@ export default class Page extends React.Component {
   static propTypes = {
     page: PropTypes.number,
     setPage: PropTypes.func,
-    result: PropTypes.object
+    result: PropTypes.object,
+    limit: PropTypes.number
   }
 
   state = {page: 1}
@@ -17,6 +18,8 @@ export default class Page extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.page !== this.props.page) {
       this.setState({page: nextProps.page})
+    } else if (nextProps.limit !== this.props.limit) {
+      this.props.setPage(1)
     }
   }
 
@@ -34,6 +37,7 @@ export default class Page extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <div
@@ -43,7 +47,8 @@ export default class Page extends React.Component {
               : 'paginated-pagination-page-icon-disabled'
           }
           onClick={() =>
-            this.props.result.hasPreviousPage && this.props.setPage(this.props.page - 1)}>
+            this.props.result.hasPreviousPage && this.props.setPage(this.props.page - 1)
+          }>
           <BeforeIcon size={25} />
         </div>
         <div className="paginated-pagination-page-input-container">
