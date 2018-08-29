@@ -21,6 +21,8 @@ import Links from './Links'
     links(limit: null, environmentId: $environmentId) {
       items {
         title
+        type
+        path
         fields {
           title
           path

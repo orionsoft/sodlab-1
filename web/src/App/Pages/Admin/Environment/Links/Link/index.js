@@ -9,20 +9,24 @@ import AutoForm from 'App/components/AutoForm'
 import ObjectField from 'App/components/fields/ObjectField'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
-import {Field} from 'simple-react-form'
+import {Field, WithValue} from 'simple-react-form'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import autobind from 'autobind-decorator'
 import cloneDeep from 'lodash/cloneDeep'
-import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
+import LinkOptions from './LinkOptions'
+import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
 
 @withGraphQL(gql`
   query getForm($linkId: ID, $environmentId: ID) {
     link(linkId: $linkId) {
       _id
       title
+      path
       roles
+      type
+      position
       fields {
         title
         path
@@ -67,6 +71,20 @@ export default class Link extends React.Component {
     this.props.history.push(`/${environmentId}/links`)
   }
 
+  renderLinkOptions() {
+    return <WithValue>{link => <LinkOptions link={link} />}</WithValue>
+  }
+
+  renderTypes() {
+    const typeOptions = [{value: 'path', label: 'Ruta'}, {value: 'category', label: 'Categoría'}]
+    return (
+      <div>
+        <Field fieldName="type" type={Select} options={typeOptions} />
+        {this.renderLinkOptions()}
+      </div>
+    )
+  }
+
   render() {
     if (!this.props.link) return null
     return (
@@ -91,18 +109,10 @@ export default class Link extends React.Component {
               <Field fieldName="title" type={Text} />
               <div className="label">Roles</div>
               <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
-              <Field fieldName="fields" type={ArrayComponent}>
-                <div className="row">
-                  <div className="col-xs-12 col-sm-12 col-md-6">
-                    <div className="label">Título</div>
-                    <Field fieldName="title" type={Text} />
-                  </div>
-                  <div className="col-xs-12 col-sm-12 col-md-6">
-                    <div className="label">Ruta</div>
-                    <Field fieldName="path" type={Text} />
-                  </div>
-                </div>
-              </Field>
+              <div className="label">Posición</div>
+              <Field fieldName="position" type={NumberField} />
+              <div className="label">Tipo</div>
+              {this.renderTypes()}
             </Field>
           </AutoForm>
           <br />

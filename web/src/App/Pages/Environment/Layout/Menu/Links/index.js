@@ -15,12 +15,12 @@ export default class Menu extends React.Component {
 
   state = {show: false}
 
-  renderLink({title, path}, useFullToCheck) {
-    const active = useFullToCheck
-      ? this.props.location.pathname === path
-      : this.props.location.pathname.startsWith(path)
+  renderLink({title, path}, isPath) {
+    const active = this.props.location.pathname === path
+    const style = isPath ? 'menuItem' : 'subMenuItem'
+    const styleActive = isPath ? 'itemActive' : 'subItemActive'
     return (
-      <Link key={path} to={path} className={active ? styles.itemActive : styles.subMenuItem}>
+      <Link key={path} to={path} className={active ? styles[styleActive] : styles[style]}>
         {title}
       </Link>
     )
@@ -31,11 +31,9 @@ export default class Menu extends React.Component {
     this.setState({show: !this.state.show})
   }
 
-  render() {
-    const {link} = this.props
-    if (!link) return null
+  renderCategory(link) {
     return (
-      <div className={styles.container} onClick={this.show}>
+      <div>
         <div className={styles.menuItem}>{link.title}</div>
         <ReactCSSTransitionGroup
           transitionName="sub-menu"
@@ -44,11 +42,26 @@ export default class Menu extends React.Component {
           {this.state.show && (
             <div className={styles.showItems}>
               {link.fields.map(field => {
-                return this.renderLink(field, true)
+                return this.renderLink(field)
               })}
             </div>
           )}
         </ReactCSSTransitionGroup>
+      </div>
+    )
+  }
+
+  renderByType(link) {
+    if (link.type === 'path') return this.renderLink(link, true)
+    if (link.type === 'category') return this.renderCategory(link)
+  }
+
+  render() {
+    const {link} = this.props
+    if (!link) return null
+    return (
+      <div className={styles.container} onClick={this.show}>
+        {this.renderByType(link)}
       </div>
     )
   }

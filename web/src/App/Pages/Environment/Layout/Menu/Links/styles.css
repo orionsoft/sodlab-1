@@ -36,6 +36,11 @@
 }
 
 :local(.itemActive) {
+  composes: menuItem;
+  opacity: 1;
+}
+
+:local(.subItemActive) {
   composes: subMenuItem;
   opacity: 1;
 }

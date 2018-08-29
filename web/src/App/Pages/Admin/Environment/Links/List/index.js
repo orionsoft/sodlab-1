@@ -22,10 +22,20 @@ export default class List extends React.Component {
     return <div>{roles.length ? roles : 'Vacío'}</div>
   }
 
+  getTypeLabel(type) {
+    const typeLabels = {
+      path: 'Ruta',
+      category: 'Categoría'
+    }
+    return typeLabels[type]
+  }
+
   getFields() {
     return [
       {name: 'title', title: 'Título'},
-      {name: 'linkRoles{name}', title: 'Roles', render: link => this.renderRoles(link)}
+      {name: 'type', title: 'Tipo', render: link => this.getTypeLabel(link.type)},
+      {name: 'linkRoles{name}', title: 'Roles', render: link => this.renderRoles(link)},
+      {name: 'position', title: 'Posición'}
     ]
   }
 
