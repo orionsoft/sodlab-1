@@ -70,5 +70,9 @@ export default {
   resetButtonText: {
     type: String,
     optional: true
+  },
+  requireTwoFactor: {
+    type: Boolean,
+    optional: true
   }
 }

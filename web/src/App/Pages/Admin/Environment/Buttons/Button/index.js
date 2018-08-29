@@ -18,6 +18,7 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 import cloneDeep from 'lodash/cloneDeep'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
 import autobind from 'autobind-decorator'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 
 @withGraphQL(gql`
   query button($buttonId: ID, $environmentId: ID) {
@@ -31,6 +32,7 @@ import autobind from 'autobind-decorator'
       buttonText
       icon
       url
+      requireTwoFactor
       parameters {
         parameterName
         value
@@ -148,6 +150,8 @@ export default class ButtonComponent extends React.Component {
                 multi
                 options={this.props.hooks.items}
               />
+              <div className="label">Requerir autenticación de dos factores</div>
+              <Field fieldName="requireTwoFactor" type={Checkbox} label="Requiere dos factores" />
               <WithValue>{button => this.renderButtonOptions(button)}</WithValue>
               <Field fieldName="parameters" type={ArrayComponent} renderItem={this.renderItems} />
             </Field>

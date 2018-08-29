@@ -59,5 +59,9 @@ export default {
   orderFiltersByName: {
     type: Boolean,
     optional: true
+  },
+  requireTwoFactor: {
+    type: Boolean,
+    optional: true
   }
 }

@@ -1,6 +1,7 @@
 import {resolver} from '@orion-js/app'
 import Tables from 'app/collections/Tables'
 import Hooks from 'app/collections/Hooks'
+import {requireTwoFactor} from '@orion-js/auth'
 
 export default resolver({
   params: {
@@ -23,6 +24,10 @@ export default resolver({
 
     const field = table.fields[fieldIndex]
     if (field.type !== 'runHooks') throw new Error('Table column is not run hooks')
+
+    if (field.options.requireTwoFactor) {
+      await requireTwoFactor(viewer)
+    }
 
     if (!(field.options && field.options.hooksIds && field.options.hooksIds.length)) {
       throw new Error('No hooks')

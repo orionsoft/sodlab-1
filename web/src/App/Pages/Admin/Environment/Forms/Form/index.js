@@ -32,6 +32,7 @@ import Fields from './Fields'
       validationsIds
       submitButtonText
       resetButtonText
+      requireTwoFactor
       fields {
         fieldName
         type
@@ -187,6 +188,8 @@ export default class Form extends React.Component {
               <Field fieldName="reset" type={Checkbox} label="Habilitar limpiar formulario" />
               <div className="label">Texto de botón para limpiar formulario (opcional)</div>
               <Field fieldName="resetButtonText" type={Text} />
+              <div className="label">Requerir autenticación de dos factores</div>
+              <Field fieldName="requireTwoFactor" type={Checkbox} label="Requiere dos factores" />
             </Field>
           </AutoForm>
           <br />
