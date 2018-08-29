@@ -46,5 +46,33 @@ export default {
   position: {
     type: Number,
     defaultValue: 1
+  },
+  showInHome: {
+    type: Boolean,
+    optional: true
+  },
+  sizeSmall: {
+    type: String,
+    custom(sizeSmall, {currentDoc}) {
+      if (currentDoc.showInHome && !sizeSmall) {
+        return 'required'
+      }
+    }
+  },
+  sizeMedium: {
+    type: String,
+    custom(sizeMedium, {currentDoc}) {
+      if (currentDoc.showInHome && !sizeMedium) {
+        return 'required'
+      }
+    }
+  },
+  sizeLarge: {
+    type: String,
+    custom(sizeLarge, {currentDoc}) {
+      if (currentDoc.showInHome && !sizeLarge) {
+        return 'required'
+      }
+    }
   }
 }

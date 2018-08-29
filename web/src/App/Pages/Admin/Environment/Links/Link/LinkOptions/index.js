@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from './styles.css'
 import PropTypes from 'prop-types'
 import {Field} from 'simple-react-form'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
