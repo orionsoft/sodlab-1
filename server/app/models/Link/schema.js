@@ -12,7 +12,8 @@ export default {
   },
   type: {
     type: String,
-    allowedValues: ['category', 'path']
+    allowedValues: ['category', 'path'],
+    optional: true
   },
   path: {
     type: String,
@@ -21,7 +22,7 @@ export default {
     custom(path, {currentDoc}) {
       if (currentDoc.type === 'path' && !path) {
         return 'required'
-      } else if (!path.startsWith('/')) return 'invalidPath'
+      } else if (path && !path.startsWith('/')) return 'invalidPath'
     }
   },
   fields: {
@@ -43,6 +44,7 @@ export default {
     defaultValue: []
   },
   position: {
-    type: Number
+    type: Number,
+    defaultValue: 1
   }
 }
