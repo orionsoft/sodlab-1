@@ -37,7 +37,6 @@ export default class Page extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <div
