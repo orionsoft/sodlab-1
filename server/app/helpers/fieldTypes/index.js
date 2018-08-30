@@ -21,7 +21,6 @@ import fileURL from './fileURL'
 import richText from './richText'
 
 export default {
-  richText,
   percentage,
   currency,
   email,
@@ -41,5 +40,6 @@ export default {
   multipleSelect,
   document,
   textArea,
-  fileURL
+  fileURL,
+  richText
 }

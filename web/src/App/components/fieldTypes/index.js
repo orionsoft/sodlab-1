@@ -29,7 +29,6 @@ import validationSelect from './validationSelect'
 import richText from './richText'
 
 export default {
-  richText,
   hookSelect,
   indicatorSelect,
   percentage,
@@ -57,5 +56,6 @@ export default {
   document,
   textArea,
   fileURL,
-  validationSelect
+  validationSelect,
+  richText
 }

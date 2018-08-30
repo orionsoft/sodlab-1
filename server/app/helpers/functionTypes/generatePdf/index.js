@@ -1,5 +1,3 @@
-import * as JsPDF from 'jspdf'
-
 export default {
   name: 'Generar PDF',
   optionsSchema: {
@@ -14,9 +12,6 @@ export default {
     }
   },
   async execute({options: {name, content}, itemId}) {
-    var doc = new JsPDF()
-
-    doc.text('Hello world!', 10, 10)
-    doc.save('a4.pdf')
+    console.log(name, content)
   }
 }

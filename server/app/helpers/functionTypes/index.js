@@ -12,7 +12,6 @@ import generateCreditNote from './generateCreditNote'
 import generatePdf from './generatePdf'
 
 export default {
-  generatePdf,
   updateValue,
   sendEmail,
   updateValueWithIndicator,
@@ -23,5 +22,6 @@ export default {
   log,
   generateBill,
   generateDelivery,
-  generateCreditNote
+  generateCreditNote,
+  generatePdf
 }
