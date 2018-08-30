@@ -32,6 +32,7 @@ import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
       collectionId
       filtersIds
       allowsNoFilter
+      filterByDefault
       orderFiltersByName
       footer
       exportable
@@ -97,6 +98,15 @@ export default class Link extends React.Component {
   getFilters() {
     return this.props.filters.items.filter(
       filter => filter.collectionId === this.props.table.collectionId
+    )
+  }
+
+  getSelectedFilters(thisFilter) {
+    return this.props.filters.items.filter(
+      filter =>
+        filter.collectionId === this.props.table.collectionId &&
+        thisFilter.filtersIds &&
+        thisFilter.filtersIds.includes(filter.value)
     )
   }
 
@@ -216,6 +226,16 @@ export default class Link extends React.Component {
               {this.renderCollection()}
               <div className="label">Filtros</div>
               <Field fieldName="filtersIds" type={Select} multi options={this.getFilters()} />
+              <div className="label">Filtro por defecto</div>
+              <WithValue>
+                {filter => (
+                  <Field
+                    fieldName="filterByDefault"
+                    type={Select}
+                    options={this.getSelectedFilters(filter)}
+                  />
+                )}
+              </WithValue>
               <div className="row">
                 <div className="col-xs-6 col-sm-">
                   <div className="label">Se puede usar sin filtro</div>
