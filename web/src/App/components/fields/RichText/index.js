@@ -35,7 +35,6 @@ export default class RichText extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <div className="os-input-container">

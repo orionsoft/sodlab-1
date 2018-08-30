@@ -3,7 +3,5 @@ export default {
   rootType: String,
   allowedOperatorsIds: ['exists'],
   optionsSchema: {},
-  validate(value, options) {
-    console.log(value, options)
-  }
+  validate(value, options) {}
 }
