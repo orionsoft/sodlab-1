@@ -1,4 +1,5 @@
 import Collections from 'app/collections/Collections'
+
 export default {
   name: 'Existe en colección',
   optionsSchema: {

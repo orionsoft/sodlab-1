@@ -42,7 +42,7 @@ const fields = [
   'deliveryTipodespacho',
   'deliveryTipotraslado',
   'deliveryFile',
-  'deliveryFechaEmision',
+  'deliveryFechaEmision'
 ]
 
 export default {
@@ -67,14 +67,20 @@ export default {
     const ordersDB = await orderCollection.db()
     const masterProductsDB = await masterProductsCollection.db()
 
-    const {liorenIdDelivery, exempt} = await Environments.findOne({_id: deliveryCollection.environmentId})
+    const {liorenIdDelivery, exempt} = await Environments.findOne({
+      _id: deliveryCollection.environmentId
+    })
 
     if (!liorenIdDelivery) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const order = await ordersDB.findOne(params._id)
-    const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
+    const client = await clientsDB.findOne({
+      [`data.${options.receptorRs}`]: order.data[options.pedidosCliente]
+    })
 
-    const productsId = await productsDB.find({[`data.${options.productsOrdersIds}`]: params._id}).toArray()
+    const productsId = await productsDB
+      .find({[`data.${options.productsOrdersIds}`]: params._id})
+      .toArray()
 
     const mapProducts = productsId.map(async product => {
       const sku = await masterProductsDB.findOne({_id: product.data[options.productsSku]})
@@ -146,4 +152,4 @@ export default {
       [`data.${options.deliveryMontoExento}`]: dte.montoexento
     })
   }
-} 
+}

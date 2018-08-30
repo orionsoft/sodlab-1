@@ -18,8 +18,10 @@ import multipleSelect from './multipleSelect'
 import document from './document'
 import textArea from './textArea'
 import fileURL from './fileURL'
+import richText from './richText'
 
 export default {
+  richText,
   percentage,
   currency,
   email,
