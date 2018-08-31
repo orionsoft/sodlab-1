@@ -20,30 +20,68 @@ export default resolver({
   },
   async resolve({filter, environmentId}, viewer) {
     const query = {environmentId}
+    if (viewer.roles.includes('admin')) {
+      const links = await Links.find(query)
+        .rawCursor.collation({locale: 'es'})
+        .sort({position: 1, title: 1})
+        .toArray()
+
+      let cards = []
+
+      links.map(link => {
+        if (link.type === 'path') {
+          cards.push(
+            destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], link)
+          )
+        }
+        if (link.type === 'category') {
+          link.fields.map(field => {
+            cards.push(
+              destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], field)
+            )
+          })
+        }
+      })
+      return cards
+    }
+
+    let envUserRoles = null
     if (!viewer.roles.includes('admin')) {
       const environmentUser = await EnvironmentUsers.findOne({userId: viewer.userId, environmentId})
-      query.roles = environmentUser ? {$in: environmentUser.roles} : {$in: []}
+      envUserRoles = environmentUser && environmentUser.roles
+      query['$or'] = [
+        {type: 'path', roles: envUserRoles ? {$in: envUserRoles} : {$in: []}},
+        {
+          type: 'category',
+          fields: {$elemMatch: {roles: envUserRoles ? {$in: envUserRoles} : {$in: []}}}
+        }
+      ]
     }
-    if (filter) {
-      query.name = {$regex: new RegExp(`^${escape(filter)}`)}
-    }
+
     const links = await Links.find(query)
       .rawCursor.collation({locale: 'es'})
       .sort({position: 1, title: 1})
       .toArray()
     let cards = []
-    links.forEach(link => {
+    links.map(link => {
       if (link.type === 'path' && link.showInHome) {
         cards.push(
           destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], link)
         )
-      } else if (link.type === 'category') {
+      }
+      if (link.type === 'category') {
         link.fields
           .filter(field => {
-            return field.showInHome
+            return (
+              envUserRoles &&
+              field.roles.some(role => envUserRoles.includes(role)) &&
+              field.showInHome
+            )
           })
           .map(field => {
-            cards.push(field)
+            cards.push(
+              destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], field)
+            )
           })
       }
     })

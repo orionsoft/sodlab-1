@@ -1,6 +1,7 @@
 export default {
   title: {
-    type: String
+    type: String,
+    label: 'Titulo'
   },
   path: {
     type: String,
@@ -43,5 +44,9 @@ export default {
         return 'required'
       }
     }
+  },
+  roles: {
+    type: ['ID'],
+    defaultValue: []
   }
 }

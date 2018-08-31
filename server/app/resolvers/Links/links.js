@@ -22,7 +22,7 @@ export default paginatedResolver({
       query.roles = environmentUser ? {$in: environmentUser.roles} : {$in: []}
     }
     if (filter) {
-      query.name = {$regex: new RegExp(`^${escape(filter)}`)}
+      query.title = {$regex: new RegExp(`^${escape(filter)}`)}
     }
     return Links.find(query)
       .rawCursor.collation({locale: 'es'})
