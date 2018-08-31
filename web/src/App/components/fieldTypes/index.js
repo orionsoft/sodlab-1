@@ -26,13 +26,11 @@ import indicatorSelect from './indicatorSelect'
 import hookSelect from './hookSelect'
 import fileURL from './fileURL'
 import validationSelect from './validationSelect'
-<<<<<<< HEAD
-import richText from './richText'
-=======
 import buttonSelect from './buttonSelect'
->>>>>>> origin
+import richText from './richText'
 
 export default {
+  richText,
   hookSelect,
   buttonSelect,
   indicatorSelect,
@@ -61,6 +59,5 @@ export default {
   document,
   textArea,
   fileURL,
-  validationSelect,
-  richText
+  validationSelect
 }
