@@ -76,6 +76,17 @@ class DocumentEditorForm extends React.Component {
     fileId: ''
   }
 
+  componentDidMount() {
+    if (!this.props.filename) return
+
+    const filenameLength = this.props.filename.split('.').length
+    const why = this.props.filename
+      .split('.')
+      .splice(0, filenameLength - 1)
+      .join(' ')
+    return this.setState({why})
+  }
+
   openModal = () => {
     this.setState({modalIsOpen: true})
   }
@@ -343,7 +354,6 @@ class DocumentEditorForm extends React.Component {
             </div>
             <div className={styles.personalInfoContainer}>
               <SignerRut
-                styles={styles}
                 client={this.state.client}
                 handleRutChange={this.handleRutChange}
                 collectionId={this.props.collectionId}
@@ -354,7 +364,6 @@ class DocumentEditorForm extends React.Component {
               />
               {this.state.client && (
                 <SignerName
-                  styles={styles}
                   elementId={this.state.client}
                   handleWhoChange={this.handleWhoChange}
                   collectionId={this.props.collectionId}
@@ -363,11 +372,8 @@ class DocumentEditorForm extends React.Component {
                 />
               )}
               <SignerReason
-                styles={styles}
-                elementId={this.props.client}
                 why={this.state.why}
                 handleWhyChange={this.handleWhyChange}
-                collectionId={this.props.collectionId}
                 filename={this.props.filename}
               />
             </div>

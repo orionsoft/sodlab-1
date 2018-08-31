@@ -14,8 +14,13 @@ export default class SignerData extends React.Component {
     handleClientChange: PropTypes.func
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.client === prevProps.client) return
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.client === prevProps.client) return
+  // }
+
+  shouldComponentUpdate(nextProps) {
+    if (this.props.client === nextProps.client) return false
+    return true
   }
 
   handleRutChange = e => {
@@ -36,7 +41,7 @@ export default class SignerData extends React.Component {
   }
 
   handleChange = value => {
-    const client = { ...this.props.client, [this.props.valueKey]: value }
+    const client = {...this.props.client, [this.props.valueKey]: value}
     this.props.handleRutChange(value)
     return this.props.handleClientChange(client)
   }

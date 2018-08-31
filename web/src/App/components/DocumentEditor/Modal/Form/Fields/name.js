@@ -19,23 +19,40 @@ export default class SignerData extends React.Component {
     lastNameKey: PropTypes.string
   }
 
+  componentDidMount() {
+    if (!this.props.documentFromCollection) return
+    this.handleNameChange()
+  }
+
   shouldComponentUpdate(nextProps) {
-    if (this.props.elementId.rut === nextProps.elementId.rut) return false
+    if (this.props.documentFromCollection._id === nextProps.documentFromCollection._id) return false
     return true
+  }
+
+  componentDidUpdate(prevProps) {
+    this.handleNameChange()
+  }
+
+  handleNameChange = () => {
+    const signerName = this.getSignerName()
+    return this.props.handleWhoChange(signerName)
+  }
+
+  getSignerName = () => {
+    const {documentFromCollection, firstNameKey, lastNameKey} = this.props
+    const firstName = documentFromCollection.data[firstNameKey]
+    const lastName = documentFromCollection.data[lastNameKey]
+    return `${firstName} ${lastName}`
   }
 
   render() {
     if (!this.props.documentFromCollection) return
-    const { documentFromCollection, firstNameKey, lastNameKey } = this.props
-    const firstName = documentFromCollection.data[firstNameKey]
-    const lastName = documentFromCollection.data[lastNameKey]
-    const signerName = `${firstName} ${lastName}`
-    this.props.handleWhoChange(signerName)
+    const signerName = this.getSignerName()
 
     return (
       <div className="autoform-field">
         <div className="label">Nombre</div>
-        <Text onChange={value => this.props.handleWhoChange(value)} value={signerName} />
+        <Text onChange={this.props.handleWhoChange} value={signerName} />
       </div>
     )
   }
