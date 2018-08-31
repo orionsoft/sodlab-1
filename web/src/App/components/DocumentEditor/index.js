@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Modal from './Modal'
 import styles from './styles.css'
-import { ClientProvider } from './context'
-import { withRouter } from 'react-router'
+import {ClientProvider} from './context'
+import {withRouter} from 'react-router'
 
 @withRouter
 export default class DocumentEditor extends React.Component {
@@ -23,15 +23,15 @@ export default class DocumentEditor extends React.Component {
   }
 
   openModal = () => {
-    this.setState({ modalIsOpen: true })
+    this.setState({modalIsOpen: true})
   }
 
   closeModal = () => {
-    this.setState({ modalIsOpen: false })
+    this.setState({modalIsOpen: false})
   }
 
   updatePlaceholder = placeholder => {
-    this.setState({ placeholder })
+    this.setState({placeholder})
   }
 
   renderPlaceholderOrName() {
@@ -43,6 +43,7 @@ export default class DocumentEditor extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <ClientProvider>

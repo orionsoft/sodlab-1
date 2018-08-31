@@ -49,7 +49,7 @@ export default class FingerprintAPI {
       )
       document.getElementById('fingerprintImage').src = localStorage.getItem('fingerprintPng')
     } else if (selection === window.Fingerprint.SampleFormat.Compressed) {
-      if (localStorage.getItem(this.wsqId) === null) {
+      if (localStorage.getItem(this.wsqId) !== null) {
         localStorage.removeItem(this.wsqId)
       }
       localStorage.setItem(this.wsqId, '')

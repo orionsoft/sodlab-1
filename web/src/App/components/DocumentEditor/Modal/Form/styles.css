@@ -50,8 +50,21 @@
   align-items: center;
 }
 
+@media only screen and (min-width: 900px) {
+  :local(.personalInfoContainer) {
+    width: 90%;
+    flex-direction: row;
+  }
+}
+
 :local(.personalInfoContainer) .autoform-field {
   width: 50%;
+}
+
+@media only screen and (min-width: 900px) {
+  :local(.personalInfoContainer) .autoform-field {
+    margin: 0 5px;
+  }
 }
 
 :local(.personalInfoContainer) .autoform-field .label {

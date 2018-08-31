@@ -42,7 +42,7 @@ export default class Main extends React.Component {
     client: null,
     loading: false,
     filename: '',
-    pdfFileName: '',
+    apiFilename: '',
     pagesSrc: [],
     pages: [],
     activePage: 1,
@@ -50,7 +50,7 @@ export default class Main extends React.Component {
     posY: 0,
     signatureImages: [],
     isOptionsMenuOpen: false,
-    wsqKeys: []
+    apiObjects: []
   }
 
   toggleLoading = () => {
@@ -63,7 +63,7 @@ export default class Main extends React.Component {
       loading: false,
       file: null,
       filename: '',
-      pdfFileName: '',
+      apiFilename: '',
       pagesSrc: [],
       pages: [],
       activePage: 1,
@@ -71,24 +71,31 @@ export default class Main extends React.Component {
       posY: 0,
       signatureImages: [],
       isOptionsMenuOpen: false,
-      wsqKeys: []
+      apiObjects: []
     })
   }
 
   changeState = changes => this.setState({...changes})
 
   requestFileDeletion = () => {
-    const splitFileName = this.state.pdfFileName.split('.')
-    const fileName = `${splitFileName[0]}.${splitFileName[1]}`
-    const body = {fileName, secret: 'sodlab_allow_delete'}
+    const fileName = this.state.apiFilename
 
     fetch(`${apiUrl}/api/files`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({fileName, secret: 'sodlab_allow_delete'})
     })
+    if (this.state.apiObjects.length > 0) {
+      fetch(`${apiUrl}/api/objects`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({apiObjects: this.state.apiObjects, secret: 'sodlab_allow_delete'})
+      })
+    }
   }
 
   closeOptionsMenu = () => this.setState({isOptionsMenuOpen: false})
@@ -111,7 +118,7 @@ export default class Main extends React.Component {
           showMessage={this.props.showMessage}
           errorMessage={this.props.errorMessage}
           filename={this.state.filename}
-          pdfFileName={this.state.pdfFileName}
+          apiFilename={this.state.apiFilename}
           requestFileDeletion={this.requestFileDeletion}
           resetState={this.resetState}
           toggleLoading={this.toggleLoading}
@@ -119,7 +126,7 @@ export default class Main extends React.Component {
           changeState={this.changeState}
           pages={this.state.pages}
           pagesSrc={this.state.pagesSrc}
-          wsqKeys={this.state.wsqKeys}
+          apiObjects={this.state.apiObjects}
         />
         <Pagination
           loading={this.state.loading}
@@ -134,7 +141,7 @@ export default class Main extends React.Component {
           resetState={this.resetState}
           requestFileDeletion={this.requestFileDeletion}
           filename={this.state.filename}
-          pdfFileName={this.state.pdfFileName}
+          apiFilename={this.state.apiFilename}
           size={this.state.size}
           generateUploadCredentials={this.props.generateUploadCredentials}
           onChange={this.props.onChange}
@@ -144,7 +151,7 @@ export default class Main extends React.Component {
           pagesSrc={this.state.pagesSrc}
           activePage={this.state.activePage}
           updatePlaceholder={this.props.updatePlaceholder}
-          wsqKeys={this.state.wsqKeys}
+          apiObjects={this.state.apiObjects}
           collectionId={this.props.passProps.collectionId}
         />
         <Modal
@@ -162,7 +169,7 @@ export default class Main extends React.Component {
                   insertImage={this.insertImage}
                   handleSubmitImg={this.handleSubmitImg}
                   changeState={this.changeState}
-                  pdfFileName={this.state.pdfFileName}
+                  apiFilename={this.state.apiFilename}
                   pages={this.state.pages}
                   pagesSrc={this.state.pagesSrc}
                   signatureImages={this.state.signatureImages}
@@ -175,7 +182,7 @@ export default class Main extends React.Component {
                   valueKey={this.props.passProps.valueKey}
                   fieldName={this.props.fieldName}
                   passProps={this.props.passProps}
-                  wsqKeys={this.state.wsqKeys}
+                  apiObjects={this.state.apiObjects}
                 />
               )}
             </ClientConsumer>

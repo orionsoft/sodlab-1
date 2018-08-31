@@ -14,7 +14,7 @@ export default class DocumentEditorHeader extends React.Component {
     selectOptions: PropTypes.array,
     errorMessage: PropTypes.func,
     filename: PropTypes.string,
-    pdfFileName: PropTypes.string,
+    apiFilename: PropTypes.string,
     requestFileDeletion: PropTypes.func,
     resetState: PropTypes.func,
     toggleLoading: PropTypes.func,
@@ -22,19 +22,19 @@ export default class DocumentEditorHeader extends React.Component {
     changeState: PropTypes.func,
     pages: PropTypes.array,
     pagesSrc: PropTypes.array,
-    wsqKeys: PropTypes.array
+    apiObjects: PropTypes.array
   }
 
-  fetchPdfPages = () => {
-    this.props.pages.forEach(async (fileInfo, index) => {
-      const randomNumber = Math.floor(Math.random() * 10000)
+  fetchPdfPages = async () => {
+    console.log(this.props.pages)
+    this.props.pages.map(async (page, index) => {
       try {
-        const response = await fetch(`${apiUrl}/api/images/pdf/${fileInfo.name}/${randomNumber}`)
+        const response = await fetch(`${apiUrl}/api/images/pdf/${page.name}/${index}`)
         const buffer = await response.arrayBuffer()
         const base64Flag = 'data:image/png;base64,'
         const imageStr = arrayBufferToBase64(buffer)
         const src = base64Flag + imageStr
-        const pagesSrc = [...this.props.pagesSrc, {name: fileInfo.name, src, index}].sort(
+        const pagesSrc = [...this.props.pagesSrc, {name: page.name, src, index}].sort(
           (a, b) => a.index - b.index
         )
 
@@ -50,12 +50,12 @@ export default class DocumentEditorHeader extends React.Component {
   }
 
   submit = async () => {
-    if (this.props.pdfFileName) {
+    if (this.props.apiFilename) {
       this.props.requestFileDeletion()
     }
 
-    if (this.props.wsqKeys.length > 0) {
-      this.props.wsqKeys.map(key => localStorage.removeItem(key))
+    if (this.props.apiObjects.length > 0) {
+      this.props.apiObjects.map(object => localStorage.removeItem(object.fileId))
       if (localStorage.getItem('fingerprintPng')) {
         localStorage.removeItem('fingerprintPng')
       }
@@ -69,24 +69,23 @@ export default class DocumentEditorHeader extends React.Component {
       const size = file.size
       form.enctype = 'multipart/form-data'
       const formData = new FormData(form)
-      const date = new Date()
       const filename = file.name.replace(/ /g, '_')
-      const pdfFileName = date.getTime().toString() + '.' + filename
-      formData.append('pdf_upload', file, pdfFileName)
+      formData.append('pdf_upload', file)
       const response = await fetch(`${apiUrl}/api/pdf`, {
         method: 'POST',
         body: formData
       })
       const data = await response.json()
+      console.log(data)
       this.props.changeState({
-        pdfFileName,
+        apiFilename: data.apiFilename,
         filename,
-        pages: data.message,
+        pages: data.pages,
         size
       })
       return this.fetchPdfPages()
     } catch (error) {
-      this.props.showMessage('Error al subir al procesar el archivo')
+      this.props.showMessage('Error al procesar el archivo')
     }
   }
 

@@ -33,27 +33,15 @@ export default class DocumentEditorPagination extends React.Component {
     resetState: PropTypes.func,
     requestFileDeletion: PropTypes.func,
     filename: PropTypes.string,
-    pdfFileName: PropTypes.string,
+    apiFilename: PropTypes.string,
     size: PropTypes.number,
     generateUploadCredentials: PropTypes.func,
     onChange: PropTypes.func,
     completeUpload: PropTypes.func,
     showMessage: PropTypes.func,
     pagesSrc: PropTypes.array,
-    wsqKeys: PropTypes.array,
+    apiObjects: PropTypes.array,
     collectionId: PropTypes.string
-  }
-
-  setActiveSignature = e => {
-    const data = e.currentTarget.alt.split('/')
-    const id = data[0]
-    const name = data[1]
-    const rut = data[2]
-    const imageSrc = e.currentTarget.src
-    const newState = {
-      activeSignature: {id, imageSrc, name, rut}
-    }
-    this.props.changeState(newState)
   }
 
   getOffset(el) {
@@ -82,11 +70,9 @@ export default class DocumentEditorPagination extends React.Component {
   }
 
   handleDownloadPdf = () => {
-    const pdfFileName = this.props.pdfFileName.split('.')
-    const filename = `${pdfFileName[1]}.${pdfFileName[2]}`
-    fetch(`${apiUrl}/api/pdf/${this.props.pdfFileName}`)
+    fetch(`${apiUrl}/api/pdf/${this.props.apiFilename}`)
       .then(response => response.blob())
-      .then(blob => FileSaver.saveAs(blob, filename))
+      .then(blob => FileSaver.saveAs(blob, this.props.filename))
       .catch(err => this.props.showMessage('No se ha podido descargar el archivo'))
   }
 
@@ -112,86 +98,43 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  b64toBlob = (b64Data, contentType, sliceSize) => {
-    contentType = contentType || ''
-    sliceSize = sliceSize || 512
-
-    let byteCharacters = atob(b64Data)
-    let byteArrays = []
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      let slice = byteCharacters.slice(offset, offset + sliceSize)
-
-      let byteNumbers = new Array(slice.length)
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i)
-      }
-
-      let byteArray = new Uint8Array(byteNumbers)
-
-      byteArrays.push(byteArray)
-    }
-
-    let blob = new Blob(byteArrays, {type: contentType})
-    return blob
-  }
-
-  appendDataToForm = (type, signature, formData) => {
-    if (typeof signature === 'undefined' || signature === null) return
-
-    const block = signature.imageSrc.split(';')
-    const contentType = block[0].split(':')[1]
-    const realData = block[1].split(',')[1]
-    const blob = this.b64toBlob(realData, contentType)
-    const imageIdArray = signature.id.split('.')
-    const identifier = type === '' ? imageIdArray[imageIdArray.length - 1] : type
-    formData.append(identifier, blob, signature.id)
-    formData.append(identifier, identifier)
-    formData.append('signer_name', signature.name)
-    formData.append('signer_rut', signature.rut)
-    return
-  }
-
-  sendBiometricObjects = async s3key => {
-    const environmentId = this.props.collectionId.split('_')[0]
-    const docId = s3key.split('/')[1].split('-')[0]
-
+  sendBiometricObjects = async (timestamp, environmentId, docId) => {
+    console.log(this.props.apiObjects)
     try {
-      const form = document.createElement('form')
-      form.enctype = 'multipart/form-data'
-      const formData = new FormData(form)
-      formData.append('environmentId', environmentId)
-      formData.append('docId', docId)
-
-      this.props.wsqKeys.forEach((key, index) => {
-        const wsqBase64 = localStorage.getItem(key)
-        const block = wsqBase64.split(';')
-        const contentType = block[0].split(':')[1]
-        const realData = block[1].split(',')[1]
-        const blob = this.b64toBlob(realData, contentType)
-        const filename = `${key}_${index}.wsq`
-
-        formData.append(filename, blob, filename)
-        localStorage.removeItem(key)
-      })
-      await fetch(`${apiUrl}/api/objects`, {
+      const body = {
+        timestamp,
+        environmentId,
+        docId,
+        paths: this.props.apiObjects
+      }
+      console.log('body', body)
+      return await fetch(`${apiUrl}/api/objects`, {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify(body)
       })
-      return
-    } catch (err) {
-      return this.props.showMessage('Error al subir los archivos biomentricos')
+    } catch (error) {
+      return this.props.showMessage('Error al subir los archivos biometricos')
     }
   }
 
   handleConfirm = async () => {
     const fileData = {
-      fileName: this.props.pdfFileName,
+      fileName: this.props.apiFilename,
       fileType: 'application/pdf'
     }
+    const date = new Date()
+    const timestamp = date.getTime().toString()
     try {
       const credentials = await this.requestCredentials(fileData)
-      const body = {...fileData, ...credentials}
+      const environmentId = this.props.collectionId.split('_')[0]
+      const docId = credentials.key.split('/')[1].split('-')[0]
+      const body = {
+        ...fileData,
+        ...credentials
+      }
       await this.complete(credentials.fileId)
       const response = await fetch(`${apiUrl}/api/files`, {
         method: 'POST',
@@ -204,7 +147,7 @@ export default class DocumentEditorPagination extends React.Component {
       if (data.success) {
         this.props.updatePlaceholder(this.props.filename)
         this.props.showMessage('Documento guardado con éxito. Guardando información biometrica')
-        await this.sendBiometricObjects(body.key)
+        await this.sendBiometricObjects(timestamp, environmentId, docId)
         this.props.showMessage('Información biometrica guardada con éxito')
         this.handleClose()
       }
@@ -213,10 +156,10 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  handleClose = () => {
-    this.props.onClose()
+  handleClose = async () => {
     this.props.requestFileDeletion()
     this.props.resetState()
+    this.props.onClose()
   }
 
   renderSignatureImages = () => {
@@ -227,7 +170,6 @@ export default class DocumentEditorPagination extends React.Component {
             id={`${image.id}.${image.name}`}
             src={image.imageSrc}
             alt={`${image.id}/${image.name}/${image.rut}`}
-            onClick={this.setActiveSignature}
           />
           <span>{image.name.toUpperCase()}</span>
           <span>{image.rut}</span>
@@ -255,6 +197,7 @@ export default class DocumentEditorPagination extends React.Component {
   render() {
     return (
       <div className={styles.editorContainer}>
+        <div className={styles.imagesContainer}>{this.renderSignatureImages()}</div>
         <div className={styles.pdfImageContainer}>
           {this.props.loading ? (
             <div className={styles.loaderContainer}>
@@ -264,7 +207,6 @@ export default class DocumentEditorPagination extends React.Component {
             this.renderActivePage()
           )}
         </div>
-        <div className={styles.imagesContainer}>{this.renderSignatureImages()}</div>
         <div className={styles.optionsContainer}>
           <div>
             <Button
