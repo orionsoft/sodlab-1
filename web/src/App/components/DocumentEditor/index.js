@@ -34,14 +34,20 @@ export default class DocumentEditor extends React.Component {
     this.setState({placeholder})
   }
 
-  renderPlaceholderOrName() {
+  renderValue() {
     if (this.props.value) {
       if (this.props.value.name) {
-        return this.props.value.name
+        return (
+          <div>
+            <div className={styles.valueContainer}>
+              <div className={styles.name}>{this.props.value.name}</div>
+            </div>
+          </div>
+        )
       }
-      return this.state.placeholder
+      return <div className={styles.noValue}>{this.state.placeholder}</div>
     } else {
-      return 'Generar Documento'
+      return <div className={styles.noValue}>Generar Documento</div>
     }
   }
 
@@ -57,8 +63,8 @@ export default class DocumentEditor extends React.Component {
             updatePlaceholder={this.updatePlaceholder}
             {...this.props}
           />
-          <div onClick={this.openModal} className={styles.button}>
-            {this.renderPlaceholderOrName()}
+          <div onClick={this.openModal} className={styles.container}>
+            <div className={styles.placeholderContainer}>{this.renderValue()}</div>
           </div>
         </ClientProvider>
       </div>
