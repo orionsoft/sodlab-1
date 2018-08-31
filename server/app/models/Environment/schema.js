@@ -95,11 +95,11 @@ export default {
     fieldOptions: {label: 'Activar exento en documentos'},
     defaultValue: false
   },
-   exemptTicket: {
+  exemptTicket: {
     type: Boolean,
     label: 'Boletas',
     fieldType: 'checkbox',
     fieldOptions: {label: 'Activar exento en boletas'},
     defaultValue: false
-  },
+  }
 }

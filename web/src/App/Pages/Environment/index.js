@@ -14,7 +14,10 @@ import NotFound from './NotFound'
 import forceLogin from 'App/helpers/auth/forceLogin'
 import Watch from './Watch'
 import Home from './Home'
+import withRoles from 'App/helpers/auth/withRoles'
+import NotAllowed from 'App/Pages/Auth/NotAllowed'
 
+@withRoles
 @forceLogin
 @withEnvironmentId
 @withGraphQL(gql`
@@ -30,6 +33,10 @@ import Home from './Home'
         path
       }
     }
+    me {
+      _id
+      environmentsAuthorized
+    }
   }
 `)
 @withEnvironmentUser
@@ -37,12 +44,21 @@ export default class Environment extends React.Component {
   static propTypes = {
     environment: PropTypes.object,
     views: PropTypes.object,
-    environmentId: PropTypes.string
+    environmentId: PropTypes.string,
+    roles: PropTypes.array,
+    me: PropTypes.object
   }
 
   componentDidMount() {
-    const {environment} = this.props
-    document.title = `${environment.name}`
+    const {environment, me, roles} = this.props
+    if (
+      roles.includes('superAdmin') ||
+      (roles.includes('admin') && me.environmentsAuthorized.includes(environment._id))
+    ) {
+      document.title = `${environment.name}`
+    } else {
+      document.title = `denegado`
+    }
   }
 
   renderViews() {
@@ -78,7 +94,16 @@ export default class Environment extends React.Component {
   }
 
   render() {
-    if (!this.props.environment) return null
+    const {environment, roles, me} = this.props
+    if (!roles.includes('superAdmin')) {
+      if (
+        !roles.includes('admin') ||
+        (roles.includes('admin') && !me.environmentsAuthorized.includes(environment._id))
+      ) {
+        return <NotAllowed />
+      }
+    }
+    if (!environment) return null
     return (
       <div className={styles.container}>
         <Layout>{this.renderSwitch()}</Layout>

@@ -34,7 +34,6 @@ export default class Home extends React.Component {
 
   render() {
     const {cards} = this.props
-    console.log(cards)
     return (
       <Container>
         <div className={styles.container}>

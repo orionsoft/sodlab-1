@@ -3,17 +3,27 @@ import styles from './styles.css'
 import Breadcrumbs from 'App/components/Breadcrumbs'
 import Section from 'App/components/Section'
 import Button from 'orionsoft-parts/lib/components/Button'
+import withRoles from 'App/helpers/auth/withRoles'
 import AutoForm from 'App/components/AutoForm'
 import {withRouter} from 'react-router'
 import PropTypes from 'prop-types'
+import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 
+@withRoles
 @withRouter
+@withMessage
 export default class List extends React.Component {
   static propTypes = {
-    history: PropTypes.object
+    showMessage: PropTypes.func,
+    history: PropTypes.object,
+    roles: PropTypes.array
   }
 
   render() {
+    if (!this.props.roles.includes('superAdmin')) {
+      this.props.showMessage('No tienes permisos para crear ambientes')
+      this.props.history.push('/admin/environments')
+    }
     return (
       <div className={styles.container}>
         <Breadcrumbs past={{'/admin': 'Admin', '/admin/environments': 'Ambientes'}}>
