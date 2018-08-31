@@ -13,6 +13,7 @@ import View from './View'
 import NotFound from './NotFound'
 import forceLogin from 'App/helpers/auth/forceLogin'
 import Watch from './Watch'
+import Home from './Home'
 
 @forceLogin
 @withEnvironmentId
@@ -68,6 +69,7 @@ export default class Environment extends React.Component {
   renderSwitch() {
     return (
       <Switch>
+        <Route path="/" exact component={Home} />
         <Route path="/settings" component={Settings} />
         {this.renderViews()}
         <Route path="*" component={NotFound} />

@@ -29,6 +29,7 @@ import cloneDeep from 'lodash/cloneDeep'
       collectionId
       fieldName
       filtersIds
+      filterByDefault
       allowsNoFilter
       indicatorTypeId
       options
@@ -89,6 +90,15 @@ export default class Kpi extends React.Component {
     })
   }
 
+  getSelectedFilters(thisIndicator) {
+    return this.props.filters.items.filter(
+      filter =>
+        filter.collectionId === thisIndicator.collectionId &&
+        thisIndicator.filtersIds &&
+        thisIndicator.filtersIds.includes(filter.value)
+    )
+  }
+
   renderFilterOptions(indicator, indicatorType) {
     if (!indicator.collectionId) return
     const filters = this.props.filters.items.filter(
@@ -98,6 +108,12 @@ export default class Kpi extends React.Component {
       <div style={{marginTop: 20}}>
         <div className="label">Filtros</div>
         <Field fieldName="filtersIds" type={Select} multi options={filters} />
+        <div className="label">Filtro por defecto</div>
+        <Field
+          fieldName="filterByDefault"
+          type={Select}
+          options={this.getSelectedFilters(indicator)}
+        />
         <div className="row">
           <div className="col-xs-6 col-sm-">
             <div className="label">Se puede usar sin filtro</div>
@@ -138,16 +154,6 @@ export default class Kpi extends React.Component {
       </div>
     )
   }
-
-  // renderOptions(indicator) {
-  //
-  //   return (
-  //     <div>
-  //       {this.renderIndicatorCollectionOptions(indicator, indicatorType)}
-  //       <IndicatorOptions indicatorType={indicatorType} type={indicatorTypeId} />
-  //     </div>
-  //   )
-  // }
 
   renderOptions(indicator) {
     const {indicatorTypeId} = indicator
