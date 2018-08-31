@@ -3,6 +3,14 @@
   position: relative;
 }
 
+:local(.container) .paginated-container {
+  min-height: auto;
+}
+
+:local(.container) .paginated-table-items {
+  min-height: auto;
+}
+
 :local(.container) .paginated-head-title {
   font-size: 20px;
   font-weight: bold;

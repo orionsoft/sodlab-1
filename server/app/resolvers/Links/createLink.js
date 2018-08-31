@@ -15,18 +15,13 @@ export default resolver({
     title: {
       type: String,
       label: 'Título'
-    },
-    path: {
-      type: String,
-      label: 'Ruta'
     }
   },
   returns: Link,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, path, title}, viewer) {
+  async resolve({environmentId, title}, viewer) {
     const linkId = await Links.insert({
-      path,
       environmentId,
       title,
       createdAt: new Date()

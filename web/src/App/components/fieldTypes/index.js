@@ -26,10 +26,15 @@ import indicatorSelect from './indicatorSelect'
 import hookSelect from './hookSelect'
 import fileURL from './fileURL'
 import validationSelect from './validationSelect'
+<<<<<<< HEAD
 import richText from './richText'
+=======
+import buttonSelect from './buttonSelect'
+>>>>>>> origin
 
 export default {
   hookSelect,
+  buttonSelect,
   indicatorSelect,
   percentage,
   currency,

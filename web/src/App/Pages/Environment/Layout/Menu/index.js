@@ -9,6 +9,7 @@ import LogoutIcon from 'react-icons/lib/md/exit-to-app'
 import logout from 'App/helpers/auth/logout'
 import {withRouter} from 'react-router'
 import CloseIcon from 'react-icons/lib/md/close'
+import Links from './Links'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -20,7 +21,12 @@ import CloseIcon from 'react-icons/lib/md/close'
     links(limit: null, environmentId: $environmentId) {
       items {
         title
+        type
         path
+        fields {
+          title
+          path
+        }
       }
     }
   }
@@ -46,8 +52,8 @@ export default class Menu extends React.Component {
   }
 
   renderLinks() {
-    return this.props.links.items.map(link => {
-      return this.renderLink(link, true)
+    return this.props.links.items.map((link, key) => {
+      return <Links link={link} key={key} />
     })
   }
 

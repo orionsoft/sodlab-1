@@ -11,6 +11,7 @@ export default class WithFilter extends React.Component {
   static propTypes = {
     filters: PropTypes.array,
     allowsNoFilter: PropTypes.bool,
+    filterByDefault: PropTypes.string,
     parameters: PropTypes.object,
     children: PropTypes.func
   }
@@ -23,7 +24,11 @@ export default class WithFilter extends React.Component {
   }
 
   setDefaultFilter() {
-    const {allowsNoFilter, filters} = this.props
+    const {allowsNoFilter, filters, filterByDefault} = this.props
+    if (filterByDefault) {
+      this.setState({filterId: filterByDefault})
+      return
+    }
     if (allowsNoFilter) return
     if (!filters) return
     if (filters.length !== 1) return
@@ -35,6 +40,9 @@ export default class WithFilter extends React.Component {
       // eslint-disable-next-line
       this.setState({options: null})
       this.checkFilterOptionsSchema()
+    }
+    if (prevProps.filterByDefault !== this.props.filterByDefault) {
+      this.setState({filterId: this.props.filterByDefault})
     }
     if (!isEqual(this.state.options, prevState.options)) this.checkFilterOptionsSchema()
     if (!isEqual(this.props.parameters, prevProps.parameters)) this.checkFilterOptionsSchema()

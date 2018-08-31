@@ -8,7 +8,6 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import withMutation from 'react-apollo-decorators/lib/withMutation'
 import gql from 'graphql-tag'
 import Button from 'orionsoft-parts/lib/components/Button'
-import {withRouter} from 'react-router'
 
 @withGraphQL(gql`
   query button($buttonId: ID) {
@@ -23,27 +22,25 @@ import {withRouter} from 'react-router'
   }
 `)
 @withMutation(gql`
-  mutation buttonRunHooks($buttonId: ID, $parameters: JSON) {
-    buttonRunHooks(buttonId: $buttonId, parameters: $parameters)
+  mutation buttonSubmitBatch($buttonId: ID, $parameters: [JSON]) {
+    buttonSubmitBatch(buttonId: $buttonId, parameters: $parameters)
   }
 `)
-@withRouter
 @withMessage
 export default class ButtonView extends React.Component {
   static propTypes = {
-    history: PropTypes.object,
     showMessage: PropTypes.func,
     button: PropTypes.object,
-    buttonRunHooks: PropTypes.func,
-    parameters: PropTypes.object
+    buttonSubmitBatch: PropTypes.func,
+    items: PropTypes.array
   }
 
-  async onClick(data) {
+  async onClick() {
     try {
-      await this.props.buttonRunHooks({buttonId: data._id, parameters: this.props.parameters})
-      if (data.url) {
-        this.props.history.push(data.url)
-      }
+      await this.props.buttonSubmitBatch({
+        buttonId: this.props.button._id,
+        parameters: this.props.items
+      })
       this.props.showMessage('Hecho')
     } catch (error) {
       this.props.showMessage(error)
@@ -77,21 +74,11 @@ export default class ButtonView extends React.Component {
     )
   }
 
-  renderButttonByOptions(button) {
+  render() {
+    const {button} = this.props
     if (button.buttonType === 'icon') return this.renderWithIcon(button)
     if (button.buttonType === 'text') return this.renderWithText(button)
     if (button.buttonType === 'button') return this.renderWithButtton(button)
-  }
-
-  render() {
-    const {button} = this.props
-    return (
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.title}>{button.title}</div>
-        </div>
-        {this.renderButttonByOptions(button)}
-      </div>
-    )
+    return null
   }
 }
