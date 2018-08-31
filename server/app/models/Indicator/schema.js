@@ -67,5 +67,9 @@ export default {
   orderFiltersByName: {
     type: Boolean,
     optional: true
+  },
+  filterByDefault: {
+    type: String,
+    optional: true
   }
 }

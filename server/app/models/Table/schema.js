@@ -43,6 +43,10 @@ export default {
       }
     }
   },
+  filterByDefault: {
+    type: String,
+    optional: true
+  },
   filtersIds: {
     type: [String],
     optional: true,

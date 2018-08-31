@@ -16,6 +16,7 @@ import Result from './Result'
       collectionId
       environmentId
       allowsNoFilter
+      filterByDefault
       indicatorType {
         _id
         requireCollection
@@ -65,7 +66,8 @@ export default class Indicator extends React.Component {
         <WithFilter
           filters={indicator.filters}
           allowsNoFilter={indicator.allowsNoFilter}
-          parameters={parameters}>
+          parameters={parameters}
+          filterByDefault={indicator.filterByDefault}>
           {this.renderResult}
         </WithFilter>
         <Watch
