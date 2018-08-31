@@ -26,6 +26,6 @@ export default paginatedResolver({
     }
     return Links.find(query)
       .rawCursor.collation({locale: 'es'})
-      .sort({title: 1})
+      .sort({position: 1, title: 1})
   }
 })
