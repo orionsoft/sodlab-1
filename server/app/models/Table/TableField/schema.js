@@ -10,7 +10,8 @@ export default {
       'routeIconButton',
       'deleteRowByUser',
       'runHooks',
-      'postItem'
+      'postItem',
+      'multipleSelect'
     ]
   },
   fieldName: {

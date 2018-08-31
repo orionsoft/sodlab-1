@@ -8,6 +8,7 @@ import MutationButton from 'App/components/MutationButton'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import styles from './styles.css'
 import autobind from 'autobind-decorator'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 
 @withMessage
 @withRouter
@@ -24,7 +25,9 @@ export default class Field extends React.Component {
     table: PropTypes.object,
     collectionId: PropTypes.string,
     parameters: PropTypes.object,
-    fieldIndex: PropTypes.number
+    fieldIndex: PropTypes.number,
+    toggleSelectedItem: PropTypes.func,
+    selected: PropTypes.bool
   }
 
   state = {}
@@ -154,6 +157,14 @@ export default class Field extends React.Component {
     )
   }
 
+  renderMultipleSelect() {
+    return (
+      <div className={styles.multipleSelect}>
+        <Checkbox value={this.props.selected} onChange={this.props.toggleSelectedItem} />
+      </div>
+    )
+  }
+
   render() {
     const {field} = this.props
     if (!field.type) return null
@@ -163,6 +174,7 @@ export default class Field extends React.Component {
     if (field.type === 'deleteRowByUser') return this.renderDeleteDocumentByUser()
     if (field.type === 'runHooks') return this.renderRunHooks()
     if (field.type === 'postItem') return this.renderPostItem()
+    if (field.type === 'multipleSelect') return this.renderMultipleSelect()
 
     return 'undefined type ' + field.type
   }

@@ -6,3 +6,16 @@
 :local(.selectedIcon):active .os_iconButton * {
   color: #0069ff !important;
 }
+
+:local(.multipleSelect) {
+  width: 18px;
+  margin-right: -16px;
+  margin-top: 3px;
+}
+
+:local(.multipleSelect) label {
+  height: auto;
+}
+:local(.multipleSelect) .error {
+  display: none;
+}

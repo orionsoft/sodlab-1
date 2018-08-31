@@ -12,6 +12,9 @@ import isEqual from 'lodash/isEqual'
 import {clean, validate} from '@orion-js/schema'
 import IndicatorResult from './IndicatorResult'
 import Header from './Header'
+import cloneDeep from 'lodash/cloneDeep'
+import values from 'lodash/values'
+import SelectionActions from './SelectionActions'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -56,7 +59,7 @@ export default class Table extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {filterId: null}
+  state = {filterId: null, selectedItems: {}}
 
   @autobind
   onSelect(item) {}
@@ -113,6 +116,17 @@ export default class Table extends React.Component {
     }
   }
 
+  @autobind
+  toggleSelectedItem(itemId, doc) {
+    const selectedItems = cloneDeep(this.state.selectedItems)
+    if (selectedItems[itemId]) {
+      delete selectedItems[itemId]
+    } else {
+      selectedItems[itemId] = {_id: itemId, ...doc.data}
+    }
+    this.setState({selectedItems})
+  }
+
   needsFilter() {
     const {table} = this.props
     if (table.allowsNoFilter) return null
@@ -137,6 +151,8 @@ export default class Table extends React.Component {
           table={this.props.table}
           collectionField={collectionField}
           collectionId={collectionId}
+          toggleSelectedItem={() => this.toggleSelectedItem(doc._id, doc)}
+          selected={!!this.state.selectedItems[doc._id]}
         />
       )
     } catch (e) {
@@ -221,6 +237,13 @@ export default class Table extends React.Component {
     )
   }
 
+  renderSelectionActions() {
+    const docs = values(this.state.selectedItems)
+    if (!docs.length) return
+    const field = this.props.table.fields.find(field => field.type === 'multipleSelect')
+    return <SelectionActions field={field} items={docs} />
+  }
+
   renderTable() {
     const {table, parameters} = this.props
     return (
@@ -228,6 +251,7 @@ export default class Table extends React.Component {
         <div className={styles.header}>
           <div className={styles.title}>{table.title}</div>
         </div>
+        {this.renderSelectionActions()}
         <WithFilter
           filters={table.filters}
           allowsNoFilter={table.allowsNoFilter}

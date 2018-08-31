@@ -4,6 +4,7 @@ import buttons from './buttons'
 import deleteButton from './deleteButton'
 import updateButton from './updateButton'
 import buttonRunHooks from './buttonRunHooks'
+import buttonSubmitBatch from './buttonSubmitBatch'
 
 export default {
   buttonRunHooks,
@@ -11,5 +12,6 @@ export default {
   button,
   buttons,
   deleteButton,
-  updateButton
+  updateButton,
+  buttonSubmitBatch
 }

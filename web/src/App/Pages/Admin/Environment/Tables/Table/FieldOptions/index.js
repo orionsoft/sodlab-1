@@ -8,6 +8,7 @@ import RouteIconButton from './RouteIconButton'
 import DeleteDocument from './DeleteDocument'
 import RunHooks from './RunHooks'
 import PostItem from './PostItem'
+import MultipleSelect from './MultipleSelect'
 
 export default class FieldOptions extends React.Component {
   static propTypes = {
@@ -74,6 +75,10 @@ export default class FieldOptions extends React.Component {
     return <PostItem {...this.props} />
   }
 
+  renderMultipleSelect() {
+    return <MultipleSelect {...this.props} />
+  }
+
   render() {
     const {field} = this.props
     if (!field.type) return null
@@ -83,6 +88,7 @@ export default class FieldOptions extends React.Component {
     if (field.type === 'deleteRowByUser') return this.renderDeleteOption()
     if (field.type === 'runHooks') return this.renderRunHooks()
     if (field.type === 'postItem') return this.renderPostItem()
+    if (field.type === 'multipleSelect') return this.renderMultipleSelect()
 
     return 'undefined type'
   }
