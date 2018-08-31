@@ -73,6 +73,11 @@ export default {
     type: Boolean,
     optional: true
   },
+  exportWithId: {
+    label: 'Exportar con id',
+    type: Boolean,
+    optional: true
+  },
   defaultLimit: {
     type: Number,
     optional: true,

@@ -35,6 +35,7 @@ import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
       orderFiltersByName
       footer
       exportable
+      exportWithId
       defaultLimit
       fields {
         type
@@ -233,9 +234,13 @@ export default class Link extends React.Component {
                     label="Ordenar filtros alfabéticamente"
                   />
                 </div>
-                <div className="col-xs-6 col-sm-">
+                <div className="col-xs-3 col-sm-">
                   <div className="label">Exportable</div>
                   <Field fieldName="exportable" type={Checkbox} label="Exportable" />
+                </div>
+                <div className="col-xs-3 col-sm-">
+                  <div className="label">Exportar con ID</div>
+                  <Field fieldName="exportWithId" type={Checkbox} label="Exportar con ID" />
                 </div>
                 <div className="col-xs-6 col-sm-">
                   <div className="label">Altura mínima</div>
