@@ -99,7 +99,6 @@ export default class DocumentEditorPagination extends React.Component {
   }
 
   sendBiometricObjects = async (timestamp, environmentId, docId) => {
-    console.log(this.props.apiObjects)
     try {
       const body = {
         timestamp,
@@ -107,7 +106,6 @@ export default class DocumentEditorPagination extends React.Component {
         docId,
         paths: this.props.apiObjects
       }
-      console.log('body', body)
       return await fetch(`${apiUrl}/api/objects`, {
         method: 'POST',
         headers: {
@@ -122,7 +120,7 @@ export default class DocumentEditorPagination extends React.Component {
 
   handleConfirm = async () => {
     const fileData = {
-      fileName: this.props.apiFilename,
+      fileName: this.props.filename,
       fileType: 'application/pdf'
     }
     const date = new Date()
@@ -133,7 +131,8 @@ export default class DocumentEditorPagination extends React.Component {
       const docId = credentials.key.split('/')[1].split('-')[0]
       const body = {
         ...fileData,
-        ...credentials
+        ...credentials,
+        apiFilename: this.props.apiFilename
       }
       await this.complete(credentials.fileId)
       const response = await fetch(`${apiUrl}/api/files`, {

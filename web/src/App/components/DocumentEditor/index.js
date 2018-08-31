@@ -36,6 +36,9 @@ export default class DocumentEditor extends React.Component {
 
   renderPlaceholderOrName() {
     if (this.props.value) {
+      if (this.props.value.name) {
+        return this.props.value.name
+      }
       return this.state.placeholder
     } else {
       return 'Generar Documento'
@@ -43,7 +46,6 @@ export default class DocumentEditor extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <ClientProvider>

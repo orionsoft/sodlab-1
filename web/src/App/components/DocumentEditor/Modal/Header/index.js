@@ -18,34 +18,11 @@ export default class DocumentEditorHeader extends React.Component {
     requestFileDeletion: PropTypes.func,
     resetState: PropTypes.func,
     toggleLoading: PropTypes.func,
-    fetchPdfImages: PropTypes.func,
+    fetchPdfPages: PropTypes.func,
     changeState: PropTypes.func,
     pages: PropTypes.array,
     pagesSrc: PropTypes.array,
     apiObjects: PropTypes.array
-  }
-
-  fetchPdfPages = async () => {
-    this.props.pages.map(async (page, index) => {
-      try {
-        const response = await fetch(`${apiUrl}/api/images/pdf/${page.name}/${index}`)
-        const buffer = await response.arrayBuffer()
-        const base64Flag = 'data:image/png;base64,'
-        const imageStr = arrayBufferToBase64(buffer)
-        const src = base64Flag + imageStr
-        const pagesSrc = [...this.props.pagesSrc, {name: page.name, src, index}].sort(
-          (a, b) => a.index - b.index
-        )
-
-        return this.props.changeState({
-          pagesSrc,
-          loading: false
-        })
-      } catch (err) {
-        this.props.changeState({loading: false})
-        this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
-      }
-    })
   }
 
   submit = async () => {
@@ -81,7 +58,7 @@ export default class DocumentEditorHeader extends React.Component {
         pages: data.pages,
         size
       })
-      return this.fetchPdfPages()
+      return this.props.fetchPdfPages()
     } catch (error) {
       this.props.showMessage('Error al procesar el archivo')
     }

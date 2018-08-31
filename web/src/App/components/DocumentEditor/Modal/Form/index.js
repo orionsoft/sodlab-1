@@ -292,7 +292,6 @@ class DocumentEditorForm extends React.Component {
             apiObjects: [...this.props.apiObjects, ...newPaths]
           })
         }
-        console.log('new object paths', this.props.apiObjects)
         return this.fetchPdfPage()
       }
     } catch (err) {

@@ -6,6 +6,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import {ClientConsumer} from '../context'
+import arrayBufferToBase64 from '../helpers/arrayBufferToBase64'
 import Header from './Header'
 import Pagination from './Pagination'
 import Body from './Body'
@@ -42,6 +43,7 @@ export default class Main extends React.Component {
     client: null,
     loading: false,
     filename: '',
+    size: 0,
     apiFilename: '',
     pagesSrc: [],
     pages: [],
@@ -51,6 +53,32 @@ export default class Main extends React.Component {
     signatureImages: [],
     isOptionsMenuOpen: false,
     apiObjects: []
+  }
+
+  async componentDidMount() {
+    if (this.props.value) {
+      this.toggleLoading()
+      const {bucket, key, name, size} = this.props.value
+      try {
+        const response = await fetch(`${apiUrl}/api/files/aws/get`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          body: JSON.stringify({bucket, key})
+        })
+        const data = await response.json()
+        this.setState({
+          apiFilename: data.apiFilename,
+          filename: name,
+          pages: data.pages,
+          size
+        })
+        this.fetchPdfPages()
+      } catch (error) {
+        this.props.showMessage('Error al procesar el archivo')
+      }
+    }
   }
 
   toggleLoading = () => {
@@ -76,6 +104,29 @@ export default class Main extends React.Component {
   }
 
   changeState = changes => this.setState({...changes})
+
+  fetchPdfPages = async () => {
+    this.state.pages.map(async (page, index) => {
+      try {
+        const response = await fetch(`${apiUrl}/api/images/pdf/${page.name}/${index}`)
+        const buffer = await response.arrayBuffer()
+        const base64Flag = 'data:image/png;base64,'
+        const imageStr = arrayBufferToBase64(buffer)
+        const src = base64Flag + imageStr
+        const pagesSrc = [...this.state.pagesSrc, {name: page.name, src, index}].sort(
+          (a, b) => a.index - b.index
+        )
+
+        return this.setState({
+          pagesSrc,
+          loading: false
+        })
+      } catch (err) {
+        this.props.changeState({loading: false})
+        this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
+      }
+    })
+  }
 
   requestFileDeletion = () => {
     const fileName = this.state.apiFilename
@@ -114,7 +165,6 @@ export default class Main extends React.Component {
           value={this.props.value}
           passProps={this.props.passProps}
           environmentId={this.props.environmentId}
-          selectOptions={this.props.selectOptions}
           showMessage={this.props.showMessage}
           errorMessage={this.props.errorMessage}
           filename={this.state.filename}
@@ -122,7 +172,7 @@ export default class Main extends React.Component {
           requestFileDeletion={this.requestFileDeletion}
           resetState={this.resetState}
           toggleLoading={this.toggleLoading}
-          fetchPdfImages={this.fetchPdfImages}
+          fetchPdfPages={this.fetchPdfPages}
           changeState={this.changeState}
           pages={this.state.pages}
           pagesSrc={this.state.pagesSrc}
