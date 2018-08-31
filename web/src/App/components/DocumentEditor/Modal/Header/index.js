@@ -26,7 +26,6 @@ export default class DocumentEditorHeader extends React.Component {
   }
 
   fetchPdfPages = async () => {
-    console.log(this.props.pages)
     this.props.pages.map(async (page, index) => {
       try {
         const response = await fetch(`${apiUrl}/api/images/pdf/${page.name}/${index}`)
@@ -76,7 +75,6 @@ export default class DocumentEditorHeader extends React.Component {
         body: formData
       })
       const data = await response.json()
-      console.log(data)
       this.props.changeState({
         apiFilename: data.apiFilename,
         filename,
