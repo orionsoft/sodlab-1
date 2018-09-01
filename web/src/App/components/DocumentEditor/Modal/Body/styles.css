@@ -5,30 +5,6 @@
 	flex-direction: row;
 }
 
-:local(.pdfImageContainer) {
-	flex: 7;
-	background-color: #fafafa;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	overflow-y: auto;
-	border-right: 1px solid rgba(70,70,70,.2);
-}
-
-:local(.pdfImageContainer) :local(.helpMessageContainer) {
-	width: 100%;
-	display: flex;
-	justify-content: left;
-}
-
-:local(.pdfImageContainer) :local(.helpMessageContainer) span {
-	font-size: 15px;
-}
-
-:local(.pdfImageContainer) img {
-	margin: 10px 0;
-}
-
 :local(.imagesContainer) {
 	flex: 1;
 	background-color: #fafafa;
@@ -56,6 +32,30 @@
 	width: 80%;
 	font-size: 10px;
 	overflow-x: hidden;
+}
+
+:local(.pdfImageContainer) {
+	flex: 7;
+	background-color: #fafafa;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	overflow-y: auto;
+	border-right: 1px solid rgba(70,70,70,.2);
+}
+
+:local(.pdfImageContainer) :local(.helpMessageContainer) {
+	width: 100%;
+	display: flex;
+	justify-content: left;
+}
+
+:local(.pdfImageContainer) :local(.helpMessageContainer) span {
+	font-size: 15px;
+}
+
+:local(.pdfImageContainer) img {
+	margin: 10px 0;
 }
 
 :local(.optionsContainer) {

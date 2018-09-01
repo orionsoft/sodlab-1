@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaSpinner } from 'react-icons/lib/fa'
+import {FaSpinner} from 'react-icons/lib/fa'
 import styles from './styles.css'
 
 export default class DocumentEditorPagination extends React.Component {
@@ -24,8 +24,8 @@ export default class DocumentEditorPagination extends React.Component {
       const page = image.name.split('.')[2].replace('_', '')
       const style =
         page === this.props.activePage.toString()
-          ? { boxShadow: 'rgb(0,159,255) 0 0 1px 1px' }
-          : { boxShadow: '' }
+          ? {boxShadow: 'rgb(0,159,255) 0 0 1px 1px'}
+          : {boxShadow: ''}
 
       return (
         <img

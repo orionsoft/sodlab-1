@@ -1,5 +1,11 @@
-const isProduction = window.location.hostname.includes('sodlab')
+import getEnv from 'App/Root/getEnv'
 
-const apiUrl = isProduction ? 'https://api.sodlab-document-editor.com' : 'http://localhost:8000'
+const urls = {
+  local: `http://${window.location.hostname}:8000`,
+  dev: 'https://beta.sodlab-document-editor.com',
+  prod: 'https://api.sodlab-document-editor.com'
+}
 
-export default apiUrl
+const env = getEnv()
+
+export default urls[env]

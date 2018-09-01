@@ -44,7 +44,7 @@ class DocumentEditorForm extends React.Component {
     // document editor props
     changeState: PropTypes.func,
     insertImage: PropTypes.func,
-    pdfFileName: PropTypes.string,
+    apiFilename: PropTypes.string,
     filename: PropTypes.string,
     pages: PropTypes.array,
     pagesSrc: PropTypes.array,
@@ -52,7 +52,7 @@ class DocumentEditorForm extends React.Component {
     activePage: PropTypes.number,
     posX: PropTypes.number,
     posY: PropTypes.number,
-    wsqKeys: PropTypes.array,
+    apiObjects: PropTypes.array,
     // ERP props
     showMessage: PropTypes.func,
     selectOptions: PropTypes.object,
@@ -72,7 +72,19 @@ class DocumentEditorForm extends React.Component {
     captureFingerprintPng: true,
     captureFingerprintWsq: false,
     activeFingerprint: null,
-    activeSignature: null
+    activeSignature: null,
+    fileId: ''
+  }
+
+  componentDidMount() {
+    if (!this.props.filename) return
+
+    const filenameLength = this.props.filename.split('.').length
+    const why = this.props.filename
+      .split('.')
+      .splice(0, filenameLength - 1)
+      .join(' ')
+    return this.setState({why})
   }
 
   openModal = () => {
@@ -81,6 +93,7 @@ class DocumentEditorForm extends React.Component {
 
   closeModal = () => {
     localStorage.removeItem('fingerprintPng')
+    if (localStorage.getItem(this.state.fileId) !== null) localStorage.removeItem(this.state.fileId)
     this.setState({modalIsOpen: false})
   }
 
@@ -102,7 +115,10 @@ class DocumentEditorForm extends React.Component {
 
   captureFingerprintWsq = () => {
     this.props.stopFingerprintCapturing()
-    this.props.startFingerprint('compressed', this.state.rut)
+    const date = new Date()
+    const currentTime = date.getTime().toString()
+    this.setState({fileId: `${currentTime}_${this.state.rut}`})
+    this.props.startFingerprint('compressed', `${currentTime}_${this.state.rut}`)
   }
 
   insertImage = (type, id, imageSrc, name, rut) => {
@@ -150,22 +166,21 @@ class DocumentEditorForm extends React.Component {
     }
   }
 
-  fetchPdfPage = page => {
+  fetchPdfPage = () => {
     this.props.pages
-      .filter(fileInfo => fileInfo.page === parseInt(page, 10))
-      .map(async fileInfo => {
-        const randomNumber = Math.floor(Math.random() * 10000)
+      .filter(fileInfo => fileInfo.page === this.props.activePage.toString())
+      .map(async (fileInfo, index) => {
         try {
-          const response = await fetch(`${apiUrl}/api/images/pdf/${fileInfo.name}/${randomNumber}`)
+          const response = await fetch(`${apiUrl}/api/images/pdf/${fileInfo.name}/${index}`)
           const buffer = await response.arrayBuffer()
           const base64Flag = 'data:image/png;base64,'
           const imageStr = arrayBufferToBase64(buffer)
           const src = base64Flag + imageStr
           let {pagesSrc} = this.props
-          pagesSrc[page - 1] = {
+          pagesSrc[this.props.activePage - 1] = {
             name: fileInfo.name,
             src,
-            index: page - 1
+            index: this.props.activePage - 1
           }
           pagesSrc = pagesSrc.sort((a, b) => a.index - b.index)
 
@@ -211,12 +226,22 @@ class DocumentEditorForm extends React.Component {
     const contentType = block[0].split(':')[1]
     const realData = block[1].split(',')[1]
     const blob = this.b64toBlob(realData, contentType)
-    const imageIdArray = signature.id.split('.')
-    const identifier = type === '' ? imageIdArray[imageIdArray.length - 1] : type
-    formData.append(identifier, blob, signature.id)
-    formData.append(identifier, identifier)
+    // const imageIdArray = signature.id.split('.')
+    // const identifier = type === '' ? imageIdArray[imageIdArray.length - 1] : type
+    formData.append(type, blob, `${signature.id}.png`)
     formData.append('signer_name', signature.name)
     formData.append('signer_rut', signature.rut)
+
+    if (type === 'fingerprint') {
+      const wsqBase64 = localStorage.getItem(this.state.fileId)
+      const block = wsqBase64.split(';')
+      const contentType = block[0].split(':')[1]
+      const realData = block[1].split(',')[1]
+      const blob = this.b64toBlob(realData, contentType)
+      formData.append('fingerprintWsq', blob, `${this.state.fileId}.wsq`)
+      localStorage.removeItem(this.state.fileId)
+    }
+
     return
   }
 
@@ -251,7 +276,7 @@ class DocumentEditorForm extends React.Component {
     const formData = new FormData(form)
     this.appendDataToForm('signature', activeSignature, formData)
     this.appendDataToForm('fingerprint', activeFingerprint, formData)
-    formData.append('pdfFileName', this.props.pdfFileName)
+    formData.append('pdfFileName', this.props.apiFilename)
     formData.append('page', this.props.activePage - 1)
     const date = formattedDate()
     formData.append('currentDate', date.currentDate)
@@ -263,18 +288,22 @@ class DocumentEditorForm extends React.Component {
         body: formData
       })
       const data = await response.json()
-      if (data.message === undefined) {
+      if (!data) {
         this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
 
         return this.props.changeState({loading: false})
       } else {
-        const wsqKeys = [...this.props.wsqKeys, this.state.rut]
         localStorage.removeItem('fingerprintPng')
-        this.props.changeState({
-          pages: data.message,
-          wsqKeys
-        })
-        return this.fetchPdfPage(this.props.activePage)
+        if (data.paths) {
+          const newPaths = data.paths.map(file => {
+            const fileExtension = file.type === 'fingerprint' ? 'wsq' : 'png'
+            return {fileId: `${this.state.fileId}.${fileExtension}`, path: file.path}
+          })
+          this.props.changeState({
+            apiObjects: [...this.props.apiObjects, ...newPaths]
+          })
+        }
+        return this.fetchPdfPage()
       }
     } catch (err) {
       this.props.showMessage('No se ha podido firmar el documento')
@@ -325,7 +354,6 @@ class DocumentEditorForm extends React.Component {
             </div>
             <div className={styles.personalInfoContainer}>
               <SignerRut
-                styles={styles}
                 client={this.state.client}
                 handleRutChange={this.handleRutChange}
                 collectionId={this.props.collectionId}
@@ -336,7 +364,6 @@ class DocumentEditorForm extends React.Component {
               />
               {this.state.client && (
                 <SignerName
-                  styles={styles}
                   elementId={this.state.client}
                   handleWhoChange={this.handleWhoChange}
                   collectionId={this.props.collectionId}
@@ -345,15 +372,20 @@ class DocumentEditorForm extends React.Component {
                 />
               )}
               <SignerReason
-                styles={styles}
-                elementId={this.props.client}
                 why={this.state.why}
                 handleWhyChange={this.handleWhyChange}
-                collectionId={this.props.collectionId}
                 filename={this.props.filename}
               />
             </div>
             <div className={styles.buttonsContainer}>
+              <Button
+                linkButton={false}
+                label="cancelar"
+                primary={false}
+                danger={true}
+                big={false}
+                onClick={this.closeModal}
+              />
               <Button
                 linkButton={false}
                 label="aceptar"
@@ -368,14 +400,6 @@ class DocumentEditorForm extends React.Component {
                   )
                 }
                 onClick={this.submit}
-              />
-              <Button
-                linkButton={false}
-                label="cancelar"
-                primary={false}
-                danger={true}
-                big={false}
-                onClick={this.closeModal}
               />
             </div>
           </div>

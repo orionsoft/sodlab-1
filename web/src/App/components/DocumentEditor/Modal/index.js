@@ -6,6 +6,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import {ClientConsumer} from '../context'
+import arrayBufferToBase64 from '../helpers/arrayBufferToBase64'
 import Header from './Header'
 import Pagination from './Pagination'
 import Body from './Body'
@@ -42,7 +43,8 @@ export default class Main extends React.Component {
     client: null,
     loading: false,
     filename: '',
-    pdfFileName: '',
+    size: 0,
+    apiFilename: '',
     pagesSrc: [],
     pages: [],
     activePage: 1,
@@ -50,7 +52,33 @@ export default class Main extends React.Component {
     posY: 0,
     signatureImages: [],
     isOptionsMenuOpen: false,
-    wsqKeys: []
+    apiObjects: []
+  }
+
+  async componentDidMount() {
+    if (this.props.value) {
+      this.toggleLoading()
+      const {bucket, key, name, size} = this.props.value
+      try {
+        const response = await fetch(`${apiUrl}/api/files/aws/get`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          body: JSON.stringify({bucket, key})
+        })
+        const data = await response.json()
+        this.setState({
+          apiFilename: data.apiFilename,
+          filename: name,
+          pages: data.pages,
+          size
+        })
+        this.fetchPdfPages()
+      } catch (error) {
+        this.props.showMessage('Error al procesar el archivo')
+      }
+    }
   }
 
   toggleLoading = () => {
@@ -63,7 +91,7 @@ export default class Main extends React.Component {
       loading: false,
       file: null,
       filename: '',
-      pdfFileName: '',
+      apiFilename: '',
       pagesSrc: [],
       pages: [],
       activePage: 1,
@@ -71,24 +99,54 @@ export default class Main extends React.Component {
       posY: 0,
       signatureImages: [],
       isOptionsMenuOpen: false,
-      wsqKeys: []
+      apiObjects: []
     })
   }
 
   changeState = changes => this.setState({...changes})
 
+  fetchPdfPages = async () => {
+    this.state.pages.map(async (page, index) => {
+      try {
+        const response = await fetch(`${apiUrl}/api/images/pdf/${page.name}/${index}`)
+        const buffer = await response.arrayBuffer()
+        const base64Flag = 'data:image/png;base64,'
+        const imageStr = arrayBufferToBase64(buffer)
+        const src = base64Flag + imageStr
+        const pagesSrc = [...this.state.pagesSrc, {name: page.name, src, index}].sort(
+          (a, b) => a.index - b.index
+        )
+
+        return this.setState({
+          pagesSrc,
+          loading: false
+        })
+      } catch (err) {
+        this.props.changeState({loading: false})
+        this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
+      }
+    })
+  }
+
   requestFileDeletion = () => {
-    const splitFileName = this.state.pdfFileName.split('.')
-    const fileName = `${splitFileName[0]}.${splitFileName[1]}`
-    const body = {fileName, secret: 'sodlab_allow_delete'}
+    const fileName = this.state.apiFilename
 
     fetch(`${apiUrl}/api/files`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({fileName, secret: 'sodlab_allow_delete'})
     })
+    if (this.state.apiObjects.length > 0) {
+      fetch(`${apiUrl}/api/objects`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({apiObjects: this.state.apiObjects, secret: 'sodlab_allow_delete'})
+      })
+    }
   }
 
   closeOptionsMenu = () => this.setState({isOptionsMenuOpen: false})
@@ -107,19 +165,18 @@ export default class Main extends React.Component {
           value={this.props.value}
           passProps={this.props.passProps}
           environmentId={this.props.environmentId}
-          selectOptions={this.props.selectOptions}
           showMessage={this.props.showMessage}
           errorMessage={this.props.errorMessage}
           filename={this.state.filename}
-          pdfFileName={this.state.pdfFileName}
+          apiFilename={this.state.apiFilename}
           requestFileDeletion={this.requestFileDeletion}
           resetState={this.resetState}
           toggleLoading={this.toggleLoading}
-          fetchPdfImages={this.fetchPdfImages}
+          fetchPdfPages={this.fetchPdfPages}
           changeState={this.changeState}
           pages={this.state.pages}
           pagesSrc={this.state.pagesSrc}
-          wsqKeys={this.state.wsqKeys}
+          apiObjects={this.state.apiObjects}
         />
         <Pagination
           loading={this.state.loading}
@@ -134,7 +191,7 @@ export default class Main extends React.Component {
           resetState={this.resetState}
           requestFileDeletion={this.requestFileDeletion}
           filename={this.state.filename}
-          pdfFileName={this.state.pdfFileName}
+          apiFilename={this.state.apiFilename}
           size={this.state.size}
           generateUploadCredentials={this.props.generateUploadCredentials}
           onChange={this.props.onChange}
@@ -144,7 +201,7 @@ export default class Main extends React.Component {
           pagesSrc={this.state.pagesSrc}
           activePage={this.state.activePage}
           updatePlaceholder={this.props.updatePlaceholder}
-          wsqKeys={this.state.wsqKeys}
+          apiObjects={this.state.apiObjects}
           collectionId={this.props.passProps.collectionId}
         />
         <Modal
@@ -162,7 +219,7 @@ export default class Main extends React.Component {
                   insertImage={this.insertImage}
                   handleSubmitImg={this.handleSubmitImg}
                   changeState={this.changeState}
-                  pdfFileName={this.state.pdfFileName}
+                  apiFilename={this.state.apiFilename}
                   pages={this.state.pages}
                   pagesSrc={this.state.pagesSrc}
                   signatureImages={this.state.signatureImages}
@@ -175,7 +232,7 @@ export default class Main extends React.Component {
                   valueKey={this.props.passProps.valueKey}
                   fieldName={this.props.fieldName}
                   passProps={this.props.passProps}
-                  wsqKeys={this.state.wsqKeys}
+                  apiObjects={this.state.apiObjects}
                 />
               )}
             </ClientConsumer>
