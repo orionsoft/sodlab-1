@@ -22,6 +22,8 @@ import Indicators from './Indicators'
 import Endpoints from './Endpoints'
 import Validations from './Validations'
 import Buttons from './Buttons'
+import withRoles from 'App/helpers/auth/withRoles'
+import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 
 @withGraphQL(gql`
   query getEnvironment($environmentId: ID) {
@@ -30,23 +32,47 @@ import Buttons from './Buttons'
       name
       url
     }
+    me {
+      _id
+      environmentsAuthorized
+    }
   }
 `)
 @withRouter
+@withRoles
+@withMessage
 export default class Environment extends React.Component {
   static propTypes = {
+    showMessage: PropTypes.func,
     history: PropTypes.object,
-    environment: PropTypes.object
+    environment: PropTypes.object,
+    me: PropTypes.object,
+    roles: PropTypes.array
   }
 
   componentDidMount() {
-    const {environment} = this.props
-    document.title = `Admin | ${environment.name}`
+    const {environment, me, roles} = this.props
+    if (
+      roles.includes('superAdmin') ||
+      (me.environmentsAuthorized.includes(environment._id) && roles.includes('admin'))
+    ) {
+      document.title = `Admin | ${environment.name}`
+    }
   }
 
   render() {
-    const {environment} = this.props
+    const {environment, me, roles} = this.props
+    if (!roles.includes('superAdmin')) {
+      if (
+        !roles.includes('admin') ||
+        (roles.includes('admin') && !me.environmentsAuthorized.includes(environment._id))
+      ) {
+        this.props.showMessage('No tienes permisos para acceder a ese ambiente')
+        this.props.history.push('/admin')
+      }
+    }
     if (!environment) return null
+
     return (
       <div className={styles.container}>
         <Layout environment={this.props.environment}>

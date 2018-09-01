@@ -28,7 +28,7 @@ export default resolver({
   },
   returns: Environment,
   mutation: true,
-  role: 'admin',
+  role: 'superAdmin',
   async resolve({_id, name, url}, viewer) {
     const envId = await Environments.insert({_id, name, url, createdAt: new Date()})
     return await Environments.findOne(envId)
