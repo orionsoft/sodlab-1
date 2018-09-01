@@ -18,6 +18,7 @@ import multipleSelect from './multipleSelect'
 import document from './document'
 import textArea from './textArea'
 import fileURL from './fileURL'
+import richText from './richText'
 
 export default {
   percentage,
@@ -39,5 +40,6 @@ export default {
   multipleSelect,
   document,
   textArea,
-  fileURL
+  fileURL,
+  richText
 }
