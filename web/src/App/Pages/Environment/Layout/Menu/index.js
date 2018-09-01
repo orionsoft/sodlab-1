@@ -18,17 +18,7 @@ import Links from './Links'
       _id
       name
     }
-    links(limit: null, environmentId: $environmentId) {
-      items {
-        title
-        type
-        path
-        fields {
-          title
-          path
-        }
-      }
-    }
+    sideBar(environmentId: $environmentId)
   }
 `)
 @withRouter
@@ -36,7 +26,7 @@ export default class Menu extends React.Component {
   static propTypes = {
     location: PropTypes.object,
     environment: PropTypes.object,
-    links: PropTypes.object,
+    sideBar: PropTypes.array,
     toggleMenu: PropTypes.func
   }
 
@@ -52,7 +42,7 @@ export default class Menu extends React.Component {
   }
 
   renderLinks() {
-    return this.props.links.items.map((link, key) => {
+    return this.props.sideBar.map((link, key) => {
       return <Links link={link} key={key} />
     })
   }
