@@ -51,7 +51,7 @@ export default class Environment extends React.Component {
 
   componentDidMount() {
     const {environment, me, roles} = this.props
-    if (!roles.includes('superAdmin') && !me.myEnvironments.includes(environment._id)) {
+    if (roles.includes('superAdmin') || me.myEnvironments.includes(environment._id)) {
       document.title = `${environment.name}`
     } else {
       document.title = `denegado`
