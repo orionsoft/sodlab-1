@@ -28,6 +28,7 @@ import fileURL from './fileURL'
 import validationSelect from './validationSelect'
 import buttonSelect from './buttonSelect'
 import richText from './richText'
+import colorPicker from './colorPicker'
 
 export default {
   richText,
@@ -59,5 +60,6 @@ export default {
   document,
   textArea,
   fileURL,
-  validationSelect
+  validationSelect,
+  colorPicker
 }

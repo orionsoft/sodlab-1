@@ -17,6 +17,8 @@ import Links from './Links'
     environment(environmentId: $environmentId) {
       _id
       name
+      sideBarColor
+      sideBarTextColor
     }
     sideBar(environmentId: $environmentId)
   }
@@ -31,19 +33,25 @@ export default class Menu extends React.Component {
   }
 
   renderLink({title, path}, useFullToCheck) {
+    const {environment} = this.props
     const active = useFullToCheck
       ? this.props.location.pathname === path
       : this.props.location.pathname.startsWith(path)
     return (
-      <Link key={path} to={path} className={active ? styles.itemActive : styles.menuItem}>
+      <Link
+        key={path}
+        to={path}
+        className={active ? styles.itemActive : styles.menuItem}
+        style={{color: environment.sideBarTextColor || '#fff'}}>
         {title}
       </Link>
     )
   }
 
   renderLinks() {
+    const {sideBarTextColor} = this.props.environment
     return this.props.sideBar.map((link, key) => {
-      return <Links link={link} key={key} />
+      return <Links link={link} key={key} customColor={sideBarTextColor} />
     })
   }
 
@@ -55,11 +63,19 @@ export default class Menu extends React.Component {
   render() {
     const {environment} = this.props
     return (
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        style={{
+          backgroundColor: environment.sideBarColor || '#111',
+          color: environment.sideBarTextColor || '#fff'
+        }}>
         <div className={styles.menuButton}>
           <CloseIcon onClick={this.toggleMenu} />
         </div>
-        <Link to="/" className={styles.title}>
+        <Link
+          to="/"
+          className={styles.title}
+          style={{color: environment.sideBarTextColor || '#fff'}}>
           {environment.name}
         </Link>
         <div className={styles.divider} />

@@ -10,6 +10,7 @@ import FileManager from './fields/FileManager'
 import RichText from './fields/RichText'
 import Document from './fields/Document'
 import fieldTypes from './fieldTypes'
+import ColorPicker from './fields/ColorPicker'
 
 const singleFieldMap = {
   email: Text,
@@ -24,7 +25,8 @@ const singleFieldMap = {
   blackbox: Blackbox,
   file: FileManager,
   document: Document,
-  richText: RichText
+  richText: RichText,
+  colorpicker: ColorPicker
 }
 
 const arrayFieldMap = {}

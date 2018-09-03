@@ -19,6 +19,7 @@ import document from './document'
 import textArea from './textArea'
 import fileURL from './fileURL'
 import richText from './richText'
+import colorPicker from './colorPicker'
 
 export default {
   percentage,
@@ -41,5 +42,6 @@ export default {
   document,
   textArea,
   fileURL,
-  richText
+  richText,
+  colorPicker
 }

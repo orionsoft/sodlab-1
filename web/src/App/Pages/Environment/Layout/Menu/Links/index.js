@@ -5,23 +5,28 @@ import {Link} from 'react-router-dom'
 import {withRouter} from 'react-router'
 import autobind from 'autobind-decorator'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import Icon from 'App/components/Icon'
 
 @withRouter
 export default class Menu extends React.Component {
   static propTypes = {
     location: PropTypes.object,
-    link: PropTypes.object
+    link: PropTypes.object,
+    customColor: PropTypes.string
   }
 
   state = {show: false}
 
   renderLink({title, path}, isPath) {
+    const {customColor} = this.props
     const active = this.props.location.pathname === path
     const style = isPath ? 'menuItem' : 'subMenuItem'
     const styleActive = isPath ? 'itemActive' : 'subItemActive'
     return (
-      <Link key={path} to={path} className={active ? styles[styleActive] : styles[style]}>
+      <Link
+        key={path}
+        to={path}
+        className={active ? styles[styleActive] : styles[style]}
+        style={{color: customColor || '#fff'}}>
         {title}
       </Link>
     )

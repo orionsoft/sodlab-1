@@ -101,5 +101,19 @@ export default {
     fieldType: 'checkbox',
     fieldOptions: {label: 'Activar exento en boletas'},
     defaultValue: false
+  },
+  sideBarColor: {
+    type: String,
+    label: 'Color de SideBar',
+    fieldType: 'colorPicker',
+    fieldOptions: {defaultColor: '#111'},
+    optional: true
+  },
+  sideBarTextColor: {
+    type: String,
+    label: 'Color de texto de SideBar',
+    fieldType: 'colorPicker',
+    fieldOptions: {defaultColor: '#fff'},
+    optional: true
   }
 }
