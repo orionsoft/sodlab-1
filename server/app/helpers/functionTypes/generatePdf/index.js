@@ -48,12 +48,14 @@ export default {
   async execute({options, params}) {
     if (!options.urlField) throw Error('urlField no encontrado')
     const parameters = options.parameters
-      .split(',')
-      .map(p => {
-        const cleanedParameter = p.trim()
-        return params[cleanedParameter]
-      })
-      .filter(i => i)
+      ? options.parameters
+        .split(',')
+        .map(p => {
+          const cleanedParameter = p.trim()
+          return params[cleanedParameter]
+        })
+        .filter(i => i)
+      : []
 
     const indicators = []
     if (options.indicatorsIds) {
