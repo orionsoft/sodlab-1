@@ -35,7 +35,9 @@ import NotAllowed from 'App/Pages/Auth/NotAllowed'
     }
     me {
       _id
-      myEnvironments
+      environments {
+        _id
+      }
     }
   }
 `)
@@ -50,8 +52,13 @@ export default class Environment extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     const {environment, me, roles} = this.props
-    if (roles.includes('superAdmin') || me.myEnvironments.includes(environment._id)) {
+    const environmentsIds = me.environments.map(env => {
+      return env._id
+    })
+    console.log(environmentsIds)
+    if (roles.includes('superAdmin') || environmentsIds.includes(environment._id)) {
       document.title = `${environment.name}`
     } else {
       document.title = `denegado`
@@ -91,9 +98,14 @@ export default class Environment extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     const {environment, roles, me} = this.props
     if (!environment) return null
-    if (!roles.includes('superAdmin') && !me.myEnvironments.includes(environment._id)) {
+    const environmentsIds = me.environments.map(env => {
+      return env._id
+    })
+    console.log({environmentsIds})
+    if (!roles.includes('superAdmin') && !environmentsIds.includes(environment._id)) {
       return <NotAllowed />
     }
 

@@ -1,7 +1,7 @@
 import email from './email'
-import myEnvironments from './myEnvironments'
+import environments from './environments'
 
 export default {
-  myEnvironments,
+  environments,
   email
 }
