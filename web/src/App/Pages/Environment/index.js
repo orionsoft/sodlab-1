@@ -52,12 +52,10 @@ export default class Environment extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
     const {environment, me, roles} = this.props
     const environmentsIds = me.environments.map(env => {
       return env._id
     })
-    console.log(environmentsIds)
     if (roles.includes('superAdmin') || environmentsIds.includes(environment._id)) {
       document.title = `${environment.name}`
     } else {
@@ -98,13 +96,11 @@ export default class Environment extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     const {environment, roles, me} = this.props
     if (!environment) return null
     const environmentsIds = me.environments.map(env => {
       return env._id
     })
-    console.log({environmentsIds})
     if (!roles.includes('superAdmin') && !environmentsIds.includes(environment._id)) {
       return <NotAllowed />
     }
