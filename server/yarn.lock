@@ -3411,6 +3411,10 @@ write@^0.2.1:
   dependencies:
     mkdirp "^0.5.1"
 
+written-number@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/written-number/-/written-number-0.8.1.tgz#6ca4f248e06f929b46ce3ce9bb4779d18fc95426"
+
 ws@^5.2.0:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/ws/-/ws-5.2.2.tgz#dffef14866b8e8dc9133582514d1befaf96e980f"

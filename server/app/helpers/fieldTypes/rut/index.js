@@ -29,7 +29,8 @@ export default {
       return 'invalidRut'
     }
   },
-  autoValue: async function(value, options) {
+  autoValue: async function (value, options) {
+    if (!value) return
     let parts = value.split('')
     let last = parts.pop()
     let final = numeral(parts.join('')).format('0,0') + '-' + last
