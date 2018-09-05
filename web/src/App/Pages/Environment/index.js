@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
-import withEnvironmentUser from 'App/helpers/auth/withEnvironmentUser'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
@@ -41,7 +40,6 @@ import NotAllowed from 'App/Pages/Auth/NotAllowed'
     }
   }
 `)
-@withEnvironmentUser
 export default class Environment extends React.Component {
   static propTypes = {
     environment: PropTypes.object,
@@ -51,15 +49,22 @@ export default class Environment extends React.Component {
     me: PropTypes.object
   }
 
-  componentDidMount() {
+  hasAccess() {
     const {environment, me, roles} = this.props
+    if (!me) return false
     const environmentsIds = me.environments.map(env => {
       return env._id
     })
-    if (roles.includes('superAdmin') || environmentsIds.includes(environment._id)) {
+    const has = roles.includes('superAdmin') || environmentsIds.includes(environment._id)
+    return has
+  }
+
+  componentDidMount() {
+    const {environment} = this.props
+    if (this.hasAccess()) {
       document.title = `${environment.name}`
     } else {
-      document.title = `denegado`
+      document.title = `Acceso denegado`
     }
   }
 
@@ -96,12 +101,10 @@ export default class Environment extends React.Component {
   }
 
   render() {
-    const {environment, roles, me} = this.props
+    const {environment} = this.props
     if (!environment) return null
-    const environmentsIds = me.environments.map(env => {
-      return env._id
-    })
-    if (!roles.includes('superAdmin') && !environmentsIds.includes(environment._id)) {
+
+    if (!this.hasAccess()) {
       return <NotAllowed />
     }
 

@@ -4,7 +4,6 @@ import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
 import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
-import NotAllowed from 'App/Pages/Auth/NotAllowed'
 
 export default function(ComposedComponent) {
   @withUserId
@@ -26,18 +25,7 @@ export default function(ComposedComponent) {
       environmentUser: PropTypes.object
     }
 
-    state = {envUserId: false}
-
-    static getDerivedStateFromProps(props, state) {
-      const {environmentUser, environmentId} = props
-      if (!environmentUser || environmentUser.environmentId !== environmentId) {
-        return {envUserId: false}
-      }
-      return {envUserId: true}
-    }
-
     render() {
-      if (!this.state.envUserId) return <NotAllowed />
       return <ComposedComponent environmentUser={this.props.environmentUser} />
     }
   }
