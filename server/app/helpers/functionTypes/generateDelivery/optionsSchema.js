@@ -1,7 +1,7 @@
 export default {
   maestroProductosCollectionId: {
     type: String,
-    label: 'Colleción de Maestro Productos',
+    label: 'Colección de Maestro Productos',
     fieldType: 'collectionSelect'
   },
   skuMaestroProductosCollection: {
@@ -12,7 +12,7 @@ export default {
   },
   pedidosCollectionId: {
     type: String,
-    label: 'Colleción de Pedidos',
+    label: 'Colección de Pedidos',
     fieldType: 'collectionSelect'
   },
   pedidosMedioPago: {
@@ -53,7 +53,7 @@ export default {
   },
   clientsCollectionId: {
     type: String,
-    label: 'Colleción de Clientes',
+    label: 'Colección de Clientes',
     fieldType: 'collectionSelect'
   },
   receptorRut: {
@@ -152,67 +152,78 @@ export default {
   },
   deliveryID: {
     type: String,
-    label: 'Campo para almacenar ID de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar ID de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryTipodoc: {
     type: String,
-    label: 'Campo para almacenar Tipo de Documento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Tipo de Documento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryFolio: {
     type: String,
-    label: 'Campo para almacenar Folio de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Folio de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryMontoNeto: {
     type: String,
-    label: 'Campo para almacenar Monto Neto de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Monto Neto de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryMontoIva: {
     type: String,
-    label: 'Campo para almacenar Monto Iva de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Monto Iva de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryMontoTotal: {
     type: String,
-    label: 'Campo para almacenar Monto Total de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Monto Total de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryExento: {
     type: String,
-    label: 'Campo para almacenar Monto Exento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Monto Exento de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryEstado: {
     type: String,
-    label: 'Campo para almacenar Estado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Estado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryTipodespacho: {
     type: String,
-    label: 'Campo para almacenar Tipo Despacho de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Tipo Despacho de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryTipotraslado: {
     type: String,
-    label: 'Campo para almacenar Tipo Traslado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Tipo Traslado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
   deliveryFile: {
     type: String,
-    label: 'Campo para almacenar Archivo de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
+    label:
+      'Campo para almacenar Archivo de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
