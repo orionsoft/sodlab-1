@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {MdNoteAdd} from 'react-icons/lib/md'
 import apiUrl from '../../helpers/url'
-import arrayBufferToBase64 from '../../helpers/arrayBufferToBase64'
 import styles from './styles.css'
 
 export default class DocumentEditorHeader extends React.Component {
