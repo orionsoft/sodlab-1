@@ -4,7 +4,7 @@ import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
 import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
-import ForceLogout from 'App/Pages/Auth/ForceLogout'
+import NotAllowed from 'App/Pages/Auth/NotAllowed'
 
 export default function(ComposedComponent) {
   @withUserId
@@ -37,9 +37,8 @@ export default function(ComposedComponent) {
     }
 
     render() {
-      if (!this.props.environmentUser) return null
-      if (!this.state.envUserId) return <ForceLogout />
-      return <ComposedComponent {...this.props} />
+      if (!this.state.envUserId) return <NotAllowed />
+      return <ComposedComponent environmentUser={this.props.environmentUser} />
     }
   }
 

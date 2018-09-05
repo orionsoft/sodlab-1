@@ -35,7 +35,9 @@ import NotAllowed from 'App/Pages/Auth/NotAllowed'
     }
     me {
       _id
-      environmentsAuthorized
+      environments {
+        _id
+      }
     }
   }
 `)
@@ -51,10 +53,10 @@ export default class Environment extends React.Component {
 
   componentDidMount() {
     const {environment, me, roles} = this.props
-    if (
-      roles.includes('superAdmin') ||
-      (roles.includes('admin') && me.environmentsAuthorized.includes(environment._id))
-    ) {
+    const environmentsIds = me.environments.map(env => {
+      return env._id
+    })
+    if (roles.includes('superAdmin') || environmentsIds.includes(environment._id)) {
       document.title = `${environment.name}`
     } else {
       document.title = `denegado`
@@ -95,15 +97,14 @@ export default class Environment extends React.Component {
 
   render() {
     const {environment, roles, me} = this.props
-    if (!roles.includes('superAdmin')) {
-      if (
-        !roles.includes('admin') ||
-        (roles.includes('admin') && !me.environmentsAuthorized.includes(environment._id))
-      ) {
-        return <NotAllowed />
-      }
-    }
     if (!environment) return null
+    const environmentsIds = me.environments.map(env => {
+      return env._id
+    })
+    if (!roles.includes('superAdmin') && !environmentsIds.includes(environment._id)) {
+      return <NotAllowed />
+    }
+
     return (
       <div className={styles.container}>
         <Layout>{this.renderSwitch()}</Layout>
