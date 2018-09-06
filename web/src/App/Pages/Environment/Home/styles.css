@@ -1,11 +1,29 @@
+:local(.parentContainer) {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
 :local(.container) {
   display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   height: 100vh;
+  max-height: 100vh;
+}
+
+:local(.higherContainer) {
+  composes: container;
 }
 
 :local(.cardsContainer) {
   width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  :local(.higherContainer) {
+    margin-top: 60px;
+  }
 }
