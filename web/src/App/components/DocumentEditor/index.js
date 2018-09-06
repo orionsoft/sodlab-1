@@ -14,7 +14,7 @@ export default class DocumentEditor extends React.Component {
     match: PropTypes.object,
     onChange: PropTypes.func,
     passProps: PropTypes.object,
-    value: PropTypes.object
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
   }
 
   state = {
@@ -35,8 +35,24 @@ export default class DocumentEditor extends React.Component {
   }
 
   renderValue() {
-    if (this.props.value) {
-      if (this.props.value.name) {
+    if (this.state.placeholder) {
+      return <div className={styles.noValue}>{this.state.placeholder}</div>
+    } else if (this.props.value) {
+      if (typeof this.props.value === 'string') {
+        const name = this.props.value
+          .split('/')[5]
+          .split('-')
+          .filter((item, index) => index !== 0)
+          .join('-')
+
+        return (
+          <div>
+            <div className={styles.valueContainer}>
+              <div className={styles.name}>{name}</div>
+            </div>
+          </div>
+        )
+      } else if (typeof this.props.value === 'object') {
         return (
           <div>
             <div className={styles.valueContainer}>
@@ -45,13 +61,13 @@ export default class DocumentEditor extends React.Component {
           </div>
         )
       }
-      return <div className={styles.noValue}>{this.state.placeholder}</div>
     } else {
       return <div className={styles.noValue}>Generar Documento</div>
     }
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <ClientProvider>
