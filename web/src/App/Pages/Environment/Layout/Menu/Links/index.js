@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom'
 import {withRouter} from 'react-router'
 import autobind from 'autobind-decorator'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import Icon from 'App/components/Icon'
 
 @withRouter
 export default class Menu extends React.Component {

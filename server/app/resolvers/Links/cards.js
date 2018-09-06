@@ -84,10 +84,7 @@ export default resolver({
           })
           .map(field => {
             cards.push(
-              destruct(
-                ['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path', 'showInHome'],
-                field
-              )
+              destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], field)
             )
           })
       }
