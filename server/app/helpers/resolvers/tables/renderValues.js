@@ -6,7 +6,7 @@ import moment from 'moment'
 const fieldTypesOp = {
   oneOf: async (value, field, tableId) => {
     let result = await tableRelationLabel({tableId, fieldName: field.name, value})
-    return await result
+    return result
   },
   manyOf: async (value, field, tableId) => {
     let array = await tableRelationLabels({tableId, fieldName: field.name, value})
@@ -60,17 +60,29 @@ const fieldTypesOp = {
   }
 }
 
-export default function(tableId, item, colFields) {
+export default async function(tableId, item, colFields, tableFields) {
+  let orderedObject = {}
   let renderedObject = {}
-  Object.keys(item).map(async key => {
-    const field = colFields.find(field => field.name === key)
-    if (item[key]) {
-      renderedObject[field.label] = fieldTypesOp[field.type]
-        ? await fieldTypesOp[field.type](item[key], field, tableId)
-        : item[key]
-    } else {
-      renderedObject[field.label] = null
-    }
+  const renderedArrayOfFiels = await Promise.all(
+    colFields.map(async field => {
+      const tableField = tableFields.find(tField => {
+        return field.name === tField.fieldName
+      })
+      if (item[field.name]) {
+        return {
+          [tableField.label]: fieldTypesOp[field.type]
+            ? await fieldTypesOp[field.type](item[field.name], field, tableId)
+            : item[field.name]
+        }
+      } else {
+        return null
+      }
+    })
+  )
+
+  renderedObject = Object.assign({}, ...renderedArrayOfFiels)
+  tableFields.map(field => {
+    orderedObject[field.label] = renderedObject[field.label]
   })
-  return renderedObject
+  return orderedObject
 }
