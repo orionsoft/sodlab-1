@@ -31,7 +31,6 @@
     "numeral": "^2.0.6",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "showdown": "^1.8.6",
     "xlsx": "^0.13.5"
   },
   "devDependencies": {
