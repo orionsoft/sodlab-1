@@ -1748,6 +1748,10 @@ commander@2.9.x, commander@~2.9.0:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
+commander@^2.10.0:
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.18.0.tgz#2bf063ddee7c7891176981a2cc798e5754bc6970"
+
 commander@^2.14.1:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
@@ -2354,6 +2358,13 @@ domutils@1.5.1:
   dependencies:
     dom-serializer "0"
     domelementtype "1"
+
+dot-object@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/dot-object/-/dot-object-1.7.0.tgz#3b8ecda78b0f2aa52b8871c180fe1b3e09926a41"
+  dependencies:
+    commander "^2.10.0"
+    glob "^7.1.2"
 
 dot-prop@^3.0.0:
   version "3.0.0"
