@@ -14,6 +14,8 @@ export const checkRole = async function(items, envUserRoles) {
       const form = await Forms.findOne(item.formId)
       if (form.roles && form.roles.length && form.roles.some(role => envUserRoles.includes(role))) {
         filteredItems.push(item)
+      } else if (!form.roles || !form.roles.length) {
+        filteredItems.push(item)
       }
     } else {
       filteredItems.push(item)
