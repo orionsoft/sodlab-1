@@ -7,7 +7,6 @@ import ObjectField from './fields/ObjectField'
 import isArray from 'lodash/isArray'
 import Blackbox from './fields/Blackbox'
 import FileManager from './fields/FileManager'
-import RichText from './fields/RichText'
 import Document from './fields/Document'
 import fieldTypes from './fieldTypes'
 
@@ -23,8 +22,7 @@ const singleFieldMap = {
   date: DateText,
   blackbox: Blackbox,
   file: FileManager,
-  document: Document,
-  richText: RichText
+  document: Document
 }
 
 const arrayFieldMap = {}
