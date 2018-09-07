@@ -17,7 +17,7 @@ import Intercom from 'App/components/Intercom'
 @withGraphQL(
   gql`
     query getView($viewId: ID, $environmentId: ID) {
-      view(viewId: $viewId) {
+      view: viewFromEnvironment(viewId: $viewId, environmentId: $environmentId) {
         _id
         title
         intercom
@@ -178,6 +178,7 @@ export default class View extends React.Component {
 
   render() {
     const {view, intercomId, userByEnvironment} = this.props
+    console.log(view)
     return (
       <div className={styles.container}>
         {this.renderFullSizeStyles()}
