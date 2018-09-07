@@ -14,10 +14,6 @@ export default class SignerData extends React.Component {
     handleClientChange: PropTypes.func
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.client === prevProps.client) return
-  // }
-
   shouldComponentUpdate(nextProps) {
     if (this.props.client === nextProps.client) return false
     return true
