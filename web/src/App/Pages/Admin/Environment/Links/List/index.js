@@ -14,12 +14,19 @@ export default class List extends React.Component {
   }
 
   renderRoles(link) {
-    const roles = link.linkRoles
-      .map(linkRole => {
-        return linkRole.name
+    if (link.type === 'path') {
+      const roles = link.linkRoles
+        .map(linkRole => {
+          return linkRole.name
+        })
+        .join(', ')
+      return <div>{roles.length ? roles : 'Vacío'}</div>
+    } else {
+      const roles = link.linkRoles.map(linkRole => {
+        return <div key={linkRole.title}>{linkRole.title + ': ' + linkRole.roles + '\n'}</div>
       })
-      .join(', ')
-    return <div>{roles.length ? roles : 'Vacío'}</div>
+      return <div>{roles.length ? roles : 'Vacío'}</div>
+    }
   }
 
   getTypeLabel(type) {
@@ -34,7 +41,7 @@ export default class List extends React.Component {
     return [
       {name: 'title', title: 'Título'},
       {name: 'type', title: 'Tipo', render: link => this.getTypeLabel(link.type)},
-      {name: 'linkRoles{name}', title: 'Roles', render: link => this.renderRoles(link)},
+      {name: 'linkRoles', title: 'Roles', render: link => this.renderRoles(link)},
       {name: 'position', title: 'Posición'}
     ]
   }
