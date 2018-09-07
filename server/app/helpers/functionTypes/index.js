@@ -9,7 +9,8 @@ import validationSwitch from './validationSwitch'
 import generateBill from './generateBill'
 import generateDelivery from './generateDelivery'
 import generateCreditNote from './generateCreditNote'
-import generatePdf from './generatePdf'
+import sendFileIntegrationApi from './sendFileIntegrationApi'
+import generatePdfFromHTML from './generatePdfFromHTML'
 
 export default {
   updateValue,
@@ -23,5 +24,6 @@ export default {
   generateBill,
   generateDelivery,
   generateCreditNote,
-  generatePdf
+  sendFileIntegrationApi,
+  generatePdfFromHTML
 }

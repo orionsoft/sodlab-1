@@ -18,6 +18,21 @@ export default class Home extends React.Component {
     cards: PropTypes.array
   }
 
+  state = {}
+
+  componentDidMount() {
+    const height = this.cardsContainer.clientHeight
+    this.setState({height})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.cards !== this.props.cards) {
+      const height = this.cardsContainer.clientHeight
+      // this works, don't use getDerivedStateFromProps
+      this.setState({height})
+    }
+  }
+
   renderItems(items) {
     if (!items) return null
     const links = items.map((item, index) => {
@@ -36,8 +51,14 @@ export default class Home extends React.Component {
     const {cards} = this.props
     return (
       <Container>
-        <div className={styles.container}>
-          <div className={styles.cardsContainer}>{this.renderItems(cards)}</div>
+        <div className={styles.parentContainer}>
+          <div className={this.state.height > 560 ? styles.higherContainer : styles.container}>
+            <div
+              ref={divElement => (this.cardsContainer = divElement)}
+              className={styles.cardsContainer}>
+              {this.renderItems(cards)}
+            </div>
+          </div>
         </div>
       </Container>
     )

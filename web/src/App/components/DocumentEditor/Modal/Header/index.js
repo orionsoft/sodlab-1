@@ -6,7 +6,6 @@ import styles from './styles.css'
 
 export default class DocumentEditorHeader extends React.Component {
   static propTypes = {
-    value: PropTypes.object,
     showMessage: PropTypes.func,
     passProps: PropTypes.object,
     environmentId: PropTypes.string,

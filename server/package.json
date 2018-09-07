@@ -10,14 +10,14 @@
     "reinstall": "rm -rf node_modules/ && yarn"
   },
   "dependencies": {
-    "@orion-js/app": "^0.7.2",
-    "@orion-js/auth": "^0.7.2",
-    "@orion-js/file-manager": "^0.7.2",
-    "@orion-js/graphql": "^0.7.2",
-    "@orion-js/jobs": "^0.7.2",
-    "@orion-js/mailing": "^0.7.2",
-    "@orion-js/schema": "^0.7.0",
-    "aws-sdk": "^2.303.0",
+    "@orion-js/app": "^0.7.6",
+    "@orion-js/auth": "^0.7.6",
+    "@orion-js/file-manager": "^0.7.6",
+    "@orion-js/graphql": "^0.7.6",
+    "@orion-js/jobs": "^0.7.6",
+    "@orion-js/mailing": "^0.7.6",
+    "@orion-js/schema": "^0.7.4",
+    "aws-sdk": "^2.308.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "countdown": "^2.6.0",
     "escape-string-regexp": "^1.0.5",
@@ -31,6 +31,7 @@
     "numeral": "^2.0.6",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
+    "written-number": "^0.8.1",
     "xlsx": "^0.13.5"
   },
   "devDependencies": {

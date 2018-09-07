@@ -1,6 +1,6 @@
 // Global styles here
 import 'orionsoft-parts/lib/styles.css'
-import 'meteor-paginated-graphql-react/lib/styles.css'
+import './paginated-table.css'
 import './main.css'
 import './flexbox.css'
 import './helpers.css'

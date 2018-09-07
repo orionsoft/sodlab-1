@@ -1,7 +1,7 @@
 export default {
-  name: 'Texto enriquecido',
+  name: 'HTML',
   rootType: String,
   allowedOperatorsIds: ['exists'],
-  optionsSchema: {},
+  optionsSchema: null,
   validate(value, options) {}
 }

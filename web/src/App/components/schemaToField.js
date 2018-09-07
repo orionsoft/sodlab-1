@@ -7,7 +7,6 @@ import ObjectField from './fields/ObjectField'
 import isArray from 'lodash/isArray'
 import Blackbox from './fields/Blackbox'
 import FileManager from './fields/FileManager'
-import RichText from './fields/RichText'
 import Document from './fields/Document'
 import fieldTypes from './fieldTypes'
 import ColorPicker from './fields/ColorPicker'
@@ -25,7 +24,6 @@ const singleFieldMap = {
   blackbox: Blackbox,
   file: FileManager,
   document: Document,
-  richText: RichText,
   colorpicker: ColorPicker
 }
 

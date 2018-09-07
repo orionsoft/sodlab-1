@@ -1,0 +1,6 @@
+:local(.container) {
+}
+
+:local(.container) textarea {
+  font-family: monospace;
+}

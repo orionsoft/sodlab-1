@@ -27,11 +27,11 @@ import hookSelect from './hookSelect'
 import fileURL from './fileURL'
 import validationSelect from './validationSelect'
 import buttonSelect from './buttonSelect'
-import richText from './richText'
 import colorPicker from './colorPicker'
+import html from './html'
 
 export default {
-  richText,
+  html,
   hookSelect,
   buttonSelect,
   indicatorSelect,

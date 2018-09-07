@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Modal from 'react-modal'
-import {withRouter} from 'react-router'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
@@ -14,7 +13,6 @@ import Form from './Form'
 import apiUrl from '../helpers/url'
 import styles from './styles.css'
 
-@withRouter
 @withGraphQL(gql`
   query getFormOneOfSelectOptions($environmentId: ID, $formId: ID, $fieldName: String) {
     selectOptions(environmentId: $environmentId, formId: $formId, fieldName: $fieldName) {
@@ -26,7 +24,7 @@ import styles from './styles.css'
 @withMessage
 export default class Main extends React.Component {
   static propTypes = {
-    value: PropTypes.object,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -57,26 +55,58 @@ export default class Main extends React.Component {
 
   async componentDidMount() {
     if (this.props.value) {
-      this.toggleLoading()
-      const {bucket, key, name, size} = this.props.value
-      try {
-        const response = await fetch(`${apiUrl}/api/files/aws/get`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-          },
-          body: JSON.stringify({bucket, key})
-        })
-        const data = await response.json()
-        this.setState({
-          apiFilename: data.apiFilename,
-          filename: name,
-          pages: data.pages,
-          size
-        })
-        this.fetchPdfPages()
-      } catch (error) {
-        this.props.showMessage('Error al procesar el archivo')
+      if (typeof this.props.value === 'string') {
+        this.toggleLoading()
+        const url = this.props.value
+        const params = url.replace('https://s3.amazonaws.com/', '').split('/')
+        const bucket = params.splice(0, 1)[0]
+        const key = params.join('/')
+        const name = key
+          .split('-')
+          .filter((item, index) => index !== 0)
+          .join('-')
+
+        try {
+          const response = await fetch(`${apiUrl}/api/files/aws/get`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({bucket, key})
+          })
+          const data = await response.json()
+          console.log('data', data)
+          this.setState({
+            apiFilename: data.apiFilename,
+            filename: name,
+            pages: data.pages
+          })
+          this.fetchPdfPages()
+        } catch (error) {
+          this.props.showMessage('Error al procesar el archivo')
+        }
+      } else {
+        this.toggleLoading()
+        const {bucket, key, name, size} = this.props.value
+        try {
+          const response = await fetch(`${apiUrl}/api/files/aws/get`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({bucket, key})
+          })
+          const data = await response.json()
+          this.setState({
+            apiFilename: data.apiFilename,
+            filename: name,
+            pages: data.pages,
+            size
+          })
+          this.fetchPdfPages()
+        } catch (error) {
+          this.props.showMessage('Error al procesar el archivo')
+        }
       }
     }
   }
@@ -162,7 +192,6 @@ export default class Main extends React.Component {
         overlayClassName={styles.overlay}
         contentLabel="Confirmación">
         <Header
-          value={this.props.value}
           passProps={this.props.passProps}
           environmentId={this.props.environmentId}
           showMessage={this.props.showMessage}

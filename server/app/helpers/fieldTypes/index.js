@@ -18,10 +18,11 @@ import multipleSelect from './multipleSelect'
 import document from './document'
 import textArea from './textArea'
 import fileURL from './fileURL'
-import richText from './richText'
 import colorPicker from './colorPicker'
+import html from './html'
 
 export default {
+  html,
   percentage,
   currency,
   email,
@@ -42,6 +43,5 @@ export default {
   document,
   textArea,
   fileURL,
-  richText,
   colorPicker
 }
