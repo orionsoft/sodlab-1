@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
 import withEnvironmentId from 'App/helpers/environment/withEnvironmentId'
-import withEnvironmentUser from 'App/helpers/auth/withEnvironmentUser'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
@@ -35,11 +34,12 @@ import NotAllowed from 'App/Pages/Auth/NotAllowed'
     }
     me {
       _id
-      environmentsAuthorized
+      environments {
+        _id
+      }
     }
   }
 `)
-@withEnvironmentUser
 export default class Environment extends React.Component {
   static propTypes = {
     environment: PropTypes.object,
@@ -49,15 +49,22 @@ export default class Environment extends React.Component {
     me: PropTypes.object
   }
 
-  componentDidMount() {
+  hasAccess() {
     const {environment, me, roles} = this.props
-    if (
-      roles.includes('superAdmin') ||
-      (roles.includes('admin') && me.environmentsAuthorized.includes(environment._id))
-    ) {
+    if (!me) return false
+    const environmentsIds = me.environments.map(env => {
+      return env._id
+    })
+    const has = roles.includes('superAdmin') || environmentsIds.includes(environment._id)
+    return has
+  }
+
+  componentDidMount() {
+    const {environment} = this.props
+    if (this.hasAccess()) {
       document.title = `${environment.name}`
     } else {
-      document.title = `denegado`
+      document.title = `Acceso denegado`
     }
   }
 
@@ -94,16 +101,13 @@ export default class Environment extends React.Component {
   }
 
   render() {
-    const {environment, roles, me} = this.props
-    if (!roles.includes('superAdmin')) {
-      if (
-        !roles.includes('admin') ||
-        (roles.includes('admin') && !me.environmentsAuthorized.includes(environment._id))
-      ) {
-        return <NotAllowed />
-      }
-    }
+    const {environment} = this.props
     if (!environment) return null
+
+    if (!this.hasAccess()) {
+      return <NotAllowed />
+    }
+
     return (
       <div className={styles.container}>
         <Layout>{this.renderSwitch()}</Layout>

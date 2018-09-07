@@ -35,7 +35,6 @@ export default class DateTime extends React.Component {
 
   @autobind
   onChange(dates) {
-    console.log(dates[0])
     this.props.onChange(dates[0])
   }
 

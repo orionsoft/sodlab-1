@@ -45,13 +45,8 @@ export default class Component extends React.Component {
       if (!includes(this.props.roles, 'admin') && !includes(this.props.roles, 'superAdmin')) {
         return true
       }
-      return false
-    } else {
-      if (!this.props.userId) return null
-      if (includes(this.props.roles, 'superAdmin')) return false
-      if (this.props.environmentUserAuthorization) return false
-      return <NotAllowed />
     }
+    return false
   }
 
   renderNotFound() {
