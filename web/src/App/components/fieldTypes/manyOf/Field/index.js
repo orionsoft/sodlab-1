@@ -76,7 +76,7 @@ export default class ManyOf extends React.Component {
         options={this.props.selectOptions}
         errorMessage={this.props.errorMessage}
         multi
-        passProps={{placeholder: 'Seleccionar...'}}
+        passProps={{placeholder: 'Seleccionar...', noResultsText: 'Sin resultados'}}
       />
     )
   }
