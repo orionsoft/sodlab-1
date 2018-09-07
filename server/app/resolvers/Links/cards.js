@@ -29,17 +29,21 @@ export default resolver({
       let cards = []
 
       links.map(link => {
-        if (link.type === 'path') {
+        if (link.type === 'path' && link.showInHome) {
           cards.push(
             destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], link)
           )
         }
         if (link.type === 'category') {
-          link.fields.map(field => {
-            cards.push(
-              destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], field)
-            )
-          })
+          link.fields
+            .filter(field => {
+              return field.showInHome
+            })
+            .map(field => {
+              cards.push(
+                destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], field)
+              )
+            })
         }
       })
       return cards
