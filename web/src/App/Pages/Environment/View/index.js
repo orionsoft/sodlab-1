@@ -178,7 +178,6 @@ export default class View extends React.Component {
 
   render() {
     const {view, intercomId, userByEnvironment} = this.props
-    console.log(view)
     return (
       <div className={styles.container}>
         {this.renderFullSizeStyles()}
