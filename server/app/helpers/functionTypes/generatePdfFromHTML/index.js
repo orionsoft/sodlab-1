@@ -5,7 +5,7 @@ import Collections from 'app/collections/Collections'
 import getHTML from './getHTML'
 
 export default {
-  name: 'Generar PDF desde markdown',
+  name: 'Generar PDF desde HTML',
   optionsSchema: {
     template: {
       type: String,

@@ -9,7 +9,7 @@ import validationSwitch from './validationSwitch'
 import generateBill from './generateBill'
 import generateDelivery from './generateDelivery'
 import generateCreditNote from './generateCreditNote'
-import generatePdfFromMarkdown from './generatePdfFromMarkdown'
+import generatePdfFromHTML from './generatePdfFromHTML'
 
 export default {
   updateValue,
@@ -23,5 +23,5 @@ export default {
   generateBill,
   generateDelivery,
   generateCreditNote,
-  generatePdfFromMarkdown
+  generatePdfFromHTML
 }
