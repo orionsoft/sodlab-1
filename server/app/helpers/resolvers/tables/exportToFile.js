@@ -1,38 +1,25 @@
 import XLSX from 'xlsx'
 import renderValues from './renderValues'
 
-export const destruct = function(keys, obj) {
-  return keys.filter(c => c).reduce((a, c) => ({...a, [c]: obj[c]}), {})
-}
-
-export const orderFields = function(obj, fields) {
-  const newObj = {}
-  fields.map(field => {
-    newObj[field.label] = obj[field.label]
-  })
-  return newObj
-}
-
 export default async function(
   items,
   footerItems,
   {_id, exportWithId, title, fields},
   collectionFields
 ) {
-  const tableFields = fields.map(field => {
-    return field.fieldName
-  })
-  const colFields = collectionFields.filter(field => {
-    return tableFields.includes(field.name)
-  })
+  const tableFields = fields
+    .filter(field => {
+      return field.type === 'field'
+    })
+    .map(field => {
+      return {fieldName: field.fieldName, label: field.label}
+    })
   const data = await Promise.all(
     items.map(async item => {
-      const dataFields = destruct(tableFields, item.data)
-      const renderedFields = await renderValues(_id, dataFields, colFields)
-      const orderedField = orderFields(renderedFields, colFields)
+      const renderedFields = await renderValues(_id, item.data, collectionFields, tableFields)
       return {
         ...(exportWithId && {_id: item._id}),
-        ...orderedField
+        ...renderedFields
       }
     })
   )
