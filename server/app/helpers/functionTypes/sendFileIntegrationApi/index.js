@@ -9,12 +9,6 @@ export default {
       label: 'Colección del archivo',
       fieldType: 'collectionSelect'
     },
-    file: {
-      type: String,
-      label: 'Campo del archivo',
-      fieldType: 'collectionFieldSelect',
-      parentCollection: 'collection'
-    },
     url: {
       type: String,
       label: 'URL'
@@ -23,13 +17,16 @@ export default {
   async execute({options, params}) {
     const collection = await Collections.findOne(options.collection)
     const collectionDB = await collection.db()
-    const {data} = await collectionDB.findOne(params._id)
+    const {_id, data} = await collectionDB.findOne(params._id)
     if (!data) return
 
     await rp({
       method: 'POST',
       uri: options.url,
-      body: data[options.file],
+      body: {
+        _id,
+        data
+      },
       json: true
     })
   }
