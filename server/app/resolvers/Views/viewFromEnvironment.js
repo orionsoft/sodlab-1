@@ -4,30 +4,21 @@ import Views from 'app/collections/Views'
 import Forms from 'app/collections/Forms'
 import environmentUserByUserId from 'app/resolvers/EnvironmentUsers/environmentUserByUserId'
 
-export const asyncFilter = async function(arr, callback) {
-  const fail = Symbol()
-  return (await Promise.all(arr.map(async item => ((await callback(item)) ? item : fail)))).filter(
-    i => i !== fail
-  )
-}
-
 export const checkRole = async function(items, envUserRoles) {
-  const filteredItems = asyncFilter(items, async item => {
-    let form = {}
+  let filteredItems = []
+  for (const item of items) {
     if (item.type === 'layout') {
       item.subItems = await checkRole(item.subItems, envUserRoles) // recursive
     }
     if (item.type === 'form') {
-      form = await Forms.findOne(item.formId)
+      const form = await Forms.findOne(item.formId)
+      if (form.roles && form.roles.length && form.roles.some(role => envUserRoles.includes(role))) {
+        filteredItems.push(item)
+      }
+    } else {
+      filteredItems.push(item)
     }
-    return (
-      item.type !== 'form' ||
-      (item.type === 'form' &&
-        form.roles &&
-        form.roles.length &&
-        form.roles.some(role => envUserRoles.includes(role)))
-    )
-  })
+  }
   return filteredItems
 }
 
