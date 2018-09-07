@@ -1,6 +1,6 @@
 import createPdf from './createPdf'
 import escape from 'escape-string-regexp'
-import uploadPDF from 'app/helpers/functionTypes/helpers/uploadPDF'
+import uploadPDF from './uploadPDF'
 import Collections from 'app/collections/Collections'
 import getHTML from './getHTML'
 
@@ -38,16 +38,8 @@ export default {
 
     const html = getHTML(content)
 
-    const pdfOptions = {
-      format: 'Letter',
-      border: {top: '20px', bottom: '20px', left: '20px', right: '20px'}
-    }
-
-    const pdfResponse = {}
-    pdfResponse.id = itemId
-    pdfResponse.pdf = await createPdf(html, pdfOptions)
-
-    const response = await uploadPDF(pdfResponse, 'pdf')
+    const file = await createPdf(html)
+    const response = await uploadPDF(file)
     const url = `https://s3.amazonaws.com/${response.bucket}/${response.key}`
 
     console.log('generated html pdf', url)
