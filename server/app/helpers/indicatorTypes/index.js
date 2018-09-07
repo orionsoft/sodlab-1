@@ -11,6 +11,7 @@ import currentDateTime from './currentDateTime'
 import mathOperation from './mathOperation'
 import currentDateValues from './currentDateValues'
 import elapsedTime from './elapsedTime'
+import transformNumberToText from './transformNumberToText'
 
 export default {
   concatValues,
@@ -25,5 +26,6 @@ export default {
   booleanByIndicatorComparison,
   mathOperation,
   currentDateValues,
-  elapsedTime
+  elapsedTime,
+  transformNumberToText
 }
