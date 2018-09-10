@@ -22,8 +22,12 @@ export default class List extends React.Component {
         .join(', ')
       return <div>{roles.length ? roles : 'Vacío'}</div>
     } else {
-      const roles = link.linkRoles.map(linkRole => {
-        return <div key={linkRole.title}>{linkRole.title + ': ' + linkRole.roles + '\n'}</div>
+      const roles = link.fields.map(field => {
+        let roleTitles = field.roles.map(fieldRole => {
+          const role = link.linkRoles.find(role => role._id === fieldRole)
+          return role.name
+        })
+        return <div key={field.title}>{field.title + ': ' + roleTitles.join(', ') + '\n'}</div>
       })
       return <div>{roles.length ? roles : 'Vacío'}</div>
     }
@@ -41,7 +45,11 @@ export default class List extends React.Component {
     return [
       {name: 'title', title: 'Título'},
       {name: 'type', title: 'Tipo', render: link => this.getTypeLabel(link.type)},
-      {name: 'linkRoles', title: 'Roles', render: link => this.renderRoles(link)},
+      {
+        name: 'fields{title, roles} linkRoles{_id, name}',
+        title: 'Roles',
+        render: link => this.renderRoles(link)
+      },
       {name: 'position', title: 'Posición'}
     ]
   }

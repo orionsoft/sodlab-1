@@ -1,8 +1,9 @@
 import {resolver} from '@orion-js/app'
 import Roles from 'app/collections/Roles'
+import Role from 'app/models/Role'
 
 export default resolver({
-  returns: ['blackbox'],
+  returns: [Role],
   async resolve(link, params, viewer) {
     if (link.type === 'path') {
       if (!link.roles || !link.roles.length) return []
@@ -10,13 +11,9 @@ export default resolver({
     } else {
       let roles = []
       for (const field of link.fields) {
-        let roleFields = await Roles.find({_id: {$in: field.roles}}).toArray()
-        const roleNames = roleFields.map(newField => {
-          return newField.name
-        })
-        roles.push({title: field.title, roles: (roleNames || []).join(', ')})
+        roles = [...new Set([...roles, ...field.roles])]
       }
-      return roles
+      return await Roles.find({_id: {$in: roles}}).toArray()
     }
   }
 })
