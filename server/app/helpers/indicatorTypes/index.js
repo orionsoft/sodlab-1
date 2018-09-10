@@ -12,6 +12,7 @@ import mathOperation from './mathOperation'
 import currentDateValues from './currentDateValues'
 import elapsedTime from './elapsedTime'
 import transformNumberToText from './transformNumberToText'
+import transformCurrencyToText from './transformCurrencyToText'
 
 export default {
   concatValues,
@@ -27,5 +28,6 @@ export default {
   mathOperation,
   currentDateValues,
   elapsedTime,
-  transformNumberToText
+  transformNumberToText,
+  transformCurrencyToText
 }
