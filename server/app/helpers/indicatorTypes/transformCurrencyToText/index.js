@@ -1,8 +1,7 @@
 import Collections from 'app/collections/Collections'
 import writtenNumber from 'written-number'
 
-function formatter(num) {
-  writtenNumber.defaults.lang = 'es'
+function format(num) {
   if (num.toString().endsWith('000000')) {
     return writtenNumber(num) + ' de pesos'
   } else {
@@ -26,8 +25,10 @@ export default {
     return field.type
   },
   async getResult({options, collection, fieldName}) {
+    writtenNumber.defaults.lang = 'es'
+
     const item = await collection.findOne({_id: options.itemId})
     if (!item) return null
-    return formatter(item.data[fieldName])
+    return format(item.data[fieldName])
   }
 }
