@@ -1,13 +1,17 @@
-import puppeteer from 'puppeteer'
+import pdf from 'html-pdf'
 
 export default async function(content) {
-  const browser = await puppeteer.launch()
-  const page = await browser.newPage()
-  await page.goto(`data:text/html,${content}`, {waitUntil: 'networkidle0'})
-  const buffer = await page.pdf({
+  const options = {
     format: 'Letter',
-    margin: {top: 30, bottom: 30, left: 20, right: 20}
+    border: {top: '20px', bottom: '20px', left: '20px', right: '20px'}
+  }
+  return new Promise((resolve, reject) => {
+    pdf.create(content, options).toBuffer((e, buff) => {
+      if (e) {
+        reject(e)
+      } else {
+        resolve(buff)
+      }
+    })
   })
-  await browser.close()
-  return buffer
 }

@@ -4,7 +4,7 @@ const styles = css`
   html,
   body {
     font-family: sans-serif;
-    font-size: 14px;
+    font-size: 11px;
   }
 
   table {
