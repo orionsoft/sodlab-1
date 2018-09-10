@@ -1,19 +1,5 @@
 import Collections from 'app/collections/Collections'
-
-const months = [
-  'Enero',
-  'Febrero',
-  'Marzo',
-  'Abril',
-  'Mayo',
-  'Junio',
-  'Julio',
-  'Agosto',
-  'Septiembre',
-  'Octubre',
-  'Noviembre',
-  'Diciembre'
-]
+import moment from 'moment'
 
 export default {
   name: 'Transformar fecha a texto',
@@ -34,12 +20,7 @@ export default {
     const item = await collection.findOne({_id: options.itemId})
     if (!item) return null
 
-    return (
-      item.data[fieldName].getDate() +
-      ' de ' +
-      months[item.data[fieldName].getMonth()] +
-      ' de ' +
-      item.data[fieldName].getFullYear()
-    )
+    moment.locale('es')
+    return moment(item.data[fieldName]).format('LL')
   }
 }
