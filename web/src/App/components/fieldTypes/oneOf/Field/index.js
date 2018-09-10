@@ -75,7 +75,7 @@ export default class OneOf extends React.Component {
         onChange={this.props.onChange}
         options={this.props.selectOptions}
         errorMessage={this.props.errorMessage}
-        passProps={{placeholder: 'Seleccionar...'}}
+        passProps={{placeholder: 'Seleccionar...', noResultsText: 'Sin resultados'}}
       />
     )
   }

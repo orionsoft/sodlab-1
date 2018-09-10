@@ -11,7 +11,11 @@ export default class Field extends React.Component {
   }
 
   render() {
-    const passProps = {...this.props.passProps, placeholder: 'Seleccionar...'}
+    const passProps = {
+      ...this.props.passProps,
+      placeholder: 'Seleccionar...',
+      noResultsText: 'Sin resultados'
+    }
     return (
       <Select
         value={this.props.value}
