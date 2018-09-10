@@ -25,7 +25,7 @@ export default resolver({
   role: 'admin',
   async resolve({environmentId}, viewer) {
     const result = {
-      exportVersion: 'v2',
+      exportVersion: 'v3',
       environment: await Environments.findOne(environmentId),
       buttons: await Buttons.find({environmentId}).toArray(),
       charts: await Charts.find({environmentId}).toArray(),
