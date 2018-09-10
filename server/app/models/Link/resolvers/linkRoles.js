@@ -10,11 +10,7 @@ export default resolver({
     } else {
       let roles = []
       for (const field of link.fields) {
-        let roleFields = []
-        for (const role of field.roles) {
-          const fieldRole = await Roles.findOne(role)
-          roleFields.push(fieldRole)
-        }
+        let roleFields = await Roles.find({_id: {$in: field.roles}}).toArray()
         const roleNames = roleFields.map(newField => {
           return newField.name
         })
