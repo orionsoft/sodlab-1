@@ -2,7 +2,7 @@ import Collections from 'app/collections/Collections'
 import writtenNumer from 'written-number'
 
 export default {
-  name: 'Transformar número/moneda a texto',
+  name: 'Transformar número a texto',
   requireCollection: true,
   requireField: true,
   optionsSchema: {
@@ -19,6 +19,6 @@ export default {
   async getResult({options, collection, fieldName}) {
     const item = await collection.findOne({_id: options.itemId})
     if (!item) return null
-    return writtenNumer(item.data[fieldName], {lang: 'es'}) + ' pesos'
+    return writtenNumer(item.data[fieldName], {lang: 'es'})
   }
 }
