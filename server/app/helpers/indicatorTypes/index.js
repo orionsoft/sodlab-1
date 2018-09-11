@@ -14,6 +14,7 @@ import elapsedTime from './elapsedTime'
 import transformNumberToText from './transformNumberToText'
 import currentDateText from './currentDateText'
 import transformCurrencyToText from './transformCurrencyToText'
+import formatCurrency from './formatCurrency'
 import transformTextUpperCase from './transformTextUpperCase'
 
 export default {
@@ -33,5 +34,6 @@ export default {
   transformNumberToText,
   currentDateText,
   transformCurrencyToText,
+  formatCurrency,
   transformTextUpperCase
 }
