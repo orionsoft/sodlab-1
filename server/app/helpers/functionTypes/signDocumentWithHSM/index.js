@@ -54,12 +54,20 @@ export default {
       userId
     } = options
     const col = await Collections.findOne(collectionId)
+    const field = col.fields.find(field => field.name === fileKey)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
     if (!item) throw new Error('Document not found')
     const file = item.data[fileKey]
     if (!file) throw new Error('Document file not found')
-    const fileURL = `https://s3.amazonaws.com/${file.bucket}/${file.key.replace(/ /, '%20')}`
+
+    let fileURL
+
+    if (typeof file === 'string' && /^https?:.*/.test(file)) {
+      fileURL = file
+    } else if (typeof file === 'object') {
+      fileURL = `https://s3.amazonaws.com/${file.bucket}/${file.key.replace(/ /, '%20')}`
+    }
 
     const fileData = await rp({
       uri: fileURL,
@@ -88,7 +96,7 @@ export default {
     console.log('sending hsm request with callback', {callback})
     const result = await rp({
       method: 'POST',
-      uri: 'https://api.firmador.sodlab.cl/sign',
+      uri: 'https://api.signer.sodlab.cl/sign',
       body: params,
       json: true
     })
