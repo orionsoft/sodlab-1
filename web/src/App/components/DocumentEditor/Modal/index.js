@@ -75,7 +75,7 @@ export default class Main extends React.Component {
             body: JSON.stringify({bucket, key})
           })
           const data = await response.json()
-          console.log('data', data)
+
           this.setState({
             apiFilename: data.apiFilename,
             filename: name,

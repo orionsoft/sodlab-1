@@ -34,9 +34,23 @@ export default class DocumentEditor extends React.Component {
     this.setState({placeholder})
   }
 
-  renderValue() {
+  renderNoValue(value) {
+    return <div className={styles.noValue}>{value}</div>
+  }
+
+  renderValue(value) {
+    return (
+      <div>
+        <div className={styles.valueContainer}>
+          <div className={styles.name}>{value}</div>
+        </div>
+      </div>
+    )
+  }
+
+  renderFieldValue() {
     if (this.state.placeholder) {
-      return <div className={styles.noValue}>{this.state.placeholder}</div>
+      return this.renderNoValue(this.state.placeholder)
     } else if (this.props.value) {
       if (typeof this.props.value === 'string') {
         const name = this.props.value
@@ -45,24 +59,12 @@ export default class DocumentEditor extends React.Component {
           .filter((item, index) => index !== 0)
           .join('-')
 
-        return (
-          <div>
-            <div className={styles.valueContainer}>
-              <div className={styles.name}>{name}</div>
-            </div>
-          </div>
-        )
+        return this.renderValue(name)
       } else if (typeof this.props.value === 'object') {
-        return (
-          <div>
-            <div className={styles.valueContainer}>
-              <div className={styles.name}>{this.props.value.name}</div>
-            </div>
-          </div>
-        )
+        return this.renderValue(this.props.value.name)
       }
     } else {
-      return <div className={styles.noValue}>Generar Documento</div>
+      return this.renderNoValue('Generar Documento')
     }
   }
 
@@ -79,7 +81,7 @@ export default class DocumentEditor extends React.Component {
             {...this.props}
           />
           <div onClick={this.openModal} className={styles.container}>
-            <div className={styles.placeholderContainer}>{this.renderValue()}</div>
+            <div className={styles.placeholderContainer}>{this.renderFieldValue()}</div>
           </div>
         </ClientProvider>
       </div>
