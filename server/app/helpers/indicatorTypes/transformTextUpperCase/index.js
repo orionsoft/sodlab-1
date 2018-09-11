@@ -5,9 +5,9 @@ export default {
   requireCollection: true,
   requireField: true,
   optionsSchema: {
-    itemId: {
+    text: {
       type: String,
-      label: 'Item id'
+      label: 'Texto a transformar a mayúsculas'
     }
   },
   getRenderType: async ({collectionId, fieldName}) => {
@@ -15,8 +15,7 @@ export default {
     const field = await collection.field({name: fieldName})
     return field.type
   },
-  async getResult({options, collection, fieldName, params}) {
-    const item = await collection.findOne({_id: params._id})
-    return item.data[fieldName].toUpperCase()
+  async getResult({options: {text}}) {
+    return text.toUpperCase()
   }
 }
