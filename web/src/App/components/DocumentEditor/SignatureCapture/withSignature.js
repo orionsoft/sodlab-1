@@ -83,12 +83,10 @@ function withSignature(Component) {
 
       let onSigCtlConstructor = (sigCtlV, status) => {
         if (this.state.wgssSignatureSDK.ResponseStatus.OK === status) {
-          // For production code remove the following line, remove commenting out of
-          // PutLicence call and replace 'licence_string' with your licence string
-          this.setState({
-            dynCapt: new this.state.wgssSignatureSDK.DynamicCapture(onDynCaptConstructor)
-          })
-          // sigCtl.PutLicence(licence_string, onSigCtlPutLicence);
+          this.state.sigCtl.PutLicence(
+            'AgAfADeB5ivVARNXYWNvbSBTaWduYXR1cmUgU0RLAAECgQMBAmQA',
+            onSigCtlPutLicence
+          )
         } else {
           // this.print("SigCtl constructor error: " + status);
           this.print('Error al iniciar la captura de firma')
@@ -143,14 +141,15 @@ function withSignature(Component) {
       this.setState({
         wgssSignatureSDK: new window.WacomGSS_SignatureSDK(onDetectRunning, 8000)
       })
-      // const onSigCtlPutLicence = (sigCtlV, status) => {
-      //   if (wgssSignatureSDK.ResponseStatus.OK === status) {
-      //     dynCapt = new wgssSignatureSDK.DynamicCapture(onDynCaptConstructor);
-      //   }
-      //   else {
-      //     this.print("SigCtl constructor error: " + status);
-      //   }
-      // }
+      const onSigCtlPutLicence = (sigCtlV, status) => {
+        if (this.state.wgssSignatureSDK.ResponseStatus.OK === status) {
+          this.setState({
+            dynCapt: new this.state.wgssSignatureSDK.DynamicCapture(onDynCaptConstructor)
+          })
+        } else {
+          this.print('SigCtl constructor error: ' + status)
+        }
+      }
     }
 
     Capture = () => {
