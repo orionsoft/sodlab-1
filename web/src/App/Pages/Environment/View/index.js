@@ -17,7 +17,7 @@ import Intercom from 'App/components/Intercom'
 @withGraphQL(
   gql`
     query getView($viewId: ID, $environmentId: ID) {
-      view(viewId: $viewId) {
+      view(viewId: $viewId, environmentId: $environmentId) {
         _id
         title
         intercom

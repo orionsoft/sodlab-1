@@ -20,7 +20,7 @@ export default resolver({
   async resolve({environmentId, data: json}, viewer) {
     const environment = await Environments.findOne(environmentId)
     let data = JSON.parse(json)
-    if (data.exportVersion !== 'v2') {
+    if (data.exportVersion !== 'v3') {
       throw new Error('Archivo incorrecto')
     }
 
