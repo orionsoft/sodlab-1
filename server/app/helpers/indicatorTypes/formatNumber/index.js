@@ -6,9 +6,9 @@ export default {
   requireCollection: true,
   requireField: true,
   optionsSchema: {
-    itemId: {
+    number: {
       type: String,
-      label: 'Item id'
+      label: 'Número a transformar en miles'
     }
   },
   getRenderType: async ({collectionId, fieldName}) => {
@@ -16,10 +16,7 @@ export default {
     const field = await collection.field({name: fieldName})
     return field.type
   },
-  async getResult({options, collection, fieldName}) {
-    const item = await collection.findOne({_id: options.itemId})
-    if (!item) return null
-
-    return numeral(item.data[fieldName]).format('0,0.[00]')
+  async getResult({options: {number}}) {
+    return numeral(number).format('0,0.[00]')
   }
 }
