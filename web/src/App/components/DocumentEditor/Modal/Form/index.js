@@ -84,7 +84,7 @@ class DocumentEditorForm extends React.Component {
       .split('.')
       .splice(0, filenameLength - 1)
       .join(' ')
-    return this.setState({why})
+    return this.handleWhyChange(why)
   }
 
   openModal = () => {
