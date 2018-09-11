@@ -10,16 +10,24 @@ import Tables from 'app/collections/Tables'
 import Views from 'app/collections/Views'
 import Environments from 'app/collections/Environments'
 import Endpoints from 'app/collections/Endpoints'
+import Buttons from 'app/collections/Buttons'
+import Validations from 'app/collections/Validations'
 
 export default async function(environment, data) {
   const environmentId = environment._id
   await Environments.update(environmentId, {$set: {profileFields: data.environment.profileFields}})
 
+  for (const item of data.buttons) {
+    await Buttons.insert(item)
+  }
   for (const item of data.charts) {
     await Charts.insert(item)
   }
   for (const item of data.collections) {
     await Collections.insert(item)
+  }
+  for (const item of data.endpoints) {
+    await Endpoints.insert(item)
   }
   for (const item of data.filters) {
     await Filters.insert(item)
@@ -42,10 +50,10 @@ export default async function(environment, data) {
   for (const item of data.tables) {
     await Tables.insert(item)
   }
+  for (const item of data.validations) {
+    await Validations.insert(item)
+  }
   for (const item of data.views) {
     await Views.insert(item)
-  }
-  for (const item of data.endpoints) {
-    await Endpoints.insert(item)
   }
 }
