@@ -16,9 +16,10 @@ export default {
     const field = await collection.field({name: fieldName})
     return field.type
   },
-  async getResult({options, collection, fieldName, params}) {
+  async getResult({options, collection, fieldName}) {
     const item = await collection.findOne({_id: options.itemId})
     if (!item) return null
-    return numeral(item.data[fieldName]).format('$0,0.[00]')
+
+    return numeral(item.data[fieldName]).format('0,0.[00]')
   }
 }
