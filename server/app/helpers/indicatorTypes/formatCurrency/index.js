@@ -6,9 +6,9 @@ export default {
   requireCollection: true,
   requireField: true,
   optionsSchema: {
-    itemId: {
+    currency: {
       type: String,
-      label: 'Item id'
+      label: 'Moneda a transformar en pesos'
     }
   },
   getRenderType: async ({collectionId, fieldName}) => {
@@ -16,9 +16,7 @@ export default {
     const field = await collection.field({name: fieldName})
     return field.type
   },
-  async getResult({options, collection, fieldName, params}) {
-    const item = await collection.findOne({_id: options.itemId})
-    if (!item) return null
-    return numeral(item.data[fieldName]).format('$0,0.[00]')
+  async getResult({options: {currency}}) {
+    return numeral(currency).format('$0,0.[00]')
   }
 }
