@@ -54,7 +54,6 @@ export default {
       userId
     } = options
     const col = await Collections.findOne(collectionId)
-    const field = col.fields.find(field => field.name === fileKey)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
     if (!item) throw new Error('Document not found')
