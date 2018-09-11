@@ -74,5 +74,9 @@ export default {
   requireTwoFactor: {
     type: Boolean,
     optional: true
+  },
+  roles: {
+    type: ['ID'],
+    defaultValue: []
   }
 }
