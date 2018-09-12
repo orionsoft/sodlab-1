@@ -166,9 +166,15 @@ export default class Table extends React.Component {
   getLabel(field) {
     if (field.type === 'multipleSelect') {
       return (
-        <Tooltip content="Seleccionar todos">
-          <Checkbox value={!!this.state.allSelected} onChange={this.toggleAllItems} />
-        </Tooltip>
+        <div className={styles.headerCheckBox}>
+          <Tooltip content="Seleccionar todos">
+            <input
+              type="checkbox"
+              checked={!!this.state.allSelected}
+              onChange={this.toggleAllItems}
+            />
+          </Tooltip>
+        </div>
       )
     }
     return field.label
