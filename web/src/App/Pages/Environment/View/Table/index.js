@@ -15,6 +15,8 @@ import Header from './Header'
 import cloneDeep from 'lodash/cloneDeep'
 import values from 'lodash/values'
 import SelectionActions from './SelectionActions'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
+import Tooltip from 'orionsoft-parts/lib/components/Tooltip'
 
 @withGraphQL(gql`
   query getTable($tableId: ID) {
@@ -59,7 +61,7 @@ export default class Table extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {filterId: null, selectedItems: {}}
+  state = {filterId: null, selectedItems: {}, allSelected: false}
 
   @autobind
   onSelect(item) {}
@@ -117,13 +119,9 @@ export default class Table extends React.Component {
   }
 
   @autobind
-  toggleSelectedItem(itemId, doc) {
+  toggleSelectedItem(itemId) {
     const selectedItems = cloneDeep(this.state.selectedItems)
-    if (selectedItems[itemId]) {
-      delete selectedItems[itemId]
-    } else {
-      selectedItems[itemId] = {_id: itemId, ...doc.data}
-    }
+    selectedItems[itemId] = !this.state.selectedItems[itemId]
     this.setState({selectedItems})
   }
 
@@ -151,8 +149,8 @@ export default class Table extends React.Component {
           table={this.props.table}
           collectionField={collectionField}
           collectionId={collectionId}
-          toggleSelectedItem={() => this.toggleSelectedItem(doc._id, doc)}
-          selected={!!this.state.selectedItems[doc._id]}
+          toggleSelectedItem={() => this.toggleSelectedItem(doc._id)}
+          selected={this.state.allSelected || !!this.state.selectedItems[doc._id]}
         />
       )
     } catch (e) {
@@ -160,12 +158,28 @@ export default class Table extends React.Component {
     }
   }
 
+  @autobind
+  toggleAllItems() {
+    this.setState({allSelected: !this.state.allSelected})
+  }
+
+  getLabel(field) {
+    if (field.type === 'multipleSelect') {
+      return (
+        <Tooltip content="Seleccionar todos">
+          <Checkbox value={!!this.state.allSelected} onChange={this.toggleAllItems} />
+        </Tooltip>
+      )
+    }
+    return field.label
+  }
+
   getFields() {
     const tableFields = this.props.table.fields
     if (!tableFields.length) return [{title: 'ID', value: '_id'}]
     return tableFields.map((field, index) => {
       return {
-        title: field.label,
+        title: this.getLabel(field),
         name: 'data',
         options: field.options,
         render: doc => this.renderField({field, doc, index})
@@ -203,11 +217,30 @@ export default class Table extends React.Component {
     })
   }
 
+  renderSelectionActions(params) {
+    const docs = values(this.state.selectedItems)
+    if (!docs.some(elem => elem) && !this.state.allSelected) return
+    const field = this.props.table.fields.find(field => field.type === 'multipleSelect')
+    return (
+      <SelectionActions
+        field={field}
+        items={this.state.selectedItems}
+        all={this.state.allSelected}
+        params={params}
+      />
+    )
+  }
+
   @autobind
   renderPaginated({filterId, filterOptions}) {
     const {table, parameters} = this.props
     return (
       <div>
+        {this.renderSelectionActions({
+          tableId: table._id,
+          filterId: this.state.filterId || filterId,
+          filterOptions
+        })}
         <Header
           table={table}
           params={{
@@ -237,13 +270,6 @@ export default class Table extends React.Component {
     )
   }
 
-  renderSelectionActions() {
-    const docs = values(this.state.selectedItems)
-    if (!docs.length) return
-    const field = this.props.table.fields.find(field => field.type === 'multipleSelect')
-    return <SelectionActions field={field} items={docs} />
-  }
-
   renderTable() {
     const {table, parameters} = this.props
     return (
@@ -251,7 +277,6 @@ export default class Table extends React.Component {
         <div className={styles.header}>
           <div className={styles.title}>{table.title}</div>
         </div>
-        {this.renderSelectionActions()}
         <WithFilter
           filters={table.filters}
           allowsNoFilter={table.allowsNoFilter}
