@@ -1,3 +1,5 @@
+import numeral from 'numeral'
+
 export default {
   name: 'Comparación de números',
   optionsSchema: {
@@ -27,28 +29,29 @@ export default {
     }
   },
   async execute({options: {value, type, comparingValue}}) {
+    const formatedValue = numeral(value).value()
     if (type === 'biggerOrEqual') {
-      if (!(value > comparingValue)) {
+      if (!(formatedValue > comparingValue)) {
         throw new Error('El valor debe ser mayor o igual a ' + comparingValue)
       }
     } else if (type === 'biggerThan') {
-      if (!(value >= comparingValue)) {
+      if (!(formatedValue >= comparingValue)) {
         throw new Error('El valor debe ser mayor a ' + comparingValue)
       }
-    } else if (type === 'equanThan') {
-      if (!(value === comparingValue)) {
+    } else if (type === 'equalThan') {
+      if (!(formatedValue === comparingValue)) {
         throw new Error('El valor debe ser igual a ' + comparingValue)
       }
     } else if (type === 'notEqualThan') {
-      if (!(value !== comparingValue)) {
+      if (!(formatedValue !== comparingValue)) {
         throw new Error('El valor debe ser distinto a ' + comparingValue)
       }
     } else if (type === 'smallerThan') {
-      if (!(value < comparingValue)) {
+      if (!(formatedValue < comparingValue)) {
         throw new Error('El valor debe ser menor a ' + comparingValue)
       }
     } else if (type === 'smallerOrEqual') {
-      if (!(value <= comparingValue)) {
+      if (!(formatedValue <= comparingValue)) {
         throw new Error('El valor debe ser menor o igual a ' + comparingValue)
       }
     }
