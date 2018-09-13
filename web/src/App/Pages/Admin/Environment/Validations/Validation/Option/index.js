@@ -44,6 +44,7 @@ export default class Option extends React.Component {
           field={{options: this.props.optionsPreview}}
           {...this.props.schema.fieldOptions}
           parentCollection={this.props.schema.parentCollection || null}
+          parentField={this.props.schema.parentField || null}
         />
       </div>
     )
@@ -78,20 +79,20 @@ export default class Option extends React.Component {
           <div className="row">
             {this.props.schema.fixed
               ? [
-                <Field key={0} fieldName="type" type={Constant} constant="fixed" />,
-                <div key={1} className="col-xs-12 col-sm-6">
-                  {this.renderFixedValue()}
-                </div>
-              ]
+                  <Field key={0} fieldName="type" type={Constant} constant="fixed" />,
+                  <div key={1} className="col-xs-12 col-sm-6">
+                    {this.renderFixedValue()}
+                  </div>
+                ]
               : [
-                <div key={0} className="col-xs-12 col-sm-6">
-                  <div className="label">Tipo</div>
-                  <Field fieldName="type" type={getField('select')} options={this.getTypes()} />
-                </div>,
-                <div key={1} className="col-xs-12 col-sm-6">
-                  <WithValue>{this.renderTypeOption}</WithValue>
-                </div>
-              ]}
+                  <div key={0} className="col-xs-12 col-sm-6">
+                    <div className="label">Tipo</div>
+                    <Field fieldName="type" type={getField('select')} options={this.getTypes()} />
+                  </div>,
+                  <div key={1} className="col-xs-12 col-sm-6">
+                    <WithValue>{this.renderTypeOption}</WithValue>
+                  </div>
+                ]}
           </div>
         </Field>
       </div>
