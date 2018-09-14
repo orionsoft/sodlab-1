@@ -13,7 +13,6 @@ export default function(ComposedComponent) {
       query getEnvironmentUserByUserId($userId: ID, $environmentId: ID) {
         environmentUser: environmentUserByUserId(userId: $userId, environmentId: $environmentId) {
           _id
-          environmentId
         }
       }
     `
@@ -26,7 +25,12 @@ export default function(ComposedComponent) {
     }
 
     render() {
-      return <ComposedComponent environmentUser={this.props.environmentUser} />
+      return (
+        <ComposedComponent
+          environmentUserId={this.props.environmentUser._id}
+          environmentId={this.props.environmentId}
+        />
+      )
     }
   }
 

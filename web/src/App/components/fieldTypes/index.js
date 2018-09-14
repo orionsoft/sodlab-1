@@ -28,6 +28,7 @@ import fileURL from './fileURL'
 import validationSelect from './validationSelect'
 import buttonSelect from './buttonSelect'
 import html from './html'
+import roleSelect from './roleSelect'
 
 export default {
   html,
@@ -59,5 +60,6 @@ export default {
   document,
   textArea,
   fileURL,
-  validationSelect
+  validationSelect,
+  roleSelect
 }

@@ -29,7 +29,7 @@ export default resolver({
       await requireTwoFactor(viewer)
     }
     const item = await getResult({form, itemId, data})
-    await runHooks({form, itemId})
+    await runHooks({form, item, userId: viewer.userId})
     return item
   }
 })

@@ -6,15 +6,15 @@ export default resolver({
     params: {
       type: 'blackbox'
     },
-    itemId: {
-      type: 'ID',
-      optional: true
+    userId: {
+      type: 'ID'
     }
   },
   returns: Boolean,
   mutation: true,
   private: true,
-  async resolve(hook, {params, itemId}, viewer) {
+  async resolve(hook, {params, userId}, viewer) {
+    const {environmentId} = hook
     for (const validationId of hook.validationsIds || []) {
       const validation = await Validations.findOne(validationId)
       try {
@@ -26,6 +26,6 @@ export default resolver({
     }
     const functionType = await hook.functionType()
     const options = await hook.getOptions({params})
-    return await functionType.executeFunction({options, itemId, params})
+    return await functionType.executeFunction({options, params, environmentId, userId})
   }
 })
