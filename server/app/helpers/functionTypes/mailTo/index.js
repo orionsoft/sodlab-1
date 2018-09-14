@@ -1,37 +1,5 @@
 import Collections from 'app/collections/Collections'
-import {spawn} from 'child_process'
-
-async function mailto(recipients, fields, recipientsSeparator) {
-  recipientsSeparator = recipientsSeparator || ','
-  let url = 'mailto:' + recipients.join(recipientsSeparator)
-  Object.keys(fields).map((key, index) => {
-    if (index === 0) {
-      url += '?'
-    } else {
-      url += '&'
-    }
-    url += key + '=' + encodeURIComponent(fields[key])
-  })
-  await open(url)
-}
-
-function open(url) {
-  let command
-  switch (process.platform) {
-    case 'darwin':
-      command = 'open'
-      break
-    case 'win32':
-      command = 'explorer.exe'
-      break
-    case 'linux':
-      command = 'xdg-open'
-      break
-    default:
-      throw new Error('Plataforma no soportada: ' + process.platform)
-  }
-  return spawn(command, [url])
-}
+import {sendEmail} from '@orion-js/mailing'
 
 export default {
   name: 'mail To',
@@ -71,7 +39,8 @@ export default {
       content = content.replace(regexp, data[variable])
     })
 
-    return mailto([data[email]], {
+    await sendEmail({
+      to: data[email],
       subject: `${data[name]}, Te presentamos Sodlab!`,
       body: content
     })
