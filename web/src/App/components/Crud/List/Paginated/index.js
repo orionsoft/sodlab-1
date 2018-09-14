@@ -132,9 +132,8 @@ export default class Fetch extends React.Component {
   }
 
   getQuery(props) {
-    return `query ${props.queryFunctionName || 'paginated_' + props.queryName} (${getArguments(
-      props.params
-    )}) {
+    return `query ${props.queryFunctionName || 'paginated_' + props.queryName} (
+      ${getArguments(props.params)}) {
       result: ${props.queryName} (
         ${getParams(props.params)}
       ) {

@@ -16,9 +16,13 @@ export default {
     url: {
       type: String,
       label: 'URL'
+    },
+    environmentId: {
+      type: String,
+      label: 'Entorno'
     }
   },
-  async execute({options: {collectionId, itemId, url}}) {
+  async execute({options: {collectionId, itemId, url, environmentId}}) {
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
@@ -29,6 +33,7 @@ export default {
       uri: url,
       body: {
         _id: item._id,
+        environmentId,
         ...item.data
       },
       json: true

@@ -11,11 +11,7 @@ export default {
       label: 'Moneda a transformar en pesos'
     }
   },
-  getRenderType: async ({collectionId, fieldName}) => {
-    const collection = await Collections.findOne(collectionId)
-    const field = await collection.field({name: fieldName})
-    return field.type
-  },
+  getRenderType: () => 'text',
   async getResult({options: {currency}}) {
     return numeral(currency).format('$0,0.[00]')
   }
