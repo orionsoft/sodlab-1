@@ -4,5 +4,8 @@ export default {
   },
   data: {
     type: 'blackbox'
+  },
+  createdAt: {
+    type: Date
   }
 }
