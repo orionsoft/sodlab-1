@@ -8,4 +8,4 @@ const urls = {
 
 const env = getEnv()
 
-export default urls.dev
+export default urls[env]

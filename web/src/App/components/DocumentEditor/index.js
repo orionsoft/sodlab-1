@@ -31,7 +31,8 @@ export default class DocumentEditor extends React.Component {
     posX: 0,
     posY: 0,
     signatureImages: [],
-    apiObjects: []
+    apiObjects: [],
+    isOptionsMenuOpen: false
   }
 
   resetState = () => {

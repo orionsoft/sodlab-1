@@ -171,6 +171,20 @@ export default class DocumentEditorPagination extends React.Component {
     })
   }
 
+  renderHelpMessage = () => {
+    if (this.props.pagesSrc.length > 0) {
+      return (
+        <div className={styles.pdfImageHelpContainer}>
+          <span>
+            Haga click en la sección del documento en la que desee insertar la firma o huella
+          </span>
+        </div>
+      )
+    } else {
+      return null
+    }
+  }
+
   renderActivePage = () => {
     if (this.props.pagesSrc.length > 0) {
       return (
@@ -192,6 +206,7 @@ export default class DocumentEditorPagination extends React.Component {
       <div className={styles.editorContainer}>
         <div className={styles.imagesContainer}>{this.renderSignatureImages()}</div>
         <div className={styles.pdfImageContainer}>
+          {this.renderHelpMessage()}
           {this.props.loading ? (
             <div className={styles.loaderContainer}>
               <FaSpinner className={styles.iconSpinBig} />

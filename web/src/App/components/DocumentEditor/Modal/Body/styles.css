@@ -38,20 +38,19 @@
 	flex: 7;
 	background-color: #fafafa;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
-	align-items: flex-start;
+	align-items: center;
 	overflow-y: auto;
 	border-right: 1px solid rgba(70,70,70,.2);
 }
 
-:local(.pdfImageContainer) :local(.helpMessageContainer) {
+:local(.pdfImageContainer) :local(.pdfImageHelpContainer) {
 	width: 100%;
 	display: flex;
-	justify-content: left;
-}
-
-:local(.pdfImageContainer) :local(.helpMessageContainer) span {
-	font-size: 15px;
+	justify-content: center;
+	align-items: center;
+	font-size: 12px;
 }
 
 :local(.pdfImageContainer) img {

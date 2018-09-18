@@ -35,17 +35,16 @@ export default class Main extends React.Component {
     posY: PropTypes.number,
     signatureImages: PropTypes.array,
     apiObjects: PropTypes.array,
+    isOptionsMenuOpen: PropTypes.bool,
     fetchPdfPages: PropTypes.func,
     requestFileDeletion: PropTypes.func,
     resetState: PropTypes.func,
     changeState: PropTypes.func
   }
 
-  state = {
-    isOptionsMenuOpen: false
+  closeOptionsMenu = () => {
+    this.props.changeState({isOptionsMenuOpen: false})
   }
-
-  closeOptionsMenu = () => this.setState({isOptionsMenuOpen: false})
 
   render() {
     return (
@@ -102,7 +101,7 @@ export default class Main extends React.Component {
         <Modal
           appElement={document.querySelector('#root')}
           id="pdfOptionsMenuModal"
-          isOpen={this.state.isOptionsMenuOpen}
+          isOpen={this.props.isOptionsMenuOpen}
           onRequestClose={this.closeOptionsMenu}
           className={styles.optionsMenuModal}
           overlayClassName={styles.optionsMenuOverlay}>
