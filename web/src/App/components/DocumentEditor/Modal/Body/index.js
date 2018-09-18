@@ -148,17 +148,11 @@ export default class DocumentEditorPagination extends React.Component {
         this.props.showMessage('Documento guardado con éxito. Guardando información biometrica')
         await this.sendBiometricObjects(timestamp, environmentId, docId)
         this.props.showMessage('Información biometrica guardada con éxito')
-        this.handleClose()
+        this.props.onClose()
       }
     } catch (error) {
       this.props.showMessage('Error al guardar documento')
     }
-  }
-
-  handleClose = async () => {
-    this.props.requestFileDeletion()
-    this.props.resetState()
-    this.props.onClose()
   }
 
   renderSignatureImages = () => {
@@ -234,7 +228,7 @@ export default class DocumentEditorPagination extends React.Component {
               primary={false}
               danger={true}
               big={false}
-              onClick={this.handleClose}
+              onClick={this.props.onClose}
             />
           </div>
         </div>
