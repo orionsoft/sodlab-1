@@ -42,7 +42,7 @@ export default {
     await sendEmail({
       to: data[email],
       subject: `${data[name]}, Te presentamos Sodlab!`,
-      body: content
+      html: content
     })
   }
 }
