@@ -8,7 +8,12 @@ import PropTypes from 'prop-types'
 @withEnvironmentUserId
 @withGraphQL(gql`
   query paginatedNotifications($environmentId: ID, $environmentUserId: ID) {
-    notifications(environmentId: $environmentId, environmentUserId: $environmentUserId) {
+    notifications(
+      limit: 20
+      environmentId: $environmentId
+      environmentUserId: $environmentUserId
+      readed: true
+    ) {
       totalCount
     }
   }
@@ -16,12 +21,16 @@ import PropTypes from 'prop-types'
 export default class NotificationIndicator extends React.Component {
   static propTypes = {
     environmentId: PropTypes.string,
-    notifications: PropTypes.object,
-    asd: PropTypes.string
+    notifications: PropTypes.object
   }
 
   render() {
-    if (!this.props.environmentId || !this.props.notifications) return null
+    if (
+      !this.props.environmentId ||
+      !this.props.notifications ||
+      !this.props.notifications.totalCount
+    )
+      return null
     const {notifications} = this.props
     return (
       <div className={styles.container}>

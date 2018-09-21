@@ -1,0 +1,44 @@
+:local(.container) {
+  max-height: 200px;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+:local(.shortContainer) {
+  max-height: 200px;
+  height: auto;
+  overflow-x: hidden;
+}
+
+:local(.divider) {
+  height: 1px;
+  width: 100%;
+  padding-top: 10px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  margin-bottom: 10px;
+}
+
+:local(.notifContainer) {
+  height: 85%;
+  overflow-y: scroll;
+  margin-right: -50px;
+  padding-right: 50px;
+}
+
+:local(.showItems) {
+  display: block;
+}
+:local(.notifItem) {
+  display: block;
+  cursor: pointer;
+  color: #fff;
+  padding: 2px 20px;
+  opacity: 0.7;
+}
+:local(.notifItem):hover {
+  opacity: 1;
+}
+
+:local(.itemContent) {
+  font-size: 10px;
+}

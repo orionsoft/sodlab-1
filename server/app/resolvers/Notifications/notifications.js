@@ -17,10 +17,18 @@ export default paginatedResolver({
     environmentUserId: {
       type: 'ID',
       optional: true
+    },
+    readed: {
+      type: Boolean,
+      optional: true
     }
   },
-  async getCursor({filter, environmentId, environmentUserId}, viewer) {
-    const query = {environmentId, readed: {$ne: true}}
+  async getCursor({filter, environmentId, environmentUserId, readed}, viewer) {
+    // const query = {environmentId, readed: {$ne: true}}
+    const query = {environmentId}
+    if (readed) {
+      query.readed = {$ne: true}
+    }
     const environmentUser = await EnvironmentUsers.findOne(environmentUserId)
     const {roles} = environmentUser
 
@@ -31,8 +39,6 @@ export default paginatedResolver({
       query.roles = {$in: roles}
     }
 
-    console.log({query})
-
-    return Notifications.find(query)
+    return Notifications.find(query).sort({createdAt: -1})
   }
 })

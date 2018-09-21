@@ -37,9 +37,16 @@ export default {
     },
     viewer
   ) {
+    let newContent = content
+    let newTitle = title
+    Object.keys(params).forEach(variable => {
+      const regexp = new RegExp(`{${escape(variable)}}`, 'g')
+      newContent = newContent.replace(regexp, params[variable])
+      newTitle = newTitle.replace(regexp, params[variable])
+    })
     await Notifications.insert({
-      title,
-      content,
+      title: newTitle,
+      content: newContent,
       environmentId,
       path,
       roles,

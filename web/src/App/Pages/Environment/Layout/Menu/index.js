@@ -72,12 +72,12 @@ export default class Menu extends React.Component {
   renderNotifications() {
     const {environment} = this.props
     return (
-      <ReactCSSTransitionGroup
-        transitionName="notificationscontainer"
-        transitionEnterTimeout={1000}
-        transitionLeaveTimeout={800}>
-        {this.state.showNotif && <Notifications environmentId={environment._id} />}
-      </ReactCSSTransitionGroup>
+      // <ReactCSSTransitionGroup
+      //   transitionName="notificationscontainer"
+      //   transitionEnterTimeout={1000}
+      //   transitionLeaveTimeout={800}>
+      this.state.showNotif && <Notifications environmentId={environment._id} />
+      // </ReactCSSTransitionGroup>
     )
   }
 
@@ -98,13 +98,14 @@ export default class Menu extends React.Component {
         <div className={styles.menuButton}>
           <CloseIcon onClick={this.toggleMenu} />
         </div>
-        <div className={styles.notifications} onClick={this.toggleNotifications}>
+        {/* <div className={styles.notifications} onClick={this.toggleNotifications}>
           <NotificationIndicator environmentId={environment._id} />
-        </div>
+        </div> */}
         <Link to="/" className={styles.header}>
           <div className={styles.title}>{environment.name}</div>
         </Link>
-        {this.renderNotifications()}
+        <Notifications />
+        {/* {this.renderNotifications()} */}
         <div className={styles.divider} />
         {this.renderLinks()}
         <div className={styles.divider} />

@@ -14,12 +14,14 @@ import autobind from 'autobind-decorator'
 )
 export default class Watch extends React.Component {
   static propTypes = {
+    showMessage: PropTypes.func,
     client: PropTypes.object,
     environmentId: PropTypes.string
   }
 
   @autobind
   onChange() {
+    console.log('asudhas')
     this.props.client.queryManager.reFetchObservableQueries()
   }
 
