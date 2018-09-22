@@ -5,22 +5,29 @@ import Button from 'orionsoft-parts/lib/components/Button'
 
 export default class View extends React.Component {
   static propTypes = {
-    value: PropTypes.string
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
   }
 
   renderNoValue() {
     return <span className={styles.noValue} />
   }
 
-  toRef(value) {
-    window.open(value, '_blank')
+  toRef(props) {
+    if (typeof props.value === 'string') {
+      return window.open(props.value, '_blank', 'noopener')
+    }
+    window.open(
+      `https://s3.amazonaws.com/${props.value.bucket}/${props.value.key}`,
+      '_blank',
+      'noopener'
+    )
   }
 
   render() {
-    if (!this.props.value) return null
+    if (!this.props.value) return this.renderNoValue()
     return (
       <div className={styles.container}>
-        <Button className={styles.button} onClick={() => this.toRef(`https://s3.amazonaws.com/${this.props.value.bucket}/${this.props.value.key}`)}>
+        <Button className={styles.button} onClick={() => this.toRef(this.props)}>
           Ver Archivo
         </Button>
       </div>
