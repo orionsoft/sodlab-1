@@ -10,6 +10,7 @@ import generateBill from './generateBill'
 import generateDelivery from './generateDelivery'
 import generateCreditNote from './generateCreditNote'
 import generatePdfFromHTML from './generatePdfFromHTML'
+import mailTo from './mailTo'
 
 export default {
   updateValue,
@@ -23,5 +24,6 @@ export default {
   generateBill,
   generateDelivery,
   generateCreditNote,
-  generatePdfFromHTML
+  generatePdfFromHTML,
+  mailTo
 }
