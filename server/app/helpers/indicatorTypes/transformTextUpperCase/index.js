@@ -10,11 +10,7 @@ export default {
       label: 'Texto a transformar a mayúsculas'
     }
   },
-  getRenderType: async ({collectionId, fieldName}) => {
-    const collection = await Collections.findOne(collectionId)
-    const field = await collection.field({name: fieldName})
-    return field.type
-  },
+  getRenderType: () => 'text',
   async getResult({options: {text}}) {
     return text.toUpperCase()
   }
