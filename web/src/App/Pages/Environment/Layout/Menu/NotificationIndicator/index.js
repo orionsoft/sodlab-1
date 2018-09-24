@@ -54,7 +54,9 @@ export default class NotificationIndicator extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.notifications.items.length !== nextProps.notifications.items.length) {
-      this.props.showMessage(nextProps.notifications.items[0].title)
+      this.props.showMessage(
+        nextProps.notifications.items[0].title + ': ' + nextProps.notifications.items[0].content
+      )
     }
   }
 
