@@ -33,6 +33,7 @@ import Fields from './Fields'
       submitButtonText
       resetButtonText
       requireTwoFactor
+      roles
       fields {
         fieldName
         type
@@ -80,6 +81,12 @@ import Fields from './Fields'
         label: name
       }
     }
+    roles(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -92,7 +99,8 @@ export default class Form extends React.Component {
     hooks: PropTypes.object,
     indicators: PropTypes.object,
     validations: PropTypes.object,
-    match: PropTypes.object
+    match: PropTypes.object,
+    roles: PropTypes.object
   }
 
   getFormTypes() {
@@ -182,6 +190,8 @@ export default class Form extends React.Component {
                 multi
                 options={this.props.hooks.items}
               />
+              <div className="label">Roles</div>
+              <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
               <div className="label">Texto de botón para confirmar (opcional)</div>
               <Field fieldName="submitButtonText" type={Text} />
               <div className="label">Habilitar limpiar formulario</div>
