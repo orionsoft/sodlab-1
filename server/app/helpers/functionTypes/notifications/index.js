@@ -1,4 +1,5 @@
 import Notifications from 'app/collections/Notifications'
+import EnvironmentUsers from 'app/collections/EnvironmentUsers'
 
 export default {
   name: 'Notificar',
@@ -33,7 +34,8 @@ export default {
     {
       options: {title, content, path, roles},
       environmentId,
-      params
+      params,
+      userId
     },
     viewer
   ) {
@@ -44,12 +46,14 @@ export default {
       newContent = newContent.replace(regexp, params[variable])
       newTitle = newTitle.replace(regexp, params[variable])
     })
+    const environmentUser = await EnvironmentUsers.findOne({userId, environmentId})
     await Notifications.insert({
       title: newTitle,
       content: newContent,
       environmentId,
       path,
       roles,
+      notifierId: environmentUser._id,
       readed: false,
       createdAt: new Date()
     })

@@ -16,18 +16,27 @@
   transition: all ease 0.2s;
 }
 
+:local(.notificationsBox) {
+  position: absolute;
+  left: 30px;
+  top: 0;
+  z-index: 10;
+}
+
 .notificationscontainer-enter,
 .notificationscontainer-leave.notificationscontainer-leave-active {
   /* max-height: 0;
   margin: 0;
   overflow: hidden; */
-  transform: translateX(-100%);
-  transition: all 500ms ease-out;
+  opacity: 0;
+  transform: rotateX(-15deg);
+  transform-origin: 50% -50px;
 }
 
 .notificationscontainer-enter.notificationscontainer-enter-active,
 .notificationscontainer-leave {
   /* max-height: 200px; */
-  transform: translateX(0%);
-  transition: all 1000ms ease-out;
+  opacity: 1;
+  transform: rotateX(0deg);
+  transition: all 300ms ease;
 }

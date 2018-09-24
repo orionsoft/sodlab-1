@@ -28,6 +28,9 @@ export default {
     type: Boolean,
     defaultValue: false
   },
+  notifierId: {
+    type: 'ID'
+  },
   createdAt: {
     type: Date
   }

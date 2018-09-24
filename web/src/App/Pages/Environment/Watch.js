@@ -21,7 +21,6 @@ export default class Watch extends React.Component {
 
   @autobind
   onChange() {
-    console.log('asudhas')
     this.props.client.queryManager.reFetchObservableQueries()
   }
 

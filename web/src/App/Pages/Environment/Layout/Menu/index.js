@@ -11,7 +11,6 @@ import {withRouter} from 'react-router'
 import CloseIcon from 'react-icons/lib/md/close'
 import Links from './Links'
 import NotificationIndicator from './NotificationIndicator'
-import Notifications from './Notifications'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -67,7 +66,6 @@ export default class Menu extends React.Component {
         <Link to="/" className={styles.header}>
           <div className={styles.title}>{environment.name}</div>
         </Link>
-        <Notifications />
         <div className={styles.divider} />
         {this.renderLinks()}
         <div className={styles.divider} />

@@ -1,1 +1,3 @@
-export default {}
+import readed from './readed'
+export default {
+  readed,}

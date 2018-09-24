@@ -17,18 +17,11 @@ export default paginatedResolver({
     environmentUserId: {
       type: 'ID',
       optional: true
-    },
-    readed: {
-      type: Boolean,
-      optional: true
     }
   },
   async getCursor({filter, environmentId, environmentUserId, readed}, viewer) {
-    // const query = {environmentId, readed: {$ne: true}}
-    const query = {environmentId}
-    if (readed) {
-      query.readed = {$ne: true}
-    }
+    const query = {environmentId, notifierId: {$ne: environmentUserId}}
+
     const environmentUser = await EnvironmentUsers.findOne(environmentUserId)
     const {roles} = environmentUser
 

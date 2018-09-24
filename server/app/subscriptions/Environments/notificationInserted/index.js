@@ -6,5 +6,5 @@ export default subscription({
       type: 'ID'
     }
   },
-  returns: 'blackbox'
+  returns: String
 })

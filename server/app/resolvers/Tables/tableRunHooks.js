@@ -43,7 +43,7 @@ export default resolver({
     const params = {_id: item._id, ...item.data}
     for (const hook of hooks) {
       try {
-        await hook.execute({params})
+        await hook.execute({params, userId: viewer.userId})
       } catch (e) {
         console.log('Error running hook', e)
       }
