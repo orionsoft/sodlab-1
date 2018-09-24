@@ -44,6 +44,9 @@ import Fields from './Fields'
         indicatorId
         editableDefaultValue
         indicatorDefaultValue
+        sizeSmall
+        sizeMedium
+        sizeLarge
       }
       reset
       collection {

@@ -7,6 +7,7 @@ import {Field} from 'simple-react-form'
 import PropTypes from 'prop-types'
 import CollectionFieldSelect from 'App/components/fieldTypes/collectionFieldSelect/Field'
 import fieldTypes from 'App/components/fieldTypes'
+import range from 'lodash/range'
 
 export default class FormField extends React.Component {
   static propTypes = {
@@ -122,6 +123,30 @@ export default class FormField extends React.Component {
     )
   }
 
+  getSizeOptions() {
+    return range(12).map(index => ({label: `${12 - index}/12`, value: String(12 - index)}))
+  }
+
+  renderSize() {
+    if (this.props.field.type !== 'editable' && this.props.field.type !== 'indicator') return
+    return (
+      <div className="row">
+        <div className="col-xs-12 col-sm-4">
+          <div className="label">Columnas Móvil</div>
+          <Field fieldName="sizeSmall" type={Select} options={this.getSizeOptions()} />
+        </div>
+        <div className="col-xs-12 col-sm-4">
+          <div className="label">Columnas Mediano</div>
+          <Field fieldName="sizeMedium" type={Select} options={this.getSizeOptions()} />
+        </div>
+        <div className="col-xs-12 col-sm-4">
+          <div className="label">Columnas Largo</div>
+          <Field fieldName="sizeLarge" type={Select} options={this.getSizeOptions()} />
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className={styles.container}>
@@ -148,6 +173,7 @@ export default class FormField extends React.Component {
           </div>
           <div className="col-xs-12 col-sm-6 col-lg-2">{this.renderDefault()}</div>
         </div>
+        {this.renderSize()}
       </div>
     )
   }

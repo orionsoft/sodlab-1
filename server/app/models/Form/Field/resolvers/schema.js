@@ -6,7 +6,10 @@ export default resolver({
   async resolve(formField, {collectionField}, viewer) {
     const schema = {
       ...(await collectionField.schema()),
-      formFieldType: formField.type
+      formFieldType: formField.type,
+      sizeSmall: formField.sizeSmall,
+      sizeMedium: formField.sizeMedium,
+      sizeLarge: formField.sizeLarge
     }
 
     schema.optional = formField.optional

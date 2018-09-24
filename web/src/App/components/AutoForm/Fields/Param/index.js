@@ -77,11 +77,20 @@ export default class AutoFormField extends React.Component {
   }
 
   render() {
+    console.log('field')
+    console.log(this.props)
     return (
       <div className="autoform-field">
-        {this.renderLabel()}
-        {this.renderField(this.props.field, this.props.fieldName)}
-        {this.renderDescription()}
+        {/* <div className="autoform-field row"> */}
+        <div
+        // className={`col-xs-${this.props.field.sizeSmall} col-sm-${
+        //   this.props.field.sizeMedium
+        // } col-md-${this.props.field.sizeLarge}`}>
+        >
+          {this.renderLabel()}
+          {this.renderField(this.props.field, this.props.fieldName)}
+          {this.renderDescription()}
+        </div>
       </div>
     )
   }
