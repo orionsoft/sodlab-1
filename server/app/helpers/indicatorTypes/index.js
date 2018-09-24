@@ -14,6 +14,9 @@ import elapsedTime from './elapsedTime'
 import transformNumberToText from './transformNumberToText'
 import currentDateText from './currentDateText'
 import transformCurrencyToText from './transformCurrencyToText'
+import formatNumber from './formatNumber'
+import formatCurrency from './formatCurrency'
+import transformTextUpperCase from './transformTextUpperCase'
 
 export default {
   concatValues,
@@ -31,5 +34,8 @@ export default {
   elapsedTime,
   transformNumberToText,
   currentDateText,
-  transformCurrencyToText
+  transformCurrencyToText,
+  formatNumber,
+  formatCurrency,
+  transformTextUpperCase
 }

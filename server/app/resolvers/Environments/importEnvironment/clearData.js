@@ -9,11 +9,15 @@ import Roles from 'app/collections/Roles'
 import Tables from 'app/collections/Tables'
 import Views from 'app/collections/Views'
 import Endpoints from 'app/collections/Endpoints'
+import Buttons from 'app/collections/Buttons'
+import Validations from 'app/collections/Validations'
 
 export default async function(environment) {
   const environmentId = environment._id
+  await Buttons.remove({environmentId})
   await Charts.remove({environmentId})
   await Collections.remove({environmentId})
+  await Endpoints.remove({environmentId})
   await Filters.remove({environmentId})
   await Forms.remove({environmentId})
   await Hooks.remove({environmentId})
@@ -21,6 +25,6 @@ export default async function(environment) {
   await Links.remove({environmentId})
   await Roles.remove({environmentId})
   await Tables.remove({environmentId})
+  await Validations.remove({environmentId})
   await Views.remove({environmentId})
-  await Endpoints.remove({environmentId})
 }

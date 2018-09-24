@@ -11,7 +11,7 @@ export default class Currency extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     return {
-      value: props.value ? numeral(props.value).format('$0,0') : ''
+      value: props.value || props.value === 0 ? numeral(props.value).format('$0,0') : ''
     }
   }
 
@@ -27,7 +27,7 @@ export default class Currency extends React.Component {
   getNumber(value) {
     if (!this.getElementValidation(value.slice(-1))) return
     if (value.length === 1 && value === '0') {
-      this.props.onChange('')
+      this.props.onChange(0)
       return
     }
     this.props.onChange(numeral._.stringToNumber(value))
