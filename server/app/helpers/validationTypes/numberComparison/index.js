@@ -43,7 +43,7 @@ export default {
       if (!(formatedValue >= numberValue)) {
         throw new Error(message || 'El valor debe ser mayor a ' + numberValue)
       }
-    } else if (type === 'equanThan') {
+    } else if (type === 'equalThan') {
       if (!(formatedValue === numberValue)) {
         throw new Error(message || 'El valor debe ser igual a ' + numberValue)
       }
