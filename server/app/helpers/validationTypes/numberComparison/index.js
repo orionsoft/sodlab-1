@@ -23,36 +23,36 @@ export default {
         ]
       }
     },
-    comparingValue: {
+    numberValue: {
       type: Number,
       label: 'Valor de comparación'
     }
   },
-  async execute({options: {value, type, comparingValue}}) {
+  async execute({options: {value, type, numberValue}}) {
     const formatedValue = numeral(value).value()
     if (type === 'biggerOrEqual') {
-      if (!(formatedValue > comparingValue)) {
-        throw new Error('El valor debe ser mayor o igual a ' + comparingValue)
+      if (!(formatedValue > numberValue)) {
+        throw new Error('El valor debe ser mayor o igual a ' + numberValue)
       }
     } else if (type === 'biggerThan') {
-      if (!(formatedValue >= comparingValue)) {
-        throw new Error('El valor debe ser mayor a ' + comparingValue)
+      if (!(formatedValue >= numberValue)) {
+        throw new Error('El valor debe ser mayor a ' + numberValue)
       }
     } else if (type === 'equalThan') {
-      if (!(formatedValue === comparingValue)) {
-        throw new Error('El valor debe ser igual a ' + comparingValue)
+      if (!(formatedValue === numberValue)) {
+        throw new Error('El valor debe ser igual a ' + numberValue)
       }
     } else if (type === 'notEqualThan') {
-      if (!(formatedValue !== comparingValue)) {
-        throw new Error('El valor debe ser distinto a ' + comparingValue)
+      if (!(formatedValue !== numberValue)) {
+        throw new Error('El valor debe ser distinto a ' + numberValue)
       }
     } else if (type === 'smallerThan') {
-      if (!(formatedValue < comparingValue)) {
-        throw new Error('El valor debe ser menor a ' + comparingValue)
+      if (!(formatedValue < numberValue)) {
+        throw new Error('El valor debe ser menor a ' + numberValue)
       }
     } else if (type === 'smallerOrEqual') {
-      if (!(formatedValue <= comparingValue)) {
-        throw new Error('El valor debe ser menor o igual a ' + comparingValue)
+      if (!(formatedValue <= numberValue)) {
+        throw new Error('El valor debe ser menor o igual a ' + numberValue)
       }
     }
   }
