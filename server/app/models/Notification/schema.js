@@ -24,10 +24,6 @@ export default {
       if (path && !path.startsWith('/')) return 'invalidPath'
     }
   },
-  readed: {
-    type: Boolean,
-    defaultValue: false
-  },
   notifierId: {
     type: 'ID'
   },

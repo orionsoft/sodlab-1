@@ -54,7 +54,6 @@ export default {
       path,
       roles,
       notifierId: environmentUser._id,
-      readed: false,
       createdAt: new Date()
     })
   }

@@ -53,7 +53,10 @@ export default class NotificationIndicator extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.notifications.items.length !== nextProps.notifications.items.length) {
+    if (
+      nextProps.notifications.items.length &&
+      this.props.notifications.items.length !== nextProps.notifications.items.length
+    ) {
       this.props.showMessage(
         nextProps.notifications.items[0].title + ': ' + nextProps.notifications.items[0].content
       )
@@ -108,7 +111,9 @@ export default class NotificationIndicator extends React.Component {
     if (!this.props.environmentId || !this.props.notifications) return null
     return (
       <div>
-        <div className={styles.container} onClick={this.toggleNotifications}>
+        <div
+          className={this.getLength() ? styles.container : styles.empty}
+          onClick={this.toggleNotifications}>
           {this.getLength() < 10 ? this.getLength() : '+9'}
         </div>
         {this.renderNotifications()}
