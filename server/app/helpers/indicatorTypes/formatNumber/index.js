@@ -11,11 +11,7 @@ export default {
       label: 'Número a transformar en miles'
     }
   },
-  getRenderType: async ({collectionId, fieldName}) => {
-    const collection = await Collections.findOne(collectionId)
-    const field = await collection.field({name: fieldName})
-    return field.type
-  },
+  getRenderType: () => 'text',
   async getResult({options: {number}}) {
     return numeral(number).format('0,0.[00]')
   }

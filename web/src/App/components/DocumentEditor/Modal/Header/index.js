@@ -35,7 +35,7 @@ export default class DocumentEditorHeader extends React.Component {
       }
     }
     this.props.resetState()
-    this.props.toggleLoading()
+    this.props.changeState({loading: true})
 
     try {
       const file = document.getElementById('pdf_file').files[0]

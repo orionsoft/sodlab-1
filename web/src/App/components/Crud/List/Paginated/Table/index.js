@@ -28,7 +28,8 @@ export default class Table extends React.Component {
   }
 
   toggleSort(field) {
-    const isActive = this.props.sortBy === field.name
+    const sortBy = field.fieldName
+    const isActive = this.props.sortBy === sortBy
     const isUp = this.props.sortType === 'ASC'
     const type = isActive
       ? isUp
@@ -37,7 +38,7 @@ export default class Table extends React.Component {
       : typeof field.sort === 'string'
         ? field.sort
         : 'ASC'
-    this.props.setSort(field.name, type)
+    this.props.setSort(sortBy, type)
   }
 
   renderHead() {

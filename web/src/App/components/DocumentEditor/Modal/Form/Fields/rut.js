@@ -37,6 +37,8 @@ export default class SignerData extends React.Component {
   }
 
   handleChange = value => {
+    if (!value) return
+
     const client = {...this.props.client, [this.props.valueKey]: value}
     this.props.handleRutChange(value)
     return this.props.handleClientChange(client)

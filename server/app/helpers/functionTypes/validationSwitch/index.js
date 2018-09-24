@@ -30,9 +30,9 @@ export default {
       }
     }
   },
-  async execute({itemId, params, options: {validationsIds, passesHooksIds, failsHooksIds}}) {
+  async execute({params, options: {validationsIds, passesHooksIds, failsHooksIds}}) {
     let previousResult = (params || {}).previousResult
-    let passes = null
+    let passes = true
     try {
       for (const validationId of validationsIds || []) {
         const validation = await Validations.findOne(validationId)
@@ -44,13 +44,13 @@ export default {
     if (passes) {
       for (const hookId of passesHooksIds) {
         const hook = await Hooks.findOne(hookId)
-        previousResult = await hook.execute({params: {previousResult, ...params}, itemId})
+        previousResult = await hook.execute({params: {previousResult, ...params}})
       }
     } else {
       try {
         for (const hookId of failsHooksIds) {
           const hook = await Hooks.findOne(hookId)
-          previousResult = await hook.execute({params: {previousResult, ...params}, itemId})
+          previousResult = await hook.execute({params: {previousResult, ...params}})
         }
       } catch (error) {
         console.log('Error running hook', error)

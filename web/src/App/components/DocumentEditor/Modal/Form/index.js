@@ -84,7 +84,7 @@ class DocumentEditorForm extends React.Component {
       .split('.')
       .splice(0, filenameLength - 1)
       .join(' ')
-    return this.setState({why})
+    return this.handleWhyChange(why)
   }
 
   openModal = () => {
@@ -226,8 +226,6 @@ class DocumentEditorForm extends React.Component {
     const contentType = block[0].split(':')[1]
     const realData = block[1].split(',')[1]
     const blob = this.b64toBlob(realData, contentType)
-    // const imageIdArray = signature.id.split('.')
-    // const identifier = type === '' ? imageIdArray[imageIdArray.length - 1] : type
     formData.append(type, blob, `${signature.id}.png`)
     formData.append('signer_name', signature.name)
     formData.append('signer_rut', signature.rut)
