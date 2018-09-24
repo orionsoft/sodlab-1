@@ -64,22 +64,6 @@
   display: none;
 }
 
-.notificationscontainer-enter,
-.notificationscontainer-leave.notificationscontainer-leave-active {
-  max-height: 0;
-  margin: 0;
-  overflow: hidden;
-  /* transform: translateY(-100%); */
-  transition: all 500ms ease-out;
-}
-
-.notificationscontainer-enter.notificationscontainer-enter-active,
-.notificationscontainer-leave {
-  max-height: 200px;
-  /* transform: translateY(0%); */
-  transition: all 1000ms ease-out;
-}
-
 @media only screen and (max-width: 768px) {
   :local(.menuButton) {
     display: flex;

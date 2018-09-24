@@ -12,9 +12,6 @@ import CloseIcon from 'react-icons/lib/md/close'
 import Links from './Links'
 import NotificationIndicator from './NotificationIndicator'
 import Notifications from './Notifications'
-import sleep from 'orionsoft-parts/lib/helpers/sleep'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import autobind from 'autobind-decorator'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -35,23 +32,6 @@ export default class Menu extends React.Component {
     toggleMenu: PropTypes.func
   }
 
-  state = {showNotif: false}
-
-  componentDidMount() {
-    window.addEventListener('mouseup', this.closeNotifications, false)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('mouseup', this.closeNotifications)
-  }
-
-  @autobind
-  async closeNotifications(event) {
-    if (!this.state.showNotif) return true
-    await sleep(10)
-    this.setState({showNotif: false})
-  }
-
   renderLink({title, path}, useFullToCheck) {
     const active = useFullToCheck
       ? this.props.location.pathname === path
@@ -69,23 +49,6 @@ export default class Menu extends React.Component {
     })
   }
 
-  renderNotifications() {
-    const {environment} = this.props
-    return (
-      // <ReactCSSTransitionGroup
-      //   transitionName="notificationscontainer"
-      //   transitionEnterTimeout={1000}
-      //   transitionLeaveTimeout={800}>
-      this.state.showNotif && <Notifications environmentId={environment._id} />
-      // </ReactCSSTransitionGroup>
-    )
-  }
-
-  @autobind
-  toggleNotifications() {
-    this.setState({showNotif: !this.state.showNotif})
-  }
-
   toggleMenu = e => {
     e.preventDefault()
     this.props.toggleMenu()
@@ -98,14 +61,13 @@ export default class Menu extends React.Component {
         <div className={styles.menuButton}>
           <CloseIcon onClick={this.toggleMenu} />
         </div>
-        {/* <div className={styles.notifications} onClick={this.toggleNotifications}>
+        <div className={styles.notifications}>
           <NotificationIndicator environmentId={environment._id} />
-        </div> */}
+        </div>
         <Link to="/" className={styles.header}>
           <div className={styles.title}>{environment.name}</div>
         </Link>
         <Notifications />
-        {/* {this.renderNotifications()} */}
         <div className={styles.divider} />
         {this.renderLinks()}
         <div className={styles.divider} />

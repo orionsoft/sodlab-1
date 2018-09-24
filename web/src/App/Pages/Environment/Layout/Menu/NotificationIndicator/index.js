@@ -4,6 +4,10 @@ import withEnvironmentUserId from 'App/helpers/auth/withEnvironmentUserId'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
+import sleep from 'orionsoft-parts/lib/helpers/sleep'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import autobind from 'autobind-decorator'
+import Notifications from './Notifications'
 
 @withEnvironmentUserId
 @withGraphQL(gql`
@@ -24,6 +28,42 @@ export default class NotificationIndicator extends React.Component {
     notifications: PropTypes.object
   }
 
+  state = {showNotif: false}
+
+  componentDidMount() {
+    window.addEventListener('mouseup', this.closeNotifications, false)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mouseup', this.closeNotifications)
+  }
+
+  @autobind
+  async closeNotifications(event) {
+    if (!this.state.showNotif) return true
+    await sleep(10)
+    this.setState({showNotif: false})
+  }
+
+  @autobind
+  toggleNotifications() {
+    this.setState({showNotif: !this.state.showNotif})
+  }
+
+  renderNotifications() {
+    const {environmentId, notifications} = this.props
+    return (
+      <ReactCSSTransitionGroup
+        transitionName="notificationscontainer"
+        transitionEnterTimeout={1000}
+        transitionLeaveTimeout={800}>
+        {this.state.showNotif && (
+          <Notifications environmentId={environmentId} notifications={notifications.items} />
+        )}
+      </ReactCSSTransitionGroup>
+    )
+  }
+
   render() {
     if (
       !this.props.environmentId ||
@@ -33,8 +73,11 @@ export default class NotificationIndicator extends React.Component {
       return null
     const {notifications} = this.props
     return (
-      <div className={styles.container}>
-        {notifications.totalCount < 10 ? notifications.totalCount : '+9'}
+      <div>
+        <div className={styles.container} onClick={this.toggleNotifications}>
+          {notifications.totalCount < 10 ? notifications.totalCount : '+9'}
+        </div>
+        {this.renderNotifications()}
       </div>
     )
   }

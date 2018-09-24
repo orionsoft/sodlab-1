@@ -4,17 +4,16 @@ import withSubscription from 'react-apollo-decorators/lib/withSubscription'
 import gql from 'graphql-tag'
 import autobind from 'autobind-decorator'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
+import {withApollo} from 'react-apollo'
+import withEnvironmentUserId from 'App/helpers/auth/withEnvironmentUserId'
 
+@withApollo
+@withEnvironmentUserId
 @withMessage
 @withSubscription(
   gql`
-    subscription notificationInserted {
-      notificationInserted {
-        _id
-        title
-        content
-        path
-      }
+    subscription notificationInserted($environmentId: ID) {
+      notificationInserted(environmentId: $environmentId)
     }
   `,
   'onNotif'
@@ -22,21 +21,21 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 export default class Watch extends React.Component {
   static propTypes = {
     environmentId: PropTypes.string,
+    environmentUserId: PropTypes.string,
     notificationInserted: PropTypes.object,
-    showMessage: PropTypes.object
+    showMessage: PropTypes.object,
+    client: PropTypes.object
   }
 
   @autobind
-  onNotif() {
-    console.log('oasdasdsa')
-    const {environmentUpdated} = this.props
-    console.log({environmentUpdated})
-    this.props.showMessage('asdad')
+  async onNotif({notificationInserted}) {
+    if (notificationInserted) {
+      console.log(notificationInserted)
+      this.props.showMessage(notificationInserted.title)
+    }
   }
 
   render() {
-    console.log('asd')
-    console.log(this.props)
     return <span />
   }
 }

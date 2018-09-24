@@ -11,6 +11,8 @@ import generateDelivery from './generateDelivery'
 import generateCreditNote from './generateCreditNote'
 import generatePdfFromHTML from './generatePdfFromHTML'
 import notifications from './notifications'
+import bulkUpload from './bulkUpload'
+import mailTo from './mailTo'
 
 export default {
   updateValue,
@@ -25,5 +27,7 @@ export default {
   generateDelivery,
   generateCreditNote,
   generatePdfFromHTML,
-  notifications
+  notifications,
+  bulkUpload,
+  mailTo
 }

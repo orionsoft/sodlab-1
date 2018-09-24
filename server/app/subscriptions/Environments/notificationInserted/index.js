@@ -1,11 +1,10 @@
 import {subscription} from '@orion-js/graphql'
-import Notification from 'app/models/Notification'
 
 export default subscription({
   params: {
-    notificationId: {
+    environmentId: {
       type: 'ID'
     }
   },
-  returns: Notification
+  returns: 'blackbox'
 })

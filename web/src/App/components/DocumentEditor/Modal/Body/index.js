@@ -148,17 +148,11 @@ export default class DocumentEditorPagination extends React.Component {
         this.props.showMessage('Documento guardado con éxito. Guardando información biometrica')
         await this.sendBiometricObjects(timestamp, environmentId, docId)
         this.props.showMessage('Información biometrica guardada con éxito')
-        this.handleClose()
+        this.props.onClose()
       }
     } catch (error) {
       this.props.showMessage('Error al guardar documento')
     }
-  }
-
-  handleClose = async () => {
-    this.props.requestFileDeletion()
-    this.props.resetState()
-    this.props.onClose()
   }
 
   renderSignatureImages = () => {
@@ -175,6 +169,20 @@ export default class DocumentEditorPagination extends React.Component {
         </div>
       )
     })
+  }
+
+  renderHelpMessage = () => {
+    if (this.props.pagesSrc.length > 0) {
+      return (
+        <div className={styles.pdfImageHelpContainer}>
+          <span>
+            Haga click en la sección del documento en la que desee insertar la firma o huella
+          </span>
+        </div>
+      )
+    } else {
+      return null
+    }
   }
 
   renderActivePage = () => {
@@ -198,6 +206,7 @@ export default class DocumentEditorPagination extends React.Component {
       <div className={styles.editorContainer}>
         <div className={styles.imagesContainer}>{this.renderSignatureImages()}</div>
         <div className={styles.pdfImageContainer}>
+          {this.renderHelpMessage()}
           {this.props.loading ? (
             <div className={styles.loaderContainer}>
               <FaSpinner className={styles.iconSpinBig} />
@@ -234,7 +243,7 @@ export default class DocumentEditorPagination extends React.Component {
               primary={false}
               danger={true}
               big={false}
-              onClick={this.handleClose}
+              onClick={this.props.onClose}
             />
           </div>
         </div>
