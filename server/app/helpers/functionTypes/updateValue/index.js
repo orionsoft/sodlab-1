@@ -19,7 +19,10 @@ export default {
     },
     value: {
       type: String,
-      label: 'Valor a insertar'
+      label: 'Valor a insertar',
+      fieldType: 'fieldOptions',
+      parentCollection: 'collectionId',
+      parentField: 'valueKey'
     }
   },
   async execute({options}) {

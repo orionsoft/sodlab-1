@@ -1,3 +1,5 @@
+import numeral from 'numeral'
+
 export default {
   name: 'Comparación de números',
   optionsSchema: {
@@ -21,7 +23,7 @@ export default {
         ]
       }
     },
-    comparingValue: {
+    numberValue: {
       type: Number,
       label: 'Valor de comparación'
     },
@@ -31,30 +33,31 @@ export default {
       optional: true
     }
   },
-  async execute({options: {value, type, comparingValue, message}}) {
+  async execute({options: {value, type, numberValue, message}}) {
+    const formatedValue = numeral(value).value()
     if (type === 'biggerOrEqual') {
-      if (!(value > comparingValue)) {
-        throw new Error(message || 'El valor debe ser mayor o igual a ' + comparingValue)
+      if (!(formatedValue > numberValue)) {
+        throw new Error(message || 'El valor debe ser mayor o igual a ' + numberValue)
       }
     } else if (type === 'biggerThan') {
-      if (!(value >= comparingValue)) {
-        throw new Error(message || 'El valor debe ser mayor a ' + comparingValue)
+      if (!(formatedValue >= numberValue)) {
+        throw new Error(message || 'El valor debe ser mayor a ' + numberValue)
       }
-    } else if (type === 'equanThan') {
-      if (!(value === comparingValue)) {
-        throw new Error(message || 'El valor debe ser igual a ' + comparingValue)
+    } else if (type === 'equalThan') {
+      if (!(formatedValue === numberValue)) {
+        throw new Error(message || 'El valor debe ser igual a ' + numberValue)
       }
     } else if (type === 'notEqualThan') {
-      if (!(value !== comparingValue)) {
-        throw new Error(message || 'El valor debe ser distinto a ' + comparingValue)
+      if (!(formatedValue !== numberValue)) {
+        throw new Error(message || 'El valor debe ser distinto a ' + numberValue)
       }
     } else if (type === 'smallerThan') {
-      if (!(value < comparingValue)) {
-        throw new Error(message || 'El valor debe ser menor a ' + comparingValue)
+      if (!(formatedValue < numberValue)) {
+        throw new Error(message || 'El valor debe ser menor a ' + numberValue)
       }
     } else if (type === 'smallerOrEqual') {
-      if (!(value <= comparingValue)) {
-        throw new Error(message || 'El valor debe ser menor o igual a ' + comparingValue)
+      if (!(formatedValue <= numberValue)) {
+        throw new Error(message || 'El valor debe ser menor o igual a ' + numberValue)
       }
     }
   }

@@ -28,6 +28,7 @@ import fileURL from './fileURL'
 import validationSelect from './validationSelect'
 import buttonSelect from './buttonSelect'
 import html from './html'
+import fieldOptions from './fieldOptions'
 import formSelect from './formSelect'
 
 export default {
@@ -61,5 +62,6 @@ export default {
   textArea,
   fileURL,
   validationSelect,
+  fieldOptions,
   formSelect
 }
