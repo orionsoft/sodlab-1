@@ -11,7 +11,8 @@ export default class AutoFormField extends React.Component {
     fieldName: PropTypes.string,
     schemaToField: PropTypes.func,
     only: PropTypes.string,
-    passProps: PropTypes.object
+    passProps: PropTypes.object,
+    fromEnvironment: PropTypes.bool
   }
 
   renderObjectFields(fields) {
@@ -76,22 +77,41 @@ export default class AutoFormField extends React.Component {
     return <div className="description">{getInLocale(this.props.field.description)}</div>
   }
 
-  render() {
-    console.log('field')
-    console.log(this.props)
+  renderFieldElements(field, fieldName) {
     return (
       <div className="autoform-field">
-        {/* <div className="autoform-field row"> */}
-        <div
-        // className={`col-xs-${this.props.field.sizeSmall} col-sm-${
-        //   this.props.field.sizeMedium
-        // } col-md-${this.props.field.sizeLarge}`}>
-        >
-          {this.renderLabel()}
-          {this.renderField(this.props.field, this.props.fieldName)}
-          {this.renderDescription()}
-        </div>
+        {this.renderLabel()}
+        {this.renderField(field, fieldName)}
+        {this.renderDescription()}
       </div>
     )
+  }
+
+  render() {
+    const {field, fieldName} = this.props
+    if (this.props.fromEnvironment) {
+      const {type, fieldOptions = {}} = this.props.field
+      const Component = this.props.schemaToField('plainObject', this.props.field)
+      return (
+        <Field
+          fieldName={this.props.fieldName}
+          type={Component}
+          {...fieldOptions}
+          {...this.props.passProps}>
+          <div className="row">{this.renderObjectFields(type)}</div>
+        </Field>
+      )
+    } else if (field.sizeSmall && field.sizeMedium && field.sizeLarge) {
+      return (
+        <div
+          className={`col-xs-${field.sizeSmall} col-sm-${field.sizeMedium} col-md-${
+            field.sizeLarge
+          }`}>
+          {this.renderFieldElements(field, fieldName)}
+        </div>
+      )
+    } else {
+      return this.renderFieldElements(field, fieldName)
+    }
   }
 }

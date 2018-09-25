@@ -149,6 +149,7 @@ export default class Form extends React.Component {
           }}
           onSuccess={this.onSuccess}>
           <Fields
+            fromEnvironment
             schemaToField={this.schemaToField}
             params={this.getParams()}
             passProps={{formId: this.props.form._id}}
