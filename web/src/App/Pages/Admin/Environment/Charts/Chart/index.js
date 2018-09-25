@@ -12,6 +12,7 @@ import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
+import Checkbox from 'orionsoft-parts/lib/components/fields/Checkbox'
 import {Field, WithValue} from 'simple-react-form'
 import ObjectField from 'App/components/fields/ObjectField'
 import autobind from 'autobind-decorator'
@@ -19,7 +20,7 @@ import Option from '../../Hooks/Hook/Option'
 import mapValues from 'lodash/mapValues'
 
 @withGraphQL(gql`
-  query chart($chartId: ID) {
+  query chart($chartId: ID, $environmentId: ID) {
     chart(chartId: $chartId) {
       _id
       title
@@ -27,11 +28,28 @@ import mapValues from 'lodash/mapValues'
       environmentId
       chartTypeId
       options
+      collectionId
+      allowsNoFilter
+      filterByDefault
+      filtersIds
     }
     chartTypes {
       value: _id
       label: name
       optionsParams
+    }
+    collections(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
+    filters(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+        collectionId
+      }
     }
   }
 `)
@@ -43,7 +61,9 @@ export default class Chart extends React.Component {
     chart: PropTypes.object,
     showMessage: PropTypes.func,
     match: PropTypes.object,
-    chartTypes: PropTypes.array
+    chartTypes: PropTypes.array,
+    collections: PropTypes.object,
+    filters: PropTypes.object
   }
 
   remove() {
@@ -54,6 +74,37 @@ export default class Chart extends React.Component {
 
   getOptionsPreview(item) {
     return mapValues(mapValues(item.options, 'fixed'), 'value')
+  }
+
+  getSelectedFilters(thisChart) {
+    return this.props.filters.items.filter(
+      filter =>
+        filter.collectionId === thisChart.collectionId &&
+        thisChart.filtersIds &&
+        thisChart.filtersIds.includes(filter.value)
+    )
+  }
+
+  @autobind
+  renderFilterOptions(chart) {
+    if (!chart.collectionId) return
+    const filters = this.props.filters.items.filter(
+      filter => filter.collectionId === chart.collectionId
+    )
+    return (
+      <div style={{marginTop: 20}}>
+        <div className="label">Filtros</div>
+        <Field fieldName="filtersIds" type={Select} multi options={filters} />
+        <div className="label">Filtro por defecto</div>
+        <Field fieldName="filterByDefault" type={Select} options={this.getSelectedFilters(chart)} />
+        <div className="row">
+          <div className="col-xs-6 col-sm-">
+            <div className="label">Se puede usar sin filtro</div>
+            <Field fieldName="allowsNoFilter" type={Checkbox} label="Se puede usar sin filtro" />
+          </div>
+        </div>
+      </div>
+    )
   }
 
   @autobind
@@ -69,6 +120,7 @@ export default class Chart extends React.Component {
           key={name}
           name={name}
           schema={schema}
+          collectionId={item.collectionId}
           optionsPreview={this.getOptionsPreview(item)}
         />
       )
@@ -108,6 +160,13 @@ export default class Chart extends React.Component {
               <Field fieldName="title" type={Text} />
               <div className="label">Gráfico</div>
               <Field fieldName="chartTypeId" type={Select} options={this.props.chartTypes} />
+              <div className="label">Colección</div>
+              <Field
+                fieldName="collectionId"
+                type={Select}
+                options={this.props.collections.items}
+              />
+              <WithValue>{this.renderFilterOptions}</WithValue>
               <div className="divider" />
               <WithValue>{this.renderOptions}</WithValue>
             </Field>
