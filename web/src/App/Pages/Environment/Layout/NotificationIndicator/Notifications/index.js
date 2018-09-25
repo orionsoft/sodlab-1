@@ -22,7 +22,7 @@ export default class NotificationIndicator extends React.Component {
     const {environmentId} = this.props
     try {
       this.errorMessage = null
-      const result = await this.props.toggleReaded({
+      await this.props.toggleReaded({
         environmentId,
         notificationId: id
       })

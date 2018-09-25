@@ -1,5 +1,6 @@
 import Notifications from 'app/collections/Notifications'
 import EnvironmentUsers from 'app/collections/EnvironmentUsers'
+import notificationInserted from 'app/subscriptions/Environments/notificationInserted'
 
 export default {
   name: 'Notificar',
@@ -56,5 +57,6 @@ export default {
       notifierId: environmentUser._id,
       createdAt: new Date()
     })
+    await notificationInserted({environmentId: environmentId}, 'notification')
   }
 }

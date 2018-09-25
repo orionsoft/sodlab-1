@@ -10,7 +10,6 @@ import logout from 'App/helpers/auth/logout'
 import {withRouter} from 'react-router'
 import CloseIcon from 'react-icons/lib/md/close'
 import Links from './Links'
-import NotificationIndicator from './NotificationIndicator'
 
 @withEnvironmentId
 @withGraphQL(gql`
@@ -59,9 +58,6 @@ export default class Menu extends React.Component {
       <div className={styles.container}>
         <div className={styles.menuButton}>
           <CloseIcon onClick={this.toggleMenu} />
-        </div>
-        <div className={styles.notifications}>
-          <NotificationIndicator environmentId={environment._id} />
         </div>
         <Link to="/" className={styles.header}>
           <div className={styles.title}>{environment.name}</div>

@@ -5,6 +5,13 @@
   position: relative;
 }
 
+:local(.notifications) {
+  cursor: pointer;
+  position: absolute;
+  right: 40px;
+  top: 20px;
+}
+
 :local(.content) {
   flex: 1;
 }
