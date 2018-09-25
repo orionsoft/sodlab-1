@@ -128,7 +128,7 @@ export default class FormField extends React.Component {
   }
 
   renderSize() {
-    if (this.props.field.type !== 'editable' && this.props.field.type !== 'indicator') return
+    if (this.props.field.type !== 'editable') return
     return (
       <div className="row">
         <div className="col-xs-12 col-sm-4">
