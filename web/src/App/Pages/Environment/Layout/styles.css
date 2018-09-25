@@ -10,6 +10,8 @@
   position: absolute;
   right: 40px;
   top: 20px;
+  border-radius: 50%;
+  box-shadow: 3px 0px 6px rgba(50, 50, 93, 0.1), 0 8px 15px rgba(0, 0, 0, 0.07);
 }
 
 :local(.content) {
