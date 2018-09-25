@@ -10,6 +10,7 @@ export default resolver({
       return await Roles.find({_id: {$in: link.roles}}).toArray()
     } else {
       let roles = []
+      if (!link.fields) return []
       for (const field of link.fields) {
         roles = [...new Set([...roles, ...field.roles])]
       }
