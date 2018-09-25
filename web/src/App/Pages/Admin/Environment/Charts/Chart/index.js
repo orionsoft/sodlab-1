@@ -10,13 +10,27 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
 import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
+import Text from 'orionsoft-parts/lib/components/fields/Text'
+import Select from 'orionsoft-parts/lib/components/fields/Select'
+import {Field, WithValue} from 'simple-react-form'
+import ObjectField from 'App/components/fields/ObjectField'
+import autobind from 'autobind-decorator'
+import Option from '../../Hooks/Hook/Option'
+import mapValues from 'lodash/mapValues'
 
 @withGraphQL(gql`
   query chart($chartId: ID) {
     chart(chartId: $chartId) {
       _id
       title
+      name
       environmentId
+      chartTypeId
+    }
+    chartTypes {
+      value: _id
+      label: name
+      optionsParams
     }
   }
 `)
@@ -27,13 +41,44 @@ export default class Chart extends React.Component {
     history: PropTypes.object,
     chart: PropTypes.object,
     showMessage: PropTypes.func,
-    match: PropTypes.object
+    match: PropTypes.object,
+    chartTypes: PropTypes.array
   }
 
   remove() {
     const {environmentId} = this.props.match.params
     this.props.showMessage('Elemento eliminado satisfactoriamente!')
     this.props.history.push(`/${environmentId}/charts`)
+  }
+
+  getOptionsPreview(item) {
+    return mapValues(mapValues(item.options, 'fixed'), 'value')
+  }
+
+  @autobind
+  renderOptions(item) {
+    if (!item.chartTypeId) return
+    const chartType = this.props.chartTypes.find(f => f.value === item.chartTypeId)
+    if (!chartType) return
+    if (!chartType.optionsParams) return
+    const fields = Object.keys(chartType.optionsParams).map(name => {
+      const schema = chartType.optionsParams[name]
+      return (
+        <Option
+          key={name}
+          name={name}
+          schema={schema}
+          optionsPreview={this.getOptionsPreview(item)}
+        />
+      )
+    })
+    return (
+      <div className={styles.options}>
+        <Field fieldName="options" type={ObjectField}>
+          {fields}
+        </Field>
+      </div>
+    )
   }
 
   render() {
@@ -54,8 +99,18 @@ export default class Chart extends React.Component {
             doc={{
               chartId: this.props.chart._id,
               chart: this.props.chart
-            }}
-          />
+            }}>
+            <Field fieldName="chart" type={ObjectField}>
+              <div className="label">Nombre</div>
+              <Field fieldName="name" type={Text} />
+              <div className="label">Título</div>
+              <Field fieldName="title" type={Text} />
+              <div className="label">Gráfico</div>
+              <Field fieldName="chartTypeId" type={Select} options={this.props.chartTypes} />
+              <div className="divider" />
+              <WithValue>{this.renderOptions}</WithValue>
+            </Field>
+          </AutoForm>
           <br />
           <Button to={`/${this.props.chart.environmentId}/charts`} style={{marginRight: 10}}>
             Cancelar
