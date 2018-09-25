@@ -22,7 +22,7 @@
     "mime-types": "^2.1.20",
     "moment": "^2.22.2",
     "numeral": "^2.0.6",
-    "orionsoft-parts": "^1.11.6",
+    "orionsoft-parts": "^1.11.8",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-addons-css-transition-group": "^15.6.2",

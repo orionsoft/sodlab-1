@@ -29,6 +29,7 @@ import validationSelect from './validationSelect'
 import buttonSelect from './buttonSelect'
 import colorPicker from './colorPicker'
 import html from './html'
+import fieldOptions from './fieldOptions'
 import formSelect from './formSelect'
 
 export default {
@@ -63,5 +64,6 @@ export default {
   fileURL,
   validationSelect,
   colorPicker,
+  fieldOptions,
   formSelect
 }
