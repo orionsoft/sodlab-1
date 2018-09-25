@@ -37,6 +37,7 @@ export default class Option extends React.Component {
           field={{options: this.props.optionsPreview}}
           {...this.props.schema.fieldOptions}
           parentCollection={this.props.schema.parentCollection || null}
+          parentField={this.props.schema.parentField || null}
         />
       </div>
     )

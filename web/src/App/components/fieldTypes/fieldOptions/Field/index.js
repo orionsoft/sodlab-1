@@ -1,9 +1,9 @@
 import React from 'react'
+import styles from './styles.css'
 import PropTypes from 'prop-types'
 import Field from './Field'
-import styles from './styles.css'
 
-export default class FieldSelect extends React.Component {
+export default class FieldOptions extends React.Component {
   static propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func,
@@ -12,11 +12,8 @@ export default class FieldSelect extends React.Component {
     collectionId: PropTypes.string,
     includeId: PropTypes.bool,
     passProps: PropTypes.object,
-    parentCollection: PropTypes.string
-  }
-
-  static defaultProps = {
-    includeId: true
+    parentCollection: PropTypes.string,
+    parentField: PropTypes.string
   }
 
   renderSelectCollection() {
@@ -28,25 +25,33 @@ export default class FieldSelect extends React.Component {
     )
   }
 
-  renderField(collectionId) {
-    return <Field {...this.props} includeId={this.props.includeId} collectionId={collectionId} />
+  renderSelectField() {
+    return (
+      <div>
+        <div className={styles.selectCollection}>Selecciona un campo</div>
+        <div className="error">{this.props.errorMessage}</div>
+      </div>
+    )
+  }
+
+  renderField(collectionId, field) {
+    return <Field {...this.props} collectionId={collectionId} field={field} />
   }
 
   render() {
-    if (this.props.parentCollection) {
+    if (this.props.parentCollection && this.props.parentField) {
       if (!this.props.field) return this.renderSelectCollection()
       if (!this.props.field.options) return this.renderSelectCollection()
       if (!this.props.field.options[this.props.parentCollection]) {
         return this.renderSelectCollection()
       }
-      return this.renderField(this.props.field.options[this.props.parentCollection])
-    } else if (this.props.collectionId) {
-      return this.renderField(this.props.collectionId)
-    } else {
-      if (!this.props.field) return this.renderSelectCollection()
-      if (!this.props.field.options) return this.renderSelectCollection()
-      if (!this.props.field.options.collectionId) return this.renderSelectCollection()
-      return this.renderField(this.props.field.options.collectionId)
+      if (!this.props.field.options[this.props.parentField]) {
+        return this.renderSelectField()
+      }
+      return this.renderField(
+        this.props.field.options[this.props.parentCollection],
+        this.props.field.options[this.props.parentField]
+      )
     }
   }
 }
