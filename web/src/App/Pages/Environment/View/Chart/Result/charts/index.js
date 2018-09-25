@@ -1,5 +1,7 @@
-import barCountByDate from './barCountByDate'
+import barByDate from './barByDate'
+import lineByDate from './lineByDate'
 
 export default {
-  barCountByDate
+  barByDate,
+  lineByDate
 }

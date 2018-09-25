@@ -1,9 +1,16 @@
 import getIntervals from './getIntervals'
 
 export default {
-  name: 'Barra: Contar por Fecha',
-  chartType: 'bar',
+  name: 'Contar por Fecha',
   optionsSchema: {
+    renderType: {
+      type: String,
+      label: 'Tipo de gráfico',
+      fieldType: 'select',
+      fieldOptions: {
+        options: [{label: 'Barra', value: 'barByDate'}, {label: 'Linea', value: 'lineByDate'}]
+      }
+    },
     dateKey: {
       type: String,
       label: 'Campo a actualizar',
@@ -23,7 +30,7 @@ export default {
       }
     }
   },
-  async getResult({options: {dateKey, divideBy}, params, query, collection, chart}) {
+  async getResult({options: {dateKey, divideBy, renderType}, params, query, collection, chart}) {
     const intervals = await getIntervals({collection, query, dateKey, divideBy})
     const points = []
 
@@ -51,6 +58,6 @@ export default {
       points.push({x: fromDate, y: value})
     }
 
-    return {points, divideBy}
+    return {points, divideBy, renderType}
   }
 }

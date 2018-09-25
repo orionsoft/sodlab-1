@@ -12,8 +12,7 @@ import charts from './charts'
 export default class Result extends React.Component {
   static propTypes = {
     setRef: PropTypes.func,
-    result: PropTypes.object,
-    chart: PropTypes.object
+    result: PropTypes.object
   }
 
   constructor(props) {
@@ -22,10 +21,9 @@ export default class Result extends React.Component {
   }
 
   render() {
-    const {chart} = this.props
-    const Component = charts[chart.chartTypeId]
-    if (!Component) return `Chart type ${chart.chartTypeId} not found`
-    console.log(this.props)
-    return <Component data={this.props.result} chart={chart} />
+    const {renderType} = this.props.result
+    const Component = charts[renderType]
+    if (!Component) return `Chart type ${renderType} not found`
+    return <Component data={this.props.result} />
   }
 }

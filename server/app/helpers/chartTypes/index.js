@@ -1,5 +1,5 @@
-import barCountByDate from './barCountByDate'
+import countByDate from './countByDate'
 
 export default {
-  barCountByDate
+  countByDate
 }
