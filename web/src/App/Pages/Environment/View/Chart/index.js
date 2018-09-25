@@ -57,6 +57,7 @@ export default class Chart extends React.Component {
         filterId={filterId}
         filterOptions={filterOptions}
         chartId={chart._id}
+        chart={chart}
         params={parameters}
       />
     )

@@ -48,9 +48,9 @@ export default {
         .toArray()
 
       const value = result ? result.total : 0
-      points.push({date: toDate, value})
+      points.push({x: fromDate, y: value})
     }
 
-    return points
+    return {points, divideBy}
   }
 }

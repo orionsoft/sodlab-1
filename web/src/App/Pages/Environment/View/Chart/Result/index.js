@@ -1,8 +1,8 @@
 import React from 'react'
-import styles from './styles.css'
 import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
+import charts from './charts'
 
 @withGraphQL(gql`
   query getChartResult($chartId: ID, $params: JSON) {
@@ -12,7 +12,8 @@ import gql from 'graphql-tag'
 export default class Result extends React.Component {
   static propTypes = {
     setRef: PropTypes.func,
-    result: PropTypes.object
+    result: PropTypes.object,
+    chart: PropTypes.object
   }
 
   constructor(props) {
@@ -21,7 +22,10 @@ export default class Result extends React.Component {
   }
 
   render() {
+    const {chart} = this.props
+    const Component = charts[chart.chartTypeId]
+    if (!Component) return `Chart type ${chart.chartTypeId} not found`
     console.log(this.props)
-    return <div className={styles.container}>Result</div>
+    return <Component data={this.props.result} chart={chart} />
   }
 }

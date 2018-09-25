@@ -1,0 +1,12 @@
+:local(.container) {
+}
+
+:local(.hint) {
+  padding: 10px;
+  background: #ddd;
+  color: #111;
+}
+
+:local(.hintLabel) {
+  font-weight: bold;
+}
