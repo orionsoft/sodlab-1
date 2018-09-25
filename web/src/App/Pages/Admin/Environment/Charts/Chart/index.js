@@ -26,6 +26,7 @@ import mapValues from 'lodash/mapValues'
       name
       environmentId
       chartTypeId
+      options
     }
     chartTypes {
       value: _id
