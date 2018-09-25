@@ -104,9 +104,8 @@ export default class AutoFormField extends React.Component {
     } else if (field.sizeSmall && field.sizeMedium && field.sizeLarge) {
       return (
         <div
-          className={`col-xs-${field.sizeSmall} col-sm-${field.sizeMedium} col-md-${
-            field.sizeLarge
-          }`}>
+          className={`col-xs-${field.sizeSmall || 12} col-sm-${field.sizeMedium ||
+            12} col-md-${field.sizeLarge || 12}`}>
           {this.renderFieldElements(field, fieldName)}
         </div>
       )
