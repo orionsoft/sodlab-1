@@ -29,19 +29,7 @@ const fields = [
   'productsPrice',
   'productsQuantity',
   'productsDscto',
-  'productsUnit',
-  'billsCollectionId',
-  'billID',
-  'billTipodoc',
-  'billFolio',
-  'billMontoNeto',
-  'billMontoIva',
-  'billMontoTotal',
-  'billEstado',
-  'billFile',
-  'billReceptor',
-  'billExento',
-  'billFechaEmision'
+  'productsUnit'
 ]
 
 export default {
@@ -71,7 +59,9 @@ export default {
     if (!liorenIdBill) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const order = await ordersDB.findOne(params._id)
-    const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
+    const client = await clientsDB.findOne({
+      [`data.${options.receptorRs}`]: order.data[options.pedidosCliente]
+    })
     const productsId = await productsDB
       .find({[`data.${options.productsOrdersIds}`]: params._id})
       .toArray()
