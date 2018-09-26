@@ -99,13 +99,7 @@ export default {
   },
   productsOrdersIds: {
     type: String,
-    label: 'Identificador Producto (de colección Productos)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'productsCollectionId'
-  },
-  productsIds: {
-    type: [String],
-    label: 'Identificador Producto (de colección Productos)',
+    label: 'Identificador Producto Pedidos(de colección Productos)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'
   },
