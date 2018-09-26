@@ -24,6 +24,8 @@ export default resolver({
   returns: Item,
   mutation: true,
   async resolve({formId, itemId, data}, viewer) {
+    console.log('asd')
+    console.log({formId, itemId, data})
     const form = await Forms.findOne(formId)
     if (form.requireTwoFactor) {
       await requireTwoFactor(viewer)
