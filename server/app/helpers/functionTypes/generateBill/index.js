@@ -67,7 +67,10 @@ export default {
       .toArray()
 
     const mapProducts = productsId.map(async product => {
-      const sku = await masterProductsDB.findOne({'data.sku': product.data[options.productsSku]})
+      const sku = await masterProductsDB.findOne({
+        [`data.${options.productsSku}`]: product.data[options.productsSku]
+      })
+
       return {
         codigo: sku.data[options.skuMaestroProductosCollection],
         nombre: product.data[options.productsName],
