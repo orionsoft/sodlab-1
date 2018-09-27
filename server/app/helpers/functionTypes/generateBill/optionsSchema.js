@@ -228,6 +228,7 @@ export default {
     label:
       'Campo para almacenar Archivo de la Factura (de colleción Factura Electrónica) (opcional)',
     optional: true,
+    fieldType: 'collectionFieldSelect',
     parentCollection: 'billsCollectionId'
   }
 }
