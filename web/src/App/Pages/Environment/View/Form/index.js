@@ -17,6 +17,11 @@ import styles from './styles.css'
       submitButtonText
       resetButtonText
       onSuccessViewPath
+      fieldsList {
+        fieldName
+        type
+        editableLabel
+      }
     }
   }
 `)
@@ -46,7 +51,8 @@ export default class Form extends React.Component {
       data: this.state.data || {},
       itemId: this.getItemId(),
       parameters: this.props.parameters || {},
-      setEnvironment: this.props.setEnvironment
+      setEnvironment: this.props.setEnvironment,
+      fields: this.props.form.fieldsList
     }
     if (props.form.type === 'update' && !props.itemId) return this.renderNoItem()
     return <FormContent {...props} />

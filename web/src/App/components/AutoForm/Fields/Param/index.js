@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './styles.css'
 import PropTypes from 'prop-types'
 import isArray from 'lodash/isArray'
 import isPlainObject from 'lodash/isPlainObject'
@@ -11,21 +12,40 @@ export default class AutoFormField extends React.Component {
     fieldName: PropTypes.string,
     schemaToField: PropTypes.func,
     only: PropTypes.string,
-    passProps: PropTypes.object
+    passProps: PropTypes.object,
+    fields: PropTypes.array
   }
 
-  renderObjectFields(fields) {
-    return Object.keys(fields).map(key => {
-      return (
-        <AutoFormField
-          key={key}
-          field={fields[key]}
-          fieldName={key}
-          schemaToField={this.props.schemaToField}
-          passProps={this.props.passProps}
-        />
-      )
-    })
+  renderObjectFields(fields, sections) {
+    if (sections) {
+      return sections.map(field => {
+        if (field.type === 'section') {
+          return <h4 className={styles.section}>{field.editableLabel}</h4>
+        } else {
+          return (
+            <AutoFormField
+              key={field.fieldName}
+              field={fields[field.fieldName]}
+              fieldName={field.fieldName}
+              schemaToField={this.props.schemaToField}
+              passProps={this.props.passProps}
+            />
+          )
+        }
+      })
+    } else {
+      return Object.keys(fields).map(key => {
+        return (
+          <AutoFormField
+            key={key}
+            field={fields[key]}
+            fieldName={key}
+            schemaToField={this.props.schemaToField}
+            passProps={this.props.passProps}
+          />
+        )
+      })
+    }
   }
 
   renderField(field) {
@@ -49,7 +69,7 @@ export default class AutoFormField extends React.Component {
           type={Component}
           {...fieldOptions}
           {...this.props.passProps}>
-          {this.renderObjectFields(type)}
+          {this.renderObjectFields(type, this.props.fields)}
         </Field>
       )
     } else {
