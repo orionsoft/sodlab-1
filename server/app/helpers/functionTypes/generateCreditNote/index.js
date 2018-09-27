@@ -71,17 +71,25 @@ export default {
     const masterProductsDB = await masterProductsCollection.db()
     const productsDB = await productsCollection.db()
 
-    const {liorenIdCreditNote, exempt} = await Environments.findOne({_id: billCollection.environmentId})
+    const {liorenIdCreditNote, exempt} = await Environments.findOne({
+      _id: billCollection.environmentId
+    })
 
     if (!liorenIdCreditNote) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const {data} = await billsDB.findOne({[`data.${options.billFolio}`]: parseInt(params.billID)})
     const order = await ordersDB.findOne({[`data.${options.pedidosId}`]: data[options.pedidosId]})
-    const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
-    const productsId = await productsDB.find({[`data.${options.productsOrdersIds}`]: order._id}).toArray()
+    const client = await clientsDB.findOne({
+      [`data.${options.receptorRs}`]: order.data[options.pedidosCliente]
+    })
+    const productsId = await productsDB
+      .find({[`data.${options.productsOrdersIds}`]: order._id})
+      .toArray()
 
     const mapProducts = productsId.map(async product => {
-      const sku = await masterProductsDB.findOne({_id: product.data[options.productsSku]})
+      const sku = await masterProductsDB.findOne({
+        [`data.${options.productsSku}`]: product.data[options.productsSku]
+      })
       return {
         codigo: sku.data[options.skuMaestroProductosCollection],
         nombre: product.data[options.productsName],
@@ -115,13 +123,15 @@ export default {
           direccion: data[options.receptorRut]
         },
         detalles: productsList,
-        referencias: [{
-          fecha: data[options.billFechaEmision],
-          tipodoc: data[options.billTipodocumento],
-          folio: data[options.billFolio],
-          razonref: params.razon,
-          glosa: order.data[options.pedidosGlosa]
-        }],
+        referencias: [
+          {
+            fecha: data[options.billFechaEmision],
+            tipodoc: data[options.billTipodocumento],
+            folio: data[options.billFolio],
+            razonref: params.razon,
+            glosa: order.data[options.pedidosGlosa]
+          }
+        ],
         expects: 'all'
       }
     }
@@ -153,6 +163,5 @@ export default {
       [`data.${options.creditNoteMontoIva}`]: dte.montoiva,
       [`data.${options.creditNoteMontoTotal}`]: dte.montototal
     })
-
   }
 }
