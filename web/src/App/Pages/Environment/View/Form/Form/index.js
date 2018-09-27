@@ -11,6 +11,7 @@ import schemaToField from 'App/components/schemaToField'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import cloneDeep from 'lodash/cloneDeep'
+import omit from 'lodash/omit'
 import translate from 'App/i18n/translate'
 import {withRouter} from 'react-router'
 
@@ -39,7 +40,13 @@ export default class Form extends React.Component {
     setEnvironment: PropTypes.func
   }
 
-  state = {}
+  state = {
+    docData: {}
+  }
+
+  componentDidMount() {
+    this.setState({docData: this.getData()})
+  }
 
   renderResetButton() {
     if (!this.props.form.reset) return null
@@ -113,12 +120,34 @@ export default class Form extends React.Component {
     return doc
   }
 
+  @autobind
   getParams() {
     const schema = cloneDeep(this.props.form.serializedParams) || {}
     for (const key of Object.keys(schema)) {
       const field = schema[key]
       if (field.formFieldType !== 'editable') {
         delete schema[key]
+      } else {
+        if (
+          field.requiredType === 'editable' &&
+          (!this.state.docData[field.requiredField] ||
+            this.state.docData[field.requiredField] !== field.requiredValue)
+        ) {
+          if (this.state.docData[key]) {
+            const state = omit(this.state.docData, key)
+            this.setState({docData: state})
+          }
+          delete schema[key]
+        } else if (
+          field.requiredType === 'parameter' &&
+          !this.props.parameters[field.requiredParameter]
+        ) {
+          if (this.state.docData[key]) {
+            const state = omit(this.state.docData, key)
+            this.setState({docData: state})
+          }
+          delete schema[key]
+        }
       }
     }
     const params = {data: {type: schema}}
@@ -133,6 +162,11 @@ export default class Form extends React.Component {
     return <div className={styles.itemNotFound}>No se encontró el documento</div>
   }
 
+  @autobind
+  onChange(docData) {
+    this.setState({docData})
+  }
+
   render() {
     if (this.needsData() && !this.getItemData()) return this.renderItemNotFound()
     return (
@@ -142,9 +176,10 @@ export default class Form extends React.Component {
           ref="form"
           only="data"
           getErrorFieldLabel={this.getErrorFieldLabel}
+          onChange={changes => this.onChange(changes.data)}
           doc={{
             formId: this.props.form._id,
-            data: this.getData(),
+            data: this.state.docData,
             itemId: this.getItemId()
           }}
           onSuccess={this.onSuccess}>

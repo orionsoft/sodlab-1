@@ -23,6 +23,37 @@ export default {
     type: String,
     optional: true
   },
+  requiredField: {
+    type: String,
+    optional: true,
+    async custom(requiredField, {currentDoc}) {
+      if (currentDoc.requiredType === 'editable' && !requiredField) {
+        return 'required'
+      }
+    }
+  },
+  requiredValue: {
+    type: String,
+    optional: true,
+    async custom(requiredValue, {currentDoc}) {
+      if (currentDoc.requiredType === 'editable' && !requiredValue) {
+        return 'required'
+      }
+    }
+  },
+  requiredParameter: {
+    type: String,
+    optional: true,
+    async custom(requiredParameter, {currentDoc}) {
+      if (currentDoc.requiredType === 'parameter' && !requiredParameter) {
+        return 'required'
+      }
+    }
+  },
+  requiredType: {
+    type: String,
+    optional: true
+  },
   indicatorId: {
     type: String,
     optional: true

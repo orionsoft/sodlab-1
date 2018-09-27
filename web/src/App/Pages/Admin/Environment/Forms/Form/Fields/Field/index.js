@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import CollectionFieldSelect from 'App/components/fieldTypes/collectionFieldSelect/Field'
 import fieldTypes from 'App/components/fieldTypes'
 import range from 'lodash/range'
+import Required from './Required'
 
 export default class FormField extends React.Component {
   static propTypes = {
@@ -29,7 +30,7 @@ export default class FormField extends React.Component {
   renderEditableLabel() {
     if (this.props.field.type !== 'editable') return
     return (
-      <div>
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Título</div>
         <Field fieldName="editableLabel" type={Text} />
       </div>
@@ -39,7 +40,7 @@ export default class FormField extends React.Component {
   renderIndicatorId() {
     if (this.props.field.type !== 'indicator') return
     return (
-      <div>
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Indicador</div>
         <Field fieldName="indicatorId" type={Select} options={this.props.indicators.items} />
       </div>
@@ -55,7 +56,7 @@ export default class FormField extends React.Component {
     if (!collectionField) return
     const FieldComponent = fieldTypes[collectionField.type].field
     return (
-      <div className={styles.fixedValue}>
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Valor</div>
         <Field
           collectionFieldName={
@@ -73,7 +74,7 @@ export default class FormField extends React.Component {
   renderParameterOptions() {
     if (this.props.field.type !== 'parameter') return
     return (
-      <div>
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Variable</div>
         <Field fieldName="parameterName" type={Text} />
       </div>
@@ -87,7 +88,7 @@ export default class FormField extends React.Component {
       return formField.name === field.fieldName
     })
     return (
-      <div>
+      <div className="col-xs-12 col-sm-2 col-lg-4">
         <div className="label">Opcional</div>
         <Field
           fieldName="optional"
@@ -108,7 +109,7 @@ export default class FormField extends React.Component {
     if (!collectionField) return
     const FieldComponent = fieldTypes[collectionField.type].field
     return (
-      <div className={styles.fixedValue}>
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Valor por Defecto</div>
         <Field
           collectionFieldName={
@@ -130,18 +131,21 @@ export default class FormField extends React.Component {
   renderSize() {
     if (this.props.field.type !== 'editable') return
     return (
-      <div className="row">
-        <div className="col-xs-12 col-sm-4">
-          <div className="label">Columnas Móvil</div>
-          <Field fieldName="sizeSmall" type={Select} options={this.getSizeOptions()} />
-        </div>
-        <div className="col-xs-12 col-sm-4">
-          <div className="label">Columnas Mediano</div>
-          <Field fieldName="sizeMedium" type={Select} options={this.getSizeOptions()} />
-        </div>
-        <div className="col-xs-12 col-sm-4">
-          <div className="label">Columnas Largo</div>
-          <Field fieldName="sizeLarge" type={Select} options={this.getSizeOptions()} />
+      <div>
+        <div className="label">Tamaño</div>
+        <div className="row">
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Móvil</div>
+            <Field fieldName="sizeSmall" type={Select} options={this.getSizeOptions()} />
+          </div>
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Mediano</div>
+            <Field fieldName="sizeMedium" type={Select} options={this.getSizeOptions()} />
+          </div>
+          <div className="col-xs-12 col-sm-4">
+            <div className="label">Columnas Largo</div>
+            <Field fieldName="sizeLarge" type={Select} options={this.getSizeOptions()} />
+          </div>
         </div>
       </div>
     )
@@ -151,11 +155,11 @@ export default class FormField extends React.Component {
     return (
       <div className={styles.container}>
         <div className="row">
-          <div className="col-xs-12 col-sm-5 col-lg-2">
+          <div className="col-xs-12 col-sm-5 col-lg-4">
             <div className="label">Tipo</div>
             <Field fieldName="type" type={Select} options={this.getTypes()} />
           </div>
-          <div className="col-xs-12 col-sm-5 col-lg-3">
+          <div className="col-xs-12 col-sm-5 col-lg-4">
             <div className="label">Campo</div>
             <Field
               fieldName="fieldName"
@@ -164,16 +168,15 @@ export default class FormField extends React.Component {
               collectionId={this.props.form.collectionId}
             />
           </div>
-          <div className="col-xs-12 col-sm-2 col-lg-2">{this.renderOptional()}</div>
-          <div className="col-xs-12 col-sm-6 col-lg-3">
-            {this.renderEditableLabel()}
-            {this.renderFixedValue()}
-            {this.renderParameterOptions()}
-            {this.renderIndicatorId()}
-          </div>
-          <div className="col-xs-12 col-sm-6 col-lg-2">{this.renderDefault()}</div>
+          {this.renderEditableLabel()}
+          {this.renderFixedValue()}
+          {this.renderParameterOptions()}
+          {this.renderIndicatorId()}
+          {this.renderDefault()}
+          {this.renderOptional()}
         </div>
         {this.renderSize()}
+        <Required {...this.props} />
       </div>
     )
   }
