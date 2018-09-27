@@ -148,6 +148,7 @@ export default {
     }
 
     await creditNoteDB.insert({
+      createdAt: new Date(),
       [`data.${options.billFechaEmision}`]: formatDate(),
       [`data.${options.receptorRut}`]: client.data[options.receptorRut],
       [`data.${options.receptorRs}`]: client.data[options.receptorRs],

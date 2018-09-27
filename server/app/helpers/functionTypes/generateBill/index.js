@@ -118,6 +118,7 @@ export default {
     }
 
     await billsDB.insert({
+      createdAt: new Date(),
       [`data.${options.billFechaEmision}`]: formatDate(),
       [`data.${options.pedidosId}`]: order.data[options.pedidosId],
       [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,

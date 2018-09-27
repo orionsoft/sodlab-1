@@ -136,6 +136,7 @@ export default {
     }
 
     await deliveryDB.insert({
+      createdAt: new Date(),
       [`data.${options.deliveryFechaEmision}`]: formatDate(),
       [`data.${options.deliveryFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
       [`data.${options.pedidosId}`]: order.data[options.pedidosId],
