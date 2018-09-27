@@ -17,6 +17,7 @@ import transformCurrencyToText from './transformCurrencyToText'
 import formatNumber from './formatNumber'
 import formatCurrency from './formatCurrency'
 import transformTextUpperCase from './transformTextUpperCase'
+import currentDateCollection from './currentDateCollection'
 
 export default {
   concatValues,
@@ -37,5 +38,6 @@ export default {
   transformCurrencyToText,
   formatNumber,
   formatCurrency,
-  transformTextUpperCase
+  transformTextUpperCase,
+  currentDateCollection
 }
