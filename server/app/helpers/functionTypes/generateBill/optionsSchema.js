@@ -189,7 +189,7 @@ export default {
       'Campo para almacenar Monto Total de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentCollection: 'billsCollectionID'
+    parentCollection: 'billsCollectionId'
   },
   billExento: {
     type: String,
@@ -197,7 +197,7 @@ export default {
       'Campo para almacenar Exento de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentCollection: 'billsCollectionID'
+    parentCollection: 'billsCollectionId'
   },
   billEstado: {
     type: String,
@@ -205,7 +205,7 @@ export default {
       'Campo para almacenar estado de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentCollection: 'billsCollectionID'
+    parentCollection: 'billsCollectionId'
   },
   billReceptor: {
     type: String,
@@ -213,7 +213,7 @@ export default {
       'Campo para almacenar Receptor de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentCollection: 'billsCollectionID'
+    parentCollection: 'billsCollectionId'
   },
   billFechaEmision: {
     type: String,
@@ -221,13 +221,13 @@ export default {
       'Campo para almacenar Fecha Emisión de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentCollection: 'billsCollectionID'
+    parentCollection: 'billsCollectionId'
   },
   billFile: {
     type: String,
     label:
       'Campo para almacenar Archivo de la Factura (de colleción Factura Electrónica) (opcional)',
     optional: true,
-    parentCollection: 'billsCollectionID'
+    parentCollection: 'billsCollectionId'
   }
 }
