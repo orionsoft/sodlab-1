@@ -6,8 +6,7 @@ import styles from './styles.css'
 import {ClientProvider} from './context'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import apiUrl from './helpers/url'
-import requestSignedUrl from './helpers/requestSignedUrl'
-import arrayBufferToBase64 from './helpers/arrayBufferToBase64'
+import downloadImage from './helpers/downloadImage'
 
 @withMessage
 export default class DocumentEditor extends React.Component {
@@ -175,12 +174,7 @@ export default class DocumentEditor extends React.Component {
           key: `${this.state.envId}/${this.state.uniqueId}/${page.name}`,
           operation: 'getObject'
         }
-        const signedRequest = await requestSignedUrl(params)
-        const response = await fetch(signedRequest)
-        const buffer = await response.arrayBuffer()
-        const base64Flag = 'data:image/png;base64,'
-        const imageStr = arrayBufferToBase64(buffer)
-        const src = base64Flag + imageStr
+        const src = await downloadImage(params)
         const pagesSrc = [...this.state.pagesSrc, {name: page.name, src, index}].sort(
           (a, b) => a.index - b.index
         )

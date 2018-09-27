@@ -73,7 +73,7 @@ export default class DocumentEditorHeader extends React.Component {
         pages: pagesData,
         size,
         uniqueId,
-        objecsts: Objects
+        objects: Objects
       })
       return this.props.fetchPdfPages()
     } catch (error) {

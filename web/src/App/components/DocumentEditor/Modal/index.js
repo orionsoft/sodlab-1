@@ -41,7 +41,9 @@ export default class Main extends React.Component {
     requestFileDeletion: PropTypes.func,
     resetState: PropTypes.func,
     changeState: PropTypes.func,
-    envId: PropTypes.string
+    envId: PropTypes.string,
+    uniqueId: PropTypes.string,
+    objects: PropTypes.array
   }
 
   @autobind
@@ -113,7 +115,10 @@ export default class Main extends React.Component {
             <ClientConsumer>
               {rutClient => (
                 <Form
+                  envId={this.props.envId}
+                  uniqueId={this.props.uniqueId}
                   filename={this.props.filename}
+                  objects={this.props.objects}
                   insertImage={this.insertImage}
                   handleSubmitImg={this.handleSubmitImg}
                   changeState={this.props.changeState}

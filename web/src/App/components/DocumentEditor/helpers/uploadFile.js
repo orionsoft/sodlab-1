@@ -1,14 +1,12 @@
-export default async function(signedRequest, file, contentType = null) {
-  let options = {
+export default async function(signedRequest, file, contentType) {
+  const options = {
     method: 'PUT',
-    body: file
-  }
-  if (contentType) {
-    const headers = {
+    body: file,
+    headers: {
       'Content-Type': contentType
     }
-    options = {...options, headers}
   }
+
   try {
     const response = await fetch(signedRequest, options)
     if (!response.ok) return this.props.showMessage('Error al enviar al subir el archivo')

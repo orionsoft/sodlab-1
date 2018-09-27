@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import autobind from 'autobind-decorator'
 import Modal from 'react-modal'
 import MdFingerprint from 'react-icons/lib/md/fingerprint'
 import MdSignature from 'react-icons/lib/md/border-color.js'
@@ -12,9 +13,11 @@ import SignerName from './Fields/name'
 import SignerRut from './Fields/rut'
 import SignerReason from './Fields/reason'
 import Device from './Device'
-import apiUrl from '../../helpers/url'
-import formattedDate from '../../helpers/formattedDate'
-import arrayBufferToBase64 from '../../helpers/arrayBufferToBase64'
+import apiUrl from 'App/components/DocumentEditor/helpers/url'
+import formattedDate from 'App/components/DocumentEditor/helpers/formattedDate'
+import requestSignedUrl from 'App/components/DocumentEditor/helpers/requestSignedUrl'
+import uploadFile from 'App/components/DocumentEditor/helpers/uploadFile'
+import downloadImage from 'App/components/DocumentEditor/helpers/downloadImage'
 import styles from './styles.css'
 
 @withGraphQL(gql`
@@ -53,6 +56,9 @@ class DocumentEditorForm extends React.Component {
     posX: PropTypes.number,
     posY: PropTypes.number,
     apiObjects: PropTypes.array,
+    envId: PropTypes.string,
+    uniqueId: PropTypes.string,
+    objects: PropTypes.array,
     // ERP props
     showMessage: PropTypes.func,
     selectOptions: PropTypes.object,
@@ -73,7 +79,9 @@ class DocumentEditorForm extends React.Component {
     captureFingerprintWsq: false,
     activeFingerprint: null,
     activeSignature: null,
-    fileId: ''
+    fileId: '',
+    currentDate: '',
+    currentTime: ''
   }
 
   componentDidMount() {
@@ -115,10 +123,13 @@ class DocumentEditorForm extends React.Component {
 
   captureFingerprintWsq = () => {
     this.props.stopFingerprintCapturing()
-    const date = new Date()
-    const currentTime = date.getTime().toString()
-    this.setState({fileId: `${currentTime}_${this.state.rut}`})
-    this.props.startFingerprint('compressed', `${currentTime}_${this.state.rut}`)
+    const {currentDate, currentTime} = formattedDate()
+    this.setState({
+      fileId: `${currentDate}_${currentTime}_${this.state.rut}`,
+      currentDate,
+      currentTime
+    })
+    this.props.startFingerprint('compressed', `${currentDate}_${currentTime}_${this.state.rut}`)
   }
 
   insertImage = (type, id, imageSrc, name, rut) => {
@@ -166,21 +177,24 @@ class DocumentEditorForm extends React.Component {
     }
   }
 
-  fetchPdfPage = () => {
+  @autobind
+  fetchPdfPage() {
+    const {envId, uniqueId, activePage} = this.props
     this.props.pages
-      .filter(fileInfo => fileInfo.page === this.props.activePage.toString())
-      .map(async (fileInfo, index) => {
+      .filter(page => page.page === this.props.activePage.toString())
+      .map(async (page, index) => {
         try {
-          const response = await fetch(`${apiUrl}/api/images/pdf/${fileInfo.name}/${index}`)
-          const buffer = await response.arrayBuffer()
-          const base64Flag = 'data:image/png;base64,'
-          const imageStr = arrayBufferToBase64(buffer)
-          const src = base64Flag + imageStr
+          const params = {
+            bucket: 'work',
+            key: `${envId}/${uniqueId}/${page.name}`,
+            operation: 'getObject'
+          }
+          const src = await downloadImage(params)
           let {pagesSrc} = this.props
-          pagesSrc[this.props.activePage - 1] = {
-            name: fileInfo.name,
+          pagesSrc[activePage - 1] = {
+            name: page.name,
             src,
-            index: this.props.activePage - 1
+            index: activePage - 1
           }
           pagesSrc = pagesSrc.sort((a, b) => a.index - b.index)
 
@@ -219,31 +233,30 @@ class DocumentEditorForm extends React.Component {
     return blob
   }
 
-  appendDataToForm = (type, signature, formData) => {
-    if (typeof signature === 'undefined' || signature === null) return
-
-    const block = signature.imageSrc.split(';')
+  @autobind
+  async uploadObject(imageSrc, type) {
+    const block = imageSrc.split(';')
     const contentType = block[0].split(':')[1]
+    const extension = contentType === 'image/png' ? 'png' : 'wsq'
     const realData = block[1].split(',')[1]
     const blob = this.b64toBlob(realData, contentType)
-    formData.append(type, blob, `${signature.id}.png`)
-    formData.append('signer_name', signature.name)
-    formData.append('signer_rut', signature.rut)
-
-    if (type === 'fingerprint') {
-      const wsqBase64 = localStorage.getItem(this.state.fileId)
-      const block = wsqBase64.split(';')
-      const contentType = block[0].split(':')[1]
-      const realData = block[1].split(',')[1]
-      const blob = this.b64toBlob(realData, contentType)
-      formData.append('fingerprintWsq', blob, `${this.state.fileId}.wsq`)
-      localStorage.removeItem(this.state.fileId)
+    const params = {
+      bucket: 'work',
+      key: `${this.props.envId}/${this.props.uniqueId}/${this.state.fileId}.${type}.${extension}`,
+      operation: 'putObject',
+      contentType
     }
-
-    return
+    try {
+      const signedRequest = await requestSignedUrl(params)
+      await uploadFile(signedRequest, blob, contentType)
+    } catch (error) {
+      console.log('uploadObject', error)
+      throw new Error('Error al guardar el objecto biometrico')
+    }
   }
 
-  submit = async () => {
+  @autobind
+  async submit() {
     try {
       await this.saveCapture()
     } catch (error) {
@@ -256,8 +269,8 @@ class DocumentEditorForm extends React.Component {
       loading: true
     })
 
-    const {activeFingerprint, activeSignature} = this.state
-    const {posX, posY} = this.props
+    const {activeFingerprint, activeSignature, who, rut, currentDate, currentTime} = this.state
+    const {envId, uniqueId, filename, activePage, posX, posY} = this.props
 
     if (activeFingerprint === null && activeSignature === null) {
       this.props.changeState({
@@ -269,43 +282,42 @@ class DocumentEditorForm extends React.Component {
       )
     }
 
-    const form = document.createElement('form')
-    form.enctype = 'multipart/form-data'
-    const formData = new FormData(form)
-    this.appendDataToForm('signature', activeSignature, formData)
-    this.appendDataToForm('fingerprint', activeFingerprint, formData)
-    formData.append('pdfFileName', this.props.apiFilename)
-    formData.append('page', this.props.activePage - 1)
-    const date = formattedDate()
-    formData.append('currentDate', date.currentDate)
-    formData.append('currentTime', date.currentTime)
-
-    try {
-      const response = await fetch(`${apiUrl}/api/images/${posX}/${posY}`, {
-        method: 'POST',
-        body: formData
-      })
-      const data = await response.json()
-      if (!data) {
-        this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
-
-        return this.props.changeState({loading: false})
-      } else {
-        localStorage.removeItem('fingerprintPng')
-        if (data.paths) {
-          const newPaths = data.paths.map(file => {
-            const fileExtension = file.type === 'fingerprint' ? 'wsq' : 'png'
-            return {fileId: `${this.state.fileId}.${fileExtension}`, path: file.path}
-          })
-          this.props.changeState({
-            apiObjects: [...this.props.apiObjects, ...newPaths]
-          })
-        }
-        return this.fetchPdfPage()
-      }
-    } catch (err) {
-      this.props.showMessage('No se ha podido firmar el documento')
+    if (activeSignature) this.uploadObject(activeSignature.imageSrc, 'signature')
+    if (activeFingerprint) {
+      this.uploadObject(activeFingerprint.imageSrc, 'fingerprint')
+      const wsqBase64 = localStorage.getItem(this.state.fileId)
+      localStorage.removeItem('fingerprintPng')
+      localStorage.removeItem(this.state.fileId)
+      this.uploadObject(wsqBase64, 'fingerprint')
     }
+
+    const response = await fetch(`${apiUrl}/api/images`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({
+        envId,
+        uniqueId,
+        pdfFilename: filename,
+        signatureFilename: `${this.state.fileId}.signature.png`,
+        fingerprintFilename: `${this.state.fileId}.fingerprint.png`,
+        signerName: who,
+        signerRut: rut,
+        currentDate,
+        currentTime,
+        page: activePage - 1,
+        posx: posX,
+        posy: posY
+      })
+    })
+    const {Objects} = await response.json()
+    const updatedObjects = [...this.props.objects, ...Objects]
+    this.props.changeState({
+      objects: updatedObjects
+    })
+
+    this.fetchPdfPage()
   }
 
   render() {
