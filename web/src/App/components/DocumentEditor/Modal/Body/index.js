@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FileSaver from 'file-saver'
+import autobind from 'autobind-decorator'
 import {FaSpinner} from 'react-icons/lib/fa'
 import withMutation from 'react-apollo-decorators/lib/withMutation'
 import gql from 'graphql-tag'
 import Button from 'orionsoft-parts/lib/components/Button'
-import apiUrl from '../../helpers/url'
+import requestSignedUrl from 'App/components/DocumentEditor/helpers/requestSignedUrl'
+import apiUrl from 'App/components/DocumentEditor/helpers/url'
 import styles from './styles.css'
 
 @withMutation(gql`
@@ -41,7 +42,9 @@ export default class DocumentEditorPagination extends React.Component {
     showMessage: PropTypes.func,
     pagesSrc: PropTypes.array,
     apiObjects: PropTypes.array,
-    collectionId: PropTypes.string
+    collectionId: PropTypes.string,
+    envId: PropTypes.string,
+    uniqueId: PropTypes.string
   }
 
   getOffset(el) {
@@ -69,11 +72,24 @@ export default class DocumentEditorPagination extends React.Component {
     })
   }
 
-  handleDownloadPdf = () => {
-    fetch(`${apiUrl}/api/pdf/${this.props.apiFilename}`)
-      .then(response => response.blob())
-      .then(blob => FileSaver.saveAs(blob, this.props.filename))
-      .catch(err => this.props.showMessage('No se ha podido descargar el archivo'))
+  @autobind
+  async handleDownloadPdf() {
+    const {envId, uniqueId, filename} = this.props
+    try {
+      const params = {
+        bucket: 'work',
+        key: `${envId}/${uniqueId}/${filename}`,
+        operation: 'getObject'
+      }
+      const signedUrl = await requestSignedUrl(params)
+      const link = document.createElement('a')
+      link.href = signedUrl
+      link.download = `${filename}.pdf`
+      link.dispatchEvent(new MouseEvent('click'))
+    } catch (error) {
+      console.log(error)
+      this.props.showMessage('Ha ocurrido al descargar el archivo. Por favor intentelo nuevamente')
+    }
   }
 
   requestCredentials = async body => {

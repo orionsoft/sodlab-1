@@ -103,6 +103,8 @@ export default class Main extends React.Component {
           updatePlaceholder={this.props.updatePlaceholder}
           apiObjects={this.props.apiObjects}
           collectionId={this.props.passProps.collectionId}
+          envId={this.props.envId}
+          uniqueId={this.props.uniqueId}
         />
         <Modal
           appElement={document.querySelector('#root')}
