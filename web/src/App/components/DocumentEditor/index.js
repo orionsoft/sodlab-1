@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import autobind from 'autobind-decorator'
 import Modal from './Modal'
 import styles from './styles.css'
 import {ClientProvider} from './context'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import apiUrl from './helpers/url'
+import requestSignedUrl from './helpers/requestSignedUrl'
 import arrayBufferToBase64 from './helpers/arrayBufferToBase64'
 
 @withMessage
@@ -22,7 +24,7 @@ export default class DocumentEditor extends React.Component {
     placeholder: '',
     client: null,
     loading: false,
-    filename: '',
+    // filename: '',
     size: 0,
     apiFilename: '',
     pagesSrc: [],
@@ -32,7 +34,16 @@ export default class DocumentEditor extends React.Component {
     posY: 0,
     signatureImages: [],
     apiObjects: [],
-    isOptionsMenuOpen: false
+    isOptionsMenuOpen: false,
+    uniqueId: '',
+    envId: '',
+    filename: '',
+    objects: []
+  }
+
+  componentDidMount() {
+    const envId = this.props.passProps.collectionId.split('_')[0]
+    this.setState({envId})
   }
 
   resetState = () => {
@@ -155,10 +166,17 @@ export default class DocumentEditor extends React.Component {
     }
   }
 
-  fetchPdfPages = () => {
+  @autobind
+  fetchPdfPages() {
     this.state.pages.map(async (page, index) => {
       try {
-        const response = await fetch(`${apiUrl}/api/images/pdf/${page.name}/${index}`)
+        const params = {
+          bucket: 'work',
+          key: `${this.state.envId}/${this.state.uniqueId}/${page.name}`,
+          operation: 'getObject'
+        }
+        const signedRequest = await requestSignedUrl(params)
+        const response = await fetch(signedRequest)
         const buffer = await response.arrayBuffer()
         const base64Flag = 'data:image/png;base64,'
         const imageStr = arrayBufferToBase64(buffer)
@@ -214,6 +232,7 @@ export default class DocumentEditor extends React.Component {
 
   render() {
     const {modalIsOpen, ...rest} = this.state
+    console.log(this.props)
     return (
       <div>
         <ClientProvider>

@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {MdNoteAdd} from 'react-icons/lib/md'
-import apiUrl from '../../helpers/url'
+import autobind from 'autobind-decorator'
+import apiUrl from 'App/components/DocumentEditor/helpers/url'
+import requestUniqueId from 'App/components/DocumentEditor/helpers/requestUniqueId'
+import requestSignedUrl from 'App/components/DocumentEditor/helpers/requestSignedUrl'
+import uploadFile from 'App/components/DocumentEditor/helpers/uploadFile'
 import styles from './styles.css'
 
 export default class DocumentEditorHeader extends React.Component {
@@ -20,44 +24,60 @@ export default class DocumentEditorHeader extends React.Component {
     changeState: PropTypes.func,
     pages: PropTypes.array,
     pagesSrc: PropTypes.array,
-    apiObjects: PropTypes.array
+    apiObjects: PropTypes.array,
+    envId: PropTypes.string
   }
 
-  submit = async () => {
-    if (this.props.apiFilename) {
-      this.props.requestFileDeletion()
-    }
+  @autobind
+  async submit() {
+    const {envId} = this.props
+    // if (this.props.apiFilename) {
+    //   this.props.requestFileDeletion()
+    // }
 
-    if (this.props.apiObjects.length > 0) {
-      this.props.apiObjects.map(object => localStorage.removeItem(object.fileId))
-      if (localStorage.getItem('fingerprintPng')) {
-        localStorage.removeItem('fingerprintPng')
-      }
-    }
+    // if (this.props.apiObjects.length > 0) {
+    //   this.props.apiObjects.map(object => localStorage.removeItem(object.fileId))
+    //   if (localStorage.getItem('fingerprintPng')) {
+    //     localStorage.removeItem('fingerprintPng')
+    //   }
+    // }
     this.props.resetState()
     this.props.changeState({loading: true})
 
     try {
       const file = document.getElementById('pdf_file').files[0]
-      const form = document.createElement('form')
       const size = file.size
-      form.enctype = 'multipart/form-data'
-      const formData = new FormData(form)
       const filename = file.name.replace(/ /g, '_')
-      formData.append('pdf_upload', file)
-      const response = await fetch(`${apiUrl}/api/pdf`, {
+      const uniqueId = await requestUniqueId()
+      const params = {
+        bucket: 'work',
+        key: `${envId}/${uniqueId}/${filename}`,
+        operation: 'putObject',
+        contentType: 'application/pdf'
+      }
+      const signedRequest = await requestSignedUrl(params)
+      await uploadFile(signedRequest, file, params.contentType)
+      const options = {
         method: 'POST',
-        body: formData
-      })
-      const data = await response.json()
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({envId, uniqueId, filename})
+      }
+      const response = await fetch(`${apiUrl}/api/documents/getPages`, options)
+      const {pagesData, Objects} = await response.json()
+
       this.props.changeState({
-        apiFilename: data.apiFilename,
+        // apiFilename: data.apiFilename,
         filename,
-        pages: data.pages,
-        size
+        pages: pagesData,
+        size,
+        uniqueId,
+        objecsts: Objects
       })
       return this.props.fetchPdfPages()
     } catch (error) {
+      console.log(error)
       this.props.showMessage('Error al procesar el archivo')
     }
   }

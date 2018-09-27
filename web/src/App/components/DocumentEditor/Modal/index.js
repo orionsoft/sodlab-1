@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Modal from 'react-modal'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
+import autobind from 'autobind-decorator'
 import {ClientConsumer} from '../context'
 import Header from './Header'
 import Pagination from './Pagination'
@@ -39,10 +40,12 @@ export default class Main extends React.Component {
     fetchPdfPages: PropTypes.func,
     requestFileDeletion: PropTypes.func,
     resetState: PropTypes.func,
-    changeState: PropTypes.func
+    changeState: PropTypes.func,
+    envId: PropTypes.string
   }
 
-  closeOptionsMenu = () => {
+  @autobind
+  closeOptionsMenu() {
     this.props.changeState({isOptionsMenuOpen: false})
   }
 
@@ -71,6 +74,7 @@ export default class Main extends React.Component {
           pages={this.props.pages}
           pagesSrc={this.props.pagesSrc}
           apiObjects={this.props.apiObjects}
+          envId={this.props.envId}
         />
         <Pagination
           loading={this.props.loading}
