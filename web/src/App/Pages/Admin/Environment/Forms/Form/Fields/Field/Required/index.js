@@ -1,13 +1,10 @@
 import React from 'react'
-import styles from './styles.css'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
-import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import {Field} from 'simple-react-form'
 import PropTypes from 'prop-types'
 import CollectionFieldSelect from 'App/components/fieldTypes/collectionFieldSelect/Field'
 import fieldTypes from 'App/components/fieldTypes'
-import range from 'lodash/range'
 
 export default class Required extends React.Component {
   static propTypes = {
