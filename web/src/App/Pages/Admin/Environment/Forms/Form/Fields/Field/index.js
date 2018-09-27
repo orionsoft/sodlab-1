@@ -155,11 +155,11 @@ export default class FormField extends React.Component {
     return (
       <div className={styles.container}>
         <div className="row">
-          <div className="col-xs-12 col-sm-5 col-lg-4">
+          <div className="col-xs-12 col-sm-6 col-lg-4">
             <div className="label">Tipo</div>
             <Field fieldName="type" type={Select} options={this.getTypes()} />
           </div>
-          <div className="col-xs-12 col-sm-5 col-lg-4">
+          <div className="col-xs-12 col-sm-6 col-lg-4">
             <div className="label">Campo</div>
             <Field
               fieldName="fieldName"

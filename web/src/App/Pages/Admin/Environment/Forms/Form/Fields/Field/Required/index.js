@@ -21,7 +21,7 @@ export default class Required extends React.Component {
   renderRequiredField() {
     if (!this.props.field.requiredType || this.props.field.requiredType !== 'editable') return
     return (
-      <div className="col-xs-12 col-sm-6 col-lg-4">
+      <div className="col-xs-12 col-sm-4 col-lg-4">
         <div className="label">Campo</div>
         <Field
           fieldName="requiredField"
@@ -40,16 +40,14 @@ export default class Required extends React.Component {
       !this.props.field.requiredField
     )
       return
-
     const {field, collection} = this.props
     if (!field.requiredField) return
     if (!collection) return
     const collectionField = collection.fields.find(cf => cf.name === field.requiredField)
     if (!collectionField) return
     const FieldComponent = fieldTypes[collectionField.type].field
-
     return (
-      <div className="col-xs-12 col-sm-6 col-lg-4">
+      <div className="col-xs-12 col-sm-4 col-lg-4">
         <div className="label">Valor</div>
         <Field
           collectionFieldName={
@@ -67,7 +65,7 @@ export default class Required extends React.Component {
   renderRequiredParameter() {
     if (!this.props.field.requiredType || this.props.field.requiredType !== 'parameter') return
     return (
-      <div className="col-xs-12 col-sm-6 col-lg-4">
+      <div className="col-xs-12 col-sm-4 col-lg-4">
         <div className="label">Variable</div>
         <Field fieldName="requiredParameter" type={Text} />
       </div>
@@ -75,13 +73,12 @@ export default class Required extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     if (this.props.field.type !== 'editable') return null
     return (
       <div>
         <div className="label">Requiere</div>
         <div className="row">
-          <div className="col-xs-12 col-sm-6 col-lg-4">
+          <div className="col-xs-12 col-sm-4 col-lg-4">
             <div className="label">Tipo</div>
             <Field fieldName="requiredType" type={Select} options={this.getRequiredTypes()} />
           </div>
