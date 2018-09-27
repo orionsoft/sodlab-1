@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import FileSaver from 'file-saver'
 import autobind from 'autobind-decorator'
 import {FaSpinner} from 'react-icons/lib/fa'
 import withMutation from 'react-apollo-decorators/lib/withMutation'
@@ -82,10 +83,9 @@ export default class DocumentEditorPagination extends React.Component {
         operation: 'getObject'
       }
       const signedUrl = await requestSignedUrl(params)
-      const link = document.createElement('a')
-      link.href = signedUrl
-      link.download = `${filename}.pdf`
-      link.dispatchEvent(new MouseEvent('click'))
+      const response = await fetch(signedUrl)
+      const blob = await response.blob()
+      FileSaver.saveAs(blob, filename)
     } catch (error) {
       console.log(error)
       this.props.showMessage('Ha ocurrido al descargar el archivo. Por favor intentelo nuevamente')
