@@ -5,18 +5,35 @@
   position: relative;
 }
 
-:local(.title) {
+:local(.header) {
   display: block;
   color: #fff;
   font-size: 20px;
   margin: 20px;
 }
 
+:local(.title) {
+  overflow-x: hidden;
+}
+
+:local(.title):hover {
+  text-decoration: underline;
+}
+
+:local(.notifications) {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
 :local(.divider) {
-  background-color: rgba(255, 255, 255, 0.1);
+  /* background-color: rgba(255, 255, 255, 0.1); */
   height: 1px;
   width: 100%;
-  margin: 10px 0;
+  padding-top: 10px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  margin-bottom: 10px;
 }
 
 :local(.menuItem) {

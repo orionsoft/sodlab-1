@@ -59,8 +59,8 @@ export default class Menu extends React.Component {
         <div className={styles.menuButton}>
           <CloseIcon onClick={this.toggleMenu} />
         </div>
-        <Link to="/" className={styles.title}>
-          {environment.name}
+        <Link to="/" className={styles.header}>
+          <div className={styles.title}>{environment.name}</div>
         </Link>
         <div className={styles.divider} />
         {this.renderLinks()}

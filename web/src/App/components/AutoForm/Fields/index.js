@@ -13,11 +13,13 @@ export default class Fields extends React.Component {
     omit: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     only: PropTypes.string,
     passProps: PropTypes.object,
-    fromEnvironment: PropTypes.bool
+    fromEnvironment: PropTypes.bool,
+    fields: PropTypes.array
   }
 
   static defaultProps = {
-    passProps: {}
+    passProps: {},
+    fields: []
   }
 
   renderFields(params) {
@@ -40,6 +42,7 @@ export default class Fields extends React.Component {
             schemaToField={this.props.schemaToField}
             passProps={this.props.passProps}
             fromEnvironment={this.props.fromEnvironment}
+            fields={this.props.fields}
           />
         )
       })
