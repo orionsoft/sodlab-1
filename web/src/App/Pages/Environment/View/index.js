@@ -13,6 +13,7 @@ import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 import prependKey from 'App/helpers/misc/prependKey'
 import autobind from 'autobind-decorator'
 import Intercom from 'App/components/Intercom'
+import Chart from './Chart'
 
 @withGraphQL(
   gql`
@@ -28,6 +29,7 @@ import Intercom from 'App/components/Intercom'
           type
           formId
           tableId
+          chartId
           indicatorId
           fullSize
           subItems
@@ -105,6 +107,13 @@ export default class View extends React.Component {
       return (
         <div className={styles.item}>
           <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
+        </div>
+      )
+    }
+    if (item.type === 'chart') {
+      return (
+        <div className={styles.item}>
+          <Chart {...props} chartId={item.chartId} fullSize={fullSize} />
         </div>
       )
     }

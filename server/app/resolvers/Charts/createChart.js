@@ -12,18 +12,19 @@ export default resolver({
         if (!env) return 'notFound'
       }
     },
-    title: {
+    name: {
       type: String,
-      label: 'Título'
+      label: 'Nombre'
     }
   },
   returns: Chart,
   mutation: true,
   role: 'admin',
-  async resolve({environmentId, title}, viewer) {
+  async resolve({environmentId, name}, viewer) {
     const chartId = await Charts.insert({
       environmentId,
-      title,
+      name,
+      title: name,
       createdAt: new Date()
     })
     return await Charts.findOne(chartId)
