@@ -36,7 +36,6 @@ export default {
     const points = []
 
     for (const {fromValue, toValue} of intervals) {
-      console.log({fromValue, toValue})
       const [result] = await collection
         .aggregate([
           {

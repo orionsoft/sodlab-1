@@ -23,7 +23,6 @@ export default resolver({
   async resolve({chartId, filterId, filterOptions, params}, viewer) {
     const chart = await Charts.findOne(chartId)
     const data = await chart.getData({filterId, filterOptions, params})
-    console.log({data})
     return data
   }
 })

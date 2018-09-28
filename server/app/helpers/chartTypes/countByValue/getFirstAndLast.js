@@ -2,8 +2,6 @@ export default async function({collection, query, numberKey}) {
   const first = await collection.findOne(query, {sort: {[`data.${numberKey}`]: 1}})
   const last = await collection.findOne(query, {sort: {[`data.${numberKey}`]: -1}})
 
-  console.log({first, last})
-
   if (!first && !last) {
     return {firstValue: 0, lastValue: 0}
   }

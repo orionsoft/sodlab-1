@@ -3,7 +3,6 @@ import styles from './styles.css'
 import {XYPlot, XAxis, YAxis, LineSeries, Hint} from 'react-vis'
 import PropTypes from 'prop-types'
 import autobind from 'autobind-decorator'
-import moment from 'moment'
 
 export default class BarCountByDate extends React.Component {
   static propTypes = {
