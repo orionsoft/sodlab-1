@@ -71,7 +71,9 @@ export default {
     if (!liorenIdBill) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const order = await ordersDB.findOne(params._id)
-    const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
+    const client = await clientsDB.findOne({
+      [`data.${options.receptorRs}`]: order.data[options.pedidosCliente]
+    })
     const productsId = await productsDB
       .find({[`data.${options.productsOrdersIds}`]: params._id})
       .toArray()
@@ -79,7 +81,7 @@ export default {
     const mapProducts = productsId.map(async product => {
       const sku = await masterProductsDB.findOne({_id: product.data[options.productsSku]})
       return {
-        codigo: sku.data[options.skuMaestroProductosCollection],
+        sku: sku.data[options.productsSku],
         nombre: product.data[options.productsName],
         precio: parseInt(product.data[options.productsPrice]),
         cantidad: parseInt(product.data[options.productsQuantity]),
@@ -113,6 +115,24 @@ export default {
         expects: 'all'
       }
     }
+
+    if (options.discountStock) {
+      productsList.map(async product => {
+        const query = {[`data.${options.productsSku}`]: product[options.productsSku]}
+
+        const {data} = await masterProductsDB.findOne(query)
+
+        await masterProductsDB.update(query, {
+          $set: {
+            data: {
+              ...data,
+              stock: data.stock - product.cantidad
+            }
+          }
+        })
+      })
+    }
+
     const dte = await DTEEmission(optionsRequest, 'https://lioren.io/api/dtes')
     const pdf = await uploadPDF(await dte, 'facturas')
     const file = {

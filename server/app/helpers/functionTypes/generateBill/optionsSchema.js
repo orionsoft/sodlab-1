@@ -152,7 +152,8 @@ export default {
   },
   billID: {
     type: String,
-    label: 'Campo para almacenar ID de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar ID de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
     parentsCollection: 'billsCollectionId'
@@ -166,65 +167,79 @@ export default {
   },
   billFolio: {
     type: String,
-    label: 'Campo para almacenar Folio de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar Folio de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
     parentsCollection: 'billsCollectionId'
   },
   billMontoNeto: {
     type: String,
-    label: 'Campo para almacenar Monto Neto de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar Monto Neto de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
     parentsCollection: 'billsCollectionId'
   },
   billMontoIva: {
     type: String,
-    label: 'Campo para almacenar Monto Iva de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar Monto Iva de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
     parentsCollection: 'billsCollectionId'
   },
   billMontoTotal: {
     type: String,
-    label: 'Campo para almacenar Monto Total de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar Monto Total de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentsCollection: 'billsCollectionId'
   },
   billExento: {
     type: String,
-    label: 'Campo para almacenar Exento de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar Exento de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentsCollection: 'billsCollectionId'
   },
   billEstado: {
     type: String,
-    label: 'Campo para almacenar estado de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar estado de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentsCollection: 'billsCollectionId'
   },
   billFile: {
     type: String,
-    label: 'Campo para almacenar Archivo de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar Archivo de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentsCollection: 'billsCollectionId'
   },
   billReceptor: {
     type: String,
-    label: 'Campo para almacenar Receptor de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar Receptor de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentsCollection: 'billsCollectionId'
   },
   billFechaEmision: {
     type: String,
-    label: 'Campo para almacenar Fecha Emisión de Factura Electrónica (de colección Factura Electrónica) (opcional)',
+    label:
+      'Campo para almacenar Fecha Emisión de Factura Electrónica (de colección Factura Electrónica) (opcional)',
     fieldType: 'collectionFieldSelect',
     optional: true,
-    parentsCollection: 'billsCollectionID'
+    parentsCollection: 'billsCollectionId'
+  },
+  discountStock: {
+    type: Boolean,
+    label: 'Descontar stock de Maestro productos',
+    parentsCollection: 'billsCollectionId'
   }
 }
