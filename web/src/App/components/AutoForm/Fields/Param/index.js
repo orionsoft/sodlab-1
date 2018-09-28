@@ -21,7 +21,11 @@ export default class AutoFormField extends React.Component {
     if (sections) {
       return sections.map(field => {
         if (field.type === 'section') {
-          return <h4 className={styles.section}>{field.editableLabel}</h4>
+          return (
+            <div className={`col-xs-12 col-sm-12 col-md-12`}>
+              <h4 className={styles.section}>{field.editableLabel}</h4>
+            </div>
+          )
         } else {
           return (
             <AutoFormField
@@ -110,17 +114,7 @@ export default class AutoFormField extends React.Component {
   render() {
     const {field, fieldName} = this.props
     if (this.props.fromEnvironment) {
-      const {type, fieldOptions = {}} = this.props.field
-      const Component = this.props.schemaToField('plainObject', this.props.field)
-      return (
-        <Field
-          fieldName={this.props.fieldName}
-          type={Component}
-          {...fieldOptions}
-          {...this.props.passProps}>
-          <div className="row">{this.renderObjectFields(type)}</div>
-        </Field>
-      )
+      return this.renderField(field, fieldName)
     } else if (field.sizeSmall && field.sizeMedium && field.sizeLarge) {
       return (
         <div

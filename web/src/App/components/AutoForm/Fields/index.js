@@ -18,8 +18,7 @@ export default class Fields extends React.Component {
   }
 
   static defaultProps = {
-    passProps: {},
-    fields: []
+    passProps: {}
   }
 
   renderFields(params) {
