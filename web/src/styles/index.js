@@ -1,5 +1,6 @@
 // Global styles here
 import 'orionsoft-parts/lib/styles.css'
+import 'react-vis/dist/style.css'
 import './paginated-table.css'
 import './main.css'
 import './flexbox.css'

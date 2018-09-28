@@ -23,6 +23,15 @@ const viewItemSchema = {
       }
     }
   },
+  chartId: {
+    type: 'ID',
+    optional: true,
+    async custom(chartId, {currentDoc}) {
+      if (currentDoc.type === 'chart' && !chartId) {
+        return 'required'
+      }
+    }
+  },
   tableId: {
     type: 'ID',
     optional: true,

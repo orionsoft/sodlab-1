@@ -45,7 +45,7 @@ export default resolver({
           }
           throw error
         }
-        await itemsDB.insert({data: data})
+        await itemsDB.insert({data: data, createdAt: new Date()})
       }
     }
 
