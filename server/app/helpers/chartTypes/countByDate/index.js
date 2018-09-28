@@ -31,7 +31,8 @@ export default {
     }
   },
   async getResult({options: {dateKey, divideBy, renderType}, params, query, collection, chart}) {
-    const intervals = await getIntervals({collection, query, dateKey, divideBy})
+    const key = dateKey === '_id' ? 'createdAt' : `data.${dateKey}`
+    const intervals = await getIntervals({collection, query, dateKey: key, divideBy})
     const points = []
 
     for (const {fromDate, toDate} of intervals) {
@@ -42,7 +43,7 @@ export default {
           },
           {
             $match: {
-              [`data.${dateKey}`]: {$gt: fromDate, $lte: toDate}
+              [key]: {$gt: fromDate, $lte: toDate}
             }
           },
           {

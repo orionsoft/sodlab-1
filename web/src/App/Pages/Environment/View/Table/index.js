@@ -67,21 +67,7 @@ export default class Table extends React.Component {
   onSelect(item) {}
 
   componentDidMount() {
-    this.setDefaultFilter()
     this.checkFilterOptionsSchema()
-  }
-
-  setDefaultFilter() {
-    const {table} = this.props
-    const filters = table.filters.map(filter => {
-      return filter._id
-    })
-    if (table.filterByDefault && filters.includes(table.filterByDefault)) {
-      return table.filterByDefault
-    }
-    if (table.allowsNoFilter) return null
-    if (!table.filters) return null
-    if (table.filters.length !== 1) return null
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -290,7 +276,7 @@ export default class Table extends React.Component {
           filters={table.filters}
           allowsNoFilter={table.allowsNoFilter}
           parameters={parameters}
-          filterByDefault={this.setDefaultFilter()}>
+          filterByDefault={table.filterByDefault}>
           {this.renderPaginated}
         </WithFilter>
         <Watch environmentId={table.environmentId} collectionId={table.collectionId} />
