@@ -113,6 +113,7 @@ export default class AutoFormField extends React.Component {
 
   render() {
     const {field, fieldName} = this.props
+    if (!field) return null
     if (this.props.fromEnvironment) {
       return this.renderField(field, fieldName)
     } else if (field.sizeSmall && field.sizeMedium && field.sizeLarge) {
