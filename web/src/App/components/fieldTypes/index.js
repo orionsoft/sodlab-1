@@ -30,6 +30,7 @@ import buttonSelect from './buttonSelect'
 import colorPicker from './colorPicker'
 import html from './html'
 import fieldOptions from './fieldOptions'
+import roleSelect from './roleSelect'
 import formSelect from './formSelect'
 
 export default {
@@ -64,6 +65,7 @@ export default {
   fileURL,
   validationSelect,
   colorPicker,
+  roleSelect,
   fieldOptions,
   formSelect
 }

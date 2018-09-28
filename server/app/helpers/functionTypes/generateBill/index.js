@@ -29,19 +29,7 @@ const fields = [
   'productsPrice',
   'productsQuantity',
   'productsDscto',
-  'productsUnit',
-  'billsCollectionId',
-  'billID',
-  'billTipodoc',
-  'billFolio',
-  'billMontoNeto',
-  'billMontoIva',
-  'billMontoTotal',
-  'billEstado',
-  'billFile',
-  'billReceptor',
-  'billExento',
-  'billFechaEmision'
+  'productsUnit'
 ]
 
 export default {
@@ -71,13 +59,18 @@ export default {
     if (!liorenIdBill) throw new Error('No hay ID de Lioren para emisión de documentos')
 
     const order = await ordersDB.findOne(params._id)
-    const client = await clientsDB.findOne({[`data.${options.receptorRs}`]: order.data[options.pedidosCliente]})
+    const client = await clientsDB.findOne({
+      [`data.${options.receptorRs}`]: order.data[options.pedidosCliente]
+    })
     const productsId = await productsDB
       .find({[`data.${options.productsOrdersIds}`]: params._id})
       .toArray()
 
     const mapProducts = productsId.map(async product => {
-      const sku = await masterProductsDB.findOne({_id: product.data[options.productsSku]})
+      const sku = await masterProductsDB.findOne({
+        _id: product.data[options.productsSku]
+      })
+
       return {
         codigo: sku.data[options.skuMaestroProductosCollection],
         nombre: product.data[options.productsName],
@@ -125,6 +118,7 @@ export default {
     }
 
     await billsDB.insert({
+      createdAt: new Date(),
       [`data.${options.billFechaEmision}`]: formatDate(),
       [`data.${options.pedidosId}`]: order.data[options.pedidosId],
       [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,

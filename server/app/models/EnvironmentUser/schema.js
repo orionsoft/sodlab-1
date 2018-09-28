@@ -18,5 +18,9 @@ export default {
   roles: {
     type: ['ID'],
     defaultValue: []
+  },
+  readedNotifications: {
+    type: ['ID'],
+    defaultValue: []
   }
 }

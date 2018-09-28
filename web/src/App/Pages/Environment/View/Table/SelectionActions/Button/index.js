@@ -22,8 +22,8 @@ import Button from 'orionsoft-parts/lib/components/Button'
   }
 `)
 @withMutation(gql`
-  mutation buttonSubmitBatch($buttonId: ID, $parameters: [JSON]) {
-    buttonSubmitBatch(buttonId: $buttonId, parameters: $parameters)
+  mutation buttonSubmitBatch($buttonId: ID, $parameters: [JSON], $all: Boolean, $params: JSON) {
+    buttonSubmitBatch(buttonId: $buttonId, parameters: $parameters, all: $all, params: $params)
   }
 `)
 @withMessage
@@ -32,14 +32,18 @@ export default class ButtonView extends React.Component {
     showMessage: PropTypes.func,
     button: PropTypes.object,
     buttonSubmitBatch: PropTypes.func,
-    items: PropTypes.array
+    items: PropTypes.object,
+    all: PropTypes.bool,
+    params: PropTypes.object
   }
 
   async onClick() {
     try {
       await this.props.buttonSubmitBatch({
         buttonId: this.props.button._id,
-        parameters: this.props.items
+        parameters: this.props.items,
+        all: this.props.all,
+        params: this.props.params
       })
       this.props.showMessage('Hecho')
     } catch (error) {

@@ -3,6 +3,7 @@ import styles from './styles.css'
 import PropTypes from 'prop-types'
 import Menu from './Menu'
 import MenuIcon from 'react-icons/lib/fa/bars'
+import NotificationIndicator from './NotificationIndicator'
 
 export default class Layout extends React.Component {
   static propTypes = {
@@ -24,7 +25,12 @@ export default class Layout extends React.Component {
         <div className={this.state.isOpen ? styles.showResponsiveMenu : styles.responsiveMenu}>
           <Menu toggleMenu={() => this.toggleMenu()} />
         </div>
-        <div className={styles.content}>{this.props.children}</div>
+        <div className={styles.content}>
+          <div className={styles.notifications}>
+            <NotificationIndicator />
+          </div>
+          {this.props.children}
+        </div>
       </div>
     )
   }

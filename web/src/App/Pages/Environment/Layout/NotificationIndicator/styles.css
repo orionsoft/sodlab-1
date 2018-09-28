@@ -1,0 +1,56 @@
+:local(.container) {
+  border-radius: 50%;
+  background-color: #ff0000;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+  color: #fff;
+  line-height: 30px;
+  text-align: center;
+}
+
+:local(.empty) {
+  border-radius: 50%;
+  background-color: #b2b2b3;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+  color: #fff;
+  line-height: 30px;
+  text-align: center;
+}
+
+:local(.empty):hover {
+  background-color: #c1c1c1;
+  transition: all ease 0.2s;
+}
+
+:local(.container):hover {
+  background-color: #ff6060;
+  transition: all ease 0.2s;
+}
+
+:local(.notificationsBox) {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  z-index: 10;
+}
+
+.notificationscontainer-enter,
+.notificationscontainer-leave.notificationscontainer-leave-active {
+  opacity: 0;
+  transform: rotateX(-15deg);
+  transform-origin: 50% -50px;
+}
+
+.notificationscontainer-enter.notificationscontainer-enter-active,
+.notificationscontainer-leave {
+  opacity: 1;
+  transform: rotateX(0deg);
+  transition: all 300ms ease;
+}

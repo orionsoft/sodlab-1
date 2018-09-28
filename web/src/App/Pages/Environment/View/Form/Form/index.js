@@ -36,7 +36,8 @@ export default class Form extends React.Component {
     itemData: PropTypes.object,
     itemId: PropTypes.string,
     parameters: PropTypes.object,
-    setEnvironment: PropTypes.func
+    setEnvironment: PropTypes.func,
+    fields: PropTypes.array
   }
 
   state = {}
@@ -152,6 +153,7 @@ export default class Form extends React.Component {
             schemaToField={this.schemaToField}
             params={this.getParams()}
             passProps={{formId: this.props.form._id}}
+            fields={this.props.fields}
           />
         </AutoForm>
         <br />
