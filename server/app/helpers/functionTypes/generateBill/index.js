@@ -29,19 +29,7 @@ const fields = [
   'productsPrice',
   'productsQuantity',
   'productsDscto',
-  'productsUnit',
-  'billsCollectionId',
-  'billID',
-  'billTipodoc',
-  'billFolio',
-  'billMontoNeto',
-  'billMontoIva',
-  'billMontoTotal',
-  'billEstado',
-  'billFile',
-  'billReceptor',
-  'billExento',
-  'billFechaEmision'
+  'productsUnit'
 ]
 
 export default {
@@ -79,7 +67,10 @@ export default {
       .toArray()
 
     const mapProducts = productsId.map(async product => {
-      const sku = await masterProductsDB.findOne({_id: product.data[options.productsSku]})
+      const sku = await masterProductsDB.findOne({
+        _id: product.data[options.productsSku]
+      })
+
       return {
         sku: sku.data[options.productsSku],
         nombre: product.data[options.productsName],
@@ -145,6 +136,7 @@ export default {
     }
 
     await billsDB.insert({
+      createdAt: new Date(),
       [`data.${options.billFechaEmision}`]: formatDate(),
       [`data.${options.pedidosId}`]: order.data[options.pedidosId],
       [`data.${options.billFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,

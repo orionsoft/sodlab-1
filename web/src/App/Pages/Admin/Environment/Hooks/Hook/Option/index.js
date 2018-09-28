@@ -11,7 +11,8 @@ export default class Option extends React.Component {
   static propTypes = {
     name: PropTypes.string,
     schema: PropTypes.object,
-    optionsPreview: PropTypes.object
+    optionsPreview: PropTypes.object,
+    collectionId: PropTypes.string
   }
 
   getTypes() {
@@ -32,6 +33,7 @@ export default class Option extends React.Component {
       <div className={styles.fixedValue}>
         <div className="label">Valor</div>
         <Field
+          collectionId={this.props.collectionId}
           fieldName="fixed.value"
           type={schemaToField(this.props.schema.type, this.props.schema)}
           field={{options: this.props.optionsPreview}}

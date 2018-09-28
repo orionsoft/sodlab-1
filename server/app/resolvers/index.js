@@ -18,8 +18,10 @@ import Indicators from './Indicators'
 import Endpoints from './Endpoints'
 import Validations from './Validations'
 import Buttons from './Buttons'
+import Notifications from './Notifications'
 
 export default {
+  ...Notifications,
   ...Buttons,
   ...Validations,
   ...EnvironmentUsers,

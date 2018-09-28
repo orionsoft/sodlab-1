@@ -39,18 +39,25 @@ import clone from 'lodash/clone'
         formId
         tableId
         indicatorId
+        chartId
         buttonId
         fullSize
         subItems
       }
     }
-    forms(limit: 200, environmentId: $environmentId) {
+    forms(environmentId: $environmentId) {
       items {
         value: _id
         label: name
       }
     }
-    tables(limit: 200, environmentId: $environmentId) {
+    charts(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
+    tables(environmentId: $environmentId) {
       items {
         value: _id
         label: name
@@ -62,13 +69,13 @@ import clone from 'lodash/clone'
         label: name
       }
     }
-    indicators(limit: 200, environmentId: $environmentId) {
+    indicators(environmentId: $environmentId) {
       items {
         value: _id
         label: name
       }
     }
-    buttons(limit: 200, environmentId: $environmentId) {
+    buttons(environmentId: $environmentId) {
       items {
         value: _id
         label: name
@@ -88,7 +95,8 @@ export default class View extends React.Component {
     roles: PropTypes.object,
     indicators: PropTypes.object,
     match: PropTypes.object,
-    buttons: PropTypes.object
+    buttons: PropTypes.object,
+    charts: PropTypes.object
   }
 
   getSizeOptions() {
