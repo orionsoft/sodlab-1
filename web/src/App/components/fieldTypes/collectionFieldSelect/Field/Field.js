@@ -12,6 +12,7 @@ import union from 'lodash/union'
       fields {
         value: name
         label
+        type
       }
     }
   }
@@ -25,19 +26,25 @@ export default class CollectionFieldSelect extends React.Component {
     collection: PropTypes.object,
     errorMessage: PropTypes.node,
     passProps: PropTypes.object,
-    includeId: PropTypes.bool
+    includeId: PropTypes.bool,
+    schema: PropTypes.object
   }
 
   getOptions() {
     if (!this.props.includeId) return this.props.collection.fields
-    const idOption = {label: 'ID', value: '_id'}
+    const {only, idField} = this.props.schema
+    const idOption = idField && {label: idField || 'ID', value: '_id'}
     const items = this.props.collection.fields || []
-
-    return union([idOption], items)
+    const options = only
+      ? items.filter(item => {
+          return only.includes(item.type)
+        })
+      : items
+    return idOption ? union([idOption], options) : options
   }
 
   render() {
-    if (!this.props.collection) return 'collecitonNotFound'
+    if (!this.props.collection) return 'collectionNotFound'
     return (
       <Select
         value={this.props.value}

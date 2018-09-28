@@ -33,8 +33,8 @@ export default class BarCountByDate extends React.Component {
     const map = {
       year: 'YYYY',
       month: 'MMMM, YYYY',
-      day: 'D de MMMM, YYYY',
-      hour: 'HH:mm, D de MMMM, YYYY'
+      day: 'LL',
+      hour: 'LLL'
     }
     return map[this.props.data.divideBy]
   }
