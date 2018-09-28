@@ -31,7 +31,7 @@ export default class FormField extends React.Component {
   renderEditableLabel() {
     if (this.props.field.type !== 'editable') return
     return (
-      <div className="col-xs-12 col-sm-6 col-lg-3">
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Título</div>
         <Field fieldName="editableLabel" type={Text} />
       </div>
@@ -41,7 +41,7 @@ export default class FormField extends React.Component {
   renderIndicatorId() {
     if (this.props.field.type !== 'indicator') return
     return (
-      <div className="col-xs-12 col-sm-6 col-lg-3">
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Indicador</div>
         <Field fieldName="indicatorId" type={Select} options={this.props.indicators.items} />
       </div>
@@ -57,7 +57,7 @@ export default class FormField extends React.Component {
     if (!collectionField) return
     const FieldComponent = fieldTypes[collectionField.type].field
     return (
-      <div className="col-xs-12 col-sm-6 col-lg-3">
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Valor</div>
         <Field
           collectionFieldName={
@@ -75,7 +75,7 @@ export default class FormField extends React.Component {
   renderParameterOptions() {
     if (this.props.field.type !== 'parameter') return
     return (
-      <div className="col-xs-12 col-sm-6 col-lg-3">
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Variable</div>
         <Field fieldName="parameterName" type={Text} />
       </div>
@@ -156,7 +156,7 @@ export default class FormField extends React.Component {
   renderSection() {
     if (this.props.field.type !== 'section') return
     return (
-      <div className="col-xs-12 col-sm-5 col-lg-5">
+      <div className="col-xs-12 col-sm-6 col-lg-5">
         <div className="label">Título</div>
         <Field fieldName="editableLabel" type={Text} />
       </div>
@@ -166,7 +166,7 @@ export default class FormField extends React.Component {
   renderField() {
     if (this.props.field.type === 'section') return
     return (
-      <div className="col-xs-12 col-sm-5 col-lg-3">
+      <div className="col-xs-12 col-sm-6 col-lg-4">
         <div className="label">Campo</div>
         <Field
           fieldName="fieldName"
@@ -187,11 +187,11 @@ export default class FormField extends React.Component {
             <Field fieldName="type" type={Select} options={this.getTypes()} />
           </div>
           {this.renderField()}
-          {this.renderOptional()}
           {this.renderEditableLabel()}
           {this.renderFixedValue()}
           {this.renderParameterOptions()}
           {this.renderIndicatorId()}
+          {this.renderOptional()}
           {this.renderSection()}
           {this.renderDefault()}
         </div>
