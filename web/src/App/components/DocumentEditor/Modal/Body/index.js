@@ -56,7 +56,8 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  handleImageClick = e => {
+  @autobind
+  handleImageClick(e) {
     const img = document.getElementById('pdfImage')
     const {left, top} = this.getOffset(img)
     const imgWidth = img.width
@@ -92,7 +93,8 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  requestCredentials = async body => {
+  @autobind
+  async requestCredentials(body) {
     try {
       const {result} = await this.props.generateUploadCredentials({
         name: body.fileName,
@@ -105,7 +107,8 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  complete = async fileId => {
+  @autobind
+  async complete(fileId) {
     this.props.onChange({_id: fileId})
     try {
       return await this.props.completeUpload({fileId})
@@ -114,44 +117,23 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  sendBiometricObjects = async (timestamp, environmentId, docId) => {
+  @autobind
+  async handleConfirm() {
+    const {envId, uniqueId, filename} = this.props
     try {
-      const body = {
-        timestamp,
-        environmentId,
-        docId,
-        paths: this.props.apiObjects
+      const fileData = {
+        fileName: filename,
+        fileType: 'application/pdf'
       }
-      return await fetch(`${apiUrl}/api/objects`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify(body)
-      })
-    } catch (error) {
-      return this.props.showMessage('Error al subir los archivos biometricos')
-    }
-  }
-
-  handleConfirm = async () => {
-    const fileData = {
-      fileName: this.props.filename,
-      fileType: 'application/pdf'
-    }
-    const date = new Date()
-    const timestamp = date.getTime().toString()
-    try {
       const credentials = await this.requestCredentials(fileData)
-      const environmentId = this.props.collectionId.split('_')[0]
-      const docId = credentials.key.split('/')[1].split('-')[0]
+      const key = credentials.key.replace('.pdf', '')
       const body = {
-        ...fileData,
-        ...credentials,
-        apiFilename: this.props.apiFilename
+        envId,
+        uniqueId,
+        filename,
+        key
       }
-      await this.complete(credentials.fileId)
-      const response = await fetch(`${apiUrl}/api/files`, {
+      const response = await fetch(`${apiUrl}/api/others/wrapUp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -160,13 +142,13 @@ export default class DocumentEditorPagination extends React.Component {
       })
       const data = await response.json()
       if (data.success) {
-        this.props.updatePlaceholder(this.props.filename)
-        this.props.showMessage('Documento guardado con éxito. Guardando información biometrica')
-        await this.sendBiometricObjects(timestamp, environmentId, docId)
-        this.props.showMessage('Información biometrica guardada con éxito')
+        await this.complete(credentials.fileId)
+        this.props.updatePlaceholder(filename)
+        this.props.showMessage('Documento guardado con éxito')
         this.props.onClose()
       }
     } catch (error) {
+      console.log(error)
       this.props.showMessage('Error al guardar documento')
     }
   }

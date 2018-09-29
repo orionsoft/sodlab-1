@@ -311,10 +311,12 @@ class DocumentEditorForm extends React.Component {
         posy: posY
       })
     })
-    const {Objects} = await response.json()
+    const {Objects, size} = await response.json()
+    console.log('size', size)
     const updatedObjects = [...this.props.objects, ...Objects]
     this.props.changeState({
-      objects: updatedObjects
+      objects: updatedObjects,
+      size: size
     })
 
     this.fetchPdfPage()
