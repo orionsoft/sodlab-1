@@ -23,7 +23,6 @@ export default class DocumentEditor extends React.Component {
     placeholder: '',
     client: null,
     loading: false,
-    // filename: '',
     size: 0,
     apiFilename: '',
     pagesSrc: [],
@@ -167,13 +166,14 @@ export default class DocumentEditor extends React.Component {
 
   @autobind
   fetchPdfPages() {
-    this.state.pages.map(async (page, index) => {
+    this.state.pages.map(async page => {
       try {
         const params = {
           bucket: 'work',
           key: `${this.state.envId}/${this.state.uniqueId}/${page.name}`,
           operation: 'getObject'
         }
+        const index = parseInt(page.name.split('.')[2].replace('_', '')) - 1
         const src = await downloadImage(params)
         const pagesSrc = [...this.state.pagesSrc, {name: page.name, src, index}].sort(
           (a, b) => a.index - b.index

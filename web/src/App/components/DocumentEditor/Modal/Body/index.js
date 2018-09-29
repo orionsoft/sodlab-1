@@ -88,7 +88,6 @@ export default class DocumentEditorPagination extends React.Component {
       const blob = await response.blob()
       FileSaver.saveAs(blob, filename)
     } catch (error) {
-      console.log(error)
       this.props.showMessage('Ha ocurrido al descargar el archivo. Por favor intentelo nuevamente')
     }
   }
@@ -148,12 +147,12 @@ export default class DocumentEditorPagination extends React.Component {
         this.props.onClose()
       }
     } catch (error) {
-      console.log(error)
       this.props.showMessage('Error al guardar documento')
     }
   }
 
-  renderSignatureImages = () => {
+  @autobind
+  renderSignatureImages() {
     return this.props.signatureImages.map((image, index) => {
       return (
         <div key={index}>
@@ -169,7 +168,8 @@ export default class DocumentEditorPagination extends React.Component {
     })
   }
 
-  renderHelpMessage = () => {
+  @autobind
+  renderHelpMessage() {
     if (this.props.pagesSrc.length > 0) {
       return (
         <div className={styles.pdfImageHelpContainer}>
@@ -183,7 +183,8 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  renderActivePage = () => {
+  @autobind
+  renderActivePage() {
     if (this.props.pagesSrc.length > 0) {
       return (
         <img
