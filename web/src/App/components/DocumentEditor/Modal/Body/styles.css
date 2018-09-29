@@ -39,13 +39,14 @@
 	background-color: #fafafa;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	overflow-y: auto;
 	border-right: 1px solid rgba(70,70,70,.2);
 }
 
 :local(.pdfImageContainer) :local(.pdfImageHelpContainer) {
+	margin: 10px 0;
 	width: 100%;
 	display: flex;
 	justify-content: center;
