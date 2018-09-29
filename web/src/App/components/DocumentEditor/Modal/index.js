@@ -100,7 +100,6 @@ export default class Main extends React.Component {
           onClose={this.props.onClose}
           pagesSrc={this.props.pagesSrc}
           activePage={this.props.activePage}
-          updatePlaceholder={this.props.updatePlaceholder}
           apiObjects={this.props.apiObjects}
           collectionId={this.props.passProps.collectionId}
           envId={this.props.envId}

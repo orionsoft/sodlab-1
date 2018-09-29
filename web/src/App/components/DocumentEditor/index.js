@@ -57,7 +57,11 @@ export default class DocumentEditor extends React.Component {
       posX: 0,
       posY: 0,
       signatureImages: [],
-      apiObjects: []
+      apiObjects: [],
+      uniqueId: '',
+      envId: '',
+      filename: '',
+      objects: []
     })
   }
 
@@ -77,35 +81,24 @@ export default class DocumentEditor extends React.Component {
     }, 1)
   }
 
-  requestFileDeletion = () => {
-    const fileName = this.state.apiFilename
+  @autobind
+  requestFileDeletion() {
+    const {envId, uniqueId} = this.state
 
-    fetch(`${apiUrl}/api/files`, {
+    return fetch(`${apiUrl}/api/others/deleteFolder`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
-      body: JSON.stringify({fileName, secret: 'sodlab_allow_delete'})
+      body: JSON.stringify({Prefix: `${envId}/${uniqueId}`})
     })
-    if (this.state.apiObjects.length > 0) {
-      fetch(`${apiUrl}/api/objects`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({apiObjects: this.state.apiObjects, secret: 'sodlab_allow_delete'})
-      })
-    }
   }
 
-  onClose = () => {
+  @autobind
+  onClose() {
     this.requestFileDeletion()
     this.resetState()
     this.closeModal()
-  }
-
-  updatePlaceholder = placeholder => {
-    this.setState({placeholder})
   }
 
   async loadDocument() {
@@ -226,7 +219,6 @@ export default class DocumentEditor extends React.Component {
 
   render() {
     const {modalIsOpen, ...rest} = this.state
-    console.log(this.props)
     return (
       <div>
         <ClientProvider>
@@ -235,7 +227,6 @@ export default class DocumentEditor extends React.Component {
             isOpen={modalIsOpen}
             onClose={this.onClose}
             formId={this.props.passProps.formId}
-            updatePlaceholder={this.updatePlaceholder}
             resetState={this.resetState}
             changeState={this.changeState}
             fetchPdfPages={this.fetchPdfPages}

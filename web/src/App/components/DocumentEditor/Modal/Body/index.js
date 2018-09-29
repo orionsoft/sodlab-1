@@ -142,7 +142,7 @@ export default class DocumentEditorPagination extends React.Component {
       const data = await response.json()
       if (data.success) {
         await this.complete(credentials.fileId)
-        this.props.updatePlaceholder(filename)
+        this.props.changeState({placeholder: filename})
         this.props.showMessage('Documento guardado con éxito')
         this.props.onClose()
       }
