@@ -68,7 +68,6 @@ export default class DocumentEditorHeader extends React.Component {
       const {pagesData, Objects} = await response.json()
 
       this.props.changeState({
-        // apiFilename: data.apiFilename,
         filename,
         pages: pagesData,
         size,

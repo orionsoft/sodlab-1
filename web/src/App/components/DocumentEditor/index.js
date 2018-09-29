@@ -101,59 +101,69 @@ export default class DocumentEditor extends React.Component {
     this.closeModal()
   }
 
+  @autobind
+  async copyDocumentToWorkBucket(key, envId, filename) {
+    try {
+      const copyResponse = await fetch(`${apiUrl}/api/documents/edit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({key, envId, filename})
+      })
+      const {uniqueId, size} = await copyResponse.json()
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({envId, uniqueId, filename})
+      }
+      const response = await fetch(`${apiUrl}/api/documents/getPages`, options)
+      const {pagesData, Objects} = await response.json()
+
+      this.setState({
+        uniqueId,
+        size,
+        envId,
+        pages: pagesData,
+        objects: Objects
+      })
+      this.fetchPdfPages()
+    } catch (error) {
+      this.props.showMessage('Error al cargar el archivo')
+    }
+  }
+
+  @autobind
   async loadDocument() {
-    if (typeof this.props.value === 'string') {
+    const envId = this.props.passProps.collectionId.split('_')[0]
+    const {value} = this.props
+
+    if (typeof value === 'string') {
       this.setState({loading: true})
-      const url = this.props.value
-      const params = url.replace('https://s3.amazonaws.com/', '').split('/')
-      const bucket = params.splice(0, 1)[0]
+      const url = value
+      const params = url
+        .replace('https://s3.amazonaws.com/', '')
+        .split('/')
+        .slice(1)
       const key = params.join('/')
-      const name = key
+      const filename = key
         .split('-')
         .filter((item, index) => index !== 0)
         .join('-')
+      this.setState({filename})
+      this.copyDocumentToWorkBucket(key, envId, filename)
+    } else if (typeof this.props.value === 'object') {
+      if (!value.hasOwnProperty('key') || !value.hasOwnProperty('name')) return
 
-      try {
-        const response = await fetch(`${apiUrl}/api/files/aws/get`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-          },
-          body: JSON.stringify({bucket, key})
-        })
-        const data = await response.json()
-
-        this.setState({
-          apiFilename: data.apiFilename,
-          filename: name,
-          pages: data.pages
-        })
-        this.fetchPdfPages()
-      } catch (error) {
-        this.props.showMessage('Error al cargar el archivo')
-      }
-    } else {
       this.setState({loading: true})
-      const {bucket, key, name, size} = this.props.value
-      try {
-        const response = await fetch(`${apiUrl}/api/files/aws/get`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-          },
-          body: JSON.stringify({bucket, key})
-        })
-        const data = await response.json()
-        this.setState({
-          apiFilename: data.apiFilename,
-          filename: name,
-          pages: data.pages,
-          size
-        })
-        this.fetchPdfPages()
-      } catch (error) {
-        this.props.showMessage('Error al cargar el archivo')
-      }
+      const {key, name} = this.props.value
+
+      this.copyDocumentToWorkBucket(key, envId, name)
+    } else {
+      return
     }
   }
 

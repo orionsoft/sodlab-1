@@ -88,7 +88,9 @@ export default class DocumentEditorPagination extends React.Component {
       const blob = await response.blob()
       FileSaver.saveAs(blob, filename)
     } catch (error) {
-      this.props.showMessage('Ha ocurrido al descargar el archivo. Por favor intentelo nuevamente')
+      this.props.showMessage(
+        'No se puede descargar el archivo en este momento. Por favor intentelo nuevamente'
+      )
     }
   }
 
