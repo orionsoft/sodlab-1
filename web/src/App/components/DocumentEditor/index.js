@@ -20,6 +20,7 @@ export default class DocumentEditor extends React.Component {
 
   state = {
     modalIsOpen: false,
+    isOptionsMenuOpen: false,
     placeholder: '',
     client: null,
     loading: false,
@@ -31,25 +32,18 @@ export default class DocumentEditor extends React.Component {
     posX: 0,
     posY: 0,
     signatureImages: [],
-    apiObjects: [],
-    isOptionsMenuOpen: false,
     uniqueId: '',
     envId: '',
     filename: '',
     objects: []
   }
 
-  componentDidMount() {
-    const envId = this.props.passProps.collectionId.split('_')[0]
-    this.setState({envId})
-  }
-
   resetState = () => {
     this.setState({
-      size: 0,
+      placeholder: '',
+      client: null,
       loading: false,
-      file: null,
-      filename: '',
+      size: 0,
       apiFilename: '',
       pagesSrc: [],
       pages: [],
@@ -57,7 +51,6 @@ export default class DocumentEditor extends React.Component {
       posX: 0,
       posY: 0,
       signatureImages: [],
-      apiObjects: [],
       uniqueId: '',
       envId: '',
       filename: '',
@@ -124,6 +117,7 @@ export default class DocumentEditor extends React.Component {
       const {pagesData, Objects} = await response.json()
 
       this.setState({
+        filename,
         uniqueId,
         size,
         envId,
@@ -153,7 +147,7 @@ export default class DocumentEditor extends React.Component {
         .split('-')
         .filter((item, index) => index !== 0)
         .join('-')
-      this.setState({filename})
+
       this.copyDocumentToWorkBucket(key, envId, filename)
     } else if (typeof this.props.value === 'object') {
       if (!value.hasOwnProperty('key') || !value.hasOwnProperty('name')) return
@@ -169,15 +163,16 @@ export default class DocumentEditor extends React.Component {
 
   @autobind
   fetchPdfPages() {
+    const {envId, uniqueId} = this.state
     this.state.pages.map(async page => {
       try {
         const params = {
           bucket: 'work',
-          key: `${this.state.envId}/${this.state.uniqueId}/${page.name}`,
+          key: `${envId}/${uniqueId}/${page.name}`,
           operation: 'getObject'
         }
-        const index = parseInt(page.name.split('.')[2].replace('_', '')) - 1
         const src = await downloadImage(params)
+        const index = parseInt(page.name.split('.')[2].replace('_', ''), 10) - 1
         const pagesSrc = [...this.state.pagesSrc, {name: page.name, src, index}].sort(
           (a, b) => a.index - b.index
         )

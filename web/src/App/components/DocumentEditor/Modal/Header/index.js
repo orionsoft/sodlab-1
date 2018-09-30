@@ -30,7 +30,6 @@ export default class DocumentEditorHeader extends React.Component {
 
   @autobind
   async submit() {
-    const {envId} = this.props
     // if (this.props.apiFilename) {
     //   this.props.requestFileDeletion()
     // }
@@ -49,6 +48,7 @@ export default class DocumentEditorHeader extends React.Component {
       const size = file.size
       const filename = file.name.replace(/ /g, '_')
       const uniqueId = await requestUniqueId()
+      const envId = this.props.passProps.collectionId.split('_')[0]
       const params = {
         bucket: 'work',
         key: `${envId}/${uniqueId}/${filename}`,
@@ -68,6 +68,7 @@ export default class DocumentEditorHeader extends React.Component {
       const {pagesData, Objects} = await response.json()
 
       this.props.changeState({
+        envId,
         filename,
         pages: pagesData,
         size,
@@ -76,7 +77,6 @@ export default class DocumentEditorHeader extends React.Component {
       })
       return this.props.fetchPdfPages()
     } catch (error) {
-      console.log(error)
       this.props.showMessage('Error al procesar el archivo')
     }
   }

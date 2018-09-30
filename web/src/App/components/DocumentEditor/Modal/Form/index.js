@@ -35,6 +35,8 @@ class DocumentEditorForm extends React.Component {
     stopFingerprintCapturing: PropTypes.func,
     renderToggleConnectedStatus: PropTypes.func,
     renderToggleHelpMessages: PropTypes.func,
+    resetFingerprintState: PropTypes.func,
+    isFingerprintReaderActive: PropTypes.bool,
     isPngCaptured: PropTypes.bool,
     isWsqCaptured: PropTypes.bool,
     // signature capture props
@@ -100,7 +102,9 @@ class DocumentEditorForm extends React.Component {
   }
 
   closeModal = () => {
-    localStorage.removeItem('fingerprintPng')
+    if (this.props.isFingerprintReaderActive) this.props.stopFingerprintCapturing()
+    this.props.resetFingerprintState()
+    if (localStorage.getItem('fingerprintPng') !== null) localStorage.removeItem('fingerprintPng')
     if (localStorage.getItem(this.state.fileId) !== null) localStorage.removeItem(this.state.fileId)
     this.setState({modalIsOpen: false})
   }
@@ -180,33 +184,31 @@ class DocumentEditorForm extends React.Component {
   @autobind
   fetchPdfPage() {
     const {envId, uniqueId, activePage} = this.props
-    this.props.pages
-      .filter(page => page.page === this.props.activePage.toString())
-      .map(async (page, index) => {
-        try {
-          const params = {
-            bucket: 'work',
-            key: `${envId}/${uniqueId}/${page.name}`,
-            operation: 'getObject'
-          }
-          const src = await downloadImage(params)
-          let {pagesSrc} = this.props
-          pagesSrc[activePage - 1] = {
-            name: page.name,
-            src,
-            index: activePage - 1
-          }
-          pagesSrc = pagesSrc.sort((a, b) => a.index - b.index)
-
-          return this.props.changeState({
-            pagesSrc,
-            loading: false
-          })
-        } catch (err) {
-          this.props.changeState({loading: false})
-          this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
+    this.props.pages.filter(page => page.page === activePage.toString()).map(async page => {
+      try {
+        const params = {
+          bucket: 'work',
+          key: `${envId}/${uniqueId}/${page.name}`,
+          operation: 'getObject'
         }
-      })
+        const src = await downloadImage(params)
+        let {pagesSrc} = this.props
+        pagesSrc[activePage - 1] = {
+          name: page.name,
+          src,
+          index: activePage - 1
+        }
+        pagesSrc = pagesSrc.sort((a, b) => a.index - b.index)
+
+        return this.props.changeState({
+          pagesSrc,
+          loading: false
+        })
+      } catch (err) {
+        this.props.changeState({loading: false})
+        this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
+      }
+    })
   }
 
   b64toBlob = (b64Data, contentType, sliceSize) => {
@@ -312,7 +314,6 @@ class DocumentEditorForm extends React.Component {
       })
     })
     const {Objects, size} = await response.json()
-    console.log('size', size)
     const updatedObjects = [...this.props.objects, ...Objects]
     this.props.changeState({
       objects: updatedObjects,
