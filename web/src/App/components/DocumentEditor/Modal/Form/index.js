@@ -77,8 +77,8 @@ class DocumentEditorForm extends React.Component {
     who: '',
     why: '',
     rut: '',
-    captureFingerprintPng: true,
-    captureFingerprintWsq: false,
+    // captureFingerprintPng: true,
+    // captureFingerprintWsq: false,
     activeFingerprint: null,
     activeSignature: null,
     fileId: '',
@@ -122,18 +122,26 @@ class DocumentEditorForm extends React.Component {
   }
 
   captureFingerprintPng = () => {
-    this.props.startFingerprint('pngImage')
+    try {
+      this.props.startFingerprint('pngImage')
+    } catch (err) {
+      console.log('start png', err)
+    }
   }
 
   captureFingerprintWsq = () => {
-    this.props.stopFingerprintCapturing()
-    const {currentDate, currentTime} = formattedDate()
-    this.setState({
-      fileId: `${currentDate}_${currentTime}_${this.state.rut}`,
-      currentDate,
-      currentTime
-    })
-    this.props.startFingerprint('compressed', `${currentDate}_${currentTime}_${this.state.rut}`)
+    try {
+      this.props.stopFingerprintCapturing()
+      const {currentDate, currentTime} = formattedDate()
+      this.setState({
+        fileId: `${currentDate}_${currentTime}_${this.state.rut}`,
+        currentDate,
+        currentTime
+      })
+      this.props.startFingerprint('compressed', `${currentDate}_${currentTime}_${this.state.rut}`)
+    } catch (err) {
+      console.log('start wsq', err)
+    }
   }
 
   insertImage = (type, id, imageSrc, name, rut) => {
@@ -319,13 +327,14 @@ class DocumentEditorForm extends React.Component {
       objects: updatedObjects,
       size: size
     })
-
+    this.props.stopFingerprintCapturing()
+    this.props.resetFingerprintState()
     this.fetchPdfPage()
   }
 
   render() {
     return (
-      <div>
+      <div style={{overflow: 'hidden', display: 'flex'}}>
         <Modal
           appElement={document.querySelector('#root')}
           isOpen={this.state.modalIsOpen}
@@ -417,11 +426,33 @@ class DocumentEditorForm extends React.Component {
             </div>
           </div>
         </Modal>
-        <button onClick={this.openModal}>
-          <MdSignature />
-          <MdFingerprint />
-          CAPTURA DE FIRMA Y HUELLA DIGITAL
-        </button>
+        <div className={styles.optionsButtonsContainer}>
+          <button onClick={this.openModal}>
+            <div className={styles.innerButtonContainer}>
+              <div className={styles.svgContainer}>
+                <MdFingerprint />
+              </div>
+              <div className={styles.textContainer}>CAPTURA DE HUELLA</div>
+            </div>
+          </button>
+          <button onClick={this.openModal}>
+            <div className={styles.innerButtonContainer}>
+              <div className={styles.svgContainer}>
+                <MdSignature />
+              </div>
+              <div className={styles.textContainer}>CAPTURA DE FIRMA</div>
+            </div>
+          </button>
+          <button onClick={this.openModal}>
+            <div className={styles.innerButtonContainer}>
+              <div className={styles.svgContainer}>
+                <MdSignature />
+                <MdFingerprint />
+              </div>
+              <div className={styles.textContainer}>CAPTURA DE FIRMA Y HUELLA DIGITAL</div>
+            </div>
+          </button>
+        </div>
       </div>
     )
   }
