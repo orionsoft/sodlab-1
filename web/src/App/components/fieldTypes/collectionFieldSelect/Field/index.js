@@ -33,7 +33,7 @@ export default class FieldSelect extends React.Component {
   }
 
   render() {
-    if (this.props.schema.parentCollection) {
+    if (this.props.schema && this.props.schema.parentCollection) {
       const {parentCollection} = this.props.schema
       if (!this.props.field) return this.renderSelectCollection()
       if (!this.props.field.options) return this.renderSelectCollection()
