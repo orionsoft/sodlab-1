@@ -40,7 +40,6 @@ export default class DocumentEditor extends React.Component {
 
   resetState = () => {
     this.setState({
-      placeholder: '',
       client: null,
       loading: false,
       size: 0,
@@ -214,8 +213,12 @@ export default class DocumentEditor extends React.Component {
           .join('-')
 
         return this.renderValue(name)
-      } else if (typeof this.props.value === 'object') {
+      } else if (typeof this.props.value === 'object' && this.props.value.hasOwnProperty('name')) {
         return this.renderValue(this.props.value.name)
+      } else if (this.state.placeholder) {
+        return this.renderValue(this.state.placeholder)
+      } else {
+        return this.renderValue('Documento Guardado')
       }
     } else {
       return this.renderNoValue('Generar Documento')
