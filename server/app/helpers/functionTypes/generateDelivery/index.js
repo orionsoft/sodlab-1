@@ -114,16 +114,16 @@ export default {
         }
       }
 
-      // const dte = await DTEEmission(optionsRequest, 'https://lioren.io/api/dtes')
-      // const pdf = await uploadPDF(await dte, 'facturas')
-      // const file = {
-      //   _id: pdf._id,
-      //   key: pdf.key,
-      //   bucket: pdf.bucket,
-      //   name: pdf.name,
-      //   type: pdf.type,
-      //   size: pdf.size
-      // }
+      const dte = await DTEEmission(optionsRequest, 'https://lioren.io/api/dtes')
+      const pdf = await uploadPDF(await dte, 'facturas')
+      const file = {
+        _id: pdf._id,
+        key: pdf.key,
+        bucket: pdf.bucket,
+        name: pdf.name,
+        type: pdf.type,
+        size: pdf.size
+      }
 
       if (options.discountStock) {
         productsList.map(async product => {
@@ -144,25 +144,25 @@ export default {
         })
       }
 
-      // await deliveryDB.insert({
-      //   createdAt: new Date(),
-      //   [`data.${options.deliveryFechaEmision}`]: formatDate(),
-      //   [`data.${options.deliveryFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
-      //   [`data.${options.pedidosId}`]: order.data[options.pedidosId],
-      //   [`data.${options.receptorRut}`]: client.data[options.receptorRut],
-      //   [`data.${options.receptorRs}`]: client.data[options.receptorRs],
-      //   [`data.${options.receptorGiro}`]: client.data[options.receptorGiro],
-      //   [`data.${options.receptorComunaCiudad}`]: client.data[options.receptorComunaCiudad],
-      //   [`data.${options.receptorComunaCodigo}`]: client.data[options.receptorComunaCodigo],
-      //   [`data.${options.receptorDireccion}`]: client.data[options.receptorDireccion],
-      //   [`data.${options.deliveryID}`]: dte.id,
-      //   [`data.${options.deliveryTipodoc}`]: dte.tipodoc,
-      //   [`data.${options.deliveryFolio}`]: dte.folio,
-      //   [`data.${options.deliveryMontoNeto}`]: dte.montoneto,
-      //   [`data.${options.deliveryMontoIva}`]: dte.montoiva,
-      //   [`data.${options.deliveryMontoTotal}`]: dte.montototal,
-      //   [`data.${options.deliveryMontoExento}`]: dte.montoexento
-      // })
+      await deliveryDB.insert({
+        createdAt: new Date(),
+        [`data.${options.deliveryFechaEmision}`]: formatDate(),
+        [`data.${options.deliveryFile}`]: `https://s3.amazonaws.com/${file.bucket}/${file.key}`,
+        [`data.${options.pedidosId}`]: order.data[options.pedidosId],
+        [`data.${options.receptorRut}`]: client.data[options.receptorRut],
+        [`data.${options.receptorRs}`]: client.data[options.receptorRs],
+        [`data.${options.receptorGiro}`]: client.data[options.receptorGiro],
+        [`data.${options.receptorComunaCiudad}`]: client.data[options.receptorComunaCiudad],
+        [`data.${options.receptorComunaCodigo}`]: client.data[options.receptorComunaCodigo],
+        [`data.${options.receptorDireccion}`]: client.data[options.receptorDireccion],
+        [`data.${options.deliveryID}`]: dte.id,
+        [`data.${options.deliveryTipodoc}`]: dte.tipodoc,
+        [`data.${options.deliveryFolio}`]: dte.folio,
+        [`data.${options.deliveryMontoNeto}`]: dte.montoneto,
+        [`data.${options.deliveryMontoIva}`]: dte.montoiva,
+        [`data.${options.deliveryMontoTotal}`]: dte.montototal,
+        [`data.${options.deliveryMontoExento}`]: dte.montoexento
+      })
     } catch (err) {
       console.log('Error:', err)
     }
