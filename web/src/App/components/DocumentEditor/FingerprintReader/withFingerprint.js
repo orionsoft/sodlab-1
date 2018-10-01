@@ -34,7 +34,6 @@ function withFingerprint(Component) {
           if (!this.state[sampleType]) {
             this.checkLocalStorage(sampleType, wsqId)
           } else {
-            // this.state.Fingerprint.stopCapture()
             return
           }
         }, 500),

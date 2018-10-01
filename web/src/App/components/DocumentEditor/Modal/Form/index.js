@@ -77,8 +77,8 @@ class DocumentEditorForm extends React.Component {
     who: '',
     why: '',
     rut: '',
-    // captureFingerprintPng: true,
-    // captureFingerprintWsq: false,
+    selectedOption: '',
+    enableSubmit: false,
     activeFingerprint: null,
     activeSignature: null,
     fileId: '',
@@ -86,7 +86,8 @@ class DocumentEditorForm extends React.Component {
     currentTime: ''
   }
 
-  componentDidMount() {
+  @autobind
+  setWhy() {
     if (!this.props.filename) return
 
     const filenameLength = this.props.filename.split('.').length
@@ -97,8 +98,19 @@ class DocumentEditorForm extends React.Component {
     return this.handleWhyChange(why)
   }
 
-  openModal = () => {
-    this.setState({modalIsOpen: true})
+  @autobind
+  setCurrentDateAndTime() {
+    const {currentDate, currentTime} = formattedDate()
+    this.setState({
+      currentDate,
+      currentTime
+    })
+  }
+
+  openModal = selectedOption => {
+    this.setCurrentDateAndTime()
+    this.setWhy()
+    this.setState({modalIsOpen: true, selectedOption})
   }
 
   closeModal = () => {
@@ -115,33 +127,23 @@ class DocumentEditorForm extends React.Component {
 
   handleWhyChange = why => this.props.handleWhyChange(why, () => this.setState({why}))
 
-  handleRutChange = rut => this.setState({rut})
+  handleRutChange = rut => {
+    const {currentDate, currentTime} = this.state
+    const fileId = `${currentDate}_${currentTime}_${rut}`
+    this.setState({fileId, rut})
+  }
 
   startSignatureCapture = () => {
     this.props.startCapture()
   }
 
   captureFingerprintPng = () => {
-    try {
-      this.props.startFingerprint('pngImage')
-    } catch (err) {
-      console.log('start png', err)
-    }
+    this.props.startFingerprint('pngImage')
   }
 
   captureFingerprintWsq = () => {
-    try {
-      this.props.stopFingerprintCapturing()
-      const {currentDate, currentTime} = formattedDate()
-      this.setState({
-        fileId: `${currentDate}_${currentTime}_${this.state.rut}`,
-        currentDate,
-        currentTime
-      })
-      this.props.startFingerprint('compressed', `${currentDate}_${currentTime}_${this.state.rut}`)
-    } catch (err) {
-      console.log('start wsq', err)
-    }
+    this.props.stopFingerprintCapturing()
+    this.props.startFingerprint('compressed', this.state.fileId)
   }
 
   insertImage = (type, id, imageSrc, name, rut) => {
@@ -157,34 +159,40 @@ class DocumentEditorForm extends React.Component {
     })
   }
 
-  saveCapture = async () => {
-    const signature = document.getElementById('signatureImageBox').firstChild
-    if (signature.src !== null || signature.src !== '') {
-      try {
-        await this.insertImage(
-          'activeSignature',
-          `${this.state.rut}.signature`,
-          signature.src,
-          this.state.who,
-          this.state.rut
-        )
-      } catch (err) {
-        return
+  @autobind
+  async saveCapture() {
+    const {selectedOption} = this.state
+    if (selectedOption === 'signature' || selectedOption === 'both') {
+      const signature = document.getElementById('signatureImageBox').firstChild
+      if (signature.src !== null || signature.src !== '') {
+        try {
+          await this.insertImage(
+            'activeSignature',
+            `${this.state.rut}.signature`,
+            signature.src,
+            this.state.who,
+            this.state.rut
+          )
+        } catch (err) {
+          return err
+        }
       }
     }
 
-    const fingerprint = document.getElementById('fingerprintImage')
-    if (fingerprint.src !== null || fingerprint.src !== '') {
-      try {
-        await this.insertImage(
-          'activeFingerprint',
-          `${this.state.rut}.fingerprint`,
-          fingerprint.src,
-          this.state.who,
-          this.state.rut
-        )
-      } catch (err) {
-        return
+    if (selectedOption === 'fingerprint' || selectedOption === 'both') {
+      const fingerprint = document.getElementById('fingerprintImage')
+      if (fingerprint.src !== null || fingerprint.src !== '') {
+        try {
+          await this.insertImage(
+            'activeFingerprint',
+            `${this.state.rut}.fingerprint`,
+            fingerprint.src,
+            this.state.who,
+            this.state.rut
+          )
+        } catch (err) {
+          return
+        }
       }
     }
   }
@@ -260,7 +268,6 @@ class DocumentEditorForm extends React.Component {
       const signedRequest = await requestSignedUrl(params)
       await uploadFile(signedRequest, blob, contentType)
     } catch (error) {
-      console.log('uploadObject', error)
       throw new Error('Error al guardar el objecto biometrico')
     }
   }
@@ -269,6 +276,8 @@ class DocumentEditorForm extends React.Component {
   async submit() {
     try {
       await this.saveCapture()
+      this.props.stopFingerprintCapturing()
+      this.props.resetFingerprintState()
     } catch (error) {
       this.props.showMessage('Error al insertar la huella y/o firma')
       return
@@ -279,7 +288,15 @@ class DocumentEditorForm extends React.Component {
       loading: true
     })
 
-    const {activeFingerprint, activeSignature, who, rut, currentDate, currentTime} = this.state
+    const {
+      activeFingerprint,
+      activeSignature,
+      who,
+      rut,
+      currentDate,
+      currentTime,
+      selectedOption
+    } = this.state
     const {envId, uniqueId, filename, activePage, posX, posY} = this.props
 
     if (activeFingerprint === null && activeSignature === null) {
@@ -292,13 +309,36 @@ class DocumentEditorForm extends React.Component {
       )
     }
 
-    if (activeSignature) this.uploadObject(activeSignature.imageSrc, 'signature')
+    if (activeSignature) {
+      await this.uploadObject(activeSignature.imageSrc, 'signature')
+    }
     if (activeFingerprint) {
-      this.uploadObject(activeFingerprint.imageSrc, 'fingerprint')
+      await this.uploadObject(activeFingerprint.imageSrc, 'fingerprint')
       const wsqBase64 = localStorage.getItem(this.state.fileId)
       localStorage.removeItem('fingerprintPng')
       localStorage.removeItem(this.state.fileId)
-      this.uploadObject(wsqBase64, 'fingerprint')
+      await this.uploadObject(wsqBase64, 'fingerprint')
+    }
+
+    let body = {
+      envId,
+      uniqueId,
+      pdfFilename: filename,
+      signerName: who,
+      signerRut: rut,
+      currentDate,
+      currentTime,
+      page: activePage - 1,
+      posx: posX,
+      posy: posY
+    }
+
+    if (selectedOption === 'fingerprint' || selectedOption === 'both') {
+      body.fingerprintFilename = `${this.state.fileId}.fingerprint.png`
+    }
+
+    if (selectedOption === 'signature' || selectedOption === 'both') {
+      body.signatureFilename = `${this.state.fileId}.signature.png`
     }
 
     const response = await fetch(`${apiUrl}/api/images`, {
@@ -306,20 +346,7 @@ class DocumentEditorForm extends React.Component {
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
-      body: JSON.stringify({
-        envId,
-        uniqueId,
-        pdfFilename: filename,
-        signatureFilename: `${this.state.fileId}.signature.png`,
-        fingerprintFilename: `${this.state.fileId}.fingerprint.png`,
-        signerName: who,
-        signerRut: rut,
-        currentDate,
-        currentTime,
-        page: activePage - 1,
-        posx: posX,
-        posy: posY
-      })
+      body: JSON.stringify(body)
     })
     const {Objects, size} = await response.json()
     const updatedObjects = [...this.props.objects, ...Objects]
@@ -327,9 +354,68 @@ class DocumentEditorForm extends React.Component {
       objects: updatedObjects,
       size: size
     })
-    this.props.stopFingerprintCapturing()
-    this.props.resetFingerprintState()
     this.fetchPdfPage()
+  }
+
+  @autobind
+  checkSubmitCondition() {
+    switch (this.state.selectedOption) {
+      case 'fingerprint':
+        return !(this.state.who !== '' && this.props.isPngCaptured && this.props.isWsqCaptured)
+      case 'signature':
+        return !(this.state.who !== '' && this.props.isCaptured)
+      case 'both':
+        return !(
+          this.state.who !== '' &&
+          this.props.isCaptured &&
+          this.props.isPngCaptured &&
+          this.props.isWsqCaptured
+        )
+      default:
+        return true
+    }
+  }
+
+  @autobind
+  renderSignatureCapture() {
+    const {selectedOption, rut} = this.state
+    if (selectedOption === 'fingerprint') return
+
+    return (
+      <Device
+        device="signature"
+        headerText="Captura de Firma"
+        onClick={this.startSignatureCapture}
+        label="iniciar captura"
+        disabled={false}
+        showButton={rut !== '' ? true : false}
+      />
+    )
+  }
+
+  @autobind
+  renderFingerprintCapture() {
+    const {selectedOption, rut} = this.state
+    const {isPngCaptured, isWsqCaptured} = this.props
+    if (selectedOption === 'signature') return
+
+    return (
+      <Device
+        device="fingerprint"
+        headerText="Captura de Huella"
+        fingerprintImgSrc={isPngCaptured ? localStorage.getItem('fingerprintPng') : ''}
+        onClick={isPngCaptured ? this.captureFingerprintWsq : this.captureFingerprintPng}
+        label={
+          !isPngCaptured
+            ? 'primera captura'
+            : !isWsqCaptured
+              ? 'segunda captura'
+              : 'captura realizada'
+        }
+        disabled={!isPngCaptured ? false : !isWsqCaptured ? false : true}
+        showButton={rut !== '' ? true : false}
+      />
+    )
   }
 
   render() {
@@ -344,35 +430,8 @@ class DocumentEditorForm extends React.Component {
           contentLabel="Confirmación">
           <div className={styles.contentContainer}>
             <div className={styles.deviceContainer}>
-              <Device
-                device="signature"
-                headerText="Captura de Firma"
-                onClick={this.startSignatureCapture}
-                label="iniciar captura"
-                disabled={false}
-                showButton={this.state.rut !== '' ? true : false}
-              />
-              <Device
-                device="fingerprint"
-                headerText="Captura de Huella"
-                fingerprintImgSrc={
-                  this.props.isPngCaptured ? localStorage.getItem('fingerprintPng') : ''
-                }
-                onClick={
-                  this.props.isPngCaptured ? this.captureFingerprintWsq : this.captureFingerprintPng
-                }
-                label={
-                  !this.props.isPngCaptured
-                    ? 'primera captura'
-                    : !this.props.isWsqCaptured
-                      ? 'segunda captura'
-                      : 'captura realizada'
-                }
-                disabled={
-                  !this.props.isPngCaptured ? false : !this.props.isWsqCaptured ? false : true
-                }
-                showButton={this.state.rut !== '' ? true : false}
-              />
+              {this.renderSignatureCapture()}
+              {this.renderFingerprintCapture()}
             </div>
             <div className={styles.personalInfoContainer}>
               <SignerRut
@@ -413,21 +472,14 @@ class DocumentEditorForm extends React.Component {
                 label="aceptar"
                 primary={true}
                 big={false}
-                disabled={
-                  !(
-                    this.state.who !== '' &&
-                    this.props.isCaptured &&
-                    this.props.isPngCaptured &&
-                    this.props.isWsqCaptured
-                  )
-                }
+                disabled={this.checkSubmitCondition()}
                 onClick={this.submit}
               />
             </div>
           </div>
         </Modal>
         <div className={styles.optionsButtonsContainer}>
-          <button onClick={this.openModal}>
+          <button onClick={() => this.openModal('fingerprint')}>
             <div className={styles.innerButtonContainer}>
               <div className={styles.svgContainer}>
                 <MdFingerprint />
@@ -435,7 +487,7 @@ class DocumentEditorForm extends React.Component {
               <div className={styles.textContainer}>CAPTURA DE HUELLA</div>
             </div>
           </button>
-          <button onClick={this.openModal}>
+          <button onClick={() => this.openModal('signature')}>
             <div className={styles.innerButtonContainer}>
               <div className={styles.svgContainer}>
                 <MdSignature />
@@ -443,7 +495,7 @@ class DocumentEditorForm extends React.Component {
               <div className={styles.textContainer}>CAPTURA DE FIRMA</div>
             </div>
           </button>
-          <button onClick={this.openModal}>
+          <button onClick={() => this.openModal('both')}>
             <div className={styles.innerButtonContainer}>
               <div className={styles.svgContainer}>
                 <MdSignature />
