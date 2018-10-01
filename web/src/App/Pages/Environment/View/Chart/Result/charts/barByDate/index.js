@@ -19,6 +19,13 @@ export default class BarCountByDate extends React.Component {
     this.setState({width})
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const width = this.refs.container.clientWidth
+    if (this.state.width !== width) {
+      this.setState({width})
+    }
+  }
+
   getShortDateFormat() {
     const map = {
       year: 'YYYY',
