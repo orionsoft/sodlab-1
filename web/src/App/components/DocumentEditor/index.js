@@ -75,8 +75,9 @@ export default class DocumentEditor extends React.Component {
 
   @autobind
   requestFileDeletion() {
-    const {envId, uniqueId} = this.state
+    const {envId, uniqueId, filename} = this.state
 
+    if (!filename) return
     return fetch(`${apiUrl}/api/others/deleteFolder`, {
       method: 'DELETE',
       headers: {

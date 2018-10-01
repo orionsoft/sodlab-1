@@ -67,8 +67,6 @@ export default class Main extends React.Component {
           environmentId={this.props.environmentId}
           showMessage={this.props.showMessage}
           errorMessage={this.props.errorMessage}
-          filename={this.props.filename}
-          apiFilename={this.props.apiFilename}
           requestFileDeletion={this.props.requestFileDeletion}
           resetState={this.props.resetState}
           fetchPdfPages={this.props.fetchPdfPages}
@@ -77,6 +75,7 @@ export default class Main extends React.Component {
           pagesSrc={this.props.pagesSrc}
           apiObjects={this.props.apiObjects}
           envId={this.props.envId}
+          filename={this.props.filename}
         />
         <Pagination
           loading={this.props.loading}

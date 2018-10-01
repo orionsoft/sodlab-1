@@ -16,7 +16,6 @@ export default class DocumentEditorHeader extends React.Component {
     selectOptions: PropTypes.array,
     errorMessage: PropTypes.func,
     filename: PropTypes.string,
-    apiFilename: PropTypes.string,
     requestFileDeletion: PropTypes.func,
     resetState: PropTypes.func,
     toggleLoading: PropTypes.func,
@@ -30,16 +29,10 @@ export default class DocumentEditorHeader extends React.Component {
 
   @autobind
   async submit() {
-    // if (this.props.apiFilename) {
-    //   this.props.requestFileDeletion()
-    // }
+    if (this.props.filename) {
+      this.props.requestFileDeletion()
+    }
 
-    // if (this.props.apiObjects.length > 0) {
-    //   this.props.apiObjects.map(object => localStorage.removeItem(object.fileId))
-    //   if (localStorage.getItem('fingerprintPng')) {
-    //     localStorage.removeItem('fingerprintPng')
-    //   }
-    // }
     this.props.resetState()
     this.props.changeState({loading: true})
 
