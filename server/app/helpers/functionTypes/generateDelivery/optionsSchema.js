@@ -209,6 +209,6 @@ export default {
   discountStock: {
     type: Boolean,
     label: 'Descontar stock de Maestro productos',
-    parentsCollection: 'billsCollectionId'
+    parentCollection: 'billsCollectionId'
   }
 }
