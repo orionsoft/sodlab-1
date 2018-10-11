@@ -47,6 +47,10 @@ export default {
     type: String,
     optional: true
   },
+  orderByAsc: {
+    type: Boolean,
+    optional: true
+  },
   filtersIds: {
     type: [String],
     optional: true,

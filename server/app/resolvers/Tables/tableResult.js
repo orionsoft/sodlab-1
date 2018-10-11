@@ -32,6 +32,7 @@ export default paginatedResolver({
     const collection = await table.collection()
     if (!collection) throw new Error('collection not found')
     if (!filterId && !table.allowsNoFilter) throw new Error('Filter is required')
+
     const query = filterId
       ? await (await Filters.findOne(filterId)).createQuery({filterOptions}, viewer)
       : {}
@@ -41,7 +42,7 @@ export default paginatedResolver({
       .sort(
         sortBy && sortBy !== 'data'
           ? {[`data.${sortBy}`]: sortType === 'DESC' ? 1 : -1}
-          : {createdAt: -1}
+          : {createdAt: table.orderByAsc ? 1 : -1}
       )
   }
 })
