@@ -41,7 +41,7 @@ export default paginatedResolver({
       .sort(
         sortBy && sortBy !== 'data'
           ? {[`data.${sortBy}`]: sortType === 'DESC' ? 1 : -1}
-          : {createdAt: 1}
+          : {createdAt: -1}
       )
   }
 })
