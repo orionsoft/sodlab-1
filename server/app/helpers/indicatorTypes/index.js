@@ -18,6 +18,7 @@ import formatNumber from './formatNumber'
 import formatCurrency from './formatCurrency'
 import transformTextUpperCase from './transformTextUpperCase'
 import currentDateCollection from './currentDateCollection'
+import elapsedTimeNumber from './elapsedTimeNumber'
 
 export default {
   concatValues,
@@ -39,5 +40,6 @@ export default {
   formatNumber,
   formatCurrency,
   transformTextUpperCase,
-  currentDateCollection
+  currentDateCollection,
+  elapsedTimeNumber
 }
