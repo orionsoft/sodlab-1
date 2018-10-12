@@ -7,7 +7,11 @@ export default {
     'dateGreaterEqualThan',
     'dateLessEqualThan',
     'dateGreaterThan',
-    'dateLessThan'
+    'dateLessThan',
+    'dateNow',
+    'dateMonth',
+    'dateWeek',
+    'dateYear'
   ],
   optionsSchema: null,
   validate(value, options) {}
