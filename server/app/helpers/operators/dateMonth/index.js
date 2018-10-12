@@ -1,9 +1,9 @@
 import moment from 'moment'
 export default {
-  name: 'Mes del día seleccionado',
+  name: 'Mes Actual',
   inputType: 'date',
-  async resolve(value) {
-    const date = new Date(value)
+  async resolve() {
+    const date = new Date()
     const firstDay = moment(date).startOf('month')
     const endDay = moment(date).endOf('month')
 

@@ -1,9 +1,9 @@
 import moment from 'moment'
 export default {
-  name: 'Semana del día seleccionado',
+  name: 'Semana actual',
   inputType: 'date',
-  async resolve(value) {
-    const date = new Date(value)
+  async resolve() {
+    const date = new Date()
     const firstDay = moment(date).startOf('week')
     const endDay = moment(date).endOf('week')
 

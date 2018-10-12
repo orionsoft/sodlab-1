@@ -1,9 +1,8 @@
 import moment from 'moment'
-
 export default {
   name: 'Día actual',
   inputType: 'date',
-  async resolve(value) {
+  async resolve() {
     const start = moment().startOf('day')
     const end = moment().endOf('day')
 
