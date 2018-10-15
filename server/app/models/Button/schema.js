@@ -63,5 +63,9 @@ export default {
   requireTwoFactor: {
     type: Boolean,
     optional: true
+  },
+  goBack: {
+    type: Boolean,
+    optional: true
   }
 }

@@ -16,6 +16,7 @@ import {withRouter} from 'react-router'
       _id
       title
       buttonType
+      goBack
       buttonText
       url
       icon
@@ -39,6 +40,7 @@ export default class ButtonView extends React.Component {
   }
 
   async onClick(data) {
+    if (this.props.button.goBack) return this.props.history.goBack()
     try {
       await this.props.buttonRunHooks({buttonId: data._id, parameters: this.props.parameters})
       if (data.url) {

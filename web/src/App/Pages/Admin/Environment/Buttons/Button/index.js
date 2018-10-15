@@ -33,6 +33,7 @@ import Checkbox from 'App/components/fieldTypes/checkbox/Field'
       icon
       url
       requireTwoFactor
+      goBack
       parameters {
         parameterName
         value
@@ -152,6 +153,8 @@ export default class ButtonComponent extends React.Component {
               />
               <div className="label">Requerir autenticación de dos factores</div>
               <Field fieldName="requireTwoFactor" type={Checkbox} label="Requiere dos factores" />
+              <div className="label">Volver atrás</div>
+              <Field fieldName="goBack" type={Checkbox} label="Volver atrás" />
               <WithValue>{button => this.renderButtonOptions(button)}</WithValue>
               <Field fieldName="parameters" type={ArrayComponent} renderItem={this.renderItems} />
             </Field>
