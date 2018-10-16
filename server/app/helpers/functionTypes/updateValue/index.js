@@ -20,18 +20,23 @@ export default {
     value: {
       type: String,
       label: 'Valor a insertar',
-      fieldType: 'fieldOptions',
-      parentCollection: 'collectionId',
-      parentField: 'valueKey'
+      fieldType: 'collectionFieldSelect'
+    },
+    useParam: {
+      type: Boolean,
+      label: 'Usar Parámetro',
+      fieldType: 'checkbox'
     }
   },
   async execute({options}) {
-    const {collectionId, valueKey, itemId, value} = options
+    const {collectionId, valueKey, itemId, value, useParam} = options
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
     if (!item) return
 
-    await item.update({$set: {[`data.${valueKey}`]: value}})
+    const newValue = useParam ? value : item.data[value]
+
+    await item.update({$set: {[`data.${valueKey}`]: newValue}})
   }
 }
