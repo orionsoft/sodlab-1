@@ -1,5 +1,5 @@
 export default {
-  name: 'Fecha actual',
+  name: 'Fecha: Actual sin hora',
   requireCollection: false,
   requireField: false,
   optionsSchema: null,

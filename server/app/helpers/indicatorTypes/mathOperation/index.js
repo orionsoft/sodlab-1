@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import * as math from 'mathjs'
 
 export default {
-  name: 'Operación matemática',
+  name: 'Operación: Matemática',
   requireCollection: false,
   requireField: false,
   optionsSchema: {

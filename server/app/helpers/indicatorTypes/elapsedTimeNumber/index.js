@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 export default {
-  name: 'Tiempo transcurrido en números',
+  name: 'Tiempo: Transcurrido en número',
   requireCollection: true,
   requireField: true,
   optionsSchema: {

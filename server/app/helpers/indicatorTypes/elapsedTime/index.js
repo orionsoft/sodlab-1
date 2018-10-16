@@ -1,7 +1,7 @@
 import {elapsedTime} from './countdown'
 
 export default {
-  name: 'Tiempo transcurrido',
+  name: 'Tiempo: Transcurrido en texto',
   requireCollection: true,
   requireField: true,
   optionsSchema: {
