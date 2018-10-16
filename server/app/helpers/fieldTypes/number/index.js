@@ -4,6 +4,8 @@ export default {
   allowedOperatorsIds: [
     'exists',
     'equalNumber',
+    'substractUntilNow',
+    'substractUntilNowHours',
     'numberGreaterThan',
     'numberLessThan',
     'numberGreaterEqual',

@@ -21,7 +21,9 @@ import dateWeek from './dateWeek'
 import dateMonth from './dateMonth'
 import dateYear from './dateYear'
 import substractUntilNow from './substractUntilNow'
+import substractUntilNowHours from './substractUntilNowHours'
 import backwardsDays from './backwardsDays'
+import backwardsHours from './backwardsHours'
 import idEquals from './idEquals'
 import equalString from './equalString'
 import containString from './containString'
@@ -47,7 +49,9 @@ export default {
   dateMonth,
   dateYear,
   substractUntilNow,
+  substractUntilNowHours,
   backwardsDays,
+  backwardsHours,
   equalDateTime,
   notEqualString,
   numberLessEqual,

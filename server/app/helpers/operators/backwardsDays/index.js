@@ -1,11 +1,11 @@
 import moment from 'moment'
 
 export default {
-  name: 'N días hacia atrás',
+  name: 'Histórico menos N días',
   inputType: 'number',
   async resolve(days) {
     const substractDays = moment().subtract(days, 'days')
-    console.log(new Date(substractDays))
+
     return {
       $lte: new Date(substractDays)
     }

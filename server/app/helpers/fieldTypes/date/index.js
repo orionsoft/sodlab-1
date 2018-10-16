@@ -4,7 +4,9 @@ export default {
   allowedOperatorsIds: [
     'exists',
     'substractUntilNow',
+    'substractUntilNowHours',
     'backwardsDays',
+    'backwardsHours',
     'dateEqual',
     'dateGreaterEqualThan',
     'dateLessEqualThan',

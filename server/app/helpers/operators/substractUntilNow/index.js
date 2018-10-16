@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 export default {
-  name: 'N días hasta hoy',
+  name: 'Últimos N días',
   inputType: 'number',
   async resolve(days) {
     const substractDays = moment().subtract(days, 'days')
