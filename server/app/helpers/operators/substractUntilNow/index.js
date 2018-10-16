@@ -5,10 +5,12 @@ export default {
   inputType: 'number',
   async resolve(days) {
     const substractDays = moment().subtract(days, 'days')
+    const starOfDay = moment(substractDays).startOf('day')
+    const endOfDay = moment().endOf('day')
 
     return {
-      $gte: new Date(substractDays),
-      $lt: new Date()
+      $gte: new Date(starOfDay),
+      $lte: new Date(endOfDay)
     }
   }
 }
