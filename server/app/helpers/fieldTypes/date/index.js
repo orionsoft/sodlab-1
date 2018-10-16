@@ -3,6 +3,8 @@ export default {
   rootType: Date,
   allowedOperatorsIds: [
     'exists',
+    'substractUntilNow',
+    'backwardsDays',
     'dateEqual',
     'dateGreaterEqualThan',
     'dateLessEqualThan',

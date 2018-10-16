@@ -20,6 +20,8 @@ import dateNow from './dateNow'
 import dateWeek from './dateWeek'
 import dateMonth from './dateMonth'
 import dateYear from './dateYear'
+import substractUntilNow from './substractUntilNow'
+import backwardsDays from './backwardsDays'
 import idEquals from './idEquals'
 import equalString from './equalString'
 import containString from './containString'
@@ -44,6 +46,8 @@ export default {
   dateNow,
   dateMonth,
   dateYear,
+  substractUntilNow,
+  backwardsDays,
   equalDateTime,
   notEqualString,
   numberLessEqual,
