@@ -7,7 +7,8 @@ export default {
     'dateTimeGreaterThan',
     'dateTimeGreaterEqualThan',
     'dateTimeLessEqualThan',
-    'dateTimeLessThan'
+    'dateTimeLessThan',
+    'dateNow'
   ],
   optionsSchema: null,
   validate(value, options) {}

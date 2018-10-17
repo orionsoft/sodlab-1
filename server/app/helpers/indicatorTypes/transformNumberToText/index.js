@@ -2,7 +2,7 @@ import Collections from 'app/collections/Collections'
 import writtenNumer from 'written-number'
 
 export default {
-  name: 'Transformar número a texto',
+  name: 'Formatear: Número a texto',
   requireCollection: true,
   requireField: true,
   optionsSchema: {

@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import autobind from 'autobind-decorator'
 import Modal from './Modal'
 import styles from './styles.css'
 import {ClientProvider} from './context'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import apiUrl from './helpers/url'
-import arrayBufferToBase64 from './helpers/arrayBufferToBase64'
+import downloadImage from './helpers/downloadImage'
 
 @withMessage
 export default class DocumentEditor extends React.Component {
@@ -19,10 +20,10 @@ export default class DocumentEditor extends React.Component {
 
   state = {
     modalIsOpen: false,
+    isOptionsMenuOpen: false,
     placeholder: '',
     client: null,
     loading: false,
-    filename: '',
     size: 0,
     apiFilename: '',
     pagesSrc: [],
@@ -31,16 +32,17 @@ export default class DocumentEditor extends React.Component {
     posX: 0,
     posY: 0,
     signatureImages: [],
-    apiObjects: [],
-    isOptionsMenuOpen: false
+    uniqueId: '',
+    envId: '',
+    filename: '',
+    objects: []
   }
 
   resetState = () => {
     this.setState({
-      size: 0,
+      client: null,
       loading: false,
-      file: null,
-      filename: '',
+      size: 0,
       apiFilename: '',
       pagesSrc: [],
       pages: [],
@@ -48,7 +50,10 @@ export default class DocumentEditor extends React.Component {
       posX: 0,
       posY: 0,
       signatureImages: [],
-      apiObjects: []
+      uniqueId: '',
+      envId: '',
+      filename: '',
+      objects: []
     })
   }
 
@@ -68,101 +73,106 @@ export default class DocumentEditor extends React.Component {
     }, 1)
   }
 
-  requestFileDeletion = () => {
-    const fileName = this.state.apiFilename
+  @autobind
+  requestFileDeletion() {
+    const {envId, uniqueId, filename} = this.state
 
-    fetch(`${apiUrl}/api/files`, {
+    if (!filename) return
+    return fetch(`${apiUrl}/api/others/deleteFolder`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
-      body: JSON.stringify({fileName, secret: 'sodlab_allow_delete'})
+      body: JSON.stringify({Prefix: `${envId}/${uniqueId}`})
     })
-    if (this.state.apiObjects.length > 0) {
-      fetch(`${apiUrl}/api/objects`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({apiObjects: this.state.apiObjects, secret: 'sodlab_allow_delete'})
-      })
-    }
   }
 
-  onClose = () => {
+  @autobind
+  onClose() {
     this.requestFileDeletion()
     this.resetState()
     this.closeModal()
   }
 
-  updatePlaceholder = placeholder => {
-    this.setState({placeholder})
+  @autobind
+  async copyDocumentToWorkBucket(key, envId, filename) {
+    try {
+      const copyResponse = await fetch(`${apiUrl}/api/documents/edit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({key, envId, filename})
+      })
+      const {uniqueId, size} = await copyResponse.json()
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        body: JSON.stringify({envId, uniqueId, filename})
+      }
+      const response = await fetch(`${apiUrl}/api/documents/getPages`, options)
+      const {pagesData, Objects} = await response.json()
+
+      this.setState({
+        filename,
+        uniqueId,
+        size,
+        envId,
+        pages: pagesData,
+        objects: Objects
+      })
+      this.fetchPdfPages()
+    } catch (error) {
+      this.props.showMessage('Error al cargar el archivo')
+    }
   }
 
+  @autobind
   async loadDocument() {
-    if (typeof this.props.value === 'string') {
+    const envId = this.props.passProps.collectionId.split('_')[0]
+    const {value} = this.props
+
+    if (typeof value === 'string') {
       this.setState({loading: true})
-      const url = this.props.value
-      const params = url.replace('https://s3.amazonaws.com/', '').split('/')
-      const bucket = params.splice(0, 1)[0]
+      const url = value
+      const params = url
+        .replace('https://s3.amazonaws.com/', '')
+        .split('/')
+        .slice(1)
       const key = params.join('/')
-      const name = key
+      const filename = key
         .split('-')
         .filter((item, index) => index !== 0)
         .join('-')
 
-      try {
-        const response = await fetch(`${apiUrl}/api/files/aws/get`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-          },
-          body: JSON.stringify({bucket, key})
-        })
-        const data = await response.json()
+      this.copyDocumentToWorkBucket(key, envId, filename)
+    } else if (typeof this.props.value === 'object') {
+      if (!value.hasOwnProperty('key') || !value.hasOwnProperty('name')) return
 
-        this.setState({
-          apiFilename: data.apiFilename,
-          filename: name,
-          pages: data.pages
-        })
-        this.fetchPdfPages()
-      } catch (error) {
-        this.props.showMessage('Error al cargar el archivo')
-      }
-    } else {
       this.setState({loading: true})
-      const {bucket, key, name, size} = this.props.value
-      try {
-        const response = await fetch(`${apiUrl}/api/files/aws/get`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-          },
-          body: JSON.stringify({bucket, key})
-        })
-        const data = await response.json()
-        this.setState({
-          apiFilename: data.apiFilename,
-          filename: name,
-          pages: data.pages,
-          size
-        })
-        this.fetchPdfPages()
-      } catch (error) {
-        this.props.showMessage('Error al cargar el archivo')
-      }
+      const {key, name} = this.props.value
+
+      this.copyDocumentToWorkBucket(key, envId, name)
+    } else {
+      return
     }
   }
 
-  fetchPdfPages = () => {
-    this.state.pages.map(async (page, index) => {
+  @autobind
+  fetchPdfPages() {
+    const {envId, uniqueId} = this.state
+    this.state.pages.map(async page => {
       try {
-        const response = await fetch(`${apiUrl}/api/images/pdf/${page.name}/${index}`)
-        const buffer = await response.arrayBuffer()
-        const base64Flag = 'data:image/png;base64,'
-        const imageStr = arrayBufferToBase64(buffer)
-        const src = base64Flag + imageStr
+        const params = {
+          bucket: 'work',
+          key: `${envId}/${uniqueId}/${page.name}`,
+          operation: 'getObject'
+        }
+        const src = await downloadImage(params)
+        const index = parseInt(page.name.split('.')[2].replace('_', ''), 10) - 1
         const pagesSrc = [...this.state.pagesSrc, {name: page.name, src, index}].sort(
           (a, b) => a.index - b.index
         )
@@ -204,8 +214,12 @@ export default class DocumentEditor extends React.Component {
           .join('-')
 
         return this.renderValue(name)
-      } else if (typeof this.props.value === 'object') {
+      } else if (typeof this.props.value === 'object' && this.props.value.hasOwnProperty('name')) {
         return this.renderValue(this.props.value.name)
+      } else if (this.state.placeholder) {
+        return this.renderValue(this.state.placeholder)
+      } else {
+        return this.renderValue('Documento Guardado')
       }
     } else {
       return this.renderNoValue('Generar Documento')
@@ -222,7 +236,6 @@ export default class DocumentEditor extends React.Component {
             isOpen={modalIsOpen}
             onClose={this.onClose}
             formId={this.props.passProps.formId}
-            updatePlaceholder={this.updatePlaceholder}
             resetState={this.resetState}
             changeState={this.changeState}
             fetchPdfPages={this.fetchPdfPages}

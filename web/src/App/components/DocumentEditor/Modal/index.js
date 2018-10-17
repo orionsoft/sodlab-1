@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Modal from 'react-modal'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
+import autobind from 'autobind-decorator'
 import {ClientConsumer} from '../context'
 import Header from './Header'
 import Pagination from './Pagination'
@@ -39,10 +40,14 @@ export default class Main extends React.Component {
     fetchPdfPages: PropTypes.func,
     requestFileDeletion: PropTypes.func,
     resetState: PropTypes.func,
-    changeState: PropTypes.func
+    changeState: PropTypes.func,
+    envId: PropTypes.string,
+    uniqueId: PropTypes.string,
+    objects: PropTypes.array
   }
 
-  closeOptionsMenu = () => {
+  @autobind
+  closeOptionsMenu() {
     this.props.changeState({isOptionsMenuOpen: false})
   }
 
@@ -62,8 +67,6 @@ export default class Main extends React.Component {
           environmentId={this.props.environmentId}
           showMessage={this.props.showMessage}
           errorMessage={this.props.errorMessage}
-          filename={this.props.filename}
-          apiFilename={this.props.apiFilename}
           requestFileDeletion={this.props.requestFileDeletion}
           resetState={this.props.resetState}
           fetchPdfPages={this.props.fetchPdfPages}
@@ -71,6 +74,8 @@ export default class Main extends React.Component {
           pages={this.props.pages}
           pagesSrc={this.props.pagesSrc}
           apiObjects={this.props.apiObjects}
+          envId={this.props.envId}
+          filename={this.props.filename}
         />
         <Pagination
           loading={this.props.loading}
@@ -94,9 +99,10 @@ export default class Main extends React.Component {
           onClose={this.props.onClose}
           pagesSrc={this.props.pagesSrc}
           activePage={this.props.activePage}
-          updatePlaceholder={this.props.updatePlaceholder}
           apiObjects={this.props.apiObjects}
           collectionId={this.props.passProps.collectionId}
+          envId={this.props.envId}
+          uniqueId={this.props.uniqueId}
         />
         <Modal
           appElement={document.querySelector('#root')}
@@ -109,7 +115,10 @@ export default class Main extends React.Component {
             <ClientConsumer>
               {rutClient => (
                 <Form
+                  envId={this.props.envId}
+                  uniqueId={this.props.uniqueId}
                   filename={this.props.filename}
+                  objects={this.props.objects}
                   insertImage={this.insertImage}
                   handleSubmitImg={this.handleSubmitImg}
                   changeState={this.props.changeState}

@@ -20,7 +20,8 @@ export default {
   },
   fixed: {
     type: 'blackbox',
-    optional: true
+    optional: true,
+    defaultValue: {}
   },
   parameterName: {
     type: String,

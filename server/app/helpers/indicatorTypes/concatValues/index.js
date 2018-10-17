@@ -1,7 +1,7 @@
 import Indicators from 'app/collections/Indicators'
 
 export default {
-  name: 'Concatenar valores',
+  name: 'Operación: Concatenar',
   requireCollection: false,
   requireField: false,
   optionsSchema: {

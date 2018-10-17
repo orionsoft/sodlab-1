@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FileSaver from 'file-saver'
+import autobind from 'autobind-decorator'
 import {FaSpinner} from 'react-icons/lib/fa'
 import withMutation from 'react-apollo-decorators/lib/withMutation'
 import gql from 'graphql-tag'
 import Button from 'orionsoft-parts/lib/components/Button'
-import apiUrl from '../../helpers/url'
+import requestSignedUrl from 'App/components/DocumentEditor/helpers/requestSignedUrl'
+import apiUrl from 'App/components/DocumentEditor/helpers/url'
 import styles from './styles.css'
 
 @withMutation(gql`
@@ -41,7 +43,9 @@ export default class DocumentEditorPagination extends React.Component {
     showMessage: PropTypes.func,
     pagesSrc: PropTypes.array,
     apiObjects: PropTypes.array,
-    collectionId: PropTypes.string
+    collectionId: PropTypes.string,
+    envId: PropTypes.string,
+    uniqueId: PropTypes.string
   }
 
   getOffset(el) {
@@ -52,7 +56,8 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  handleImageClick = e => {
+  @autobind
+  handleImageClick(e) {
     const img = document.getElementById('pdfImage')
     const {left, top} = this.getOffset(img)
     const imgWidth = img.width
@@ -69,14 +74,28 @@ export default class DocumentEditorPagination extends React.Component {
     })
   }
 
-  handleDownloadPdf = () => {
-    fetch(`${apiUrl}/api/pdf/${this.props.apiFilename}`)
-      .then(response => response.blob())
-      .then(blob => FileSaver.saveAs(blob, this.props.filename))
-      .catch(err => this.props.showMessage('No se ha podido descargar el archivo'))
+  @autobind
+  async handleDownloadPdf() {
+    const {envId, uniqueId, filename} = this.props
+    try {
+      const params = {
+        bucket: 'work',
+        key: `${envId}/${uniqueId}/${filename}`,
+        operation: 'getObject'
+      }
+      const signedUrl = await requestSignedUrl(params)
+      const response = await fetch(signedUrl)
+      const blob = await response.blob()
+      FileSaver.saveAs(blob, filename)
+    } catch (error) {
+      this.props.showMessage(
+        'No se puede descargar el archivo en este momento. Por favor intentelo nuevamente'
+      )
+    }
   }
 
-  requestCredentials = async body => {
+  @autobind
+  async requestCredentials(body) {
     try {
       const {result} = await this.props.generateUploadCredentials({
         name: body.fileName,
@@ -89,7 +108,8 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  complete = async fileId => {
+  @autobind
+  async complete(fileId) {
     this.props.onChange({_id: fileId})
     try {
       return await this.props.completeUpload({fileId})
@@ -98,44 +118,23 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  sendBiometricObjects = async (timestamp, environmentId, docId) => {
+  @autobind
+  async handleConfirm() {
+    const {envId, uniqueId, filename} = this.props
     try {
-      const body = {
-        timestamp,
-        environmentId,
-        docId,
-        paths: this.props.apiObjects
+      const fileData = {
+        fileName: filename,
+        fileType: 'application/pdf'
       }
-      return await fetch(`${apiUrl}/api/objects`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify(body)
-      })
-    } catch (error) {
-      return this.props.showMessage('Error al subir los archivos biometricos')
-    }
-  }
-
-  handleConfirm = async () => {
-    const fileData = {
-      fileName: this.props.filename,
-      fileType: 'application/pdf'
-    }
-    const date = new Date()
-    const timestamp = date.getTime().toString()
-    try {
       const credentials = await this.requestCredentials(fileData)
-      const environmentId = this.props.collectionId.split('_')[0]
-      const docId = credentials.key.split('/')[1].split('-')[0]
+      const key = credentials.key.replace('.pdf', '')
       const body = {
-        ...fileData,
-        ...credentials,
-        apiFilename: this.props.apiFilename
+        envId,
+        uniqueId,
+        filename,
+        key
       }
-      await this.complete(credentials.fileId)
-      const response = await fetch(`${apiUrl}/api/files`, {
+      const response = await fetch(`${apiUrl}/api/others/wrapUp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -144,10 +143,9 @@ export default class DocumentEditorPagination extends React.Component {
       })
       const data = await response.json()
       if (data.success) {
-        this.props.updatePlaceholder(this.props.filename)
-        this.props.showMessage('Documento guardado con éxito. Guardando información biometrica')
-        await this.sendBiometricObjects(timestamp, environmentId, docId)
-        this.props.showMessage('Información biometrica guardada con éxito')
+        await this.complete(credentials.fileId)
+        this.props.changeState({placeholder: filename})
+        this.props.showMessage('Documento guardado con éxito')
         this.props.onClose()
       }
     } catch (error) {
@@ -155,7 +153,8 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  renderSignatureImages = () => {
+  @autobind
+  renderSignatureImages() {
     return this.props.signatureImages.map((image, index) => {
       return (
         <div key={index}>
@@ -171,7 +170,8 @@ export default class DocumentEditorPagination extends React.Component {
     })
   }
 
-  renderHelpMessage = () => {
+  @autobind
+  renderHelpMessage() {
     if (this.props.pagesSrc.length > 0) {
       return (
         <div className={styles.pdfImageHelpContainer}>
@@ -185,7 +185,8 @@ export default class DocumentEditorPagination extends React.Component {
     }
   }
 
-  renderActivePage = () => {
+  @autobind
+  renderActivePage() {
     if (this.props.pagesSrc.length > 0) {
       return (
         <img

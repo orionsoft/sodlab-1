@@ -1,7 +1,7 @@
 import Collections from 'app/collections/Collections'
 
 export default {
-  name: 'Transformar texto a mayúscula',
+  name: 'Formatear: Texto a Mayúsculas',
   requireCollection: true,
   requireField: true,
   optionsSchema: {

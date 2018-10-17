@@ -1,5 +1,5 @@
 export default {
-  name: 'Cuenta',
+  name: 'Operación: Cuenta',
   requireCollection: true,
   requireField: false,
   optionsSchema: null,

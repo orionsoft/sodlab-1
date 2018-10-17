@@ -16,6 +16,14 @@ import dateGreaterThan from './dateGreaterThan'
 import dateTimeLessEqualThan from './dateTimeLessEqualThan'
 import dateTimeLessThan from './dateTimeLessThan'
 import dateLessThan from './dateLessThan'
+import dateNow from './dateNow'
+import dateWeek from './dateWeek'
+import dateMonth from './dateMonth'
+import dateYear from './dateYear'
+import substractUntilNow from './substractUntilNow'
+import substractUntilNowHours from './substractUntilNowHours'
+import backwardsDays from './backwardsDays'
+import backwardsHours from './backwardsHours'
 import idEquals from './idEquals'
 import equalString from './equalString'
 import containString from './containString'
@@ -36,6 +44,14 @@ export default {
   dateTimeGreaterEqualThan,
   dateTimeGreaterThan,
   dateEqual,
+  dateWeek,
+  dateNow,
+  dateMonth,
+  dateYear,
+  substractUntilNow,
+  substractUntilNowHours,
+  backwardsDays,
+  backwardsHours,
   equalDateTime,
   notEqualString,
   numberLessEqual,

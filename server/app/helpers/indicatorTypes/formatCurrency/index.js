@@ -2,7 +2,7 @@ import Collections from 'app/collections/Collections'
 import numeral from 'numeral'
 
 export default {
-  name: 'Formatear moneda a pesos',
+  name: 'Formatear: Moneda a pesos',
   requireCollection: true,
   requireField: true,
   optionsSchema: {

@@ -10,7 +10,7 @@ function format(num) {
 }
 
 export default {
-  name: 'Transformar moneda a texto',
+  name: 'Formatear: Moneda a texto',
   requireCollection: true,
   requireField: true,
   optionsSchema: {
