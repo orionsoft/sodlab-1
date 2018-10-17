@@ -34,6 +34,7 @@ import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
       allowsNoFilter
       filterByDefault
       orderFiltersByName
+      orderByAsc
       footer
       exportable
       exportWithId
@@ -215,10 +216,7 @@ export default class Link extends React.Component {
             ref="form"
             only="table"
             onSuccess={this.onSuccess}
-            doc={{
-              tableId: this.props.table._id,
-              table: cloneDeep(this.state.table)
-            }}>
+            doc={{tableId: this.props.table._id, table: cloneDeep(this.state.table)}}>
             <Field fieldName="table" type={ObjectField}>
               <div className="label">Nombre</div>
               <Field fieldName="name" type={Text} />
@@ -239,7 +237,7 @@ export default class Link extends React.Component {
                 )}
               </WithValue>
               <div className="row">
-                <div className="col-xs-6 col-sm-">
+                <div className="col-xs-4 col-sm-">
                   <div className="label">Se puede usar sin filtro</div>
                   <Field
                     fieldName="allowsNoFilter"
@@ -247,13 +245,17 @@ export default class Link extends React.Component {
                     label="Se puede usar sin filtro"
                   />
                 </div>
-                <div className="col-xs-6 col-sm-">
+                <div className="col-xs-4 col-sm-">
                   <div className="label">Ordenar filtros alfabéticamente</div>
                   <Field
                     fieldName="orderFiltersByName"
                     type={Checkbox}
                     label="Ordenar filtros alfabéticamente"
                   />
+                </div>
+                <div className="col-xs-4 col-sm-">
+                  <div className="label">Ordenar por Fecha Ascendente</div>
+                  <Field fieldName="orderByAsc" type={Checkbox} label="Ordenar ascendente" />
                 </div>
                 <div className="col-xs-3 col-sm-">
                   <div className="label">Exportable</div>

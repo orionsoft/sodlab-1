@@ -5,19 +5,14 @@ export default {
   requireCollection: true,
   requireField: true,
   optionsSchema: {
-    fecha: {
+    itemId: {
       type: String,
-      label: 'Fecha'
+      label: 'Item Id'
     }
   },
   getRenderType: () => 'text',
-  async getResult({collection, fieldName}) {
-    const [document] = await collection
-      .find()
-      .limit(1)
-      .sort({$natural: -1})
-      .toArray()
-
-    return `Último documento: ${elapsedTime(document.data[fieldName])}`
+  async getResult({collection, fieldName, options: {itemId}}) {
+    const [document] = await collection.find({_id: itemId}).toArray()
+    return `${elapsedTime(document.data[fieldName])}`
   }
 }

@@ -30,10 +30,15 @@ export default {
   async execute({options, params}) {
     const {collectionId, valueKey, itemId, template} = options
 
+    const col = await Collections.findOne(collectionId)
+    const collection = await col.db()
+    const item = await collection.findOne(itemId)
+    if (!item) return
+
     let content = template
-    Object.keys(params).forEach(variable => {
+    Object.keys(item.data).forEach(variable => {
       const regexp = new RegExp(`{${escape(variable)}}`, 'g')
-      content = content.replace(regexp, params[variable])
+      content = content.replace(regexp, item.data[variable])
     })
 
     const html = getHTML(content)
@@ -43,11 +48,6 @@ export default {
     const url = `https://s3.amazonaws.com/${response.bucket}/${response.key}`
 
     console.log('generated html pdf', url)
-
-    const col = await Collections.findOne(collectionId)
-    const collection = await col.db()
-    const item = await collection.findOne(itemId)
-    if (!item) return
 
     await item.update({$set: {[`data.${valueKey}`]: url}})
   }
