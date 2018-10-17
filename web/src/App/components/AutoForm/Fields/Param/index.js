@@ -74,7 +74,7 @@ export default class AutoFormField extends React.Component {
           type={Component}
           {...fieldOptions}
           {...this.props.passProps}>
-          {this.renderObjectFields(type, this.props.fields)}
+          <div className="row">{this.renderObjectFields(type, this.props.fields)}</div>
         </Field>
       )
     } else {
