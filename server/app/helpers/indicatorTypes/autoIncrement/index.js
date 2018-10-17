@@ -1,7 +1,7 @@
 import Counters from './Counters'
 
 export default {
-  name: 'Valor Autoincremental',
+  name: 'Valor: Autoincremental',
   requireCollection: false,
   requireField: false,
   optionsSchema: {

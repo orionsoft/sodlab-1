@@ -2,7 +2,7 @@ import Collections from 'app/collections/Collections'
 import moment from 'moment'
 
 export default {
-  name: 'Transformar fecha a texto',
+  name: 'Fecha: Formatea a "DD de MM de AAAA"',
   requireCollection: true,
   requireField: true,
   optionsSchema: {

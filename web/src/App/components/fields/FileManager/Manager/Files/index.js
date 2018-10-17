@@ -19,6 +19,7 @@ import File from './File'
         bucket
         status
         createdBy
+        createdAt
         ...fileManagerFile
       }
     }
@@ -38,7 +39,9 @@ export default class Files extends React.Component {
 
   renderFiles() {
     if (!this.props.files.items) return this.renderNoFiles()
-    return this.props.files.items.map(file => {
+    const items = [...this.props.files.items]
+    items.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    return items.map(file => {
       return (
         <div key={file._id} className="col-xs-6 col-sm-3 col-md-2">
           <File file={file} select={() => this.props.selectFile(file._id)} />

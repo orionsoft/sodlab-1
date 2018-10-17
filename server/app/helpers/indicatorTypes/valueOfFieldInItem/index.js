@@ -1,7 +1,7 @@
 import Collections from 'app/collections/Collections'
 
 export default {
-  name: 'Valor de un campo en un item',
+  name: 'Valor: De un campo en un item',
   requireCollection: true,
   requireField: true,
   optionsSchema: {

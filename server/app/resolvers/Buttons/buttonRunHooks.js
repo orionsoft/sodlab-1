@@ -17,6 +17,7 @@ export default resolver({
   returns: Boolean,
   mutation: true,
   async resolve({buttonId, parameters}, viewer) {
+    const {userId} = viewer
     const button = await Buttons.findOne(buttonId)
     if (button.requireTwoFactor) {
       await requireTwoFactor(viewer)
@@ -27,7 +28,7 @@ export default resolver({
     const params = {...parameters, ...button.parameters}
     for (const hook of hooks) {
       try {
-        await hook.execute({params})
+        await hook.execute({params, userId})
       } catch (e) {
         console.log('Error running hook', e)
       }

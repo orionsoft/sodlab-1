@@ -1,6 +1,6 @@
 import Collections from 'app/collections/Collections'
 export default {
-  name: 'Suma',
+  name: 'Operación: Suma',
   requireCollection: true,
   requireField: true,
   optionsSchema: null,

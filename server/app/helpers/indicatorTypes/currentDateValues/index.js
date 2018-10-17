@@ -1,6 +1,6 @@
 import Indicators from 'app/collections/Indicators'
 export default {
-  name: 'Fecha: Obtener valores',
+  name: 'Fecha: Obtener valores de fecha actual',
   requireCollection: false,
   requireField: false,
   optionsSchema: {
@@ -25,7 +25,20 @@ export default {
   getRenderType: () => 'text',
   async getResult({options, params}) {
     const days = ['LUN', 'MAR', 'MIE', 'JUE', 'VIE', 'SAB', 'DOM']
-    const months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC']
+    const months = [
+      'ENE',
+      'FEB',
+      'MAR',
+      'ABR',
+      'MAY',
+      'JUN',
+      'JUL',
+      'AGO',
+      'SEP',
+      'OCT',
+      'NOV',
+      'DIC'
+    ]
 
     const date = new Date()
     switch (options.operation) {

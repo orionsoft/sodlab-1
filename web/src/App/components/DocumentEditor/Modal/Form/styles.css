@@ -38,6 +38,7 @@
   height: 500px;
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 :local(.personalInfoContainer) {
@@ -82,4 +83,67 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+:local(.optionsButtonsContainer) {
+	width: 100%;
+	display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+:local(.optionsButtonsContainer):first-child {
+	margin: 10px 5px 5px;
+}
+
+:local(.optionsButtonsContainer):nth-child(2) {
+	margin: 5px;
+}
+
+:local(.optionsButtonsContainer):last-child {
+	margin: 5px 5px 10px;
+}
+
+:local(.optionsButtonsContainer) button {
+	color: black;
+	background-color: #fff;
+	cursor: pointer;
+	margin: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .025em;
+	border: none;
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+:local(.innerButtonContainer) {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:local(.svgContainer) {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:local(.svgContainer) svg {
+  margin: 10px;
+	width: 2em;
+	height: 2em;
+}
+
+:local(.textContainer) {
+  flex: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

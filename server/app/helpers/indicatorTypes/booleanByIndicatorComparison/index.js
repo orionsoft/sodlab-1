@@ -1,6 +1,6 @@
 import Indicators from 'app/collections/Indicators'
 export default {
-  name: 'Boleano por comparación de indicadores',
+  name: 'Operación: Comparación',
   requireCollection: false,
   requireField: false,
   optionsSchema: {

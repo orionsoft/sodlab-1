@@ -8,7 +8,7 @@ export default resolver({
     const operator = await rule.operator()
 
     const value = rule.type === 'fixed' ? rule.fixed.value : filterOptions[rule.parameterName]
-    if (isNil(value)) return
+    // if (isNil(value)) return
 
     const query = await operator.getQuery({value}, viewer)
     const key = rule.fieldName === '_id' ? '_id' : `data.${rule.fieldName}`

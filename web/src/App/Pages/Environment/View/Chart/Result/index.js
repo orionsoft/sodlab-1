@@ -5,8 +5,13 @@ import gql from 'graphql-tag'
 import charts from './charts'
 
 @withGraphQL(gql`
-  query getChartResult($chartId: ID, $params: JSON) {
-    result: chartResult(chartId: $chartId, params: $params)
+  query getChartResult($chartId: ID, $filterId: ID, $filterOptions: JSON, $params: JSON) {
+    result: chartResult(
+      chartId: $chartId
+      filterId: $filterId
+      filterOptions: $filterOptions
+      params: $params
+    )
   }
 `)
 export default class Result extends React.Component {

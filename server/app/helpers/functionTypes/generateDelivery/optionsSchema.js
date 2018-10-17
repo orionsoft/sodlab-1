@@ -103,15 +103,9 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'
   },
-  productsIds: {
-    type: [String],
-    label: 'Identificador Producto (desde formulario)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'productsCollectionId'
-  },
   productsSku: {
     type: [String],
-    label: 'Sku del Producto (desde formulario)',
+    label: 'Sku del Producto (de colección Productos)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'productsCollectionId'
   },
@@ -199,27 +193,6 @@ export default {
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
   },
-  deliveryEstado: {
-    type: String,
-    label:
-      'Campo para almacenar Estado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'deliveryCollectionId'
-  },
-  deliveryTipodespacho: {
-    type: String,
-    label:
-      'Campo para almacenar Tipo Despacho de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'deliveryCollectionId'
-  },
-  deliveryTipotraslado: {
-    type: String,
-    label:
-      'Campo para almacenar Tipo Traslado de Guía de Despacho Emitida (de colección Guía de Despacho Emitida)',
-    fieldType: 'collectionFieldSelect',
-    parentCollection: 'deliveryCollectionId'
-  },
   deliveryFile: {
     type: String,
     label:
@@ -232,5 +205,10 @@ export default {
     label: 'Campo para almacenar Fecha Emisión Emitida (de colección Guía de Despacho Emitida)',
     fieldType: 'collectionFieldSelect',
     parentCollection: 'deliveryCollectionId'
+  },
+  discountStock: {
+    type: Boolean,
+    label: 'Descontar stock de Maestro productos',
+    parentCollection: 'billsCollectionId'
   }
 }

@@ -13,6 +13,7 @@ import generatePdfFromHTML from './generatePdfFromHTML'
 import notifications from './notifications'
 import bulkUpload from './bulkUpload'
 import mailTo from './mailTo'
+import deleteDocument from './deleteDocument'
 
 export default {
   updateValue,
@@ -29,5 +30,6 @@ export default {
   generatePdfFromHTML,
   notifications,
   bulkUpload,
-  mailTo
+  mailTo,
+  deleteDocument
 }
