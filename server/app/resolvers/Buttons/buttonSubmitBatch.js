@@ -36,9 +36,15 @@ export default resolver({
     } else {
       const getItems = await tableResult(params)
       const arrayItems = await getItems.cursor.toArray()
-      const broughtItems = items.filter(item => item).map(item => {
-        return Object.keys(item)[0]
-      })
+      const itemsObject = items[0]
+      const broughtItems = Object.keys(itemsObject)
+        .map(key => {
+          const value = itemsObject[key]
+          return {key, value}
+        })
+        .filter(item => item.value)
+        .map(item => item.key)
+
       obtainedItems = await arrayItems.filter(item => broughtItems.includes(item._id))
       if (!obtainedItems.length) return
       for (const parameters of obtainedItems) {
