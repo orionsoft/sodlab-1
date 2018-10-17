@@ -1,6 +1,6 @@
 import Collections from 'app/collections/Collections'
 export default {
-  name: 'Transformar fecha de una colección',
+  name: 'Fecha: Obtener valores de variable',
   requireCollection: true,
   requireField: true,
   optionsSchema: {

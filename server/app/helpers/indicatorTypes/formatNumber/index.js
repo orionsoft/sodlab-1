@@ -2,7 +2,7 @@ import Collections from 'app/collections/Collections'
 import numeral from 'numeral'
 
 export default {
-  name: 'Formatear número a miles',
+  name: 'Formatear: Número a miles',
   requireCollection: true,
   requireField: true,
   optionsSchema: {

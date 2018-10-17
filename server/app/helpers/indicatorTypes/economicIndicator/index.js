@@ -6,7 +6,7 @@ const types = {
 }
 
 export default {
-  name: 'Indicador económico',
+  name: 'Valor: Indicador económico',
   requireCollection: false,
   requireField: false,
   optionsSchema: {

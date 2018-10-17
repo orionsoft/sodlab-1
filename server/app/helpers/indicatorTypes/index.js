@@ -5,7 +5,6 @@ import count from './count'
 import autoIncrement from './autoIncrement'
 import currentDate from './currentDate'
 import valueOfFieldInItem from './valueOfFieldInItem'
-import indicatorSubtraction from './indicatorSubtraction'
 import booleanByIndicatorComparison from './booleanByIndicatorComparison'
 import currentDateTime from './currentDateTime'
 import mathOperation from './mathOperation'
@@ -21,25 +20,24 @@ import currentDateCollection from './currentDateCollection'
 import elapsedTimeNumber from './elapsedTimeNumber'
 
 export default {
-  concatValues,
-  count,
-  sum,
-  economicIndicator,
-  autoIncrement,
-  currentDate,
   currentDateTime,
-  valueOfFieldInItem,
-  indicatorSubtraction,
-  booleanByIndicatorComparison,
-  mathOperation,
-  currentDateValues,
-  elapsedTime,
-  transformNumberToText,
+  currentDate,
   currentDateText,
+  currentDateValues,
+  currentDateCollection,
+  formatCurrency,
   transformCurrencyToText,
   formatNumber,
-  formatCurrency,
+  transformNumberToText,
   transformTextUpperCase,
-  currentDateCollection,
-  elapsedTimeNumber
+  booleanByIndicatorComparison,
+  concatValues,
+  count,
+  mathOperation,
+  sum,
+  elapsedTimeNumber,
+  elapsedTime,
+  autoIncrement,
+  valueOfFieldInItem,
+  economicIndicator
 }
