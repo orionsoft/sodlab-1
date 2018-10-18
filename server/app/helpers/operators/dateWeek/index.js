@@ -4,8 +4,8 @@ export default {
   inputType: 'date',
   async resolve() {
     const date = new Date()
-    const firstDay = moment(date).startOf('week')
-    const endDay = moment(date).endOf('week')
+    const firstDay = moment(date).startOf('isoWeek')
+    const endDay = moment(date).endOf('isoWeek')
 
     return {
       $gte: new Date(firstDay),
