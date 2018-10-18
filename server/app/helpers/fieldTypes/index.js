@@ -18,6 +18,7 @@ import multipleSelect from './multipleSelect'
 import document from './document'
 import textArea from './textArea'
 import fileURL from './fileURL'
+import colorPicker from './colorPicker'
 import html from './html'
 
 export default {
@@ -41,5 +42,6 @@ export default {
   multipleSelect,
   document,
   textArea,
-  fileURL
+  fileURL,
+  colorPicker
 }

@@ -76,7 +76,7 @@ export default class Required extends React.Component {
     if (this.props.field.type !== 'editable') return null
     return (
       <div>
-        <div className="label">Requiere</div>
+        <div className="label">Mostrar si</div>
         <div className="row">
           <div className="col-xs-12 col-sm-4 col-lg-4">
             <div className="label">Tipo</div>

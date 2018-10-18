@@ -6,8 +6,10 @@ import removeEnvironment from './removeEnvironment'
 import setEnvironmentProfileSchema from './setEnvironmentProfileSchema'
 import generateExport from './generateExport'
 import importEnvironment from './importEnvironment'
+import setEnvironmentCustom from './setEnvironmentCustom'
 
 export default {
+  setEnvironmentCustom,
   importEnvironment,
   generateExport,
   setEnvironmentProfileSchema,
