@@ -32,9 +32,10 @@ export default class List extends React.Component {
     ]
   }
 
-  renderFunctionType(type) {
-    if (!type) return
-    return this.props.functionTypes.filter(({_id}) => _id === type).map(field => field.name)[0]
+  renderFunctionType(functionId) {
+    if (!functionId) return
+    const functionType = this.props.functionTypes.find(({_id}) => _id === functionId) || {}
+    return functionType.name
   }
 
   render() {
