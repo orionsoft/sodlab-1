@@ -1,17 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './styles.css'
+import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
+import gql from 'graphql-tag'
 import PaginatedList from 'App/components/Crud/List'
 import Breadcrumbs from '../../Breadcrumbs'
 import Button from 'orionsoft-parts/lib/components/Button'
 
+@withGraphQL(gql`
+  query {
+    functionTypes {
+      _id
+      name
+      optionsParams
+    }
+  }
+`)
 export default class List extends React.Component {
   static propTypes = {
     match: PropTypes.object
   }
 
   getFields() {
-    return [{title: 'Título', name: 'name'}]
+    return [
+      {title: 'Nombre', name: 'name'},
+      {
+        title: 'Tipo',
+        name: 'functionTypeId',
+        render: ({functionTypeId}) => this.renderFunctionType(functionTypeId)
+      }
+    ]
+  }
+
+  renderFunctionType(functionTypeId) {
+    if (!functionTypeId) return
+    const functionType = this.props.functionTypes.find(({_id}) => _id === functionTypeId) || {}
+    return functionType.name
   }
 
   render() {
