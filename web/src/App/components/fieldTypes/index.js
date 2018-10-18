@@ -27,6 +27,7 @@ import hookSelect from './hookSelect'
 import fileURL from './fileURL'
 import validationSelect from './validationSelect'
 import buttonSelect from './buttonSelect'
+import colorPicker from './colorPicker'
 import html from './html'
 import fieldOptions from './fieldOptions'
 import roleSelect from './roleSelect'
@@ -63,6 +64,7 @@ export default {
   textArea,
   fileURL,
   validationSelect,
+  colorPicker,
   roleSelect,
   fieldOptions,
   formSelect

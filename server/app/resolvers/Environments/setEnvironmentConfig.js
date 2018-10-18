@@ -7,15 +7,12 @@ const EnvironmentInput = Environment.clone({
   pickFields: [
     'name',
     'url',
-    'logo',
-    'authBackgroundImage',
-    'fontName',
     'liorenId',
     'intercomId',
     'liorenIdBill',
     'liorenIdCreditNote',
-    'liorenIdDelivery', 
-    'exempt', 
+    'liorenIdDelivery',
+    'exempt',
     'exemptTicket'
   ]
 })

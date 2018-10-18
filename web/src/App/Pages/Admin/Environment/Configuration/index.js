@@ -12,6 +12,7 @@ import ProfileFields from './ProfileFields'
 import Export from './Export'
 import Import from './Import'
 import RemoveEnvironment from './RemoveEnvironment'
+import Customization from './Customization'
 
 @withMessage
 @withGraphQL(gql`
@@ -20,23 +21,18 @@ import RemoveEnvironment from './RemoveEnvironment'
       _id
       name
       url
-      logo {
-        _id
-      }
-      authBackgroundImage {
-        _id
-      }
-      fontName
       liorenId
       intercomId
       liorenIdBill
       liorenIdCreditNote
-      liorenIdDelivery,
-      exempt,
+      liorenIdDelivery
+      exempt
       exemptTicket
       ...adminEnvironmentProfilesUpdateFragment
+      ...adminEnvironmentCustomizationUpdateFragment
     }
   }
+  ${Customization.fragment},
   ${ProfileFields.fragment}
 `)
 export default class Configuration extends React.Component {
@@ -66,6 +62,7 @@ export default class Configuration extends React.Component {
           </Button>
         </Section>
         <ProfileFields environment={this.props.environment} />
+        <Customization environment={this.props.environment} />
         <Export environment={this.props.environment} />
         <Import environment={this.props.environment} />
         <RemoveEnvironment environmentId={this.props.environment._id} />

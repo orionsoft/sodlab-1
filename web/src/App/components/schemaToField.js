@@ -9,6 +9,7 @@ import Blackbox from './fields/Blackbox'
 import FileManager from './fields/FileManager'
 import Document from './fields/Document'
 import fieldTypes from './fieldTypes'
+import ColorPicker from './fields/ColorPicker'
 
 const singleFieldMap = {
   email: Text,
@@ -22,7 +23,8 @@ const singleFieldMap = {
   date: DateText,
   blackbox: Blackbox,
   file: FileManager,
-  document: Document
+  document: Document,
+  colorpicker: ColorPicker
 }
 
 const arrayFieldMap = {}
