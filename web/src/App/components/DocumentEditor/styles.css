@@ -1,5 +1,4 @@
 :local(.container) {
-
 }
 
 :local(.placeholderContainer) {
@@ -9,6 +8,7 @@
   border: 1px solid #c2c2c2;
   border-radius: 4px;
   padding: 6px 10px;
+  margin-bottom: 10px;
 }
 
 :local(.noValue) {

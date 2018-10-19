@@ -13,6 +13,7 @@ export default class AutoFormField extends React.Component {
     schemaToField: PropTypes.func,
     only: PropTypes.string,
     passProps: PropTypes.object,
+    fromEnvironment: PropTypes.bool,
     fields: PropTypes.array
   }
 
@@ -20,7 +21,11 @@ export default class AutoFormField extends React.Component {
     if (sections) {
       return sections.map(field => {
         if (field.type === 'section') {
-          return <h4 className={styles.section}>{field.editableLabel}</h4>
+          return (
+            <div className={`col-xs-12 col-sm-12 col-md-12`}>
+              <h4 className={styles.section}>{field.editableLabel}</h4>
+            </div>
+          )
         } else {
           return (
             <AutoFormField
@@ -69,7 +74,7 @@ export default class AutoFormField extends React.Component {
           type={Component}
           {...fieldOptions}
           {...this.props.passProps}>
-          {this.renderObjectFields(type, this.props.fields)}
+          <div className="row">{this.renderObjectFields(type, this.props.fields)}</div>
         </Field>
       )
     } else {
@@ -96,13 +101,36 @@ export default class AutoFormField extends React.Component {
     return <div className="description">{getInLocale(this.props.field.description)}</div>
   }
 
-  render() {
+  renderFieldElements(field, fieldName) {
     return (
       <div className="autoform-field">
         {this.renderLabel()}
-        {this.renderField(this.props.field, this.props.fieldName)}
+        {this.renderField(field, fieldName)}
         {this.renderDescription()}
       </div>
     )
+  }
+
+  render() {
+    const {field, fieldName} = this.props
+    if (!field) return null
+    if (this.props.fromEnvironment) {
+      return this.renderField(field, fieldName)
+    } else if (field.sizeSmall && field.sizeMedium && field.sizeLarge) {
+      return (
+        <div
+          className={`col-xs-${field.sizeSmall} col-sm-${field.sizeMedium} col-md-${
+            field.sizeLarge
+          }`}>
+          {this.renderFieldElements(field, fieldName)}
+        </div>
+      )
+    } else {
+      return (
+        <div className={`col-xs-12 col-sm-12 col-md-12`}>
+          {this.renderFieldElements(field, fieldName)}
+        </div>
+      )
+    }
   }
 }

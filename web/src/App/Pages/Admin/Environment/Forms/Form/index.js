@@ -40,10 +40,17 @@ import Fields from './Fields'
         optional
         fixed
         parameterName
+        requiredField
+        requiredValue
+        requiredParameter
+        requiredType
         editableLabel
         indicatorId
         editableDefaultValue
         indicatorDefaultValue
+        sizeSmall
+        sizeMedium
+        sizeLarge
       }
       reset
       collection {
