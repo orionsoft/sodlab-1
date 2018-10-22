@@ -4,7 +4,15 @@ import numeral from 'numeral'
 export default {
   name: 'RUT',
   rootType: String,
-  allowedOperatorsIds: ['exists', 'equalString'],
+  allowedOperatorsIds: [
+    'exists',
+    'stringStartsWith',
+    'notStringStartsWith',
+    'equalString',
+    'notEqualString',
+    'containString',
+    'notContainString'
+  ],
   optionsSchema: {},
   validate(value, options) {
     if (!value) return
@@ -29,7 +37,7 @@ export default {
       return 'invalidRut'
     }
   },
-  autoValue: async function (value, options) {
+  autoValue: async function(value, options) {
     if (!value) return
     let parts = value.split('')
     let last = parts.pop()
