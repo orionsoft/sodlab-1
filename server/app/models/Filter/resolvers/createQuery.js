@@ -1,7 +1,6 @@
 import {resolver} from '@orion-js/app'
 import {clean, validate} from '@orion-js/schema'
 import isEmpty from 'lodash/isEmpty'
-import remove from 'lodash/remove'
 
 export default resolver({
   params: {
