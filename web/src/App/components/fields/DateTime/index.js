@@ -47,6 +47,7 @@ export default class DateTime extends React.Component {
           <Flatpickr
             className="os-input-text"
             value={value}
+            placeholder="Seleccionar..."
             onChange={this.onChange}
             options={this.getOptions()}
             data-enable-time={enableTime}
