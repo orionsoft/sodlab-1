@@ -3,7 +3,6 @@ import styles from './styles.css'
 import {XYPlot, XAxis, YAxis, LineSeries, Hint} from 'react-vis'
 import PropTypes from 'prop-types'
 import autobind from 'autobind-decorator'
-import moment from 'moment'
 
 export default class BarCountByDate extends React.Component {
   static propTypes = {
@@ -19,31 +18,11 @@ export default class BarCountByDate extends React.Component {
     this.setState({width})
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     const width = this.refs.container.clientWidth
     if (this.state.width !== width) {
       this.setState({width})
     }
-  }
-
-  getShortDateFormat() {
-    const map = {
-      year: 'YYYY',
-      month: 'MM/YYYY',
-      day: 'D/MM',
-      hour: 'HH:mm'
-    }
-    return map[this.props.data.divideBy]
-  }
-
-  getLongDateFormat() {
-    const map = {
-      year: 'YYYY',
-      month: 'MMMM, YYYY',
-      day: 'LL',
-      hour: 'LLL'
-    }
-    return map[this.props.data.divideBy]
   }
 
   @autobind
@@ -57,7 +36,7 @@ export default class BarCountByDate extends React.Component {
     return (
       <Hint value={value}>
         <div className={styles.hint}>
-          <div className={styles.hintLabel}>{moment(value.x).format(this.getLongDateFormat())}</div>
+          <div className={styles.hintLabel}>{value.x}</div>
           <div className={styles.hintValue}>Total: {value.y}</div>
         </div>
       </Hint>
@@ -68,7 +47,7 @@ export default class BarCountByDate extends React.Component {
     if (!this.state.width) return
     return (
       <XYPlot xType="ordinal" width={this.state.width} height={300}>
-        <XAxis tickFormat={v => moment(v).format(this.getShortDateFormat())} />
+        <XAxis tickFormat={v => `${v} - ${parseInt(v) + this.props.data.divideBy}`} />
         <YAxis />
         <LineSeries
           onNearestX={this.onNearestX}

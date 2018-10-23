@@ -19,6 +19,13 @@ export default class BarCountByDate extends React.Component {
     this.setState({width})
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const width = this.refs.container.clientWidth
+    if (this.state.width !== width) {
+      this.setState({width})
+    }
+  }
+
   getShortDateFormat() {
     const map = {
       year: 'YYYY',
@@ -33,8 +40,8 @@ export default class BarCountByDate extends React.Component {
     const map = {
       year: 'YYYY',
       month: 'MMMM, YYYY',
-      day: 'D de MMMM, YYYY',
-      hour: 'HH:mm, D de MMMM, YYYY'
+      day: 'LL',
+      hour: 'LLL'
     }
     return map[this.props.data.divideBy]
   }
