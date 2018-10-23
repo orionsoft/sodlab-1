@@ -18,6 +18,7 @@ import formatCurrency from './formatCurrency'
 import transformTextUpperCase from './transformTextUpperCase'
 import currentDateCollection from './currentDateCollection'
 import elapsedTimeNumber from './elapsedTimeNumber'
+import valueOfParams from './valueOfParams'
 
 export default {
   currentDateTime,
@@ -39,5 +40,6 @@ export default {
   elapsedTime,
   autoIncrement,
   valueOfFieldInItem,
+  valueOfParams,
   economicIndicator
 }
