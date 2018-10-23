@@ -39,6 +39,7 @@ import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
       exportable
       exportWithId
       defaultLimit
+      roles
       fields {
         type
         fieldName
@@ -73,6 +74,12 @@ import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
         label: name
       }
     }
+    roles(environmentId: $environmentId) {
+      items {
+        value: _id
+        label: name
+      }
+    }
   }
 `)
 @withMessage
@@ -85,7 +92,8 @@ export default class Link extends React.Component {
     table: PropTypes.object,
     forms: PropTypes.object,
     match: PropTypes.object,
-    filters: PropTypes.object
+    filters: PropTypes.object,
+    roles: PropTypes.object
   }
 
   state = {}
@@ -236,6 +244,8 @@ export default class Link extends React.Component {
                   />
                 )}
               </WithValue>
+              <div className="label">Roles</div>
+              <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
               <div className="row">
                 <div className="col-xs-4 col-sm-">
                   <div className="label">Se puede usar sin filtro</div>
