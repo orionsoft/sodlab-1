@@ -51,7 +51,7 @@ export default class Page extends React.Component {
           <BeforeIcon size={25} />
         </div>
         <div className="paginated-pagination-page-input-container">
-          page{' '}
+          pág.{' '}
           <input
             name="pageInput"
             value={this.state.page}
@@ -60,7 +60,7 @@ export default class Page extends React.Component {
             onBlur={this.onPageBlur}
             className="paginated-pagination-page-input"
           />{' '}
-          of {formatNumber(this.props.result.totalPages)}
+          de {formatNumber(this.props.result.totalPages)}
         </div>
         <div
           className={
