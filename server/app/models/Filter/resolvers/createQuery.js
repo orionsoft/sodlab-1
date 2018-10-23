@@ -1,5 +1,6 @@
 import {resolver} from '@orion-js/app'
 import {clean, validate} from '@orion-js/schema'
+import isEmpty from 'lodash/isEmpty'
 
 export default resolver({
   params: {
@@ -20,7 +21,14 @@ export default resolver({
     }
 
     const promises = filter.conditions.map(async condition => {
-      return await condition.createQuery({filterOptions: cleaned}, viewer)
+      if (isEmpty(filterOptions)) {
+        const filterRule = condition.rules.filter(({type}) => type !== 'editable')
+
+        condition.rules = filterRule
+        return await condition.createQuery({filterOptions: cleaned}, viewer)
+      } else {
+        return await condition.createQuery({filterOptions: cleaned}, viewer)
+      }
     })
 
     const conditions = await Promise.all(promises)
