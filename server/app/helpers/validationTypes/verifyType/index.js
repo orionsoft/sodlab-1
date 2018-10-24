@@ -1,4 +1,4 @@
-import Collections from 'app/collections/Collections'
+import {Files} from '@orion-js/file-manager'
 
 export default {
   name: 'Verifica tipo archivo',
@@ -8,10 +8,9 @@ export default {
       label: 'Colección donde buscar',
       fieldType: 'collectionSelect'
     },
-    valueKey: {
+    value: {
       type: String,
-      label: 'Campo sobre el cual buscar',
-      fieldType: 'collectionFieldSelect'
+      label: 'Params'
     },
     files: {
       type: [String],
@@ -35,11 +34,10 @@ export default {
       }
     }
   },
-  async execute({options: {collectionId, valueKey, files}}) {
-    const collection = await Collections.findOne(collectionId)
-    const collectionDb = await collection.db()
-    const {data} = await collectionDb.findOne({_id: 'J3rkvNJaAtwpBBJFo'})
-    const filterType = files.filter(file => file === data[valueKey].type)
+  async execute({options: {files, value}}) {
+    const {type} = await Files.findOne({_id: '6ji785KKLJ2u5FA7b'})
+
+    const filterType = files.filter(file => file === type)
     if (filterType.length > 0) {
       return null
     } else {
