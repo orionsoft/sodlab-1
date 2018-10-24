@@ -52,7 +52,7 @@ export default class Enable extends React.Component {
       await this.props.activateTwoFactor({code: this.state.code})
       this.props.showMessage('Se ha activado autenticación de dos factores en tu cuenta')
     } catch (error) {
-      this.props.showMessage(error)
+      this.props.showMessage('Los dígitos ingresados son incorrectos')
     }
   }
 

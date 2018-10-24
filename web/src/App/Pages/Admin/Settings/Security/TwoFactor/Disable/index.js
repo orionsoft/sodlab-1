@@ -29,7 +29,7 @@ export default class Disable extends React.Component {
       await this.props.disableTwoFactor()
       this.props.showMessage('La autenticación de dos factores fue deshabilitada correctamente')
     } catch (error) {
-      this.props.showMessage(error)
+      this.props.showMessage('Los dígitos ingresados son incorrectos')
     }
   }
 

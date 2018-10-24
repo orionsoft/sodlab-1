@@ -19,16 +19,12 @@ export default class Layout extends React.Component {
           <div className={styles.title}>
             <h1>Mi cuenta</h1>
           </div>
-          <Tabs
-            items={[
-              {title: 'Perfil', path: '/settings'},
-              {title: 'Seguridad', path: '/settings/security'}
-            ]}
-          />
+          {/* {title: 'Perfil', path: '/settings'}, */}
+          <Tabs items={[{title: 'Seguridad', path: '/settings'}]} />
           <div className="">
             <Switch>
-              <Route exact path="/settings" component={Profile} />
-              <Route path="/settings/security" component={Security} />
+              {/* <Route exact path="/settings" component={Profile} /> */}
+              <Route path="/settings" component={Security} />
             </Switch>
           </div>
         </Container>
