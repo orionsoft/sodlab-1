@@ -41,7 +41,7 @@ export default class Component extends React.Component {
   render() {
     return (
       <div>
-        Show {this.renderSelect()} of {formatNumber(this.props.result.totalCount)}
+        Mostrar {this.renderSelect()} de {formatNumber(this.props.result.totalCount)}
       </div>
     )
   }
