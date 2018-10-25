@@ -69,7 +69,7 @@ export default class Form extends React.Component {
 
   @autobind
   onSuccess(result) {
-    this.setState({data: {}})
+    this.setState({docData: {}})
     this.props.setEnvironment({
       [this.props.form.updateVariableName]: null
     })
