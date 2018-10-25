@@ -60,7 +60,7 @@ export default class ChangePassword extends React.Component {
           <AutoForm
             mutation="changePassword"
             ref="form"
-            onSuccess={() => this.props.showMessage('Your password was changed')}
+            onSuccess={() => this.props.showMessage('Tu contraseña ha sido cambiada exitosamente')}
             schema={this.schema}>
             <div className="label">Contraseña actual</div>
             <Field
