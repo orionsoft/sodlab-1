@@ -17,6 +17,7 @@ export default resolver({
       options = await clean(schema, rawOptions)
       await validate(schema, options)
     }
-    return await validationType.execute({options})
+
+    return await validationType.execute({options, params: rawOptions})
   }
 })

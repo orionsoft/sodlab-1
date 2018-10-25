@@ -3,14 +3,13 @@ import {Files} from '@orion-js/file-manager'
 export default {
   name: 'Verifica tipo archivo',
   optionsSchema: {
-    collectionId: {
-      type: String,
-      label: 'Colección donde buscar',
-      fieldType: 'collectionSelect'
-    },
     value: {
       type: String,
-      label: 'Params'
+      label: 'Parámetro (nombre de la variable en la colección)'
+    },
+    message: {
+      type: String,
+      label: 'Mensaje de validador'
     },
     files: {
       type: [String],
@@ -28,20 +27,45 @@ export default {
           },
           {
             label: 'Word',
-            value: 'application/vnd.oasis.opendocument.text'
+            value: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          },
+          {
+            label: 'Power Point',
+            value: 'application/vnd.ms-powerpoint'
           }
         ]
       }
     }
   },
-  async execute({options: {files, value}}) {
-    const {type} = await Files.findOne({_id: '6ji785KKLJ2u5FA7b'})
-
-    const filterType = files.filter(file => file === type)
-    if (filterType.length > 0) {
+  async execute({
+    options: {files, message},
+    params: {
+      value: {_id}
+    }
+  }) {
+    const {type} = await Files.findOne({_id})
+    const filterType = files.find(file => file === type)
+    if (filterType) {
       return null
     } else {
-      throw new Error('Tipo de archivo inválido')
+      const formatType = files.map(file => {
+        switch (file) {
+          case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            return 'Word'
+          case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            return 'Excel'
+          case 'application/vnd.ms-powerpoint':
+            return 'Power Point'
+          case 'application/pdf':
+            return 'PDF'
+          case 'image/png':
+            return 'PNG'
+          case 'image/jpeg':
+            return 'JPG'
+        }
+      })
+
+      throw new Error(`${message} ${formatType.join(', ').toString()}`)
     }
   }
 }
