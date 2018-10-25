@@ -91,5 +91,9 @@ export default {
     optional: true,
     label: 'Altura mínima',
     defaultValue: 10
+  },
+  roles: {
+    type: ['ID'],
+    defaultValue: []
   }
 }
