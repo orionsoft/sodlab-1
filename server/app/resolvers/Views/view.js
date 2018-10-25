@@ -2,6 +2,7 @@ import {resolver} from '@orion-js/app'
 import View from 'app/models/View'
 import Views from 'app/collections/Views'
 import Forms from 'app/collections/Forms'
+import Tables from 'app/collections/Tables'
 import environmentUserByUserId from 'app/resolvers/EnvironmentUsers/environmentUserByUserId'
 
 export const checkRole = async function(items, envUserRoles) {
@@ -15,6 +16,17 @@ export const checkRole = async function(items, envUserRoles) {
       if (form.roles && form.roles.length && form.roles.some(role => envUserRoles.includes(role))) {
         filteredItems.push(item)
       } else if (!form.roles || !form.roles.length) {
+        filteredItems.push(item)
+      }
+    } else if (item.type === 'table') {
+      const table = await Tables.findOne(item.tableId)
+      if (
+        table.roles &&
+        table.roles.length &&
+        table.roles.some(role => envUserRoles.includes(role))
+      ) {
+        filteredItems.push(item)
+      } else if (!table.roles || !table.roles.length) {
         filteredItems.push(item)
       }
     } else {
