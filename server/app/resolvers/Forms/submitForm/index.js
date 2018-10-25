@@ -2,6 +2,7 @@ import {resolver} from '@orion-js/app'
 import {requireTwoFactor} from '@orion-js/auth'
 import Item from 'app/models/Item'
 import Forms from 'app/collections/Forms'
+import Users from 'app/collections/Users'
 import runHooks from './runHooks'
 import getResult from './getResult'
 
@@ -25,6 +26,14 @@ export default resolver({
   mutation: true,
   async resolve({formId, itemId, data}, viewer) {
     const form = await Forms.findOne(formId)
+
+    const {
+      services: {twoFactor}
+    } = await Users.findOne({_id: viewer.userId})
+
+    if (!twoFactor && form.requireTwoFactor)
+      throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
+
     if (form.requireTwoFactor) {
       await requireTwoFactor(viewer)
     }

@@ -28,11 +28,10 @@ export default resolver({
 
     const {
       services: {twoFactor}
-    } = await Users.findOne({_id: viewer.session.userId})
+    } = await Users.findOne({_id: viewer.userId})
 
-    console.log('Two factor:', twoFactor)
     if (!twoFactor && field.options.requireTwoFactor)
-      throw new Error('Necesitas activar 2FA en la configuración')
+      throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
 
     if (field.options.requireTwoFactor) {
       await requireTwoFactor(viewer)
