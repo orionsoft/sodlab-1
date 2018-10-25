@@ -31,7 +31,7 @@ export default class CollectionFieldSelect extends React.Component {
   }
 
   getOptions() {
-    if (!this.props.includeId) return this.props.collection.fields
+    if (!this.props.includeId || !this.props.schema) return this.props.collection.fields || []
     const {only = [], idField} = this.props.schema
     const idOption = idField && {label: idField || 'ID', value: '_id'}
     const items = this.props.collection.fields || []
