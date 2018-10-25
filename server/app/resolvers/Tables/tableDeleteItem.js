@@ -1,6 +1,7 @@
 import {resolver} from '@orion-js/app'
 import Tables from 'app/collections/Tables'
 import Hooks from 'app/collections/Hooks'
+import Users from 'app/collections/Users'
 import {requireTwoFactor} from '@orion-js/auth'
 
 export default resolver({
@@ -24,6 +25,14 @@ export default resolver({
 
     const field = table.fields[fieldIndex]
     if (field.type !== 'deleteRowByUser') throw new Error('Table column is not delete')
+
+    const {
+      services: {twoFactor}
+    } = await Users.findOne({_id: viewer.session.userId})
+
+    console.log('Two factor:', twoFactor)
+    if (!twoFactor && field.options.requireTwoFactor)
+      throw new Error('Necesitas activar 2FA en la configuración')
 
     if (field.options.requireTwoFactor) {
       await requireTwoFactor(viewer)
