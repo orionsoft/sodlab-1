@@ -109,5 +109,6 @@ export default {
       status: 'pending'
     })
     console.log(result)
+    return {success: true}
   }
 }
