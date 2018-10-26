@@ -33,7 +33,7 @@ export default {
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
-    if (!item) return
+    if (!item) return {success: false, msg: 'Item not found'}
 
     let content = template
     Object.keys(item.data).forEach(variable => {
@@ -43,12 +43,18 @@ export default {
 
     const html = getHTML(content)
 
-    const file = await createPdf(html)
-    const response = await uploadPDF(file)
-    const url = `https://s3.amazonaws.com/${response.bucket}/${response.key}`
+    try {
+      const file = await createPdf(html)
+      const response = await uploadPDF(file)
+      const url = `https://s3.amazonaws.com/${response.bucket}/${response.key}`
 
-    console.log('generated html pdf', url)
+      console.log('generated html pdf', url)
 
-    await item.update({$set: {[`data.${valueKey}`]: url}})
+      await item.update({$set: {[`data.${valueKey}`]: url}})
+
+      return {success: true}
+    } catch (err) {
+      return {success: false, msg: 'Could not generate PDF from HTML'}
+    }
   }
 }
