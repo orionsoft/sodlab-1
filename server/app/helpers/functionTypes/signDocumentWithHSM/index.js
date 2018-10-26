@@ -42,7 +42,7 @@ export default {
       fieldType: 'collectionFieldSelect'
     }
   },
-  async execute({options, params, environmentId}) {
+  async execute({options}) {
     const {
       clientId,
       signingReason,
@@ -56,18 +56,9 @@ export default {
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
-
-    if (!item) {
-      console.log('Document not found')
-      return {success: false, msg: 'Document not found'}
-    }
-
+    if (!item) throw new Error('Document not found')
     const file = item.data[fileKey]
-
-    if (!file) {
-      console.log('Document file not found')
-      return {success: false, msg: 'Document file not found'}
-    }
+    if (!file) throw new Error('Document file not found')
 
     let fileURL
 
@@ -77,21 +68,14 @@ export default {
       fileURL = `https://s3.amazonaws.com/${file.bucket}/${file.key.replace(/ /, '%20')}`
     }
 
-    let fileData
-
-    try {
-      fileData = await rp({
-        uri: fileURL,
-        method: 'GET',
-        encoding: null,
-        headers: {
-          'Content-type': 'applcation/pdf'
-        }
-      })
-    } catch (err) {
-      console.log('Error downloading file to send to the HSM')
-      return {success: false, msg: 'Error downloading file to send to the HSM'}
-    }
+    const fileData = await rp({
+      uri: fileURL,
+      method: 'GET',
+      encoding: null,
+      headers: {
+        'Content-type': 'applcation/pdf'
+      }
+    })
 
     const base64 = Buffer.from(fileData).toString('base64')
     const doc = {
@@ -102,46 +86,28 @@ export default {
     }
 
     const callback = `${process.env.SERVER_URL}/callbacks/cloud-hsm`
-    const body = {
+    const params = {
       documents: [doc],
       clientId,
       userId,
       callbacks: [callback]
     }
+    console.log('sending hsm request with callback', {callback})
+    const result = await rp({
+      method: 'POST',
+      uri: 'https://api.signer.sodlab.cl/sign',
+      body: params,
+      json: true
+    })
 
-    let result
-
-    try {
-      console.log('sending hsm request with callback', {callback})
-      result = await rp({
-        method: 'POST',
-        uri: 'https://api.signer.sodlab.cl/sign',
-        body: body,
-        json: true
-      })
-    } catch (err) {
-      console.log('Error sending PDF to the HSM')
-      return {success: false, msg: 'Error sending PDF to the HSM'}
-    }
-
-    try {
-      await Requests.insert({
-        requestId: result.requestId,
-        collectionId,
-        itemId,
-        signedFileKey,
-        createdAt: new Date(),
-        status: 'pending'
-      })
-    } catch (err) {
-      console.log(
-        'An error ocurred while saving to the HSM collection the following requestId',
-        result.requestId
-      )
-      return {success: false}
-    }
-
+    await Requests.insert({
+      requestId: result.requestId,
+      collectionId,
+      itemId,
+      signedFileKey,
+      createdAt: new Date(),
+      status: 'pending'
+    })
     console.log(result)
-    return {success: true}
   }
 }
