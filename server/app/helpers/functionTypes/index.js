@@ -14,6 +14,7 @@ import notifications from './notifications'
 import bulkUpload from './bulkUpload'
 import mailTo from './mailTo'
 import deleteDocument from './deleteDocument'
+import sequentialHooks from './sequentialHooks'
 
 export default {
   updateValue,
@@ -31,5 +32,6 @@ export default {
   notifications,
   bulkUpload,
   mailTo,
-  deleteDocument
+  deleteDocument,
+  sequentialHooks
 }
