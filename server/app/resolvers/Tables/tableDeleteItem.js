@@ -26,9 +26,8 @@ export default resolver({
     const field = table.fields[fieldIndex]
     if (field.type !== 'deleteRowByUser') throw new Error('Table column is not delete')
 
-    const {
-      services: {twoFactor}
-    } = await Users.findOne({_id: viewer.userId})
+    const user = await Users.findOne({_id: viewer.userId})
+    const twoFactor = await user.hasTwoFactor()
 
     if (!twoFactor && field.options.requireTwoFactor)
       throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
