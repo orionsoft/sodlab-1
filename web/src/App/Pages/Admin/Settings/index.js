@@ -14,11 +14,6 @@ import gql from 'graphql-tag'
 @withGraphQL(gql`
   query user($userId: ID) {
     user(userId: $userId) {
-      profile {
-        firstName
-        lastName
-        name
-      }
       email
     }
   }
