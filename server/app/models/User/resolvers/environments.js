@@ -8,12 +8,12 @@ export default resolver({
   returns: [Environment],
   async resolve(user, params, viewer) {
     const environmentsByUser = await EnvironmentUsers.find({userId: user._id}).toArray()
-    const environments = Promise.all(
+    const environments = await Promise.all(
       environmentsByUser.map(environment => {
         return Environments.findOne(environment.environmentId)
       })
     )
 
-    return environments
+    return environments.filter(environment => environment)
   }
 })
