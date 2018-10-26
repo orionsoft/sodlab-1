@@ -29,19 +29,30 @@ export default {
       fieldType: 'indicatorSelect'
     }
   },
-  async execute({options: {collectionId, valueKey, itemIdParamName, itemId, indicatorId}}) {
-    const col = await Collections.findOne(collectionId)
-    const collection = await col.db()
-    const item = await collection.findOne(itemId)
-    if (!item) return
+  async execute({
+    options: {collectionId, valueKey, itemIdParamName, itemId, indicatorId},
+    params,
+    environmentId
+  }) {
+    try {
+      const col = await Collections.findOne(collectionId)
+      const collection = await col.db()
+      const item = await collection.findOne(itemId)
+      if (!item) return
 
-    const indicator = await Indicators.findOne(indicatorId)
-    const params = {
-      ...item.data,
-      [itemIdParamName]: itemId
+      const indicator = await Indicators.findOne(indicatorId)
+      const params = {
+        ...item.data,
+        [itemIdParamName]: itemId
+      }
+      const value = await indicator.result({filterOptions: params, params})
+
+      await item.update({$set: {[`data.${valueKey}`]: value}})
+
+      return {success: true}
+    } catch (err) {
+      console.log(`Error when updating a document with an indicator from env ${environmentId}`, err)
+      return {success: false}
     }
-    const value = await indicator.result({filterOptions: params, params})
-
-    await item.update({$set: {[`data.${valueKey}`]: value}})
   }
 }
