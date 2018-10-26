@@ -9,22 +9,34 @@ export default {
       fieldType: 'collectionSelect'
     }
   },
-  async execute({options, params}) {
+  async execute({options, params, environmentId}) {
     const {collectionId} = options
     const {_id} = params
+    let db
+    let item
 
     try {
       const collection = await Collections.findOne(collectionId)
-      const db = await collection.db()
-      const item = await db.findOne(_id)
-      if (item) {
-        await db.remove(_id)
-      }
-    } catch (error) {
+      db = await collection.db()
+      item = await db.findOne(_id)
+    } catch (err) {
       console.log(
-        `Error when trying to remove item with ID ${_id} from collection with ID ${collectionId}, err:`,
-        error
+        `Error finding item to delete from collection ${collectionId} in environment ${environmentId}`
       )
+      return {success: false}
+    }
+
+    if (item) {
+      try {
+        await db.remove(_id)
+        return {success: true}
+      } catch (error) {
+        console.log(
+          `Error when trying to remove item with ID ${_id} from collection with ID ${collectionId} from env ${environmentId}, err:`,
+          error
+        )
+        return {success: false}
+      }
     }
   }
 }

@@ -23,20 +23,29 @@ export default {
     }
   },
   async execute({options: {collectionId, itemId, url, environmentId}}) {
-    const col = await Collections.findOne(collectionId)
-    const collection = await col.db()
-    const item = await collection.findOne(itemId)
-    if (!item) return
+    try {
+      const col = await Collections.findOne(collectionId)
+      const collection = await col.db()
+      const item = await collection.findOne(itemId)
+      if (!item) return
 
-    await rp({
-      method: 'POST',
-      uri: url,
-      body: {
-        _id: item._id,
-        environmentId,
-        ...item.data
-      },
-      json: true
-    })
+      await rp({
+        method: 'POST',
+        uri: url,
+        body: {
+          _id: item._id,
+          environmentId,
+          ...item.data
+        },
+        json: true
+      })
+      return {success: true}
+    } catch (err) {
+      console.log(
+        `Error executing the postItem hook with itemId ${itemId}, collecctionId ${collectionId} and envId ${environmentId}`,
+        err
+      )
+      return {success: false}
+    }
   }
 }

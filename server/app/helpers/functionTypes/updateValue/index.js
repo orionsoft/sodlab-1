@@ -50,12 +50,15 @@ export default {
       const newValue = useParam ? value : fieldValue ? fieldValue : item.data[value]
 
       await item.update({$set: {[`data.${valueKey}`]: newValue}})
+
+      return {success: true}
     } catch (err) {
       const newValue = useParam ? value : fieldValue ? fieldValue : `item.data.${value}`
       console.log(
         `Error when trying to update the docId: ${itemId} from collection ${collectionId}, from value: ${value} to new value: ${newValue}`,
         err
       )
+      return {success: false}
     }
   }
 }
