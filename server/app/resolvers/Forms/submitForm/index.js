@@ -27,12 +27,13 @@ export default resolver({
   async resolve({formId, itemId, data}, viewer) {
     const form = await Forms.findOne(formId)
 
-    const {
-      services: {twoFactor}
-    } = await Users.findOne({_id: viewer.userId})
-
-    if (!twoFactor && form.requireTwoFactor)
-      throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
+    if (Object.keys(viewer).length !== 0) {
+      const user = await Users.findOne({_id: viewer.userId})
+      const twoFactor = await user.hasTwoFactor()
+      if (!twoFactor && form.requireTwoFactor) {
+        throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
+      }
+    }
 
     if (form.requireTwoFactor) {
       await requireTwoFactor(viewer)
