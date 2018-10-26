@@ -26,23 +26,43 @@ export default {
       label: 'Template a usar'
     }
   },
-  async execute({options, params}) {
-    const collection = await Collections.findOne(options.collection)
-    const collectionDB = await collection.db()
-    const {data} = await collectionDB.findOne(params._id)
-    if (!data) return
-
+  async execute({options, params, environmentId}) {
     const {template, email, name} = options
-    let content = template
-    Object.keys(data).forEach(variable => {
-      const regexp = new RegExp(`{${escape(variable)}}`, 'g')
-      content = content.replace(regexp, data[variable])
-    })
+    let data
+    let content
 
-    await sendEmail({
-      to: data[email],
-      subject: `${data[name]}, Te presentamos Sodlab!`,
-      html: content
-    })
+    try {
+      const collection = await Collections.findOne(options.collection)
+      const collectionDB = await collection.db()
+      const item = await collectionDB.findOne(params._id)
+      if (!item) return
+
+      data = item.data
+      content = template
+      Object.keys(data).forEach(variable => {
+        const regexp = new RegExp(`{${escape(variable)}}`, 'g')
+        content = content.replace(regexp, data[variable])
+      })
+    } catch (err) {
+      console.log(
+        `Error when trying to find the document with id ${params._id} from the collection ${
+          options.collection
+        } from env: ${environmentId}`,
+        err
+      )
+      return {success: false}
+    }
+
+    try {
+      await sendEmail({
+        to: data[email],
+        subject: `${data[name]}, Te presentamos Sodlab!`,
+        html: content
+      })
+      return {success: true}
+    } catch (err) {
+      console.log(`Error when running mailTo from env: ${environmentId}`, err)
+      return {success: false}
+    }
   }
 }
