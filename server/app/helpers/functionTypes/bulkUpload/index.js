@@ -42,7 +42,7 @@ export default {
       optional: true
     }
   },
-  async execute({options, params}) {
+  async execute({options, params, environmentId}) {
     const {template, formVariables, fileKey, formId, targetCollectionId} = options
     let db
     if (!formId && !targetCollectionId) return
@@ -55,7 +55,10 @@ export default {
     try {
       itemsArray = await parseFile(params[fileKey])
     } catch (err) {
-      throw new Error('No se pudo procesar el archivo')
+      console.log(
+        `Error when trying to parse the file ${params[fileKey]} from environment ${environmentId}`
+      )
+      return {success: false}
     }
 
     const parsedTemplate = JSON.parse(template)
@@ -73,18 +76,32 @@ export default {
         })
       }
 
-      try {
-        if (!formId && targetCollectionId) {
+      if (!formId && targetCollectionId) {
+        try {
           await db.insert({
             data,
             createdAt: new Date()
           })
-        } else {
-          await submitForm({formId, data})
+        } catch (err) {
+          console.log(
+            `Error at saving documents to the db when running the bulkUpload hook from environment ${environmentId}`,
+            err
+          )
+          return {success: false}
         }
-      } catch (err) {
-        throw new Error('No se pudo ingresar el set de datos')
+      } else {
+        try {
+          await submitForm({formId, data})
+        } catch (err) {
+          console.log(
+            `Error at trying to insert data to the form when running the bulkUpload hook from environment ${environmentId}`,
+            err
+          )
+          return {success: false}
+        }
       }
     })
+
+    return {successs: true}
   }
 }
