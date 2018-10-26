@@ -16,11 +16,17 @@ export default {
       label: 'Mensaje'
     }
   },
-  async execute({options: {to, subject, message}, itemId}) {
-    await sendEmail({
-      to,
-      subject,
-      text: message
-    })
+  async execute({options: {to, subject, message}, itemId, environmentId}) {
+    try {
+      await sendEmail({
+        to,
+        subject,
+        text: message
+      })
+      return {success: true}
+    } catch (err) {
+      console.log(`Error executing hook sendMail to ${to} from env ${environmentId}`)
+      return {success: false}
+    }
   }
 }
