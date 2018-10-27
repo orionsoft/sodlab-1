@@ -74,7 +74,7 @@ export default {
           )
         }
 
-        if (stopIfError && !result.success) {
+        if (stopIfError && result && !result.success) {
           throw new Error(
             `Exited the sequential hook, the hook ${
               hook.name
@@ -90,9 +90,6 @@ export default {
       })
     } catch (err) {
       console.log(`Error executing sequential hooks in ${environmentId}`, err)
-      return {success: false}
     }
-
-    return {success: true, data: {...newParams}}
   }
 }
