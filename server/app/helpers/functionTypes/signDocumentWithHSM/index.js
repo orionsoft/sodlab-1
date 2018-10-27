@@ -1,6 +1,6 @@
 import Collections from 'app/collections/Collections'
 import rp from 'request-promise'
-import './callback'
+// import './callback'
 import Requests from './Requests'
 
 export default {
