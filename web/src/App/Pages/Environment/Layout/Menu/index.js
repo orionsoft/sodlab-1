@@ -65,7 +65,7 @@ export default class Menu extends React.Component {
 
   render() {
     const {environment} = this.props
-    console.log('Environment', environment)
+
     return (
       <div
         className={styles.container}
