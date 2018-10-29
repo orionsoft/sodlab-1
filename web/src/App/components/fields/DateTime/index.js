@@ -26,6 +26,7 @@ export default class DateTime extends React.Component {
 
   getOptions() {
     return {
+      disableMobile: true,
       locale: this.props.locale,
       formatDate: date => {
         return moment(date).format(this.props.format)
