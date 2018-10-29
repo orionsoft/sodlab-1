@@ -45,7 +45,7 @@ export default class User extends React.Component {
     this.props.history.push('/admin/users')
   }
 
-  remove() {
+  removeUser() {
     this.props.showMessage('El usuario fue eliminado')
     this.props.history.push('/admin/users')
   }
@@ -94,8 +94,8 @@ export default class User extends React.Component {
                 title="Eliminar usuario"
                 message="¿Quieres eliminar este usuario?"
                 confirmText="Eliminar"
-                mutation="removeAdminUser"
-                onSuccess={() => this.remove()}
+                mutation="removeUser"
+                onSuccess={() => this.removeUser()}
                 params={{userId: user._id}}
                 danger
               />

@@ -3,7 +3,7 @@ import environmentUsers from './environmentUsers'
 import environmentUser from './environmentUser'
 import setEnvironmentUserProfile from './setEnvironmentUserProfile'
 import removeEnvironmentUser from './removeEnvironmentUser'
-import removeAdminUser from './removeAdminUser'
+import removeUser from './removeUser'
 import setEnvironmentUserRoles from './setEnvironmentUserRoles'
 import userByEnvironment from './userByEnvironment'
 import environmentUserByUserId from './environmentUserByUserId'
@@ -15,7 +15,7 @@ export default {
   userByEnvironment,
   setEnvironmentUserRoles,
   removeEnvironmentUser,
-  removeAdminUser,
+  removeUser,
   setEnvironmentUserProfile,
   environmentUser,
   environmentUsers,

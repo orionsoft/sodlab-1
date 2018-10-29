@@ -4,7 +4,6 @@ import Logo from './Logo'
 import autobind from 'autobind-decorator'
 import PropTypes from 'prop-types'
 import Login from './Login'
-import Register from './Register'
 import VerifyEmail from './VerifyEmail'
 import Forgot from './Forgot'
 import Reset from './Reset'
@@ -86,7 +85,7 @@ export default class Auth extends React.Component {
           {this.renderLogo()}
           <Switch>
             <Route path="/login" render={() => <Login {...otherProps} />} />
-            <Route path="/register" render={() => <Register {...otherProps} />} />
+            {/* <Route path="/register" render={() => <Register {...otherProps} />} /> */}
             <Route
               path="/verify-email/:token"
               render={({match}) => <VerifyEmail token={match.params.token} {...otherProps} />}
