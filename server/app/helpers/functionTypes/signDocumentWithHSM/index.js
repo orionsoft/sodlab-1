@@ -56,9 +56,15 @@ export default {
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
-    if (!item) throw new Error('Document not found')
+    if (!item) {
+      console.log('Document not found')
+      return {success: false}
+    }
     const file = item.data[fileKey]
-    if (!file) throw new Error('Document file not found')
+    if (!file) {
+      console.log('Document file not found')
+      return {success: false}
+    }
 
     let fileURL
 
@@ -109,5 +115,6 @@ export default {
       status: 'pending'
     })
     console.log(result)
+    return {success: true}
   }
 }
