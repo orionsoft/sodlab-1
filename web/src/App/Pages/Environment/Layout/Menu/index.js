@@ -64,8 +64,7 @@ export default class Menu extends React.Component {
   }
 
   render() {
-    const {environment} = this.props
-
+    const {environment, history} = this.props
     return (
       <div
         className={styles.container}
@@ -79,12 +78,14 @@ export default class Menu extends React.Component {
 
         {environment.logo ? (
           <div
+            onClick={() => history.push('/')}
             style={{
               backgroundImage: `url(${environment.logo.url})`,
               backgroundSize: '100%',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center center',
-              height: '80px'
+              height: '80px',
+              cursor: 'pointer'
             }}
           />
         ) : (

@@ -41,7 +41,7 @@ export default class Menu extends React.Component {
   }
 
   render() {
-    const {environment} = this.props
+    const {environment, history} = this.props
     return (
       <div className={styles.container}>
         <div className={styles.menuButton}>
@@ -49,16 +49,18 @@ export default class Menu extends React.Component {
         </div>
         {environment.logo ? (
           <div
+            onClick={() => history.push(`/${environment._id}`)}
             style={{
               backgroundImage: `url(${environment.logo.url})`,
               backgroundSize: '100%',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center center',
-              height: '80px'
+              height: '80px',
+              cursor: 'pointer'
             }}
           />
         ) : (
-          <Link to={`/${this.props.environment._id}`} className={styles.title}>
+          <Link to={`/${environment._id}`} className={styles.title}>
             {environment.name}
           </Link>
         )}
