@@ -19,6 +19,9 @@ import Links from './Links'
       name
       sideBarColor
       sideBarTextColor
+      logo {
+        url
+      }
     }
     sideBar(environmentId: $environmentId)
   }
@@ -61,7 +64,7 @@ export default class Menu extends React.Component {
   }
 
   render() {
-    const {environment} = this.props
+    const {environment, history} = this.props
     return (
       <div
         className={styles.container}
@@ -72,13 +75,29 @@ export default class Menu extends React.Component {
         <div className={styles.menuButton}>
           <CloseIcon onClick={this.toggleMenu} />
         </div>
-        <Link
-          to="/"
-          className={styles.title}
-          style={{color: environment.sideBarTextColor || '#fff'}}>
-          {environment.name}
-        </Link>
-        <div className={styles.divider} />
+
+        {environment.logo ? (
+          <div
+            onClick={() => history.push('/')}
+            style={{
+              backgroundImage: `url(${environment.logo.url})`,
+              backgroundSize: '100%',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center center',
+              height: '80px',
+              cursor: 'pointer'
+            }}
+          />
+        ) : (
+          <Link
+            to="/"
+            className={styles.title}
+            style={{color: environment.sideBarTextColor || '#fff'}}>
+            {environment.name}
+          </Link>
+        )}
+
+        <div className={styles.dividerLogo} />
         {this.renderLinks()}
         <div className={styles.divider} />
         {this.renderLink({title: 'Mi cuenta', path: '/settings'})}

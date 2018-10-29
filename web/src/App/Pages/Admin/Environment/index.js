@@ -31,6 +31,9 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
       _id
       name
       url
+      logo {
+        url
+      }
     }
     me {
       _id
