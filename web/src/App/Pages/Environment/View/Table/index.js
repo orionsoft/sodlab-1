@@ -15,7 +15,6 @@ import Header from './Header'
 import cloneDeep from 'lodash/cloneDeep'
 import values from 'lodash/values'
 import SelectionActions from './SelectionActions'
-import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import Tooltip from 'orionsoft-parts/lib/components/Tooltip'
 
 @withGraphQL(gql`

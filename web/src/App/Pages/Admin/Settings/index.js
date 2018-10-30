@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './styles.css'
 import {Route, Switch} from 'react-router-dom'
-import Profile from './Profile'
+// import Profile from './Profile'
 import Tabs from 'orionsoft-parts/lib/components/Tabs'
 import PropTypes from 'prop-types'
 import Container from 'orionsoft-parts/lib/components/Container'
