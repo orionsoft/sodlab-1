@@ -42,7 +42,12 @@ export default {
       fieldType: 'collectionFieldSelect'
     }
   },
-  async execute({options}) {
+  async execute({options, params, environmentId}) {
+    let errorObject = {
+      envId: environmentId,
+      function: 'hook: Sign document with hsm'
+    }
+
     const {
       clientId,
       signingReason,
@@ -56,9 +61,19 @@ export default {
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
-    if (!item) throw new Error('Document not found')
+    if (!item) {
+      errorObject.level = 'ERROR'
+      errorObject.msg = `Document with id ${itemId} from col ${collectionId} not found`
+      console.log(errorObject)
+      return {success: false}
+    }
     const file = item.data[fileKey]
-    if (!file) throw new Error('Document file not found')
+    if (!file) {
+      errorObject.level = 'ERROR'
+      errorObject.msg = `Document with id ${itemId} from col ${collectionId} not found doesn't contain a file in the field ${fileKey}`
+      console.log(errorObject)
+      return {success: false}
+    }
 
     let fileURL
 
@@ -68,14 +83,24 @@ export default {
       fileURL = `https://s3.amazonaws.com/${file.bucket}/${file.key.replace(/ /, '%20')}`
     }
 
-    const fileData = await rp({
-      uri: fileURL,
-      method: 'GET',
-      encoding: null,
-      headers: {
-        'Content-type': 'applcation/pdf'
-      }
-    })
+    let fileData
+
+    try {
+      fileData = await rp({
+        uri: fileURL,
+        method: 'GET',
+        encoding: null,
+        headers: {
+          'Content-type': 'applcation/pdf'
+        }
+      })
+    } catch (err) {
+      errorObject.level = 'ERROR'
+      errorObject.msg = `Error downloading file from ${fileURL}`
+      errorObject.err = err
+      console.log(errorObject)
+      return {success: false}
+    }
 
     const base64 = Buffer.from(fileData).toString('base64')
     const doc = {
@@ -86,28 +111,46 @@ export default {
     }
 
     const callback = `${process.env.SERVER_URL}/callbacks/cloud-hsm`
-    const params = {
+    const body = {
       documents: [doc],
       clientId,
       userId,
       callbacks: [callback]
     }
     console.log('sending hsm request with callback', {callback})
-    const result = await rp({
-      method: 'POST',
-      uri: 'https://api.signer.sodlab.cl/sign',
-      body: params,
-      json: true
-    })
+    let result
+    try {
+      result = await rp({
+        method: 'POST',
+        uri: 'https://api.signer.sodlab.cl/sign',
+        body: body,
+        json: true
+      })
+    } catch (err) {
+      errorObject.level = 'ERROR'
+      errorObject.msg = `Error sending request to HSM`
+      errorObject.body = body
+      errorObject.err = err
+      console.log(errorObject)
+    }
 
-    await Requests.insert({
-      requestId: result.requestId,
-      collectionId,
-      itemId,
-      signedFileKey,
-      createdAt: new Date(),
-      status: 'pending'
-    })
+    try {
+      await Requests.insert({
+        requestId: result.requestId,
+        collectionId,
+        itemId,
+        signedFileKey,
+        createdAt: new Date(),
+        status: 'pending'
+      })
+    } catch (err) {
+      errorObject.level = 'ERROR'
+      errorObject.msg = `Error saving request id ${result.requestId} to hsm collection`
+      errorObject.err = err
+      console.log(errorObject)
+    }
+
     console.log(result)
+    return {success: true}
   }
 }
