@@ -32,7 +32,8 @@ export default {
   async execute({
     options: {collectionId, valueKey, itemIdParamName, itemId, indicatorId},
     params,
-    environmentId
+    environmentId,
+    userId
   }) {
     try {
       const col = await Collections.findOne(collectionId)
@@ -45,7 +46,7 @@ export default {
         ...item.data,
         [itemIdParamName]: itemId
       }
-      const value = await indicator.result({filterOptions: params, params})
+      const value = await indicator.result({filterOptions: params, params, userId})
 
       await item.update({$set: {[`data.${valueKey}`]: value}})
 
