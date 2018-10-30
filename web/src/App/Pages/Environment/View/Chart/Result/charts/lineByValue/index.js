@@ -47,7 +47,7 @@ export default class BarCountByDate extends React.Component {
     if (!this.state.width) return
     return (
       <XYPlot xType="ordinal" width={this.state.width} height={300}>
-        <XAxis tickFormat={v => `${v} - ${parseInt(v) + this.props.data.divideBy}`} />
+        <XAxis tickFormat={v => `${v} - ${parseInt(v, 10) + this.props.data.divideBy}`} />
         <YAxis />
         <LineSeries
           onNearestX={this.onNearestX}
