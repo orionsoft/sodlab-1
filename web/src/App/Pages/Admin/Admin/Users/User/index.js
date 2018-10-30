@@ -4,6 +4,7 @@ import styles from './styles.css'
 import AutoForm from 'App/components/AutoForm'
 import Breadcrumbs from 'App/components/Breadcrumbs'
 import Button from 'orionsoft-parts/lib/components/Button'
+import MutationButton from 'App/components/MutationButton'
 import Section from 'App/components/Section'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field} from 'simple-react-form'
@@ -44,8 +45,14 @@ export default class User extends React.Component {
     this.props.history.push('/admin/users')
   }
 
+  removeUser() {
+    this.props.showMessage('El usuario fue eliminado')
+    this.props.history.push('/admin/users')
+  }
+
   render() {
     const {user, environments} = this.props
+
     const roles = [{value: 'admin', label: 'Admin'}, {value: 'superAdmin', label: 'Super Admin'}]
     return (
       <div className={styles.container}>
@@ -82,6 +89,16 @@ export default class User extends React.Component {
               </Button>
             </div>
             <div>
+              <MutationButton
+                label="Eliminar"
+                title="Eliminar usuario"
+                message="¿Quieres eliminar este usuario?"
+                confirmText="Eliminar"
+                mutation="removeUser"
+                onSuccess={() => this.removeUser()}
+                params={{userId: user._id}}
+                danger
+              />
               <Button onClick={() => this.refs.form.submit()} primary>
                 Guardar
               </Button>
