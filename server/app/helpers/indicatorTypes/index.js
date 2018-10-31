@@ -19,6 +19,7 @@ import transformTextUpperCase from './transformTextUpperCase'
 import currentDateCollection from './currentDateCollection'
 import elapsedTimeNumber from './elapsedTimeNumber'
 import valueOfParams from './valueOfParams'
+import valueOfUserSchema from './valueOfUserSchema'
 
 export default {
   currentDateTime,
@@ -41,5 +42,6 @@ export default {
   autoIncrement,
   valueOfFieldInItem,
   valueOfParams,
-  economicIndicator
+  economicIndicator,
+  valueOfUserSchema
 }
