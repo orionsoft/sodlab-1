@@ -132,7 +132,7 @@ export default class Field extends React.Component {
         confirmText="Confirmar"
         mutation="tableRunHooks"
         onSuccess={() => this.props.showMessage('Se ha ejecutado correctamente')}
-        params={{tableId: table._id, itemId, fieldIndex}}>
+        params={{tableId: table._id, itemId, fieldIndex, view: this.props.match.url}}>
         <IconButton icon={icon} tooltip={field.options.tooltip} size={18} />
       </MutationButton>
     )
