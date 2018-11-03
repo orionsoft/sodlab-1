@@ -21,7 +21,8 @@ export default resolver({
       type: String
     },
     view: {
-      type: String
+      type: String,
+      optional: true
     }
   },
   mutation: true,

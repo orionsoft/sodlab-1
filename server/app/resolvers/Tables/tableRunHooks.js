@@ -16,7 +16,8 @@ export default resolver({
       type: 'ID'
     },
     view: {
-      type: String
+      type: String,
+      optional: true
     }
   },
   returns: Boolean,
