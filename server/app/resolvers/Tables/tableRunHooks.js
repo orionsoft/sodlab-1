@@ -14,11 +14,15 @@ export default resolver({
     },
     itemId: {
       type: 'ID'
+    },
+    view: {
+      type: String,
+      optional: true
     }
   },
   returns: Boolean,
   mutation: true,
-  async resolve({tableId, fieldIndex, itemId}, viewer) {
+  async resolve({tableId, fieldIndex, itemId, view}, viewer) {
     const table = await Tables.findOne(tableId)
     const collection = await table.collection()
     if (!collection) throw new Error('Collection not found')
@@ -29,8 +33,9 @@ export default resolver({
     const user = await Users.findOne({_id: viewer.userId})
     const twoFactor = await user.hasTwoFactor()
 
-    if (!twoFactor && field.options.requireTwoFactor)
+    if (!twoFactor && field.options.requireTwoFactor) {
       throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
+    }
 
     if (field.options.requireTwoFactor) {
       await requireTwoFactor(viewer)
@@ -50,7 +55,7 @@ export default resolver({
     const params = {_id: item._id, ...item.data}
     for (const hook of hooks) {
       try {
-        await hook.execute({params, userId: viewer.userId})
+        await hook.execute({params, userId: viewer.userId, view})
       } catch (e) {
         console.log('Error running hook', e)
       }

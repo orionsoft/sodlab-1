@@ -1,0 +1,1 @@
+eb deploy sodlab-server-beta -l v0.0.1 -m "Testing deployment script"
