@@ -34,11 +34,16 @@ export default {
     const collection = await col.db()
     const item = await collection.findOne(itemId)
     if (!item) return {success: false, msg: 'Item not found'}
-
+    let itemCompleteData = [...Object.keys(item.data), '_id']
     let content = template
-    Object.keys(item.data).forEach(variable => {
+    itemCompleteData.forEach(variable => {
       const regexp = new RegExp(`{${escape(variable)}}`, 'g')
-      content = content.replace(regexp, item.data[variable])
+
+      if (variable === '_id') {
+        content = content.replace(regexp, item._id)
+      } else {
+        content = content.replace(regexp, item.data[variable])
+      }
     })
 
     const html = getHTML(content)
