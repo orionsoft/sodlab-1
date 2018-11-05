@@ -15,6 +15,7 @@ import bulkUpload from './bulkUpload'
 import mailTo from './mailTo'
 import deleteDocument from './deleteDocument'
 import sequentialHooks from './sequentialHooks'
+import urlToFilemanager from './urlToFilemanager'
 
 export default {
   updateValue,
@@ -33,5 +34,6 @@ export default {
   bulkUpload,
   mailTo,
   deleteDocument,
-  sequentialHooks
+  sequentialHooks,
+  urlToFilemanager
 }
