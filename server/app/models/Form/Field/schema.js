@@ -31,8 +31,7 @@ export default {
   },
   test: {
     type: Boolean,
-    optional: true,
-    defaultValue: false
+    optional: true
   },
   parameterName: {
     type: String,

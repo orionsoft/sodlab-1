@@ -129,6 +129,7 @@ export default class Form extends React.Component {
       if (field.formFieldType !== 'editable') {
         delete schema[key]
       } else {
+        // console.log(this.state.docData[field.requiredField], field.requiredValue, field.test)
         if (
           field.requiredType === 'editable' &&
           (!this.state.docData[field.requiredField] ||
@@ -150,7 +151,23 @@ export default class Form extends React.Component {
           delete schema[key]
         }
       }
+
+      if (field.requiredValue === this.state.docData[field.requiredField]) {
+        console.log('Required Value', field.requiredValue)
+        console.log('Form data', this.state.docData[field.requiredField])
+        console.log('Test', !field.test)
+        if (!field.test) {
+          delete schema[key]
+        }
+      }
+
+      if (field.requiredValue !== this.state.docData[field.requiredField]) {
+        console.log('Required Value', field.requiredValue)
+        console.log('Form data', this.state.docData[field.requiredField])
+        console.log('Test', !field.test)
+      }
     }
+
     const params = {data: {type: schema}}
     return params
   }
