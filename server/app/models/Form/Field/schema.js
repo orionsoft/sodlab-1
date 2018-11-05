@@ -29,6 +29,11 @@ export default {
     type: 'blackbox',
     optional: true
   },
+  test: {
+    type: Boolean,
+    optional: true,
+    defaultValue: false
+  },
   parameterName: {
     type: String,
     optional: true

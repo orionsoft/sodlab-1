@@ -163,6 +163,10 @@ export default class Form extends React.Component {
     return <div className={styles.itemNotFound}>No se encontró el documento</div>
   }
 
+  filterFields() {
+    return this.props.fields
+  }
+
   @autobind
   onChange(docData) {
     this.setState({docData})
@@ -189,7 +193,7 @@ export default class Form extends React.Component {
             schemaToField={this.schemaToField}
             params={this.getParams()}
             passProps={{formId: this.props.form._id}}
-            fields={this.props.fields}
+            fields={this.filterFields()}
           />
         </AutoForm>
         <br />

@@ -2,6 +2,7 @@ import React from 'react'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
 import {Field} from 'simple-react-form'
+import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import PropTypes from 'prop-types'
 import CollectionFieldSelect from 'App/components/fieldTypes/collectionFieldSelect/Field'
 import fieldTypes from 'App/components/fieldTypes'
@@ -38,14 +39,16 @@ export default class Required extends React.Component {
       !this.props.field.requiredType ||
       this.props.field.requiredType !== 'editable' ||
       !this.props.field.requiredField
-    )
+    ) {
       return
+    }
     const {field, collection} = this.props
     if (!field.requiredField) return
     if (!collection) return
     const collectionField = collection.fields.find(cf => cf.name === field.requiredField)
     if (!collectionField) return
     const FieldComponent = fieldTypes[collectionField.type].field
+
     return (
       <div className="col-xs-12 col-sm-4 col-lg-4">
         <div className="label">Valor</div>
@@ -72,11 +75,22 @@ export default class Required extends React.Component {
     )
   }
 
+  selectOptions() {
+    return (
+      <Field
+        fieldName="test"
+        value={this.props.field.test}
+        type={Checkbox}
+        label={this.props.field.test ? 'Mostrar Igual a' : 'Mostrar Diferentes a'}
+      />
+    )
+  }
+
   render() {
     if (this.props.field.type !== 'editable') return null
     return (
       <div>
-        <div className="label">Mostrar si</div>
+        {this.selectOptions()}
         <div className="row">
           <div className="col-xs-12 col-sm-4 col-lg-4">
             <div className="label">Tipo</div>

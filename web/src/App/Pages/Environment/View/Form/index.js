@@ -21,6 +21,7 @@ import styles from './styles.css'
         fieldName
         type
         editableLabel
+        test
       }
     }
   }
