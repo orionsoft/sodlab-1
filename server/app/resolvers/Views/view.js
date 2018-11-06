@@ -30,8 +30,6 @@ export const checkRole = async function(items, envUserRoles) {
       } else if (!table.roles || !table.roles.length) {
         filteredItems.push(item)
       }
-    } else {
-      filteredItems.push(item)
     }
   }
   return filteredItems
