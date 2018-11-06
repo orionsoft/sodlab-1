@@ -152,13 +152,13 @@ export default class Form extends React.Component {
       }
 
       if (field.requiredValue === this.state.docData[field.requiredField]) {
-        if (!field.test) {
+        if (!field.showField) {
           delete schema[key]
         }
       }
 
       if (field.requiredValue !== this.state.docData[field.requiredField]) {
-        if (!field.test) {
+        if (!field.showField) {
           schema[key] = field
         }
       }

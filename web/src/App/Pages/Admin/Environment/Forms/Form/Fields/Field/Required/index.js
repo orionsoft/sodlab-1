@@ -78,10 +78,10 @@ export default class Required extends React.Component {
   selectOptions() {
     return (
       <Field
-        fieldName="test"
-        value={this.props.field.test}
+        fieldName="showField"
+        value={this.props.field.showField}
         type={Checkbox}
-        label={this.props.field.test ? 'Mostrar Igual a' : 'Mostrar Diferentes a'}
+        label={this.props.field.showField ? 'Mostrar Igual a' : 'Mostrar Diferentes a'}
       />
     )
   }

@@ -39,7 +39,7 @@ import Fields from './Fields'
         type
         optional
         fixed
-        test
+        showField
         parameterName
         requiredField
         requiredValue
