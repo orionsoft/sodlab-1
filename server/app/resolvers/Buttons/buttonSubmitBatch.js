@@ -1,7 +1,6 @@
 import {resolver} from '@orion-js/app'
 import buttonRunHooks from './buttonRunHooks'
 import tableResult from 'app/resolvers/Tables/tableResult'
-import Tables from 'app/collections/Tables'
 
 export default resolver({
   params: {
@@ -30,7 +29,8 @@ export default resolver({
       const getItems = await tableResult(params)
       obtainedItems = await getItems.cursor.toArray()
       if (!obtainedItems.length) return
-      for (const parameters of obtainedItems) {
+      for (let parameters of obtainedItems) {
+        parameters = {_id: parameters._id, ...parameters.data}
         await buttonRunHooks({buttonId, parameters}, viewer)
       }
     } else {
@@ -47,7 +47,8 @@ export default resolver({
 
       obtainedItems = await arrayItems.filter(item => broughtItems.includes(item._id))
       if (!obtainedItems.length) return
-      for (const parameters of obtainedItems) {
+      for (let parameters of obtainedItems) {
+        parameters = {_id: parameters._id, ...parameters.data}
         await buttonRunHooks({buttonId, parameters}, viewer)
       }
     }
