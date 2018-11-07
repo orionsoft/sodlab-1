@@ -124,45 +124,32 @@ export default class Form extends React.Component {
   @autobind
   getParams() {
     const schema = cloneDeep(this.props.form.serializedParams) || {}
-    for (const key of Object.keys(schema)) {
-      const field = schema[key]
-      if (field.formFieldType !== 'editable') {
-        delete schema[key]
-      } else {
+
+    Object.keys(schema)
+      .map(key => {
+        const field = schema[key]
+        return {
+          ...field,
+          key
+        }
+      })
+      .filter(field => field.formFieldType === 'editable')
+      .map(field => {
+        // remove item
         if (
-          field.requiredType === 'editable' &&
-          (!this.state.docData[field.requiredField] ||
-            this.state.docData[field.requiredField] !== field.requiredValue)
+          field.requiredValue === this.state.docData[field.requiredField] &&
+          field.requiredType !== null
         ) {
-          if (this.state.docData[key]) {
-            const state = omit(this.state.docData, key)
-            this.setState({docData: state})
+          if (!field.showField) {
+            delete schema[field.key]
           }
-          delete schema[key]
-        } else if (
-          field.requiredType === 'parameter' &&
-          !this.props.parameters[field.requiredParameter]
-        ) {
-          if (this.state.docData[key]) {
-            const state = omit(this.state.docData, key)
-            this.setState({docData: state})
+        } else {
+          if (field.showField) {
+            delete schema[field.key]
           }
-          delete schema[key]
         }
-      }
-
-      if (field.requiredValue === this.state.docData[field.requiredField]) {
-        if (!field.showField) {
-          delete schema[key]
-        }
-      }
-
-      if (field.requiredValue !== this.state.docData[field.requiredField]) {
-        if (!field.showField) {
-          schema[key] = field
-        }
-      }
-    }
+      })
+      .filter(field => field)
 
     const params = {
       data: {
@@ -171,6 +158,64 @@ export default class Form extends React.Component {
     }
 
     return params
+    // if (filter.showField) {
+    //   console.log('filter true')
+    //   params = {
+    //     data: {
+    //       type: schema
+    //     }
+    //   }
+    // } else {[]
+    //   const response = Object.values(schema).filter(
+    //     field => field.requiredField !== filter.requiredField
+    //   )
+    //   params = {
+    //     data: {
+    //       type: schema
+    //     }
+    //   }
+    // }
+
+    // return params
+    // for (const key of Object.keys(schema)) {
+    //   const field = schema[key]
+    //   if (field.formFieldType !== 'editable') {
+    //     delete schema[key]
+    //   } else {
+    //     if (
+    //       field.requiredType === 'editable' &&
+    //       (!this.state.docData[field.requiredField] ||
+    //         this.state.docData[field.requiredField] !== field.requiredValue)
+    //     ) {
+    //       if (this.state.docData[key]) {
+    //         const state = omit(this.state.docData, key)
+    //         this.setState({docData: state})
+    //       }
+    //       delete schema[key]
+    //     } else if (
+    //       field.requiredType === 'parameter' &&
+    //       !this.props.parameters[field.requiredParameter]
+    //     ) {
+    //       if (this.state.docData[key]) {
+    //         const state = omit(this.state.docData, key)
+    //         this.setState({docData: state})
+    //       }
+    //       delete schema[key]
+    //     }
+    //   }
+
+    //   if (field.requiredValue === this.state.docData[field.requiredField]) {
+    //     if (!field.showField) {
+    //       delete schema[key]
+    //     }
+    //   }
+
+    //   if (field.requiredValue !== this.state.docData[field.requiredField]) {
+    //     if (!field.showField) {
+    //       schema[key] = field
+    //     }
+    //   }
+    // }
   }
 
   needsData() {
