@@ -29,6 +29,10 @@ export default {
     type: 'blackbox',
     optional: true
   },
+  showField: {
+    type: Boolean,
+    optional: true
+  },
   parameterName: {
     type: String,
     optional: true
@@ -37,7 +41,6 @@ export default {
     type: String,
     optional: true,
     async custom(editableLabel, {currentDoc}) {
-      console.log({currentDoc})
       if (currentDoc.type === 'section' && !editableLabel) {
         return 'required'
       }

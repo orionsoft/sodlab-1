@@ -124,35 +124,102 @@ export default class Form extends React.Component {
   @autobind
   getParams() {
     const schema = cloneDeep(this.props.form.serializedParams) || {}
-    for (const key of Object.keys(schema)) {
-      const field = schema[key]
-      if (field.formFieldType !== 'editable') {
-        delete schema[key]
-      } else {
-        if (
-          field.requiredType === 'editable' &&
-          (!this.state.docData[field.requiredField] ||
-            this.state.docData[field.requiredField] !== field.requiredValue)
-        ) {
-          if (this.state.docData[key]) {
-            const state = omit(this.state.docData, key)
-            this.setState({docData: state})
-          }
-          delete schema[key]
-        } else if (
-          field.requiredType === 'parameter' &&
-          !this.props.parameters[field.requiredParameter]
-        ) {
-          if (this.state.docData[key]) {
-            const state = omit(this.state.docData, key)
-            this.setState({docData: state})
-          }
-          delete schema[key]
+
+    Object.keys(schema)
+      .map(key => {
+        const field = schema[key]
+        return {
+          ...field,
+          key
         }
+      })
+      .filter(field => field.formFieldType === 'editable')
+      .map(field => {
+        // remove item
+        if (
+          field.requiredValue === this.state.docData[field.requiredField] &&
+          field.requiredType !== null
+        ) {
+          if (!field.showField) {
+            delete schema[field.key]
+          } else {
+            schema[field.key] = field
+          }
+        } else {
+          if (field.showField) {
+            delete schema[field.key]
+          } else {
+            schema[field.key] = field
+          }
+        }
+      })
+      .filter(field => field)
+
+    const params = {
+      data: {
+        type: schema
       }
     }
-    const params = {data: {type: schema}}
+
     return params
+    // if (filter.showField) {
+    //   console.log('filter true')
+    //   params = {
+    //     data: {
+    //       type: schema
+    //     }
+    //   }
+    // } else {[]
+    //   const response = Object.values(schema).filter(
+    //     field => field.requiredField !== filter.requiredField
+    //   )
+    //   params = {
+    //     data: {
+    //       type: schema
+    //     }
+    //   }
+    // }
+
+    // return params
+    // for (const key of Object.keys(schema)) {
+    //   const field = schema[key]
+    //   if (field.formFieldType !== 'editable') {
+    //     delete schema[key]
+    //   } else {
+    //     if (
+    //       field.requiredType === 'editable' &&
+    //       (!this.state.docData[field.requiredField] ||
+    //         this.state.docData[field.requiredField] !== field.requiredValue)
+    //     ) {
+    //       if (this.state.docData[key]) {
+    //         const state = omit(this.state.docData, key)
+    //         this.setState({docData: state})
+    //       }
+    //       delete schema[key]
+    //     } else if (
+    //       field.requiredType === 'parameter' &&
+    //       !this.props.parameters[field.requiredParameter]
+    //     ) {
+    //       if (this.state.docData[key]) {
+    //         const state = omit(this.state.docData, key)
+    //         this.setState({docData: state})
+    //       }
+    //       delete schema[key]
+    //     }
+    //   }
+
+    //   if (field.requiredValue === this.state.docData[field.requiredField]) {
+    //     if (!field.showField) {
+    //       delete schema[key]
+    //     }
+    //   }
+
+    //   if (field.requiredValue !== this.state.docData[field.requiredField]) {
+    //     if (!field.showField) {
+    //       schema[key] = field
+    //     }
+    //   }
+    // }
   }
 
   needsData() {
@@ -161,6 +228,10 @@ export default class Form extends React.Component {
 
   renderItemNotFound() {
     return <div className={styles.itemNotFound}>No se encontró el documento</div>
+  }
+
+  filterFields() {
+    return this.props.fields
   }
 
   @autobind
@@ -189,7 +260,7 @@ export default class Form extends React.Component {
             schemaToField={this.schemaToField}
             params={this.getParams()}
             passProps={{formId: this.props.form._id}}
-            fields={this.props.fields}
+            fields={this.filterFields()}
           />
         </AutoForm>
         <br />
