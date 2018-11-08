@@ -2,6 +2,7 @@ import {resolver} from '@orion-js/app'
 import {requireTwoFactor} from '@orion-js/auth'
 import Buttons from 'app/collections/Buttons'
 import Hooks from 'app/collections/Hooks'
+import Users from 'app/collections/Users'
 
 export default resolver({
   params: {
@@ -19,6 +20,15 @@ export default resolver({
   async resolve({buttonId, parameters}, viewer) {
     const {userId} = viewer
     const button = await Buttons.findOne(buttonId)
+
+    if (Object.keys(viewer).length !== 0) {
+      const user = await Users.findOne({_id: viewer.userId})
+      const twoFactor = await user.hasTwoFactor()
+      if (!twoFactor && button.requireTwoFactor) {
+        throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
+      }
+    }
+
     if (button.requireTwoFactor) {
       await requireTwoFactor(viewer)
     }
