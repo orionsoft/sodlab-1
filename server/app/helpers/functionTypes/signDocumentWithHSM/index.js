@@ -40,6 +40,15 @@ export default {
       type: String,
       label: 'Campo donde se dejará el documento firmado',
       fieldType: 'collectionFieldSelect'
+    },
+    apiUrl: {
+      type: String,
+      label: 'Api HSM',
+      fieldType: 'select',
+      fixed: true,
+      fieldOptions: {
+        options: [{label: 'Producción', value: false}, {label: 'Test', value: true}]
+      }
     }
   },
   async execute({options, params, environmentId}) {
@@ -56,8 +65,10 @@ export default {
       itemId,
       fileKey,
       signedFileKey,
-      userId
+      userId,
+      apiUrl
     } = options
+
     const col = await Collections.findOne(collectionId)
     const collection = await col.db()
     const item = await collection.findOne(itemId)
@@ -122,7 +133,7 @@ export default {
     try {
       result = await rp({
         method: 'POST',
-        uri: 'https://api.signer.sodlab.cl/sign',
+        uri: apiUrl ? 'https://api-test.signer.sodlab.cl/sign' : 'https//api.signer.sodlab.cl/sign',
         body: body,
         json: true
       })
