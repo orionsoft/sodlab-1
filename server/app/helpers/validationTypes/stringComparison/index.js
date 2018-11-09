@@ -26,8 +26,8 @@ export default {
       }
     },
     comparingValue: {
-      type: Number,
-      label: 'Valor de comparación'
+      type: String,
+      label: 'Texto de comparación'
     },
     caseSensitive: {
       type: Boolean,
