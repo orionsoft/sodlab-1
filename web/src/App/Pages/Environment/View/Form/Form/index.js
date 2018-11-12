@@ -11,7 +11,6 @@ import schemaToField from 'App/components/schemaToField'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import cloneDeep from 'lodash/cloneDeep'
-import omit from 'lodash/omit'
 import translate from 'App/i18n/translate'
 import {withRouter} from 'react-router'
 
