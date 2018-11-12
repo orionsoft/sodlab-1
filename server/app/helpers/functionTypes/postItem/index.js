@@ -19,25 +19,39 @@ export default {
     },
     environmentId: {
       type: String,
-      label: 'Entorno'
+      label: '(opcional) Entorno (default es el actual)',
+      optional: true
+    },
+    timeoutMinutes: {
+      type: Number,
+      label: '(opcional) Timeout (minutos, default es 1,5 min)',
+      optional: true
     }
   },
-  async execute({options: {collectionId, itemId, url, environmentId}}) {
+  async execute({
+    options: {collectionId, itemId, url, environmentId, timeoutMinutes},
+    params,
+    environmentId: actualEnv,
+    userId
+  }) {
     try {
       const col = await Collections.findOne(collectionId)
       const collection = await col.db()
       const item = await collection.findOne(itemId)
       if (!item) return
 
+      const timeout = timeoutMinutes ? timeoutMinutes * 60000 : 90000
+
       await rp({
         method: 'POST',
         uri: url,
         body: {
           _id: item._id,
-          environmentId,
+          environmentId: environmentId || actualEnv,
           ...item.data
         },
-        json: true
+        json: true,
+        timeout: timeout
       })
       return {success: true}
     } catch (err) {
