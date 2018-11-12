@@ -57,7 +57,7 @@ export default class RemoveData extends React.Component {
       <div className={styles.removeButton}>
         <MutationButton
           label="Eliminar Datos de la Colección"
-          title="¿Confirma que desea eliminar los datos de la colección?"
+          title="¿Confirma que desea eliminar los datos de esta colección?"
           confirmText="Confirmar"
           mutation="removeDataCollection"
           onSuccess={this.removeDataCollection}
