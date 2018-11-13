@@ -18,13 +18,15 @@ export default class Component extends React.Component {
 
   renderOptions() {
     const {limit, defaultLimit} = this.props
-    let options = [10, 25, 50, 100, 200]
+    let options = [10, 25, 50, 100]
     if (limit && !options.includes(defaultLimit)) {
       options = [...options, ...[defaultLimit]]
     }
-    return options.sort((a, b) => a - b).map(elem => {
-      return <option value={elem}>{elem}</option>
-    })
+    return options
+      .sort((a, b) => a - b)
+      .map(elem => {
+        return <option value={elem}>{elem}</option>
+      })
   }
 
   renderSelect() {
