@@ -39,6 +39,7 @@ import Fields from './Fields'
         type
         optional
         fixed
+        showField
         parameterName
         requiredField
         requiredValue

@@ -13,7 +13,8 @@ export default resolver({
       requiredType: formField.requiredType,
       requiredField: formField.requiredField,
       requiredValue: formField.requiredValue,
-      requiredParameter: formField.requiredParameter
+      requiredParameter: formField.requiredParameter,
+      showField: formField.showField
     }
 
     schema.optional = formField.optional

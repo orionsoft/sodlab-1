@@ -18,7 +18,8 @@ export const checkRole = async function(items, envUserRoles) {
       } else if (!form.roles || !form.roles.length) {
         filteredItems.push(item)
       }
-    } else if (item.type === 'table') {
+    }
+    if (item.type === 'table') {
       const table = await Tables.findOne(item.tableId)
       if (
         table.roles &&
@@ -29,8 +30,6 @@ export const checkRole = async function(items, envUserRoles) {
       } else if (!table.roles || !table.roles.length) {
         filteredItems.push(item)
       }
-    } else {
-      filteredItems.push(item)
     }
   }
   return filteredItems
