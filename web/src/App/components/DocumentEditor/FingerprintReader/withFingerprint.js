@@ -43,9 +43,11 @@ function withFingerprint(Component) {
 
     checkLocalStorage = (sampleType, key) => {
       if (sampleType === 'isPngCaptured') {
-        if (localStorage.getItem('fingerprintPng') !== null) this.setState({isPngCaptured: true})
+        if (localStorage.getItem('fingerprintPng') !== null)
+          this.setState({isPngCaptured: true, isFingerprintReaderActive: false})
       } else {
-        if (localStorage.getItem(key) !== null) this.setState({isWsqCaptured: true})
+        if (localStorage.getItem(key) !== null)
+          this.setState({isWsqCaptured: true, isFingerprintReaderActive: false})
       }
     }
 
@@ -65,13 +67,14 @@ function withFingerprint(Component) {
     }
 
     stopFingerprintCapturing = () => {
-      const {Fingerprint, isFingerprintReaderActive, timer} = this.state
-      if (!isFingerprintReaderActive) return
+      const {Fingerprint, isFingerprintConnected, timer} = this.state
+      if (!isFingerprintConnected) return
       Fingerprint.stopCapture()
       clearInterval(timer)
 
       this.setState({
         Fingerprint: {},
+        isFingerprintConnected: false,
         isFingerprintReaderActive: false,
         timer: null
       })

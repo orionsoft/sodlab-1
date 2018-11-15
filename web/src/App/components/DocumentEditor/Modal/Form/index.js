@@ -114,7 +114,7 @@ class DocumentEditorForm extends React.Component {
   }
 
   closeModal = () => {
-    if (this.props.isFingerprintReaderActive) this.props.stopFingerprintCapturing()
+    this.props.stopFingerprintCapturing()
     this.props.resetFingerprintState()
     if (localStorage.getItem('fingerprintPng') !== null) localStorage.removeItem('fingerprintPng')
     if (localStorage.getItem(this.state.fileId) !== null) localStorage.removeItem(this.state.fileId)
@@ -135,15 +135,18 @@ class DocumentEditorForm extends React.Component {
 
   startSignatureCapture = () => {
     this.props.startCapture()
+    this.props.showMessage('Capturando la firma')
   }
 
   captureFingerprintPng = () => {
     this.props.startFingerprint('pngImage')
+    this.props.showMessage('Primera captura de huella en curso')
   }
 
   captureFingerprintWsq = () => {
     this.props.stopFingerprintCapturing()
     this.props.startFingerprint('compressed', this.state.fileId)
+    this.props.showMessage('Segunda captura de huella en curso')
   }
 
   insertImage = (type, id, imageSrc, name, rut) => {
@@ -200,31 +203,33 @@ class DocumentEditorForm extends React.Component {
   @autobind
   fetchPdfPage() {
     const {envId, uniqueId, activePage} = this.props
-    this.props.pages.filter(page => page.page === activePage.toString()).map(async page => {
-      try {
-        const params = {
-          bucket: 'work',
-          key: `${envId}/${uniqueId}/${page.name}`,
-          operation: 'getObject'
-        }
-        const src = await downloadImage(params)
-        let {pagesSrc} = this.props
-        pagesSrc[activePage - 1] = {
-          name: page.name,
-          src,
-          index: activePage - 1
-        }
-        pagesSrc = pagesSrc.sort((a, b) => a.index - b.index)
+    this.props.pages
+      .filter(page => page.page === activePage.toString())
+      .map(async page => {
+        try {
+          const params = {
+            bucket: 'work',
+            key: `${envId}/${uniqueId}/${page.name}`,
+            operation: 'getObject'
+          }
+          const src = await downloadImage(params)
+          let {pagesSrc} = this.props
+          pagesSrc[activePage - 1] = {
+            name: page.name,
+            src,
+            index: activePage - 1
+          }
+          pagesSrc = pagesSrc.sort((a, b) => a.index - b.index)
 
-        return this.props.changeState({
-          pagesSrc,
-          loading: false
-        })
-      } catch (err) {
-        this.props.changeState({loading: false})
-        this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
-      }
-    })
+          return this.props.changeState({
+            pagesSrc,
+            loading: false
+          })
+        } catch (err) {
+          this.props.changeState({loading: false})
+          this.props.showMessage('No se pudo completar la solicitud. Favor volver a intentarlo')
+        }
+      })
   }
 
   b64toBlob = (b64Data, contentType, sliceSize) => {
@@ -396,8 +401,23 @@ class DocumentEditorForm extends React.Component {
   @autobind
   renderFingerprintCapture() {
     const {selectedOption, rut} = this.state
-    const {isPngCaptured, isWsqCaptured} = this.props
+    const {isPngCaptured, isWsqCaptured, isFingerprintReaderActive} = this.props
     if (selectedOption === 'signature') return
+    const disabled = isFingerprintReaderActive
+      ? true
+      : !isPngCaptured
+      ? false
+      : !isWsqCaptured
+      ? false
+      : true
+
+    const label = isFingerprintReaderActive
+      ? '...'
+      : !isPngCaptured
+      ? 'primera captura'
+      : !isWsqCaptured
+      ? 'segunda captura'
+      : 'captura realizada'
 
     return (
       <Device
@@ -405,14 +425,8 @@ class DocumentEditorForm extends React.Component {
         headerText="Captura de Huella"
         fingerprintImgSrc={isPngCaptured ? localStorage.getItem('fingerprintPng') : ''}
         onClick={isPngCaptured ? this.captureFingerprintWsq : this.captureFingerprintPng}
-        label={
-          !isPngCaptured
-            ? 'primera captura'
-            : !isWsqCaptured
-              ? 'segunda captura'
-              : 'captura realizada'
-        }
-        disabled={!isPngCaptured ? false : !isWsqCaptured ? false : true}
+        label={label}
+        disabled={disabled}
         showButton={rut !== '' ? true : false}
       />
     )
