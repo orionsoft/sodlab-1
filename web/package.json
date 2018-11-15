@@ -54,7 +54,7 @@
     "build": "./node_modules/orionsoft-react-scripts/bin/react-scripts.js build",
     "test": "./node_modules/orionsoft-react-scripts/bin/react-scripts.js test --env=jsdom",
     "eject": "./node_modules/orionsoft-react-scripts/bin/react-scripts.js eject",
-    "deploy:beta": "aws s3 sync build/ s3://sodlab-web-beta --profile=sodlab-developer",
+    "deploy:beta": "aws s3 sync build/ s3://sodlab-web-beta --profile=sodlab-developer && aws cloudfront create-invalidation --distribution-id E1L9DAUTWDYAPJ --paths /*",
     "deploy:prod": "aws s3 sync build/ s3://sodlab-web-prod --profile=sodlab-developer"
   }
 }
