@@ -11,13 +11,8 @@ export default {
   clientId: {
     type: String
   },
-  itemsSent: {
-    type: Number,
-    optional: true
-  },
-  itemsReceived: {
-    type: Number,
-    optional: true
+  itemId: {
+    type: 'ID'
   },
   collectionId: {
     type: 'ID'
@@ -31,7 +26,11 @@ export default {
   status: {
     type: String
   },
-  completedAt: {
+  documentUrl: {
+    type: String,
+    optional: true
+  },
+  updatedAt: {
     type: Date,
     optional: true
   },
