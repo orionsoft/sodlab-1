@@ -26,6 +26,11 @@ import Button from 'orionsoft-parts/lib/components/Button'
     buttonSubmitBatch(buttonId: $buttonId, parameters: $parameters, all: $all, params: $params)
   }
 `)
+@withMutation(gql`
+  mutation buttonSubmitHsm($buttonId: ID, $parameters: [JSON], $all: Boolean, $params: JSON) {
+    buttonSubmitHsm(buttonId: $buttonId, parameters: $parameters, all: $all, params: $params)
+  }
+`)
 @withMessage
 export default class ButtonView extends React.Component {
   static propTypes = {
@@ -37,17 +42,31 @@ export default class ButtonView extends React.Component {
     params: PropTypes.object
   }
 
-  async onClick() {
-    try {
-      await this.props.buttonSubmitBatch({
-        buttonId: this.props.button._id,
-        parameters: this.props.items,
-        all: this.props.all,
-        params: this.props.params
-      })
-      this.props.showMessage('Hecho')
-    } catch (error) {
-      this.props.showMessage(error)
+  async onClick({buttonType}) {
+    if (buttonType !== 'hsm') {
+      try {
+        await this.props.buttonSubmitBatch({
+          buttonId: this.props.button._id,
+          parameters: this.props.items,
+          all: this.props.all,
+          params: this.props.params
+        })
+        this.props.showMessage('Hecho')
+      } catch (error) {
+        this.props.showMessage(error)
+      }
+    } else {
+      try {
+        await this.props.buttonSubmitHsm({
+          buttonId: this.props.button._id,
+          parameters: this.props.items,
+          all: this.props.all,
+          params: this.props.params
+        })
+        this.props.showMessage('Hecho')
+      } catch (error) {
+        this.props.showMessage(error)
+      }
     }
   }
 
@@ -78,11 +97,22 @@ export default class ButtonView extends React.Component {
     )
   }
 
+  renderWithHsm(data) {
+    return (
+      <div className={styles.button}>
+        <Button primary onClick={() => this.onClick(data)}>
+          {data.buttonText}
+        </Button>
+      </div>
+    )
+  }
+
   render() {
     const {button} = this.props
     if (button.buttonType === 'icon') return this.renderWithIcon(button)
     if (button.buttonType === 'text') return this.renderWithText(button)
     if (button.buttonType === 'button') return this.renderWithButtton(button)
+    if (button.buttonType === 'hsm') return this.renderWithHsm(button)
     return null
   }
 }
