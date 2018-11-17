@@ -5,7 +5,7 @@ import Hooks from 'app/collections/Hooks'
 import {requireTwoFactor} from '@orion-js/auth'
 import Buttons from 'app/collections/Buttons'
 import Users from 'app/collections/Users'
-// import HsmRequests from 'app/collections/HsmRequests'
+import HsmRequests from 'app/collections/HsmRequests'
 import buttonRunHooks from './buttonRunHooks'
 
 export default resolver({
@@ -134,22 +134,22 @@ export default resolver({
       //   json: true
       // })
 
-      // try {
-      //   await HsmRequests.insert({
-      //     requestId: '123',
-      //     clientId,
-      //     userId,
-      //     collectionId: collectionId,
-      //     environmentId: button.environmentId,
-      //     itemsIdsSent: itemsIds,
-      //     itemsQuantitySent: itemsIds.length,
-      //     signedFileKey,
-      //     createdAt: new Date(),
-      //     status: 'pending'
-      //   })
-      // } catch (err) {
-      //   console.log('Error inserting to Hsm Batch Requests', err)
-      // }
+      try {
+        await HsmRequests.insert({
+          requestId: '123',
+          clientId,
+          userId,
+          collectionId: collectionId,
+          environmentId: button.environmentId,
+          itemsIdsSent: itemsIds,
+          itemsQuantitySent: itemsIds.length,
+          signedFileKey,
+          createdAt: new Date(),
+          status: 'pending'
+        })
+      } catch (err) {
+        console.log('Error inserting to Hsm Batch Requests', err)
+      }
 
       // console.log('Result:', result)
 
