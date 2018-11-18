@@ -114,7 +114,7 @@ export default resolver({
       console.log('documentsBase64', documentsBase64)
       const documents = await Promise.all(documentsBase64)
       console.log('docs that will be sent to th HSM', documents.length)
-      const callback = `${process.env.SERVER_URL}/callbacks/cloud-hsm`
+      const callback = `${process.env.SERVER_URL}/hsm/update-requests`
       const body = {
         documents,
         clientId,

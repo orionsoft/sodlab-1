@@ -1,8 +1,8 @@
 import {route} from '@orion-js/app'
-import Requests from './Requests'
+import Requests from 'app/helpers/functionTypes/signDocumentWithHSM/Requests'
 import Collections from 'app/collections/Collections'
 
-route('/callbacks/cloud-hsm', async function({getBody, ...params}) {
+route('/hsm/update-requests', async function({getBody, ...params}) {
   console.log('receiving request from HSM')
   const body = await getBody()
   console.log('hsm callback body', body)

@@ -121,7 +121,7 @@ export default {
       layout
     }
 
-    const callback = `${process.env.SERVER_URL}/callbacks/cloud-hsm`
+    const callback = `${process.env.SERVER_URL}/hsm/update-requests`
     const body = {
       documents: [doc],
       clientId,
