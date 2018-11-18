@@ -1,12 +1,12 @@
 import {Collection} from '@orion-js/app'
-import HsmDocuments from 'app/models/HsmDocuments'
+import HsmDocument from 'app/models/HsmDocument'
 
 export default new Collection({
   name: 'hsm_documents',
-  model: HsmDocuments,
+  model: HsmDocument,
   indexes: [
     {
-      keys: {requestId: 1, itemId: 1},
+      keys: {itemId: 1},
       unique: true
     }
   ]

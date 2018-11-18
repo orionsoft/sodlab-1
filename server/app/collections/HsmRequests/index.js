@@ -1,9 +1,9 @@
 import {Collection} from '@orion-js/app'
-import HsmRequests from 'app/models/HsmRequests'
+import HsmRequest from 'app/models/HsmRequest'
 
 export default new Collection({
   name: 'hsm_requests',
-  model: HsmRequests,
+  model: HsmRequest,
   indexes: [
     {
       keys: {requestId: 1},
