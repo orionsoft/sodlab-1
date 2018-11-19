@@ -22,14 +22,6 @@ export default {
     type: String,
     optional: true
   },
-  requestedAt: {
-    type: String,
-    optional: true
-  },
-  completedAt: {
-    type: String,
-    optional: true
-  },
   createdAt: {
     type: Date
   }

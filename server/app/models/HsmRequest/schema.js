@@ -28,13 +28,17 @@ export default {
   },
   status: {
     type: String,
-    allowedValues: ['pending', 'completed', 'error']
+    allowedValues: ['initiated', 'pending', 'completed', 'error']
   },
   requestedAt: {
     type: String,
     optional: true
   },
   completedAt: {
+    type: String,
+    optional: true
+  },
+  itemsReceivedAt: {
     type: String,
     optional: true
   },

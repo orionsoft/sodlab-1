@@ -140,7 +140,7 @@ export default resolver({
           collectionId,
           environmentId: button.environmentId,
           itemsSent: itemsIds.length,
-          status: 'pending',
+          status: 'initiated',
           createdAt: requestTimestamp
         })
         hsmRequest = await HsmRequests.findOne({_id: hsmRequestId})
@@ -170,7 +170,7 @@ export default resolver({
         await hsmRequest.update({
           $set: {
             requestId: result.requestId,
-            status: 'completed'
+            status: 'pending'
           }
         })
         hsmRequest.updateDateAndTime({dateObject: requestCompleteTimestamp, field: 'completedAt'})
