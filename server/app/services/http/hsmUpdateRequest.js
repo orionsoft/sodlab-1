@@ -22,7 +22,6 @@ route('/hsm/update-requests', async function({getBody, ...params}) {
   if (!hsmRequest) {
     return 'Hsm Request not found'
   }
-  hsmRequest.updateDateAndTime({dateObject: receivedAt, field: 'itemsReceivedAt'})
   const documents = data.documents
   if (!documents) {
     return 'No documents received in request'
@@ -68,7 +67,7 @@ route('/hsm/update-requests', async function({getBody, ...params}) {
       }
     })
     hsmRequest.updateDateAndTime({dateObject: receivedAt, field: 'incompleteAt'})
-
+    console.log({msg: `Hsm request id ${data.requestId} processed ok`})
     return {msg: `Hsm request id ${data.requestId} processed partially`, failedDocumentsIds}
   } else {
     hsmRequest.update({
@@ -79,7 +78,7 @@ route('/hsm/update-requests', async function({getBody, ...params}) {
       }
     })
     hsmRequest.updateDateAndTime({dateObject: receivedAt, field: 'completedAt'})
-
+    console.log({msg: `Hsm request id ${data.requestId} processed ok`})
     return {msg: `Hsm request id ${data.requestId} processed ok`}
   }
 })
