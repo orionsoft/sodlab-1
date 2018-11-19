@@ -1,5 +1,4 @@
 import {resolver} from '@orion-js/app'
-import HsmRequests from 'app/collections/HsmRequests'
 import formatCurrentDate from 'app/helpers/misc/formatDate'
 import formatCurrentTime from 'app/helpers/misc/formatTime'
 

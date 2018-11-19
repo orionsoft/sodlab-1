@@ -1,7 +1,7 @@
 import Collections from 'app/collections/Collections'
 import rp from 'request-promise'
-// import './callback'
-import Requests from './Requests'
+import HsmRequests from 'app/collections/HsmRequests'
+import HsmDocuments from 'app/collections/HsmDocuments'
 
 export default {
   name: 'Firmar documento con hsm',
@@ -91,7 +91,7 @@ export default {
     if (typeof file === 'string' && /^https?:.*/.test(file)) {
       fileURL = file
     } else if (typeof file === 'object') {
-      fileURL = `https://s3.amazonaws.com/${file.bucket}/${file.key.replace(/ /, '%20')}`
+      fileURL = `https://s3.amazonaws.com/${file.bucket}/${file.key.replace(/ /g, '%20')}`
     }
 
     let fileData
@@ -121,20 +121,48 @@ export default {
       layout
     }
 
-    const callback = `${process.env.SERVER_URL}/hsm/update-requests`
+    const callbacks =
+      process.env.NODE_ENV !== 'production'
+        ? ['https://integrations-beta.sodlab-document-editor.com/api/test']
+        : [`${process.env.SERVER_URL}/hsm/update-requests`]
     const body = {
       documents: [doc],
       clientId,
       userId,
-      callbacks: [callback]
+      callbacks
     }
-    console.log('sending hsm request with callback', {callback})
+
+    const uri = apiUrl
+      ? 'https://api-test.signer.sodlab.cl/sign'
+      : 'https://api.signer.sodlab.cl/sign'
+    console.log(`Sending hsm request to "${uri}" with callback`, {callbacks})
+
+    let hsmRequest
+    try {
+      const requestTimestamp = new Date()
+      const hsmRequestId = await HsmRequests.insert({
+        clientId,
+        userId,
+        collectionId,
+        environmentId,
+        itemsSent: 1,
+        status: 'pending',
+        createdAt: requestTimestamp
+      })
+      hsmRequest = await HsmRequests.findOne({_id: hsmRequestId})
+      hsmRequest.updateDateAndTime({dateObject: requestTimestamp, field: 'requestedAt'})
+      console.log('Sending a batch request to the HSM with data: ', hsmRequest)
+    } catch (err) {
+      console.log('Error inserting to Hsm Batch Requests', err)
+      return
+    }
+
     let result
     try {
       result = await rp({
         method: 'POST',
-        uri: apiUrl ? 'https://api-test.signer.sodlab.cl/sign' : 'https//api.signer.sodlab.cl/sign',
-        body: body,
+        uri,
+        body,
         json: true
       })
     } catch (err) {
@@ -144,21 +172,34 @@ export default {
       errorObject.err = err
       console.log(errorObject)
     }
+    console.log('Single HSM request made', result)
 
     try {
-      await Requests.insert({
+      const requestCompleteTimestamp = new Date()
+      await hsmRequest.update({
+        $set: {
+          requestId: result.requestId,
+          status: 'completed'
+        }
+      })
+      hsmRequest.updateDateAndTime({dateObject: requestCompleteTimestamp, field: 'completedAt'})
+    } catch (err) {
+      console.log('Error updating Hsm Batch Requests', err)
+      return
+    }
+
+    try {
+      await HsmDocuments.insert({
         requestId: result.requestId,
-        collectionId,
         itemId,
+        collectionId,
         signedFileKey,
-        createdAt: new Date(),
-        status: 'pending'
+        status: 'pending',
+        createdAt: new Date()
       })
     } catch (err) {
-      errorObject.level = 'ERROR'
-      errorObject.msg = `Error saving request id ${result.requestId} to hsm collection`
-      errorObject.err = err
-      console.log(errorObject)
+      console.log(`Error creating a record in hsm documents for the itemId ${itemId}`, err)
+      return
     }
 
     console.log(result)

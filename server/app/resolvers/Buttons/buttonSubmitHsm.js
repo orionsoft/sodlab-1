@@ -116,17 +116,21 @@ export default resolver({
 
       const documents = await Promise.all(documentsBase64)
 
+      const callbacks =
+        process.env.NODE_ENV !== 'production'
+          ? ['https://integrations-beta.sodlab-document-editor.com/api/test']
+          : [`${process.env.SERVER_URL}/hsm/update-requests`]
       const body = {
         documents,
         clientId,
         userId,
-        callbacks: [`${process.env.SERVER_URL}/hsm/update-requests`]
+        callbacks
       }
 
       const uri = apiUrl
         ? 'https://api-test.signer.sodlab.cl/sign'
         : 'https://api.signer.sodlab.cl/sign'
-
+      console.log(`Sending hsm request to "${uri}" with callback`, {callbacks})
       let hsmRequest
       try {
         const requestTimestamp = new Date()
