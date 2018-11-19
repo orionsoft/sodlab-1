@@ -21,13 +21,20 @@ route('/hsm/get-documents', async function({getBody, headers}) {
   const {itemId} = parsedBody
 
   try {
-    const documents = await HsmDocuments.find({itemId}).toArray()
+    const hsmDocuments = await HsmDocuments.find({itemId}).toArray()
 
-    if (!documents.length) {
+    if (!hsmDocuments.length) {
       return `No documents found for the itemId provided`
     }
 
-    return {documents}
+    const requestsIds = hsmDocuments.map(async doc => {
+      const hsmRequest = await doc.getRequestData({requestId: doc.requestId})
+      return {...doc, ...hsmRequest}
+    })
+
+    const res = await Promise.all(requestsIds)
+
+    return {res}
   } catch (err) {
     console.log(`An error ocurred when searching the DB`, err)
     return `An error ocurred when searching the DB`

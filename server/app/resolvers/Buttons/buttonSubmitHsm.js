@@ -128,6 +128,26 @@ export default resolver({
 
       console.log('Hsm request:', uri)
 
+      let hsmRequest
+      try {
+        const requestTimestamp = new Date()
+        const hsmRequestId = await HsmRequests.insert({
+          requestId: '123',
+          clientId,
+          userId,
+          collectionId,
+          environmentId: button.environmentId,
+          itemsSent: itemsIds.length,
+          status: 'pending',
+          createdAt: requestTimestamp
+        })
+        hsmRequest = await HsmRequests.findOne({_id: hsmRequestId})
+        hsmRequest.updateDateAndTime({dateObject: requestTimestamp, field: 'requestedAt'})
+        console.log('hsmRequest', hsmRequest)
+      } catch (err) {
+        console.log('Error inserting to Hsm Batch Requests', err)
+      }
+
       // const result = await rp({
       //   method: 'POST',
       //   uri,
@@ -136,42 +156,35 @@ export default resolver({
       // })
 
       try {
-        await HsmRequests.insert({
-          requestId: '123',
-          clientId,
-          userId,
-          collectionId,
-          environmentId: button.environmentId,
-          itemsSent: itemsIds.length,
-          signedFileKey,
-          status: 'pending',
-          createdAt: new Date()
+        const requestCompleteTimestamp = new Date()
+        await hsmRequest.update({
+          $set: {
+            status: 'completed'
+          }
         })
+        hsmRequest.updateDateAndTime({dateObject: requestCompleteTimestamp, field: 'completedAt'})
       } catch (err) {
-        console.log('Error inserting to Hsm Batch Requests', err)
+        console.log('Error updating Hsm Batch Requests', err)
       }
 
-      const hsmRequestedItems = itemsIds.map(async itemId => {
-        await HsmDocuments.insert({
-          requestId: '123',
-          clientId,
-          userId,
-          itemId,
-          collectionId,
-          environmentId: button.environmentId,
-          signedFileKey,
-          status: 'pending',
-          createdAt: new Date()
-        })
-      })
+      // const hsmRequestedItems = itemsIds.map(async itemId => {
+      //   await HsmDocuments.insert({
+      //     requestId: '123',
+      //     itemId,
+      //     collectionId,
+      //     signedFileKey,
+      //     status: 'pending',
+      //     createdAt: new Date()
+      //   })
+      // })
 
-      await Promise.all(hsmRequestedItems)
-      // console.log('Result:', result)
+      // await Promise.all(hsmRequestedItems)
+      // // console.log('Result:', result)
 
-      for (let parameters of obtainedItems) {
-        parameters = {_id: parameters._id, ...parameters.data}
-        await buttonRunHooks({buttonId, parameters}, viewer)
-      }
+      // for (let parameters of obtainedItems) {
+      //   parameters = {_id: parameters._id, ...parameters.data}
+      //   await buttonRunHooks({buttonId, parameters}, viewer)
+      // }
     } catch (err) {
       console.log('Err:', err)
     }

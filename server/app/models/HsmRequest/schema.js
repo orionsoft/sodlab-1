@@ -25,14 +25,16 @@ export default {
   environmentId: {
     type: 'ID'
   },
-  signedFileKey: {
-    type: String
-  },
   status: {
-    type: String
+    type: String,
+    allowedValues: ['pending', 'completed', 'error']
+  },
+  requestedAt: {
+    type: String,
+    optional: true
   },
   completedAt: {
-    type: Date,
+    type: String,
     optional: true
   },
   createdAt: {
