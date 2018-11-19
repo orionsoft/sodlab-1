@@ -28,9 +28,13 @@ export default {
   },
   status: {
     type: String,
-    allowedValues: ['initiated', 'pending', 'completed', 'error']
+    allowedValues: ['initiated', 'pending', 'completed', 'incomplete', 'error']
   },
-  requestedAt: {
+  initiatedAt: {
+    type: String,
+    optional: true
+  },
+  pendingAt: {
     type: String,
     optional: true
   },
@@ -38,8 +42,16 @@ export default {
     type: String,
     optional: true
   },
-  itemsReceivedAt: {
+  incompleteAt: {
     type: String,
+    optional: true
+  },
+  errorAt: {
+    type: String,
+    optional: true
+  },
+  failedDocumentsIds: {
+    type: ['ID'],
     optional: true
   },
   createdAt: {

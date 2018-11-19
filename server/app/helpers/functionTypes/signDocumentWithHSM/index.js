@@ -146,11 +146,11 @@ export default {
         collectionId,
         environmentId,
         itemsSent: 1,
-        status: 'pending',
+        status: 'initiated',
         createdAt: requestTimestamp
       })
       hsmRequest = await HsmRequests.findOne({_id: hsmRequestId})
-      hsmRequest.updateDateAndTime({dateObject: requestTimestamp, field: 'requestedAt'})
+      hsmRequest.updateDateAndTime({dateObject: requestTimestamp, field: 'initiatedAt'})
       console.log('Sending a batch request to the HSM with data: ', hsmRequest)
     } catch (err) {
       console.log('Error inserting to Hsm Batch Requests', err)
@@ -179,10 +179,10 @@ export default {
       await hsmRequest.update({
         $set: {
           requestId: result.requestId,
-          status: 'completed'
+          status: 'pending'
         }
       })
-      hsmRequest.updateDateAndTime({dateObject: requestCompleteTimestamp, field: 'completedAt'})
+      hsmRequest.updateDateAndTime({dateObject: requestCompleteTimestamp, field: 'pendingAt'})
     } catch (err) {
       console.log('Error updating Hsm Batch Requests', err)
       return
