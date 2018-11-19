@@ -10,7 +10,6 @@ route('/hsm/update-requests', async function({getBody, ...params}) {
   console.log('hsm callback body', body)
   if (!body) return 'invalid request'
   const data = JSON.parse(body)
-  console.log('data', data)
   if (!data.requestId) {
     return 'Request does not include a requestId'
   }
@@ -61,13 +60,24 @@ route('/hsm/update-requests', async function({getBody, ...params}) {
 
   if (failedDocumentsIds.length > 0) {
     hsmRequest.update({
-      $set: {status: 'incomplete', itemsReceived: receivedDocuments.length, failedDocumentsIds}
+      $set: {
+        status: 'incomplete',
+        itemsReceived: receivedDocuments.length,
+        failedDocumentsIds,
+        requestTime: data.requestTime
+      }
     })
     hsmRequest.updateDateAndTime({dateObject: receivedAt, field: 'incompleteAt'})
 
     return {msg: `Hsm request id ${data.requestId} processed partially`, failedDocumentsIds}
   } else {
-    hsmRequest.update({$set: {status: 'completed', itemsReceived: receivedDocuments.length}})
+    hsmRequest.update({
+      $set: {
+        status: 'completed',
+        itemsReceived: receivedDocuments.length,
+        requestTime: data.requestTime
+      }
+    })
     hsmRequest.updateDateAndTime({dateObject: receivedAt, field: 'completedAt'})
 
     return {msg: `Hsm request id ${data.requestId} processed ok`}

@@ -6,6 +6,10 @@ export default {
     type: String,
     optional: true
   },
+  requestTime: {
+    type: String,
+    optional: true
+  },
   userId: {
     type: String
   },
