@@ -15,9 +15,8 @@ export default resolver({
   returns: 'blackbox',
   private: true,
   async resolve(hsmRequest, {dateObject, field}, viewer) {
-    const {createdAt} = hsmRequest
-    const formattedDate = formatCurrentDate(createdAt)
-    const formattedTime = formatCurrentTime(createdAt)
+    const formattedDate = formatCurrentDate(dateObject)
+    const formattedTime = formatCurrentTime(dateObject)
     const formatted = `${formattedDate}_${formattedTime}`
     hsmRequest.update({$set: {[field]: formatted}})
   }

@@ -3,7 +3,8 @@ export default {
     type: 'ID'
   },
   requestId: {
-    type: String
+    type: String,
+    optional: true
   },
   userId: {
     type: String

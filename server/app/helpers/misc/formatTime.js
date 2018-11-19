@@ -6,5 +6,6 @@ export default function formatCurrentTime(date) {
   minutes = minutes < 10 ? '0' + minutes : minutes
   let seconds = newDate.getSeconds()
   seconds = seconds < 10 ? '0' + seconds : seconds
-  return hours + ':' + minutes + ':' + seconds
+  let miliseconds = newDate.getMilliseconds()
+  return hours + ':' + minutes + ':' + seconds + ':' + miliseconds
 }
