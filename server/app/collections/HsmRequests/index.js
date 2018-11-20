@@ -1,7 +1,9 @@
 import {Collection} from '@orion-js/app'
+import HsmRequest from 'app/models/HsmRequest'
 
 export default new Collection({
-  name: 'sign_documents_with_hsm_requests',
+  name: 'hsm_requests',
+  model: HsmRequest,
   indexes: [
     {
       keys: {requestId: 1},
