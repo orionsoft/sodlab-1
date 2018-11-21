@@ -188,6 +188,7 @@ export default class Table extends React.Component {
         title: this.getLabel(field),
         name: 'data',
         fieldName: field.fieldName,
+        fieldType: field.type,
         options: field.options,
         defaultSort: 'DESC',
         sort: 'DESC',

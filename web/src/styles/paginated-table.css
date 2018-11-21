@@ -98,7 +98,7 @@
   cursor: pointer;
 }
 .paginated-table-row {
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .paginated-table-row.selected {
   background-color: #eee;

@@ -51,7 +51,6 @@ export default class Table extends React.Component {
         const icon = icons[field.options.icon]
         return (
           <th key={index} className={`${style} ${styles.iconTooltip}`} onClick={onClick}>
-            {sort}
             <IconButton
               key={index}
               onPress={onClick}
@@ -64,7 +63,7 @@ export default class Table extends React.Component {
       } else {
         return (
           <th key={index} className={style} onClick={onClick}>
-            {sort}
+            {field.fieldType === 'field' ? sort : null}
             {field.title}
           </th>
         )
