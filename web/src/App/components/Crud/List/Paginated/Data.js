@@ -18,7 +18,8 @@ export default class Data extends React.Component {
     loadingComponent: PropTypes.any,
     footer: PropTypes.any,
     limit: PropTypes.number,
-    defaultLimit: PropTypes.number
+    defaultLimit: PropTypes.number,
+    updateTableItems: PropTypes.func
   }
 
   state = {}
@@ -82,6 +83,7 @@ export default class Data extends React.Component {
           items={this.props.data.data.result.items}
           fields={this.props.fields}
           footer={this.props.footer}
+          updateTableItems={this.props.updateTableItems}
         />
       </div>
     )

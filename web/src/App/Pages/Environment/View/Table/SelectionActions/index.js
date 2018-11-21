@@ -8,7 +8,8 @@ export default class SelectionActions extends React.Component {
     field: PropTypes.object,
     items: PropTypes.object,
     all: PropTypes.bool,
-    params: PropTypes.object
+    params: PropTypes.object,
+    toggleAllItems: PropTypes.func
   }
 
   renderButtons() {
@@ -20,6 +21,7 @@ export default class SelectionActions extends React.Component {
           items={this.props.items}
           all={this.props.all}
           params={this.props.params}
+          toggleAllItems={this.props.toggleAllItems}
         />
       )
     })

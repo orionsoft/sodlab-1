@@ -15,7 +15,8 @@ export default class Table extends React.Component {
     sortType: PropTypes.string,
     setSort: PropTypes.func.isRequired,
     selectedItemId: PropTypes.string,
-    footer: PropTypes.any
+    footer: PropTypes.any,
+    updateTableItems: PropTypes.func
   }
 
   getSortProps(field) {
@@ -36,8 +37,8 @@ export default class Table extends React.Component {
         ? 'DESC'
         : 'ASC'
       : typeof field.sort === 'string'
-        ? field.sort
-        : 'ASC'
+      ? field.sort
+      : 'ASC'
     this.props.setSort(sortBy, type)
   }
 
@@ -96,6 +97,12 @@ export default class Table extends React.Component {
       const cols = this.props.fields.map((field, fieldIndex) => {
         return <td key={fieldIndex}>{this.renderValue(item, field, index)}</td>
       })
+
+      if (this.props.updateTableItems) {
+        const tableItems = this.props.items.map(item => item._id)
+        this.props.updateTableItems(tableItems)
+      }
+
       return (
         <tr
           key={item._id}
