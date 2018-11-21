@@ -46,7 +46,6 @@ export default resolver({
         await requireTwoFactor(viewer)
       }
 
-      let obtainedItems = []
       let documentsBase64 = []
 
       const hsmHook = await Hooks.findOne(button.hsmHookId)
@@ -55,25 +54,19 @@ export default resolver({
       const options = await hsmHook.getOptions({params})
       const {apiUrl, fileKey, layout, userId, clientId, signedFileKey, collectionId} = options
 
-      if (all) {
-        const getItems = await tableResult(params)
-        obtainedItems = await getItems.cursor.toArray()
-        if (!obtainedItems.length) return
-      } else {
-        const getItems = await tableResult(params)
-        const arrayItems = await getItems.cursor.toArray()
-        const itemsObject = items[0]
-        const broughtItems = Object.keys(itemsObject)
-          .map(key => {
-            const value = itemsObject[key]
-            return {key, value}
-          })
-          .filter(item => item.value)
-          .map(item => item.key)
+      const getItems = await tableResult(params)
+      const arrayItems = await getItems.cursor.toArray()
+      const itemsObject = items[0]
+      const broughtItems = Object.keys(itemsObject)
+        .map(key => {
+          const value = itemsObject[key]
+          return {key, value}
+        })
+        .filter(item => item.value)
+        .map(item => item.key)
 
-        obtainedItems = await arrayItems.filter(item => broughtItems.includes(item._id))
-        if (!obtainedItems.length) return
-      }
+      const obtainedItems = await arrayItems.filter(item => broughtItems.includes(item._id))
+      if (!obtainedItems.length) return
 
       let itemsIds = []
       documentsBase64 = obtainedItems
