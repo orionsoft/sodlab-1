@@ -89,6 +89,7 @@
   font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .paginated-table tfoot tr td {
@@ -166,4 +167,11 @@
   .paginated-container {
     max-width: calc(100vw - 40px);
   }
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  box-sizing: border-box;
+  transform: scale(1.25);
+  cursor: pointer;
 }

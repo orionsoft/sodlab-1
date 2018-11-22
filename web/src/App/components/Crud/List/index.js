@@ -26,7 +26,8 @@ export default class List extends React.Component {
     queryFunctionName: PropTypes.string,
     extraFields: PropTypes.object,
     footer: PropTypes.any,
-    defaultLimit: PropTypes.number
+    defaultLimit: PropTypes.number,
+    updateTableItems: PropTypes.func
   }
 
   static defaultProps = {
@@ -80,6 +81,8 @@ export default class List extends React.Component {
                 extraFields={this.props.extraFields}
                 footer={this.props.footer}
                 defaultLimit={this.props.defaultLimit}
+                updateTableItems={this.props.updateTableItems}
+                toggleAllItems={this.props.toggleAllItems}
               />
             )}
           </WithParams>
