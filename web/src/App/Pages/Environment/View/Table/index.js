@@ -228,6 +228,9 @@ export default class Table extends React.Component {
   }
 
   renderSelectionActions(params) {
+    const shouldRender = this.props.table.fields.some(field => field.type === 'multipleSelect')
+    if (!shouldRender) return
+
     const docs = values(this.state.selectedItems)
     if (!docs.some(elem => elem) && !this.state.allSelected) return
     const field = this.props.table.fields.find(field => field.type === 'multipleSelect')
