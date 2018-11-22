@@ -107,7 +107,7 @@
 .paginated-sort {
   position: absolute;
   right: 10px;
-  top: 20px;
+  top: 15px;
   display: flex;
   flex-direction: column;
 }
