@@ -34,6 +34,7 @@ import Checkbox from 'App/components/fieldTypes/checkbox/Field'
       url
       requireTwoFactor
       goBack
+      hsmHookId
       parameters {
         parameterName
         value
@@ -63,7 +64,8 @@ export default class ButtonComponent extends React.Component {
     return [
       {label: 'Botón', value: 'button'},
       {label: 'Texto', value: 'text'},
-      {label: 'Icon', value: 'icon'}
+      {label: 'Icon', value: 'icon'},
+      {label: 'HSM', value: 'hsm'}
     ]
   }
 
@@ -95,8 +97,20 @@ export default class ButtonComponent extends React.Component {
     )
   }
 
+  renderHsmOptions() {
+    return (
+      <div style={{marginTop: 20}}>
+        <div className="label">Etiqueta</div>
+        <Field fieldName="buttonText" type={Text} />
+        <div className="label">Hook HSM</div>
+        <Field fieldName="hsmHookId" type={Select} options={this.props.hooks.items} />
+      </div>
+    )
+  }
+
   renderButtonOptions(button) {
     if (button.buttonType === 'icon') return this.renderSelectIcon()
+    if (button.buttonType === 'hsm') return this.renderHsmOptions()
     if (button.buttonType) {
       return this.renderTextField()
     }

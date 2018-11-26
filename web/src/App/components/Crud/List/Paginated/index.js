@@ -46,7 +46,7 @@ export default class Fetch extends React.Component {
         /**
          * Title in the header
          */
-        title: PropTypes.string,
+        title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         /**
          * A render function
          * Args: (value, doc, index)
@@ -97,7 +97,9 @@ export default class Fetch extends React.Component {
     /**
      * Variables
      */
-    variables: PropTypes.object
+    variables: PropTypes.object,
+    updateTableItems: PropTypes.func,
+    toggleAllItems: PropTypes.func
   }
 
   static defaultProps = {
@@ -220,6 +222,8 @@ export default class Fetch extends React.Component {
               loadingComponent={this.props.loadingComponent}
               footer={this.props.footer}
               defaultLimit={this.props.defaultLimit}
+              updateTableItems={this.props.updateTableItems}
+              toggleAllItems={this.props.toggleAllItems}
             />
           )}
         </Query>

@@ -31,6 +31,9 @@ export const checkRole = async function(items, envUserRoles) {
         filteredItems.push(item)
       }
     }
+    if (item.type !== 'form' && item.type !== 'table') {
+      filteredItems.push(item)
+    }
   }
   return filteredItems
 }

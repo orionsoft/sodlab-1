@@ -24,33 +24,24 @@ export default resolver({
   returns: Boolean,
   mutation: true,
   async resolve({buttonId, parameters: items, all, params}, viewer) {
-    let obtainedItems = []
-    if (all) {
-      const getItems = await tableResult(params)
-      obtainedItems = await getItems.cursor.toArray()
-      if (!obtainedItems.length) return
-      for (let parameters of obtainedItems) {
-        parameters = {_id: parameters._id, ...parameters.data}
-        await buttonRunHooks({buttonId, parameters}, viewer)
-      }
-    } else {
-      const getItems = await tableResult(params)
-      const arrayItems = await getItems.cursor.toArray()
-      const itemsObject = items[0]
-      const broughtItems = Object.keys(itemsObject)
-        .map(key => {
-          const value = itemsObject[key]
-          return {key, value}
-        })
-        .filter(item => item.value)
-        .map(item => item.key)
+    const getItems = await tableResult(params)
+    const arrayItems = await getItems.cursor.toArray()
+    console.log('array items', arrayItems.length)
+    const itemsObject = items[0]
+    const broughtItems = Object.keys(itemsObject)
+      .map(key => {
+        const value = itemsObject[key]
+        return {key, value}
+      })
+      .filter(item => item.value)
+      .map(item => item.key)
 
-      obtainedItems = await arrayItems.filter(item => broughtItems.includes(item._id))
-      if (!obtainedItems.length) return
-      for (let parameters of obtainedItems) {
-        parameters = {_id: parameters._id, ...parameters.data}
-        await buttonRunHooks({buttonId, parameters}, viewer)
-      }
+    const obtainedItems = await arrayItems.filter(item => broughtItems.includes(item._id))
+    console.log('obtained items', obtainedItems.length)
+    if (!obtainedItems.length) return
+    for (let parameters of obtainedItems) {
+      parameters = {_id: parameters._id, ...parameters.data}
+      await buttonRunHooks({buttonId, parameters}, viewer)
     }
   }
 })

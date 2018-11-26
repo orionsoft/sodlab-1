@@ -60,7 +60,7 @@ export default class Table extends React.Component {
     parameters: PropTypes.object
   }
 
-  state = {filterId: null, selectedItems: {}, allSelected: false}
+  state = {filterId: null, selectedItems: {}, allSelected: false, tableItems: []}
 
   @autobind
   onSelect(item) {}
@@ -107,7 +107,14 @@ export default class Table extends React.Component {
   toggleSelectedItem(itemId) {
     const selectedItems = cloneDeep(this.state.selectedItems)
     selectedItems[itemId] = !this.state.selectedItems[itemId]
-    this.setState({selectedItems})
+
+    const selectedItemsQty = Object.keys(selectedItems).length
+
+    const allSelected =
+      this.state.tableItems.length === selectedItemsQty &&
+      Object.values(selectedItems).every(value => value)
+
+    this.setState({selectedItems, allSelected})
   }
 
   needsFilter() {
@@ -135,7 +142,7 @@ export default class Table extends React.Component {
           collectionField={collectionField}
           collectionId={collectionId}
           toggleSelectedItem={() => this.toggleSelectedItem(doc._id)}
-          selected={this.state.allSelected || !!this.state.selectedItems[doc._id]}
+          selected={this.state.selectedItems[doc._id]}
         />
       )
     } catch (e) {
@@ -145,7 +152,15 @@ export default class Table extends React.Component {
 
   @autobind
   toggleAllItems() {
-    this.setState({allSelected: !this.state.allSelected})
+    const selectedItems = this.state.tableItems.reduce((acc, value) => {
+      acc[value] = !this.state.allSelected
+      return acc
+    }, {})
+
+    this.setState({
+      allSelected: !this.state.allSelected,
+      selectedItems
+    })
   }
 
   getLabel(field) {
@@ -173,6 +188,7 @@ export default class Table extends React.Component {
         title: this.getLabel(field),
         name: 'data',
         fieldName: field.fieldName,
+        fieldType: field.type,
         options: field.options,
         defaultSort: 'DESC',
         sort: 'DESC',
@@ -212,6 +228,9 @@ export default class Table extends React.Component {
   }
 
   renderSelectionActions(params) {
+    const shouldRender = this.props.table.fields.some(field => field.type === 'multipleSelect')
+    if (!shouldRender) return
+
     const docs = values(this.state.selectedItems)
     if (!docs.some(elem => elem) && !this.state.allSelected) return
     const field = this.props.table.fields.find(field => field.type === 'multipleSelect')
@@ -221,8 +240,20 @@ export default class Table extends React.Component {
         items={this.state.selectedItems}
         all={this.state.allSelected}
         params={params}
+        toggleAllItems={this.toggleAllItems}
       />
     )
+  }
+
+  @autobind
+  updateTableItems(tableItems) {
+    if (isEqual(tableItems, this.state.tableItems)) return
+
+    this.setState({
+      tableItems,
+      selectedItems: {},
+      allSelected: false
+    })
   }
 
   @autobind
@@ -259,6 +290,8 @@ export default class Table extends React.Component {
           allowSearch={false}
           footer={this.renderFooter(table.footer)}
           defaultLimit={table.defaultLimit}
+          updateTableItems={this.updateTableItems}
+          toggleAllItems={this.toggleAllItems}
         />
       </div>
     )

@@ -10,7 +10,8 @@ export default class Page extends React.Component {
     page: PropTypes.number,
     setPage: PropTypes.func,
     result: PropTypes.object,
-    limit: PropTypes.number
+    limit: PropTypes.number,
+    toggleAllItems: PropTypes.func
   }
 
   state = {page: 1}
@@ -18,6 +19,8 @@ export default class Page extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.page !== this.props.page) {
       this.setState({page: nextProps.page})
+
+      if (typeof this.props.toggleAllItems !== 'undefined') this.props.toggleAllItems()
     } else if (nextProps.limit !== this.props.limit) {
       this.props.setPage(1)
     }

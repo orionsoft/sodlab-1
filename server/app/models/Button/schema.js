@@ -67,5 +67,10 @@ export default {
   goBack: {
     type: Boolean,
     optional: true
+  },
+  hsmHookId: {
+    type: 'ID',
+    label: 'HSM Hook',
+    optional: true
   }
 }

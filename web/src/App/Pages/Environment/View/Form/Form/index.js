@@ -141,14 +141,18 @@ export default class Form extends React.Component {
         ) {
           if (!field.showField) {
             delete schema[field.key]
+            return field
           } else {
             schema[field.key] = field
+            return field
           }
         } else {
           if (field.showField) {
             delete schema[field.key]
+            return field
           } else {
             schema[field.key] = field
+            return field
           }
         }
       })
