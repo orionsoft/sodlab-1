@@ -1,5 +1,4 @@
 import updateValue from './updateValue'
-import sendEmail from './sendEmail'
 import updateValueWithIndicator from './updateValueWithIndicator'
 import postItem from './postItem'
 import honorsTicket from './honorsTicket'
@@ -19,7 +18,6 @@ import urlToFilemanager from './urlToFilemanager'
 
 export default {
   updateValue,
-  sendEmail,
   updateValueWithIndicator,
   postItem,
   honorsTicket,

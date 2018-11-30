@@ -2,6 +2,7 @@ import Collections from 'app/collections/Collections'
 import rp from 'request-promise'
 import HsmRequests from 'app/collections/HsmRequests'
 import HsmDocuments from 'app/collections/HsmDocuments'
+import {runParallelHooks, runSequentialHooks} from 'app/helpers/functionTypes/helpers'
 
 export default {
   name: 'Firmar documento con hsm',
@@ -42,16 +43,62 @@ export default {
       fieldType: 'collectionFieldSelect'
     },
     apiUrl: {
-      type: String,
+      type: Boolean,
       label: 'Api HSM',
       fieldType: 'select',
       fixed: true,
       fieldOptions: {
         options: [{label: 'Producción', value: false}, {label: 'Test', value: true}]
       }
+    },
+    onRequestSentHooksIds: {
+      label: 'Hooks a ejecutar al solicitar un Request Id',
+      type: ['ID'],
+      fieldType: 'hookSelect',
+      fieldOptions: {multi: true},
+      optional: true,
+      defaultValue: []
+    },
+    onRequestReceivedHooksIds: {
+      label: 'Hooks a ejecutar al recibir el Request Id',
+      type: ['ID'],
+      fieldType: 'hookSelect',
+      fieldOptions: {multi: true},
+      optional: true,
+      defaultValue: []
+    },
+    requestTimeout: {
+      label: 'Tiempo de espera para recibir el Request Id (minutos, default es 2 min)',
+      type: Number,
+      optional: true,
+      defaultValue: 2
+    },
+    onRequestErrorHooksIds: {
+      label: 'Hooks a ejecutar si el Request Id no se recibe en el tiempo especificado',
+      type: ['ID'],
+      fieldType: 'hookSelect',
+      fieldOptions: {multi: true},
+      optional: true,
+      defaultValue: []
+    },
+    onSuccessHooksIds: {
+      label: 'Hooks a ejecutar al recibir exitosamente el documento',
+      type: ['ID'],
+      fieldType: 'hookSelect',
+      fieldOptions: {multi: true},
+      optional: true,
+      defaultValue: []
+    },
+    onErrorHooksIds: {
+      label: 'Hooks a ejecutar si el documento se recibe con error',
+      type: ['ID'],
+      fieldType: 'hookSelect',
+      fieldOptions: {multi: true},
+      optional: true,
+      defaultValue: []
     }
   },
-  async execute({options, params, environmentId}) {
+  async execute({options, params, userId: erpUserId, environmentId}) {
     let errorObject = {
       envId: environmentId,
       function: 'hook: Sign document with hsm'
@@ -66,7 +113,14 @@ export default {
       fileKey,
       signedFileKey,
       userId,
-      apiUrl
+      apiUrl,
+      // new fields
+      onRequestSentHooksIds,
+      onRequestReceivedHooksIds,
+      requestTimeout,
+      onRequestErrorHooksIds,
+      onSuccessHooksIds,
+      onErrorHooksIds
     } = options
 
     const col = await Collections.findOne(collectionId)
@@ -123,7 +177,7 @@ export default {
 
     const callbacks =
       process.env.NODE_ENV !== 'production'
-        ? ['https://integrations-beta.sodlab-document-editor.com/api/test']
+        ? ['https://beta.integrations.sodlab.com/api/test']
         : [`${process.env.SERVER_URL}/hsm/update-requests`]
     const body = {
       documents: [doc],
@@ -135,7 +189,7 @@ export default {
     const uri = apiUrl
       ? 'https://api-test.signer.sodlab.cl/sign'
       : 'https://api.signer.sodlab.cl/sign'
-    console.log(`Sending hsm request to "${uri}" with callback`, {callbacks})
+    console.log(`Sending a hsm single request to "${uri}" with a callback to: ${callbacks[0]}`)
 
     let hsmRequest
     try {
@@ -147,32 +201,47 @@ export default {
         environmentId,
         itemsSent: 1,
         status: 'initiated',
+        onSuccessHooksIds,
+        onErrorHooksIds,
+        erpUserId,
         createdAt: requestTimestamp
       })
       hsmRequest = await HsmRequests.findOne({_id: hsmRequestId})
       hsmRequest.updateDateAndTime({dateObject: requestTimestamp, field: 'initiatedAt'})
-      console.log('Sending a batch request to the HSM with data: ', hsmRequest)
+      console.log('Sending a single request to the HSM with data: ', hsmRequest)
     } catch (err) {
-      console.log('Error inserting to Hsm Batch Requests', err)
+      console.log('Error inserting to Hsm Requests')
       return
     }
 
     let result
     try {
+      const timeout = requestTimeout ? requestTimeout * 60000 : 120000
       result = await rp({
         method: 'POST',
         uri,
         body,
-        json: true
+        json: true,
+        timeout
       })
+      if (Array.isArray(onRequestSentHooksIds) && onRequestSentHooksIds.length > 0) {
+        await runSequentialHooks({hooksIds: onRequestSentHooksIds, params, userId: erpUserId})
+      }
     } catch (err) {
       errorObject.level = 'ERROR'
       errorObject.msg = `Error sending request to HSM`
       errorObject.body = body
-      errorObject.err = err
+      errorObject.err = err.toString()
       console.log(errorObject)
+      if (Array.isArray(onRequestErrorHooksIds) && onRequestErrorHooksIds.length > 0) {
+        await runParallelHooks({hooksIds: onRequestErrorHooksIds, params, userId: erpUserId})
+      }
+      return {success: false}
     }
-    console.log('Single HSM request made', result)
+    console.log('Single HSM request made', {result})
+    if (Array.isArray(onRequestReceivedHooksIds) && onRequestReceivedHooksIds.length > 0) {
+      await runSequentialHooks({hooksIds: onRequestReceivedHooksIds, params, userId: erpUserId})
+    }
 
     try {
       const requestCompleteTimestamp = new Date()
@@ -185,7 +254,6 @@ export default {
       hsmRequest.updateDateAndTime({dateObject: requestCompleteTimestamp, field: 'pendingAt'})
     } catch (err) {
       console.log('Error updating Hsm Batch Requests', err)
-      return
     }
 
     try {
@@ -199,7 +267,6 @@ export default {
       })
     } catch (err) {
       console.log(`Error creating a record in hsm documents for the itemId ${itemId}`, err)
-      return
     }
 
     console.log(result)

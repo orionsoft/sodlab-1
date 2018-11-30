@@ -6,8 +6,7 @@ export default new Collection({
   model: HsmDocument,
   indexes: [
     {
-      keys: {itemId: 1},
-      unique: true
+      keys: {itemId: 1}
     }
   ]
 })

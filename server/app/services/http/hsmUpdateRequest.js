@@ -31,18 +31,20 @@ route('/hsm/update-requests', async function({getBody, ...params}) {
   const hsmDocuments = documents.map(async doc => {
     try {
       const hsmDoc = await HsmDocuments.findOne({itemId: doc.documentId, requestId: data.requestId})
+      const col = await Collections.findOne(hsmDoc.collectionId)
+      const collection = await col.db()
+      const item = await collection.findOne(doc.documentId)
 
       if (!doc.success) {
         failedDocumentsIds.push(doc.documentId)
         hsmRequest.updateDateAndTime({dateObject: new Date(), field: 'errorAt'})
+        hsmRequest.runParallelHooks({item, success: false})
         await hsmDoc.update({$set: {status: 'error'}})
       } else {
         await hsmDoc.update({$set: {status: 'completed', documentUrl: doc.url}})
-        const col = await Collections.findOne(hsmDoc.collectionId)
-        const collection = await col.db()
-        const item = await collection.findOne(doc.documentId)
         const key = `data.${hsmDoc.signedFileKey}`
         await item.update({$set: {[key]: doc.url}})
+        hsmRequest.runSequentialHooks({item, success: true})
       }
     } catch (err) {
       console.log(
@@ -67,7 +69,7 @@ route('/hsm/update-requests', async function({getBody, ...params}) {
       }
     })
     hsmRequest.updateDateAndTime({dateObject: receivedAt, field: 'incompleteAt'})
-    console.log({msg: `Hsm request id ${data.requestId} processed ok`})
+    console.log({msg: `Hsm request id ${data.requestId} processed partially`})
     return {msg: `Hsm request id ${data.requestId} processed partially`, failedDocumentsIds}
   } else {
     hsmRequest.update({

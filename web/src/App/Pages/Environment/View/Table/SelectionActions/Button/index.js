@@ -22,13 +22,8 @@ import Button from 'orionsoft-parts/lib/components/Button'
   }
 `)
 @withMutation(gql`
-  mutation buttonSubmitBatch($buttonId: ID, $parameters: [JSON], $all: Boolean, $params: JSON) {
-    buttonSubmitBatch(buttonId: $buttonId, parameters: $parameters, all: $all, params: $params)
-  }
-`)
-@withMutation(gql`
-  mutation buttonSubmitHsm($buttonId: ID, $parameters: [JSON], $all: Boolean, $params: JSON) {
-    buttonSubmitHsm(buttonId: $buttonId, parameters: $parameters, all: $all, params: $params)
+  mutation buttonSubmitBatch($buttonId: ID, $parameters: [JSON], $type: String, $params: JSON) {
+    buttonSubmitBatch(buttonId: $buttonId, parameters: $parameters, type: $type, params: $params)
   }
 `)
 @withMessage
@@ -43,30 +38,16 @@ export default class ButtonView extends React.Component {
   }
 
   async onClick({buttonType}) {
-    if (buttonType !== 'hsm') {
-      try {
-        await this.props.buttonSubmitBatch({
-          buttonId: this.props.button._id,
-          parameters: this.props.items,
-          all: this.props.all,
-          params: this.props.params
-        })
-        this.props.showMessage('Hecho')
-      } catch (error) {
-        this.props.showMessage(error)
-      }
-    } else {
-      try {
-        await this.props.buttonSubmitHsm({
-          buttonId: this.props.button._id,
-          parameters: this.props.items,
-          all: this.props.all,
-          params: this.props.params
-        })
-        this.props.showMessage('Hecho')
-      } catch (error) {
-        this.props.showMessage(error)
-      }
+    try {
+      await this.props.buttonSubmitBatch({
+        buttonId: this.props.button._id,
+        parameters: this.props.items,
+        type: buttonType,
+        params: this.props.params
+      })
+      this.props.showMessage('Hecho')
+    } catch (error) {
+      this.props.showMessage(error)
     }
   }
 

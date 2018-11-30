@@ -58,6 +58,18 @@ export default {
     type: ['ID'],
     optional: true
   },
+  onErrorHooksIds: {
+    type: ['ID'],
+    optional: true
+  },
+  onSuccessHooksIds: {
+    type: ['ID'],
+    optional: true
+  },
+  erpUserId: {
+    type: 'ID',
+    optional: true
+  },
   createdAt: {
     type: Date
   }

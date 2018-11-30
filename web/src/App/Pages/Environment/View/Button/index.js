@@ -20,12 +20,13 @@ import {withRouter} from 'react-router'
       buttonText
       url
       icon
+      afterHooksIds
     }
   }
 `)
 @withMutation(gql`
-  mutation buttonRunHooks($buttonId: ID, $parameters: JSON) {
-    buttonRunHooks(buttonId: $buttonId, parameters: $parameters)
+  mutation buttonRunHooks($button: JSON, $parameters: JSON, $singular: Boolean) {
+    buttonRunHooks(button: $button, parameters: $parameters, singular: $singular)
   }
 `)
 @withRouter
@@ -42,7 +43,11 @@ export default class ButtonView extends React.Component {
   async onClick(data) {
     if (this.props.button.goBack) return this.props.history.goBack()
     try {
-      await this.props.buttonRunHooks({buttonId: data._id, parameters: this.props.parameters})
+      await this.props.buttonRunHooks({
+        button: data,
+        parameters: this.props.parameters,
+        singular: true
+      })
       if (data.url) {
         this.props.history.push(data.url)
       }

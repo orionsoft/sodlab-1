@@ -1,75 +1,49 @@
 import {resolver} from '@orion-js/app'
 import rp from 'request-promise'
-import tableResult from 'app/resolvers/Tables/tableResult'
 import Hooks from 'app/collections/Hooks'
-import {requireTwoFactor} from '@orion-js/auth'
-import Buttons from 'app/collections/Buttons'
-import Users from 'app/collections/Users'
 import HsmRequests from 'app/collections/HsmRequests'
 import HsmDocuments from 'app/collections/HsmDocuments'
-import buttonRunHooks from './buttonRunHooks'
+import {runParallelHooks, runSequentialHooks} from 'app/helpers/functionTypes/helpers'
 
 export default resolver({
   params: {
-    buttonId: {
-      type: 'ID',
-      optional: true
+    button: {
+      type: 'blackbox'
     },
-    parameters: {
-      type: ['blackbox'],
-      optional: true
-    },
-    all: {
-      type: Boolean,
-      optional: true
-    },
-    params: {
-      type: 'blackbox',
-      optional: true
+    obtainedItems: {
+      type: ['blackbox']
     }
   },
   returns: Boolean,
   mutation: true,
-  async resolve({buttonId, parameters: items, all, params}, viewer) {
+  async resolve({button, obtainedItems}, viewer) {
     try {
-      const button = await Buttons.findOne(buttonId)
-
-      if (Object.keys(viewer).length !== 0) {
-        const user = await Users.findOne({_id: viewer.userId})
-        const twoFactor = await user.hasTwoFactor()
-        if (!twoFactor && button.requireTwoFactor) {
-          throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
-        }
-      }
-
-      if (button.requireTwoFactor) {
-        await requireTwoFactor(viewer)
-      }
-
-      let documentsBase64 = []
-
       const hsmHook = await Hooks.findOne(button.hsmHookId)
       const {type, fixed, parameterName} = hsmHook.options.signingReason
 
-      const options = await hsmHook.getOptions({params})
-      const {apiUrl, fileKey, layout, userId, clientId, signedFileKey, collectionId} = options
-
-      const getItems = await tableResult(params)
-      const arrayItems = await getItems.cursor.toArray()
-      const itemsObject = items[0]
-      const broughtItems = Object.keys(itemsObject)
-        .map(key => {
-          const value = itemsObject[key]
-          return {key, value}
-        })
-        .filter(item => item.value)
-        .map(item => item.key)
-
-      const obtainedItems = await arrayItems.filter(item => broughtItems.includes(item._id))
-      if (!obtainedItems.length) return
+      // passing an empty object will only get the fixed values from the hook configuration
+      // if parameters are needed, the interpretation must be done manually
+      // if the clientId and userId are needed as parameters, the resolver must
+      // be changed to send multiple request to the HSM with the different values
+      const options = await hsmHook.getOptions({params: {}})
+      const {
+        apiUrl,
+        fileKey,
+        layout,
+        userId,
+        clientId,
+        signedFileKey,
+        collectionId,
+        onRequestSentHooksIds,
+        onRequestReceivedHooksIds,
+        requestTimeout,
+        onRequestErrorHooksIds,
+        onSuccessHooksIds,
+        onErrorHooksIds
+      } = options
 
       let itemsIds = []
-      documentsBase64 = obtainedItems
+      const documentsBase64 = obtainedItems
         .filter(item => item.data[fileKey])
         .map(async item => {
           const file = item.data[fileKey]
@@ -111,7 +85,7 @@ export default resolver({
 
       const callbacks =
         process.env.NODE_ENV !== 'production'
-          ? ['https://integrations-beta.sodlab-document-editor.com/api/test']
+          ? ['https://beta.integrations.sodlab.com/api/test']
           : [`${process.env.SERVER_URL}/hsm/update-requests`]
       const body = {
         documents,
@@ -123,7 +97,7 @@ export default resolver({
       const uri = apiUrl
         ? 'https://api-test.signer.sodlab.cl/sign'
         : 'https://api.signer.sodlab.cl/sign'
-      console.log(`Sending hsm request to "${uri}" with callback`, {callbacks})
+      console.log(`Sending a hsm batch request to "${uri}" with a callback to: ${callbacks[0]}`)
       let hsmRequest
       try {
         const requestTimestamp = new Date()
@@ -134,29 +108,64 @@ export default resolver({
           environmentId: button.environmentId,
           itemsSent: itemsIds.length,
           status: 'initiated',
+          onSuccessHooksIds,
+          onErrorHooksIds,
+          erpUserId: viewer.userId,
           createdAt: requestTimestamp
         })
         hsmRequest = await HsmRequests.findOne({_id: hsmRequestId})
         hsmRequest.updateDateAndTime({dateObject: requestTimestamp, field: 'initiatedAt'})
         console.log('Sending a batch request to the HSM with data: ', hsmRequest)
       } catch (err) {
-        console.log('Error inserting to Hsm Batch Requests', err)
+        console.log('Error inserting to Hsm Requests', err)
         return
       }
 
       let result
       try {
+        const timeout = requestTimeout ? requestTimeout * 60000 : 120000
         result = await rp({
           method: 'POST',
           uri,
           body,
-          json: true
+          json: true,
+          timeout
         })
+        if (Array.isArray(onRequestSentHooksIds) && onRequestSentHooksIds.length > 0) {
+          obtainedItems.map(
+            async item =>
+              await runSequentialHooks({
+                hooksIds: onRequestSentHooksIds,
+                params: {_id: item._id, ...item.data},
+                userId: viewer.userId
+              })
+          )
+        }
       } catch (err) {
         console.log('Error sending request to HSM', err)
+        if (Array.isArray(onRequestErrorHooksIds) && onRequestErrorHooksIds.length > 0) {
+          obtainedItems.map(
+            async item =>
+              await runParallelHooks({
+                hooksIds: onRequestErrorHooksIds,
+                params: {_id: item._id, ...item.data},
+                userId: viewer.userId
+              })
+          )
+        }
         return
       }
-      console.log('Batch HSM request made', result)
+      console.log('Batch HSM request made', {result})
+      if (Array.isArray(onRequestReceivedHooksIds) && onRequestReceivedHooksIds.length > 0) {
+        obtainedItems.map(
+          async item =>
+            await runSequentialHooks({
+              hooksIds: onRequestReceivedHooksIds,
+              params: {_id: item._id, ...item.data},
+              userId: viewer.userId
+            })
+        )
+      }
 
       try {
         const requestCompleteTimestamp = new Date()
@@ -172,7 +181,6 @@ export default resolver({
         return
       }
 
-      let failedHsmDocumentRecords = []
       itemsIds.map(async itemId => {
         try {
           return await HsmDocuments.insert({
@@ -185,18 +193,10 @@ export default resolver({
           })
         } catch (err) {
           console.log(`Error creating a record in hsm documents for the itemId ${itemId}`, err)
-          failedHsmDocumentRecords.push(itemId)
         }
       })
 
-      obtainedItems.map(async item => {
-        if (failedHsmDocumentRecords.includes(item._id)) return
-
-        const parameters = {_id: item._id, ...item.data}
-        await buttonRunHooks({buttonId, parameters}, viewer)
-      })
-
-      return
+      return true
     } catch (err) {
       console.log('Err:', err)
     }

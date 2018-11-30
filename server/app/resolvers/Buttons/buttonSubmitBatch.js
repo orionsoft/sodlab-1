@@ -1,5 +1,9 @@
 import {resolver} from '@orion-js/app'
+import {requireTwoFactor} from '@orion-js/auth'
+import Users from 'app/collections/Users'
+import Buttons from 'app/collections/Buttons'
 import buttonRunHooks from './buttonRunHooks'
+import buttonSubmitHsm from './buttonSubmitHsm'
 import tableResult from 'app/resolvers/Tables/tableResult'
 
 export default resolver({
@@ -12,8 +16,8 @@ export default resolver({
       type: ['blackbox'],
       optional: true
     },
-    all: {
-      type: Boolean,
+    type: {
+      type: String,
       optional: true
     },
     params: {
@@ -23,10 +27,22 @@ export default resolver({
   },
   returns: Boolean,
   mutation: true,
-  async resolve({buttonId, parameters: items, all, params}, viewer) {
+  async resolve({buttonId, parameters: items, type, params}, viewer) {
+    const button = await Buttons.findOne(buttonId)
+
+    if (Object.keys(viewer).length !== 0) {
+      const user = await Users.findOne({_id: viewer.userId})
+      const twoFactor = await user.hasTwoFactor()
+      if (!twoFactor && button.requireTwoFactor) {
+        throw new Error('Necesitas activar autenticación de dos factores en "Mi Cuenta"')
+      }
+    }
+
+    if (button.requireTwoFactor) {
+      await requireTwoFactor(viewer)
+    }
     const getItems = await tableResult(params)
     const arrayItems = await getItems.cursor.toArray()
-    console.log('array items', arrayItems.length)
     const itemsObject = items[0]
     const broughtItems = Object.keys(itemsObject)
       .map(key => {
@@ -37,11 +53,25 @@ export default resolver({
       .map(item => item.key)
 
     const obtainedItems = await arrayItems.filter(item => broughtItems.includes(item._id))
-    console.log('obtained items', obtainedItems.length)
+
     if (!obtainedItems.length) return
-    for (let parameters of obtainedItems) {
-      parameters = {_id: parameters._id, ...parameters.data}
-      await buttonRunHooks({buttonId, parameters}, viewer)
+
+    console.log(
+      `Going to execute a ${type} batch operation with ${
+        obtainedItems.length
+      } items from a total of ${arrayItems.length}`
+    )
+    switch (type) {
+      case 'button':
+        console.log('Executing buttonRunHooks')
+        await buttonRunHooks({button, obtainedItems}, viewer)
+        break
+      case 'hsm':
+        console.log('Executing buttonSubmitHsm')
+        await buttonSubmitHsm({button, obtainedItems}, viewer)
+        break
+      default:
+        console.log('invalid button type')
     }
   }
 })
