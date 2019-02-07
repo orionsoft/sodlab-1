@@ -1,0 +1,348 @@
+<head>
+
+    <style type="text/css">
+    
+    div {
+        display: inline-block;
+    }
+    .row{
+      width: 100%;
+    }
+    .col{
+      width: 50%;
+      float: left;
+    }
+    .lg1{
+      width: 8.333333333%;
+    }
+    .lg2{
+      width: 16.66666667%;
+    }
+    .lg3{
+      width: 25%;
+    }
+    .lg4{
+      width: 33.33333333%;
+    }
+    .lg5{
+      width: 41.66666667%;
+    }
+    .lg6{
+      width: 50%;
+    }
+    .lg7{
+      width: 58.33333333%;
+    }
+    .lg8{
+      width: 66.66666667%;
+    }
+    .lg9{
+      width: 75%;
+    }
+    .lg10{
+      width: 83.33333333%;
+    }
+    .lg11{
+      width: 91.66666667%;
+    }
+    .lg12{
+      width: 100%;
+    }.color{
+      background-color: #2962B2;
+      color:white;
+    }
+    .colorFrame{
+        border: solid 2px;
+        border-color:#2962B2;
+        margin: -3px;
+        padding-bottom: 2px;
+    }
+    .redFrame{
+        border: solid red 3px;
+        text-align: center;
+        font-weight: bold;
+        margin: -3px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .red{
+        color:red;
+    }
+    .center{
+      text-align: center;
+    }
+    .left{
+      text-align: left;
+    }
+    .right{
+      text-align: right;
+    }
+    .bold{
+      font-weight: bold;
+    }.pad-top{
+      padding-top: 2px;
+    }
+    }.pad-bot{
+      padding-bottom: : 5px;
+    }.font{
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8px;
+    }.bottom{
+      margin-top:260px;
+    }
+    </style>
+    </head>
+    
+    <body class="font">
+      
+    <div class="row" height="80px;">
+      <div class="col lg8"><img src="https://s3.amazonaws.com/sodlabx-filemanager/sodlab/4BvwkCxL57kZWfXEX-Captura%20de%20pantalla%202018-08-09%20a%20la(s)%2001.21.11.png" height="80px;">
+      </div>
+      <div class="col lg4 redFrame">
+        <div class="lg12">R.U.T.: 76.510.294-4</div>
+          <div class="lg12">FACTURA ELECTRÓNICA</div>
+          <div class="lg12">Nº {numeroFactura}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col lg8 red bold"><div id="demo"></div></div>
+      <div class="col lg4 red bold center">S.I.I. - DIRECCIÓN REGIONAL TALCA</div>
+    </div>
+    <div class="row pad-top">
+      <div class="col lg1 bold left">Giro</div>
+      <div class="col lg7 left">COMERCIALIZACION DE LUBRICANTES, VENTA ACCESORIOS DE VEHICULOS</div>
+      <div class="col lg2 bold right">Fecha Emisión</div>
+      <div class="col lg2 right" id="demo"></div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Dirección</div>
+      <div class="col lg7 left">Avda Circurvalación Norte 2680 Modulo 2</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Comuna</div>
+      <div class="col lg7 left">Talca</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Ciudad</div>
+      <div class="col lg7 left">Talca</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Región</div>
+      <div class="col lg7 left">Región del Maule</div>
+    </div>
+    <div class="row pad-top">
+    </div>
+    <div class="row colorFrame">
+    <div class="row">
+      <div class="col lg12 head bold center color">INFORMACIÓN DEL RECEPTOR</div>
+    </div>
+    <div class="row pad-top">
+      <div class="col lg1 bold left">Sr(es)</div>
+      <div class="col lg6 left">SOC COMERCIAL E INDUSTRIAL SAN SEBASTIAN LIMITADA</div>
+      <div class="col lg1 bold left">Dirección</div>
+      <div class="col lg4 left">Viñales KM 4.5</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">RUT</div>
+      <div class="col lg6 left">77.552.950-4</div>
+      <div class="col lg1 bold left">Comuna</div>
+      <div class="col lg4 left">Constitución</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Giro</div>
+      <div class="col lg6 left">15 TRANSPORTE DE CARGA TERRESTRE</div>
+      <div class="col lg1 bold left">Ciudad</div>
+      <div class="col lg4 left">Constitución</div>
+    </div>
+    </div>
+    
+    <div class="row pad-top">
+    </div>
+    <div class="row colorFrame">
+    <div class="row">
+      <div class="col lg12 head bold center color">DETALLE DE DOCUMENTO</div>
+    </div>
+    <div class="row pad-top">
+      <div class="col lg1 bold center">Código</div>
+      <div class="col lg8 bold center">Nombre</div>
+      <div class="col lg1 bold center">Cantidad</div>
+      <div class="col lg1 bold center">Precio</div>
+      <div class="col lg1 bold center">Total</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 center">100214</div>
+      <div class="col lg8 left">MOBILELUB HD PLUS80W90, 208 LT</div>
+      <div class="col lg1 right">1</div>
+      <div class="col lg1 right">$234.570</div>
+      <div class="col lg1 right">$234.570</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 center">100214</div>
+      <div class="col lg8 left">MOBILELUB HD PLUS80W90, 208 LT</div>
+      <div class="col lg1 right">1</div>
+      <div class="col lg1 right">$234.570</div>
+      <div class="col lg1 right">$234.570</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 center">100214</div>
+      <div class="col lg8 left">MOBILELUB HD PLUS80W90, 208 LT</div>
+      <div class="col lg1 right">1</div>
+      <div class="col lg1 right">$234.570</div>
+      <div class="col lg1 right">$234.570</div>
+    </div>
+    </div>
+    
+    <div class="row pad-top">
+    </div>
+    <div class="row bottom" height="100px;">
+    <div class="col lg6 signer">
+      <div class="col lg12 center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoZUEGDAjtDyLYIVo_rh_jrVCbbKJN_Kpvp0WrCpQUxsadM2i_" height="80px;">
+      </div>
+      <div class="col lg12 center">TIMBRE DEL SII
+      </div>
+    </div>
+    <div class="col lg6 colorFrame">
+    <div class="row">
+      <div class="col lg12 head bold center color">RESUMEN DEL DOCUMENTO</div>
+    </div>
+    <div class="row">
+      <div class="col lg6 bold right">Monto Neto</div>
+      <div class="col lg6 right">{montoNeto}</div>
+      <div class="col lg6 bold right">IVA 19%</div>
+      <div class="col lg6 right">{montoIva}</div>
+      <div class="col lg6 bold right">Total</div>
+      <div class="col lg6 bold right">{montoTotal}</div>
+    </div>
+    </div>
+    
+    <div class="row" height="80px;" style="margin-top: 20px;">
+      <div class="col lg8"><img src="https://s3.amazonaws.com/sodlabx-filemanager/sodlab/4BvwkCxL57kZWfXEX-Captura%20de%20pantalla%202018-08-09%20a%20la(s)%2001.21.11.png" height="80px;">
+      </div>
+      <div class="col lg4 redFrame">
+        <div class="lg12">R.U.T.: 76.510.294-4</div>
+          <div class="lg12">FACTURA ELECTRÓNICA</div>
+          <div class="lg12">Nº {numeroFactura}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col lg8 red bold">COMERCIAL PUENTES DEMAULE LIMITADA</div>
+      <div class="col lg4 red bold center">S.I.I. - DIRECCIÓN REGIONAL TALCA</div>
+    </div>
+    <div class="row pad-top">
+      <div class="col lg1 bold left">Giro</div>
+      <div class="col lg7 left">COMERCIALIZACION DE LUBRICANTES, VENTA ACCESORIOS DE VEHICULOS</div>
+      <div class="col lg2 bold right">Fecha Emisión</div>
+      <div class="col lg2 right" id="demo"></div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Dirección</div>
+      <div class="col lg7 left">Avda Circurvalación Norte 2680 Modulo 2</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Comuna</div>
+      <div class="col lg7 left">Talca</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Ciudad</div>
+      <div class="col lg7 left">Talca</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Región</div>
+      <div class="col lg7 left">Región del Maule</div>
+    </div>
+    <div class="row pad-top">
+    </div>
+    <div class="row colorFrame">
+    <div class="row">
+      <div class="col lg12 head bold center color">INFORMACIÓN DEL RECEPTOR</div>
+    </div>
+    <div class="row pad-top">
+      <div class="col lg1 bold left">Sr(es)</div>
+      <div class="col lg6 left">SOC COMERCIAL E INDUSTRIAL SAN SEBASTIAN LIMITADA</div>
+      <div class="col lg1 bold left">Dirección</div>
+      <div class="col lg4 left">Viñales KM 4.5</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">RUT</div>
+      <div class="col lg6 left">77.552.950-4</div>
+      <div class="col lg1 bold left">Comuna</div>
+      <div class="col lg4 left">Constitución</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 bold left">Giro</div>
+      <div class="col lg6 left">15 TRANSPORTE DE CARGA TERRESTRE</div>
+      <div class="col lg1 bold left">Ciudad</div>
+      <div class="col lg4 left">Constitución</div>
+    </div>
+    </div>
+    
+    <div class="row pad-top">
+    </div>
+    <div class="row colorFrame">
+    <div class="row">
+      <div class="col lg12 head bold center color">DETALLE DE DOCUMENTO</div>
+    </div>
+    <div class="row pad-top">
+      <div class="col lg1 bold center">Código</div>
+      <div class="col lg8 bold center">Nombre</div>
+      <div class="col lg1 bold center">Cantidad</div>
+      <div class="col lg1 bold center">Precio</div>
+      <div class="col lg1 bold center">Total</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 center">100214</div>
+      <div class="col lg8 left">MOBILELUB HD PLUS80W90, 208 LT</div>
+      <div class="col lg1 right">1</div>
+      <div class="col lg1 right">$234.570</div>
+      <div class="col lg1 right">$234.570</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 center">100214</div>
+      <div class="col lg8 left">MOBILELUB HD PLUS80W90, 208 LT</div>
+      <div class="col lg1 right">1</div>
+      <div class="col lg1 right">$234.570</div>
+      <div class="col lg1 right">$234.570</div>
+    </div>
+    <div class="row">
+      <div class="col lg1 center">100214</div>
+      <div class="col lg8 left">MOBILELUB HD PLUS80W90, 208 LT</div>
+      <div class="col lg1 right">1</div>
+      <div class="col lg1 right">$234.570</div>
+      <div class="col lg1 right">$234.570</div>
+    </div>
+    </div>
+    
+    <div class="row pad-top">
+    </div>
+    <div class="row bottom" height="100px;">
+    <div class="col lg6 signer">
+      <div class="col lg12 center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoZUEGDAjtDyLYIVo_rh_jrVCbbKJN_Kpvp0WrCpQUxsadM2i_" height="80px;">
+      </div>
+      <div class="col lg12 center">TIMBRE DEL SII
+      </div>
+    </div>
+    <div class="col lg6 colorFrame">
+    <div class="row">
+      <div class="col lg12 head bold center color">RESUMEN DEL DOCUMENTO</div>
+    </div>
+    <div class="row">
+      <div class="col lg6 bold right">Monto Neto</div>
+      <div class="col lg6 right">{montoNeto}</div>
+      <div class="col lg6 bold right">IVA 19%</div>
+      <div class="col lg6 right">{montoIva}</div>
+      <div class="col lg6 bold right">Total</div>
+      <div class="col lg6 bold right">{montoTotal}</div>
+    </div>
+    </div>
+    <script>
+    // var id = window[{numeroFactura}];
+    document.getElementById("demo").innerHTML = "Javier Gutierrez";
+    </script> 
+    </div>
+    
+    <div id="pageFooter" style="text-align:center; margin-left:5px; margin-right:5px; margin-top:0px; margin-bottom: 0px">
+          <div style="text-align:justify; font-size: 8px">
+            <p>El acuse de recibo que se declara en este acto, de acuerdo a lo dispuesto en la letra b) del Art. 4º, y la letra c) del Art. Nº 5 de la Ley 19.983, acredita que la entrea de mercaderias o servicio(s) prestado(s) ha(n) sido recibido(s).Faculto expresamente a Comercial Puentes de Maule Limitada para que en el caso de incumplimiento de mis obligaciones, mis datos personales y los relacionados con el, sean tratados y/o comunicados en un registro o banco de datos en cualquier formato, medio, sin prejuicio de ejercer acciones de cobro a través de procesos judiciales tales como protestos o los que la empresa estime convenientes.</p>
+            </div>
+        </div>
+    </body>

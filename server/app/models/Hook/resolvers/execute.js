@@ -1,5 +1,4 @@
 import {resolver} from '@orion-js/app'
-import Validations from 'app/collections/Validations'
 
 export default resolver({
   params: {
@@ -9,6 +8,10 @@ export default resolver({
     userId: {
       type: 'ID'
     },
+    hooksData: {
+      type: 'blackbox',
+      optional: true
+    },
     view: {
       type: String,
       optional: true
@@ -17,17 +20,8 @@ export default resolver({
   returns: Boolean,
   mutation: true,
   private: true,
-  async resolve(hook, {params, userId, view}, viewer) {
-    const {environmentId, name} = hook
-    for (const validationId of hook.validationsIds || []) {
-      const validation = await Validations.findOne(validationId)
-      try {
-        await validation.execute({params})
-      } catch (error) {
-        console.log('Hook validation did not pass', error)
-        return
-      }
-    }
+  async resolve(hook, {params, userId, hooksData, view}, viewer) {
+    const {environmentId} = hook
     const functionType = await hook.functionType()
     const options = await hook.getOptions({params})
     return await functionType.executeFunction({
@@ -35,8 +29,9 @@ export default resolver({
       params,
       environmentId,
       userId,
-      functionName: name,
-      view
+      view,
+      hook,
+      hooksData
     })
   }
 })

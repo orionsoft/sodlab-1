@@ -22,6 +22,6 @@ export default paginatedResolver({
       query.name = {$regex: new RegExp(`^${escape(filter)}`)}
     }
 
-    return Validations.find(query)
+    return Validations.find(query).sort({name: 1})
   }
 })

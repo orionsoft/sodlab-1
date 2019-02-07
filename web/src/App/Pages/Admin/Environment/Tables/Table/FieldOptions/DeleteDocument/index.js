@@ -28,6 +28,12 @@ export default class DeleteDocument extends React.Component {
           <div className="col-xs-12 col-sm-6">
             <div className="label">Tooltip</div>
             <Field fieldName="options.tooltip" type={Text} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12 col-sm-6">
+            <div className="label">Hooks</div>
+            <Field fieldName="options.hooksIds" multi type={HookSelect} />
             <Field
               fieldName="options.requireTwoFactor"
               type={Checkbox}
@@ -35,8 +41,12 @@ export default class DeleteDocument extends React.Component {
             />
           </div>
           <div className="col-xs-12 col-sm-6">
-            <div className="label">Hooks</div>
-            <Field fieldName="options.hooksIds" multi type={HookSelect} />
+            <div className="label">Detener la ejecución si ocurre un error</div>
+            <Field
+              fieldName="options.shouldStopHooksOnError"
+              type={Select}
+              options={[{label: 'Si', value: true}, {label: 'No', value: false}]}
+            />
           </div>
         </div>
       </div>

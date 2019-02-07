@@ -25,7 +25,7 @@ export default resolver({
       optional: true
     }
   },
-  returns: Boolean,
+  returns: 'blackbox',
   mutation: true,
   async resolve({buttonId, parameters: items, type, params}, viewer) {
     const button = await Buttons.findOne(buttonId)
@@ -61,17 +61,34 @@ export default resolver({
         obtainedItems.length
       } items from a total of ${arrayItems.length}`
     )
+
+    let response = {}
     switch (type) {
       case 'button':
-        console.log('Executing buttonRunHooks')
-        await buttonRunHooks({button, obtainedItems}, viewer)
+        console.log('Executing button buttonRunHooks')
+        response = await buttonRunHooks({button, obtainedItems}, viewer)
+        break
+      case 'icon':
+        console.log('Executing icon buttonRunHooks')
+        response = await buttonRunHooks({button, obtainedItems}, viewer)
+        break
+      case 'text':
+        console.log('Executing text buttonRunHooks')
+        response = await buttonRunHooks({button, obtainedItems}, viewer)
+        break
+      case 'postItemToUrl':
+        console.log('Executing postItemToUrl buttonRunHooks')
+        response = await buttonRunHooks({button, obtainedItems}, viewer)
         break
       case 'hsm':
         console.log('Executing buttonSubmitHsm')
-        await buttonSubmitHsm({button, obtainedItems}, viewer)
+        response = await buttonSubmitHsm({button, obtainedItems}, viewer)
         break
       default:
         console.log('invalid button type')
+        break
     }
+
+    return response
   }
 })

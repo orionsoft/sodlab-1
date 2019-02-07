@@ -1,5 +1,5 @@
-import Collections from 'app/collections/Collections'
 import {Files} from '@orion-js/file-manager'
+import {getItemFromCollection, hookStart, throwHookError} from '../helpers'
 
 export default {
   name: 'URL/Filemanager',
@@ -8,6 +8,11 @@ export default {
       label: 'Collección',
       type: String,
       fieldType: 'collectionSelect'
+    },
+    itemId: {
+      type: String,
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
     },
     sourceField: {
       type: String,
@@ -29,16 +34,18 @@ export default {
       }
     }
   },
-  async execute({options, params, environmentId, userId}) {
-    let errorObject = {
-      envId: environmentId,
-      function: `hook: ${this.name}`
+  async execute({options, hook, hooksData, viewer}) {
+    const {collectionId, itemId, sourceField, targetKey, isForeign} = options
+    const {shouldThrow} = hook
+    let item = {}
+    let origin
+
+    try {
+      item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
+      origin = item.data[`${sourceField}`]
+    } catch (err) {
+      return throwHookError(err)
     }
-    const {collectionId, sourceField, targetKey, isForeign} = options
-    const col = await Collections.findOne(collectionId)
-    const collection = await col.db()
-    const item = await collection.findOne(params._id)
-    const origin = item.data[`${sourceField}`]
 
     switch (isForeign) {
       case true:
@@ -60,11 +67,10 @@ export default {
               size: filemanagerItem.size
             }
             await item.update({$set: {[`data.${targetKey}`]: newValue}})
-            return {success: true}
+            const newItem = await getItemFromCollection({collectionId, itemId: item._id})
+            return {start: item, result: newItem, success: true}
           } catch (err) {
-            errorObject.err = err
-            console.log(errorObject)
-            return {success: false}
+            return throwHookError(err)
           }
         } else if (typeof origin === 'object') {
           try {
@@ -73,17 +79,17 @@ export default {
               '%20'
             )}`
             await item.update({$set: {[`data.${targetKey}`]: fileUrl}})
-            return {success: true}
+            const newItem = await getItemFromCollection({collectionId, itemId: item._id})
+            return {start: item, result: newItem, success: true}
           } catch (err) {
-            errorObject.err = err
-            console.log(errorObject)
-            return {success: false}
+            return throwHookError(err)
           }
         } else {
-          return {success: false}
+          const err = 'The origin field type is neither a string or an object'
+          return throwHookError(err)
         }
       default:
-        return {success: true}
+        return {start: item, result: newItem, success: true}
     }
   }
 }

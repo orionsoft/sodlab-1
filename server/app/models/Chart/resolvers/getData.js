@@ -12,8 +12,9 @@ export default resolver({
     let query = null
     let collection = null
 
-    if (chart.collectionId) {
-      const col = await Collections.findOne(chart.collectionId)
+    const {collectionId} = chart
+    if (collectionId) {
+      const col = await Collections.findOne(collectionId)
       collection = await col.db()
     }
 
@@ -28,6 +29,6 @@ export default resolver({
       throw new Error('Filter is required')
     }
 
-    return await chartType.getData({options, params, query, collection, chart})
+    return await chartType.getData({options, params, query, collectionId, collection, chart})
   }
 })

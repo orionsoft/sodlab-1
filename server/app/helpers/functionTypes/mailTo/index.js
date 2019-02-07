@@ -1,6 +1,6 @@
-import Collections from 'app/collections/Collections'
 import {Files} from '@orion-js/file-manager'
 import nodemailer from 'nodemailer'
+import {getItemFromCollection, hookStart, throwHookError} from '../helpers'
 
 function parseFileUrl(file) {
   const types = ['.png', 'jpg', '.xlsx', '.xls', '.pdf']
@@ -42,11 +42,43 @@ export default {
       label: 'Colección de los datos',
       fieldType: 'collectionSelect'
     },
-    email: {
+    itemId: {
       type: String,
-      label: 'Email del destinatario',
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
+    },
+    from: {
+      type: String,
+      label: '(opcional) Nombre del remitente (Por default es "Sodlab")',
+      optional: true,
+      defaultValue: 'Sodlab'
+    },
+    subject: {
+      type: String,
+      label: 'Asunto del email'
+    },
+    fileUrl: {
+      type: String,
+      label: 'Archivo adjuntar desde la tabla',
       fieldType: 'collectionFieldSelect',
-      parentCollection: 'collection'
+      parentCollection: 'collection',
+      optional: true
+    },
+    cc: {
+      type: String,
+      label: 'Con copia (Opcional) (emails separados con coma) ',
+      optional: true
+    },
+    bcc: {
+      type: String,
+      label: 'Con copia oculta (Opcional) (emails separados con coma) ',
+      optional: true
+    },
+    attachment: {
+      type: 'blackbox',
+      fieldType: 'file',
+      label: 'Archivo adjuntar (Opcional)',
+      optional: true
     },
     subject: {
       type: String,
@@ -80,8 +112,19 @@ export default {
       label: 'Template a usar'
     }
   },
-  async execute({options, params, environmentId}) {
-    const {template, email, subject, cc, bcc, attachment, fileUrl} = options
+  async execute({options, params, environmentId, hook, hooksData, viewer}) {
+    const {
+      collection,
+      itemId,
+      template,
+      from,
+      email,
+      subject,
+      cc,
+      bcc,
+      attachment,
+      fileUrl
+    } = options
     let data
     let content
     let file
@@ -90,13 +133,20 @@ export default {
       file = await Files.findOne(attachment)
     }
 
-    try {
-      const collection = await Collections.findOne(options.collection)
-      const collectionDB = await collection.db()
-      const item = await collectionDB.findOne(params._id)
-      if (!item) return
+    const {shouldThrow} = hook
+    let item = {}
 
-      data = item.data
+    try {
+      item = await hookStart({
+        shouldThrow,
+        itemId,
+        hooksData,
+        collectionId: collection,
+        hook,
+        viewer
+      })
+
+      data = {...item.data, environmentId}
       content = template
       Object.keys(data).forEach(variable => {
         const regexp = new RegExp(`{${escape(variable)}}`, 'g')
@@ -109,7 +159,7 @@ export default {
         } from env: ${environmentId}`,
         err
       )
-      return {success: false}
+      return throwHookError(err)
     }
 
     const mailURL = process.env.MAIL_URL
@@ -124,7 +174,8 @@ export default {
         }
       })
     } else {
-      throw new Error('No environment variable for the configuration')
+      const err = 'No ENV VAR set to send emails'
+      return throwHookError(err)
     }
 
     let attachments = []
@@ -141,7 +192,7 @@ export default {
     }
 
     const mailOptions = {
-      from: '"Sodlab App" <app@sodlab.com>',
+      from: `"${from}" <app@sodlab.com>`,
       to: data[email],
       subject,
       cc,
@@ -152,14 +203,10 @@ export default {
 
     try {
       await transporter.sendMail(mailOptions)
-      return {
-        success: true
-      }
+      return {start: item, result: item, success: true}
     } catch (err) {
       console.log(`Error when running mailTo from env: ${environmentId}`, err)
-      return {
-        success: false
-      }
+      return throwHookError(err)
     }
   }
 }

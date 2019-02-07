@@ -8,7 +8,19 @@ export default {
     'dateTimeGreaterEqualThan',
     'dateTimeLessEqualThan',
     'dateTimeLessThan',
-    'dateNow'
+    'dateNow',
+    'substractUntilNow',
+    'substractUntilNowHours',
+    'backwardsDays',
+    'backwardsHours',
+    'dateEqual',
+    'dateGreaterEqualThan',
+    'dateLessEqualThan',
+    'dateGreaterThan',
+    'dateLessThan',
+    'dateMonth',
+    'dateWeek',
+    'dateYear'
   ],
   optionsSchema: null,
   validate(value, options) {}

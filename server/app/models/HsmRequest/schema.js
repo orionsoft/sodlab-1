@@ -66,6 +66,12 @@ export default {
     type: ['ID'],
     optional: true
   },
+  shouldStopHooksOnError: {
+    type: Boolean,
+    label: 'Detener la ejecución de los hooks si ocurre un error',
+    defaultValue: false,
+    optional: true
+  },
   erpUserId: {
     type: 'ID',
     optional: true

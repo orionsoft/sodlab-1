@@ -7,6 +7,7 @@ import setEnvironmentProfileSchema from './setEnvironmentProfileSchema'
 import generateExport from './generateExport'
 import importEnvironment from './importEnvironment'
 import setEnvironmentCustom from './setEnvironmentCustom'
+import setEnvironmentTimezone from './setEnvironmentTimezone'
 
 export default {
   setEnvironmentCustom,
@@ -17,5 +18,6 @@ export default {
   environment,
   environments,
   createEnvironment,
-  removeEnvironment
+  removeEnvironment,
+  setEnvironmentTimezone
 }

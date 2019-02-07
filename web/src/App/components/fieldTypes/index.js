@@ -32,6 +32,7 @@ import html from './html'
 import fieldOptions from './fieldOptions'
 import roleSelect from './roleSelect'
 import formSelect from './formSelect'
+import tableSelect from './tableSelect'
 
 export default {
   html,
@@ -67,5 +68,6 @@ export default {
   colorPicker,
   roleSelect,
   fieldOptions,
-  formSelect
+  formSelect,
+  tableSelect
 }

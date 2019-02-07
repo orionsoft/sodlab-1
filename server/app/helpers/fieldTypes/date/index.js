@@ -3,6 +3,12 @@ export default {
   rootType: Date,
   allowedOperatorsIds: [
     'exists',
+    'equalDateTime',
+    'dateTimeGreaterThan',
+    'dateTimeGreaterEqualThan',
+    'dateTimeLessEqualThan',
+    'dateTimeLessThan',
+    'dateNow',
     'substractUntilNow',
     'substractUntilNowHours',
     'backwardsDays',
@@ -12,7 +18,6 @@ export default {
     'dateLessEqualThan',
     'dateGreaterThan',
     'dateLessThan',
-    'dateNow',
     'dateMonth',
     'dateWeek',
     'dateYear'

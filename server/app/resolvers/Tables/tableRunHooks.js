@@ -3,6 +3,7 @@ import Tables from 'app/collections/Tables'
 import Hooks from 'app/collections/Hooks'
 import Users from 'app/collections/Users'
 import {requireTwoFactor} from '@orion-js/auth'
+import {runSequentialHooks} from 'app/helpers/functionTypes/helpers'
 
 export default resolver({
   params: {
@@ -30,7 +31,8 @@ export default resolver({
     const field = table.fields[fieldIndex]
     if (field.type !== 'runHooks') throw new Error('Table column is not run hooks')
 
-    const user = await Users.findOne({_id: viewer.userId})
+    const {userId} = viewer
+    const user = await Users.findOne({_id: userId})
     const twoFactor = await user.hasTwoFactor()
 
     if (!twoFactor && field.options.requireTwoFactor) {
@@ -42,7 +44,7 @@ export default resolver({
     }
 
     if (!(field.options && field.options.hooksIds && field.options.hooksIds.length)) {
-      throw new Error('No hooks')
+      throw new Error('No se han registrado hooks para este botón')
     }
 
     const collectionDB = await collection.db()
@@ -52,14 +54,26 @@ export default resolver({
     }
 
     const hooks = await Hooks.find({_id: {$in: field.options.hooksIds}}).toArray()
+    const hooksIds = hooks.map(hook => hook._id)
     const params = {_id: item._id, ...item.data}
-    for (const hook of hooks) {
-      try {
-        await hook.execute({params, userId: viewer.userId, view})
-      } catch (e) {
-        console.log('Error running hook', e)
+
+    await runSequentialHooks({
+      hooksIds,
+      params,
+      userId,
+      shouldStopHooksOnError: field.options.shouldStopHooksOnError,
+      environmentId: table.environmentId
+    }).catch(err => {
+      console.log('table throwing hook error')
+      const error = {
+        ...err,
+        tableName: table.name,
+        itemIdToRunHooks: itemId
       }
-    }
+      console.log(error)
+      throw err.originalMsg ||
+        'No se han podido ejecutar alguna(s) de la funcionalidades adicionales'
+    })
 
     return true
   }

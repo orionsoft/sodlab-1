@@ -17,6 +17,7 @@ import styles from './styles.css'
       submitButtonText
       resetButtonText
       onSuccessViewPath
+      onSuccessEnvironmentVariables
       fieldsList {
         fieldName
         type
@@ -31,7 +32,8 @@ export default class Form extends React.Component {
     showMessage: PropTypes.func,
     form: PropTypes.object,
     parameters: PropTypes.object,
-    setEnvironment: PropTypes.func
+    setEnvironment: PropTypes.func,
+    timezone: PropTypes.string
   }
 
   state = {}
@@ -53,6 +55,7 @@ export default class Form extends React.Component {
       itemId: this.getItemId(),
       parameters: this.props.parameters || {},
       setEnvironment: this.props.setEnvironment,
+      timezone: this.props.timezone,
       fields: this.props.form.fieldsList
     }
     if (props.form.type === 'update' && !props.itemId) return this.renderNoItem()

@@ -6,18 +6,31 @@ export default resolver({
     options: {
       type: 'blackbox',
       optional: true
+    },
+    formId: {
+      type: 'ID',
+      optional: true
+    },
+    data: {
+      type: 'blackbox',
+      optional: true
     }
   },
   mutation: true,
   private: true,
-  async resolve(validationType, {options: rawOptions}, viewer) {
+  async resolve(validationType, {options: rawOptions, formId, data}, viewer) {
     const schema = validationType.optionsSchema
     let options
     if (schema) {
       options = await clean(schema, rawOptions)
       await validate(schema, options)
     }
-
-    return await validationType.execute({options, params: rawOptions})
+    return await validationType.execute({
+      options,
+      params: rawOptions,
+      formId,
+      data,
+      userId: viewer.userId
+    })
   }
 })

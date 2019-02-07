@@ -1,6 +1,4 @@
-import Collections from 'app/collections/Collections'
-import Hooks from 'app/collections/Hooks'
-import Promise from 'bluebird'
+import {getItemFromCollection, hookStart, throwHookError, runSequentialHooks} from '../helpers'
 
 export default {
   name: 'Ejecutar hooks secuenciales',
@@ -10,86 +8,56 @@ export default {
       type: String,
       fieldType: 'collectionSelect'
     },
+    itemId: {
+      type: String,
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
+    },
     hookIds: {
       label: 'Hooks a ejecutar',
       type: ['ID'],
       fieldType: 'hookSelect',
       fieldOptions: {multi: true}
     },
-    usePreviousResult: {
-      label: '¿Usar resultado del hook anterior?',
-      type: String,
-      fieldType: 'select',
-      fixed: true,
-      fieldOptions: {
-        options: [{label: 'Si', value: true}, {label: 'No', value: false}]
-      }
-    },
     stopIfError: {
-      label: '¿Detener la ejecución si ocurre un error?',
-      type: String,
+      label: '(opcional) ¿Detener la ejecución si ocurre un error? (Por defecto no se detendrá)',
+      type: Boolean,
       fieldType: 'select',
-      fixed: true,
       fieldOptions: {
         options: [{label: 'Si', value: true}, {label: 'No', value: false}]
-      }
+      },
+      optional: true,
+      defaultValue: false
     }
   },
-  async execute({options, params, environmentId, userId}) {
-    const {collectionId, hookIds, usePreviousResult, stopIfError} = options
+  async execute({options, userId, hook, hooksData, viewer, environmentId}) {
+    const {collectionId, itemId, hookIds, stopIfError} = options
 
-    let hooks = []
-    const collection = await Collections.findOne(collectionId)
-    const db = await collection.db()
-    const item = await db.findOne(params._id)
-    let newParams = {_id: params._id, ...item.data}
+    const {shouldThrow} = hook
+    let item = {}
 
     try {
-      await Promise.each(hookIds, async function(hookId) {
-        try {
-          const hook = await Hooks.findOne(hookId)
-          hooks.push(hook)
-        } catch (err) {
-          console.log(`Error finding hook with id ${hookId} in environment ${environmentId}`, err)
-          return {success: false}
-        }
-      })
+      item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
     } catch (err) {
-      console.log(`Error finding hooks to execute sequentially in ${environmentId}`, err)
-      return {success: false}
+      return throwHookError(err)
     }
+
+    let params = {_id: item._id, ...item.data}
 
     try {
-      await Promise.each(hooks, async function(hook) {
-        let result
-
-        try {
-          result = await hook.execute({params: newParams, userId})
-        } catch (err) {
-          console.log(
-            `Error trying to execute sequentially the hook: ${hook.name} from env ${
-              hook.environmentId
-            }, err:`,
-            err
-          )
-        }
-
-        if (stopIfError && result && !result.success) {
-          throw new Error(
-            `Exited the sequential hook, the hook ${
-              hook.name
-            } failed its execution in environment ${environmentId}`
-          )
-        }
-
-        if (usePreviousResult && result.success) {
-          newParams = {...newParams, previousResult: result.data}
-        }
-
-        return
+      await runSequentialHooks({
+        hooksIds: hookIds,
+        params,
+        userId,
+        shouldStopHooksOnError: stopIfError,
+        environmentId
       })
     } catch (err) {
-      console.log(`Error executing sequential hooks in ${environmentId}`, err)
+      console.log('Error running the sequential hook', err)
+      return throwHookError(err)
     }
+
+    const newItem = await getItemFromCollection({collectionId, itemId: item._id})
+    return {start: item, result: newItem, success: true}
   }
 }

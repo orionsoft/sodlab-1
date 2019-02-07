@@ -1,8 +1,10 @@
-import Collections from 'app/collections/Collections'
+import EnvironmentUsers from 'app/collections/EnvironmentUsers'
 import rp from 'request-promise'
+import {hookStart, throwHookError} from '../helpers'
+import parseTemplate from './parseTemplate'
 
 export default {
-  name: 'Enviar datos de un item',
+  name: 'Enviar datos de un item (JSON)',
   optionsSchema: {
     collectionId: {
       label: 'Collección',
@@ -11,7 +13,24 @@ export default {
     },
     itemId: {
       type: String,
-      label: 'Id del item'
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
+    },
+    customHeaders: {
+      type: String,
+      fieldType: 'textArea',
+      label:
+        '(opcional) Headers a incluir en el request. Se escriben en formato JSON y se puede acceder a los parámetros del usuario y del item. Ej: {"Authorization":"token"}. Si el valor no coincide con ningún parametro se considerará como un valor fijo',
+      optional: true,
+      defaultValue: '{}'
+    },
+    additionalData: {
+      type: String,
+      fieldType: 'textArea',
+      label:
+        '(opcional) Datos extras a enviar en el body del request. Se escriben en formato JSON y se puede acceder a los parámetros del usuario y del item. Ej: {"nombre":"user_nombre", "estadoCompra":"estado"}. Si el valor no coincide con ningún parametro se considerará como un valor fijo',
+      optional: true,
+      defaultValue: '{}'
     },
     url: {
       type: String,
@@ -19,7 +38,7 @@ export default {
     },
     environmentId: {
       type: String,
-      label: '(opcional) Entorno (default es el actual)',
+      label: '(opcional) Ambiente (default es el actual)',
       optional: true
     },
     timeoutMinutes: {
@@ -29,37 +48,52 @@ export default {
     }
   },
   async execute({
-    options: {collectionId, itemId, url, environmentId, timeoutMinutes},
-    params,
+    options: {
+      collectionId,
+      itemId,
+      customHeaders,
+      additionalData,
+      url,
+      environmentId: customEnvironment,
+      timeoutMinutes
+    },
     environmentId: actualEnv,
-    userId
+    userId,
+    hook,
+    hooksData,
+    viewer
   }) {
-    try {
-      const col = await Collections.findOne(collectionId)
-      const collection = await col.db()
-      const item = await collection.findOne(itemId)
-      if (!item) return
+    const {shouldThrow} = hook
+    const environmentId = customEnvironment ? customEnvironment : actualEnv
 
+    try {
+      const item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
+      const user = await EnvironmentUsers.findOne({userId})
+      const headers = parseTemplate(item, customHeaders, user, environmentId)
+      const data = parseTemplate(item, additionalData, user, environmentId)
       const timeout = timeoutMinutes ? timeoutMinutes * 60000 : 90000
 
       await rp({
         method: 'POST',
         uri: url,
+        headers,
         body: {
           _id: item._id,
-          environmentId: environmentId || actualEnv,
-          ...item.data
+          ...item.data,
+          environmentId,
+          viewer,
+          additionalData: data
         },
         json: true,
         timeout: timeout
       })
-      return {success: true}
+      return {start: item, result: item, success: true}
     } catch (err) {
       console.log(
         `Error executing the postItem hook with itemId ${itemId}, collecctionId ${collectionId} and envId ${environmentId}`,
         err
       )
-      return {success: false}
+      return throwHookError(err)
     }
   }
 }

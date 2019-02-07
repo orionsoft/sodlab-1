@@ -1,5 +1,6 @@
 import Forms from 'app/collections/Forms'
 import Field from './Field'
+
 export default {
   _id: {
     type: 'ID'
@@ -58,6 +59,12 @@ export default {
     label: 'Hooks',
     optional: true
   },
+  shouldStopHooksOnError: {
+    type: Boolean,
+    label: 'Detener la ejecución de los hooks si ocurre un error',
+    defaultValue: false,
+    optional: true
+  },
   validationsIds: {
     type: ['ID'],
     label: 'Validaciones',
@@ -77,6 +84,15 @@ export default {
   },
   roles: {
     type: ['ID'],
+    defaultValue: []
+  },
+  onSuccessEnvironmentVariables: {
+    type: [String],
+    label: 'Variables del item a pasar a la vista',
+    fieldType: 'collectionFieldSelect',
+    parentCollection: 'sourceCollectionId',
+    fieldOptions: {multi: true},
+    optional: true,
     defaultValue: []
   }
 }

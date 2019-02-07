@@ -22,7 +22,8 @@ export default {
   },
   title: {
     type: String,
-    label: 'Título'
+    label: 'Título',
+    optional: true
   },
   environmentId: {
     type: 'ID'
@@ -35,6 +36,41 @@ export default {
     label: 'Hooks',
     optional: true,
     defaultValue: []
+  },
+  hookResult: {
+    type: String,
+    label: 'Hook Result',
+    optional: true,
+    defaultValue: 'params',
+    description: 'Solo acepta los valores "params" o digitos enteros',
+    async custom(hookResult, {doc}) {
+      if (!/^\d+$/.test(hookResult) && hookResult !== 'params') {
+        return 'invalid'
+      }
+    }
+  },
+  itemNumberResult: {
+    type: Number,
+    label: 'Número del item del cual entregar los valores al front en una operación de tipo batch',
+    optional: true
+  },
+  shouldStopHooksOnError: {
+    type: Boolean,
+    label: 'Detener la ejecución de los hooks si ocurre un error',
+    defaultValue: false,
+    optional: true
+  },
+  firstHook: {
+    type: 'ID',
+    label: 'firstHook',
+    optional: true,
+    defaultValue: ''
+  },
+  lastHook: {
+    type: 'ID',
+    label: 'lastHook',
+    optional: true,
+    defaultValue: ''
   },
   buttonType: {
     type: String,
@@ -71,6 +107,26 @@ export default {
   hsmHookId: {
     type: 'ID',
     label: 'HSM Hook',
+    optional: true
+  },
+  postItemToUrl: {
+    type: String,
+    label: 'Url a la cual enviar los datos',
+    optional: true
+  },
+  helperType: {
+    type: String,
+    label: 'Tipo de botón a mostrar',
+    optional: true
+  },
+  onSuccessMessage: {
+    type: String,
+    label: 'Mensaje a mostrar al ejecutar exitosamente el momento',
+    optional: true
+  },
+  onErrorMessage: {
+    type: String,
+    label: 'Mensaje a mostrar al ejecutar exitosamente el momento',
     optional: true
   }
 }

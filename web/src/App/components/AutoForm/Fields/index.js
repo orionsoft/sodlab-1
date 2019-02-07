@@ -14,7 +14,8 @@ export default class Fields extends React.Component {
     only: PropTypes.string,
     passProps: PropTypes.object,
     fromEnvironment: PropTypes.bool,
-    fields: PropTypes.array
+    fields: PropTypes.array,
+    timezone: PropTypes.string
   }
 
   static defaultProps = {
@@ -26,7 +27,7 @@ export default class Fields extends React.Component {
     if (Object.keys(params).length === 0) return
 
     const omit = isArray(this.props.omit) ? this.props.omit : [this.props.omit]
-
+    const passProps = {...this.props.passProps, timezone: this.props.timezone}
     return Object.keys(params)
       .filter(key => (this.props.only ? key === this.props.only : true))
       .filter(key => !includes(omit, key))
@@ -39,7 +40,7 @@ export default class Fields extends React.Component {
             field={params[key]}
             fieldName={key}
             schemaToField={this.props.schemaToField}
-            passProps={this.props.passProps}
+            passProps={passProps}
             fromEnvironment={this.props.fromEnvironment}
             fields={this.props.fields}
           />

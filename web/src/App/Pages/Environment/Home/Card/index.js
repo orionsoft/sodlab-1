@@ -12,7 +12,7 @@ export default class Card extends React.Component {
   renderCard(link) {
     return (
       <Link to={link.path}>
-        <div className={styles.header}>
+        <div className={styles.header} style={{color: link.textColor}}>
           {link.icon && (
             <div className={styles.icon}>
               <Icon icon={link.icon} />
@@ -26,6 +26,10 @@ export default class Card extends React.Component {
 
   render() {
     const {link} = this.props
-    return <div className={styles.container}>{this.renderCard(link)}</div>
+    return (
+      <div className={styles.container} style={{backgroundColor: link.backgroundColor}}>
+        {this.renderCard(link)}
+      </div>
+    )
   }
 }

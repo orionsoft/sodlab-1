@@ -1,5 +1,5 @@
-import Collections from 'app/collections/Collections'
 import Indicators from 'app/collections/Indicators'
+import {getItemFromCollection, hookStart, throwHookError} from '../helpers'
 
 export default {
   name: 'Actualizar valor con un indicador',
@@ -9,51 +9,61 @@ export default {
       type: String,
       fieldType: 'collectionSelect'
     },
+    itemId: {
+      type: String,
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
+    },
     valueKey: {
       type: String,
       label: 'Campo a actualizar',
       fieldType: 'collectionFieldSelect'
     },
-    itemId: {
-      type: String,
-      label: 'Id del item'
-    },
-    itemIdParamName: {
-      type: String,
-      label: 'Nombre del parametro del ID (para pasarlo a indicadores, opcional)',
-      optional: true
-    },
     indicatorId: {
       type: String,
       label: 'Indicador',
       fieldType: 'indicatorSelect'
+    },
+    itemIdParamName: {
+      type: String,
+      label: '(opcional) Nombre del parametro del ID para pasarlo a indicadores',
+      optional: true
+    },
+    indicatorItemId: {
+      type: String,
+      label: '(opcional) ID a pasar al indicador',
+      optional: true
     }
   },
   async execute({
-    options: {collectionId, valueKey, itemIdParamName, itemId, indicatorId},
-    params,
+    options: {collectionId, valueKey, indicatorItemId, itemIdParamName, itemId, indicatorId},
     environmentId,
-    userId
+    userId,
+    hook,
+    hooksData,
+    viewer
   }) {
-    try {
-      const col = await Collections.findOne(collectionId)
-      const collection = await col.db()
-      const item = await collection.findOne(itemId)
-      if (!item) return
+    const {shouldThrow} = hook
+    let item = {}
 
+    try {
+      item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
       const indicator = await Indicators.findOne(indicatorId)
+      // Backwards compatibility
+      const id = indicatorItemId ? indicatorItemId : itemId
       const params = {
         ...item.data,
-        [itemIdParamName]: itemId
+        [itemIdParamName]: id
       }
       const value = await indicator.result({filterOptions: params, params, userId})
 
       await item.update({$set: {[`data.${valueKey}`]: value}})
 
-      return {success: true}
+      const newItem = await getItemFromCollection({collectionId, itemId: item._id})
+      return {start: item, result: newItem, success: true}
     } catch (err) {
       console.log(`Error when updating a document with an indicator from env ${environmentId}`, err)
-      return {success: false}
+      return throwHookError(err)
     }
   }
 }

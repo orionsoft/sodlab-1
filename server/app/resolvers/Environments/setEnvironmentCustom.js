@@ -4,7 +4,14 @@ import Environment from 'app/models/Environment'
 
 const EnvironmentInput = Environment.clone({
   name: 'EnvironmentConfig',
-  pickFields: ['logo', 'authBackgroundImage', 'fontName', 'sideBarColor', 'sideBarTextColor']
+  pickFields: [
+    'logo',
+    'authBackgroundImage',
+    'fontName',
+    'sideBarColor',
+    'sideBarTextColor',
+    'backgroundColor'
+  ]
 })
 
 export default resolver({

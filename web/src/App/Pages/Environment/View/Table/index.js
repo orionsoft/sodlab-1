@@ -57,7 +57,8 @@ export default class Table extends React.Component {
     table: PropTypes.object,
     state: PropTypes.object,
     setEnvironment: PropTypes.func,
-    parameters: PropTypes.object
+    parameters: PropTypes.object,
+    timezone: PropTypes.string
   }
 
   state = {filterId: null, selectedItems: {}, allSelected: false, tableItems: []}
@@ -127,7 +128,20 @@ export default class Table extends React.Component {
   }
 
   renderField({field, doc, index}) {
-    const collectionField = this.getCollectionField(field.fieldName)
+    const collectionField =
+      field.fieldName !== '_id'
+        ? this.getCollectionField(field.fieldName)
+        : {
+            label: field.label,
+            name: field.fieldName,
+            options: {
+              collectionId: this.props.table.collectionId,
+              labelKey: 'ID',
+              valueKey: '_id'
+            },
+            type: 'string'
+          }
+
     const {collectionId} = this.props.table
     try {
       return (
@@ -143,6 +157,8 @@ export default class Table extends React.Component {
           collectionId={collectionId}
           toggleSelectedItem={() => this.toggleSelectedItem(doc._id)}
           selected={this.state.selectedItems[doc._id]}
+          environmentId={this.props.table.environmentId}
+          timezone={this.props.timezone}
         />
       )
     } catch (e) {
@@ -241,6 +257,7 @@ export default class Table extends React.Component {
         all={this.state.allSelected}
         params={params}
         toggleAllItems={this.toggleAllItems}
+        viewParams={this.props.parameters}
       />
     )
   }

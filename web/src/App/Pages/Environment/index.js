@@ -25,6 +25,8 @@ import NotAllowed from 'App/Pages/Auth/NotAllowed'
       _id
       name
       intercomId
+      backgroundColor
+      timezone
     }
     views(limit: null, environmentId: $environmentId) {
       items {
@@ -82,6 +84,7 @@ export default class Environment extends React.Component {
               viewId={view._id}
               environmentId={environment._id}
               intercomId={environment.intercomId}
+              timezone={environment.timezone}
             />
           )}
         />
@@ -109,7 +112,7 @@ export default class Environment extends React.Component {
     }
 
     return (
-      <div className={styles.container}>
+      <div className={styles.container} style={{backgroundColor: environment.backgroundColor}}>
         <Layout>{this.renderSwitch()}</Layout>
         <Watch environmentId={this.props.environment._id} />
         <Styles />

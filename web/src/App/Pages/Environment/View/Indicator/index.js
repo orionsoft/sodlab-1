@@ -34,11 +34,13 @@ export default class Indicator extends React.Component {
   static propTypes = {
     indicator: PropTypes.object,
     parameters: PropTypes.object,
-    fullSize: PropTypes.bool
+    fullSize: PropTypes.bool,
+    timezone: PropTypes.string
   }
 
   @autobind
   refetch() {
+    if (!this.result) return null
     this.result.props.refetch()
   }
 
@@ -53,6 +55,7 @@ export default class Indicator extends React.Component {
         filterOptions={filterOptions}
         fullSize={this.props.fullSize}
         params={this.props.parameters}
+        timezone={this.props.timezone}
       />
     )
   }
@@ -87,10 +90,11 @@ export default class Indicator extends React.Component {
 
   render() {
     const {indicator, fullSize} = this.props
+    if (!indicator) return
     return (
       <div className={`${styles.container} ${fullSize && 'center'}`}>
         <div className={styles.header}>
-          <div className={styles.title}>{indicator.title}</div>
+          {indicator && <div className={styles.title}>{indicator.title}</div>}
         </div>
         {this.renderForCollection()}
         {this.renderWithoutCollection()}

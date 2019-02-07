@@ -7,7 +7,7 @@ import {withRouter} from 'react-router'
 
 @withRouter
 @withGraphQL(gql`
-  query getEnvironmentCollections($environmentId: ID) {
+  query getEnvironmentForms($environmentId: ID) {
     forms(environmentId: $environmentId) {
       items {
         value: _id

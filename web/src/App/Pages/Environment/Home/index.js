@@ -49,6 +49,7 @@ export default class Home extends React.Component {
 
   render() {
     const {cards} = this.props
+
     return (
       <Container>
         <div className={styles.parentContainer}>

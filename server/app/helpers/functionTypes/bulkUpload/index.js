@@ -1,10 +1,27 @@
 import submitForm from 'app/resolvers/Forms/submitForm'
 import Collections from 'app/collections/Collections'
+import {getItemFromCollection, hookStart, throwHookError} from '../helpers'
 import parseFile from './parseFile'
 
 export default {
   name: 'Carga masiva de datos',
   optionsSchema: {
+    collectionId: {
+      label: 'Collección',
+      type: String,
+      fieldType: 'collectionSelect'
+    },
+    itemId: {
+      type: String,
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
+    },
+    fileKey: {
+      type: String,
+      label: 'Campo donde está el archivo (.xlsx o .json)',
+      fieldType: 'collectionFieldSelect',
+      parentCollection: 'collectionId'
+    },
     template: {
       type: String,
       label:
@@ -18,31 +35,22 @@ export default {
       fieldType: 'textArea',
       optional: true
     },
-    sourceCollectionId: {
-      label: 'Coleccion en donde se sube el archivo',
-      type: String,
-      fieldType: 'collectionSelect'
-    },
-    fileKey: {
-      type: String,
-      label: 'Campo donde está el archivo (.xlsx o .json)',
-      fieldType: 'collectionFieldSelect',
-      parentCollection: 'sourceCollectionId'
-    },
     formId: {
-      label: 'Formulario para realizar el ingreso de datos (tiene prioridad sobre la colección)',
+      label:
+        '(opcional) Formulario para realizar el ingreso de datos (tiene prioridad sobre la colección)',
       type: String,
       fieldType: 'formSelect',
       optional: true
     },
     targetCollectionId: {
-      label: 'Coleccion para guardar los datos directamente, en caso de no usar un formulario',
+      label:
+        '(opcional) Coleccion para guardar los datos directamente, en caso de no usar un formulario',
       type: String,
       fieldType: 'collectionSelect',
       optional: true
     }
   },
-  async execute({options, params, environmentId}) {
+  async execute({options, params, environmentId, hook, hooksData, viewer}) {
     const {template, formVariables, fileKey, formId, targetCollectionId} = options
     let db
     if (!formId && !targetCollectionId) return
@@ -52,13 +60,18 @@ export default {
     }
 
     let itemsArray = []
+    const {shouldThrow} = hook
+    let item = {}
     try {
-      itemsArray = await parseFile(params[fileKey])
+      item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
+      itemsArray = await parseFile(item.data[fileKey])
     } catch (err) {
       console.log(
-        `Error when trying to parse the file ${params[fileKey]} from environment ${environmentId}`
+        `Error when trying to parse the file ${
+          item.data[fileKey]
+        } from environment ${environmentId}`
       )
-      return {success: false}
+      return throwHookError(err)
     }
 
     const parsedTemplate = JSON.parse(template)
@@ -87,7 +100,7 @@ export default {
             `Error at saving documents to the db when running the bulkUpload hook from environment ${environmentId}`,
             err
           )
-          return {success: false}
+          return throwHookError(err)
         }
       } else {
         try {
@@ -97,11 +110,11 @@ export default {
             `Error at trying to insert data to the form when running the bulkUpload hook from environment ${environmentId}`,
             err
           )
-          return {success: false}
+          return throwHookError(err)
         }
       }
     })
 
-    return {successs: true}
+    return {start: item, result: item, success: true}
   }
 }

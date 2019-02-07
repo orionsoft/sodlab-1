@@ -1,9 +1,5 @@
 import rp from 'request-promise'
-
-const types = {
-  ipc: 'percentage',
-  tasa_desempleo: 'percentage'
-}
+import types from 'app/helpers/misc/economicTypes'
 
 export default {
   name: 'Valor: Indicador económico',
@@ -15,18 +11,27 @@ export default {
       fieldType: 'select',
       fieldOptions: {
         options: [
-          {label: 'Valor de la UF', value: 'uf'},
-          {label: 'Valor del dolar', value: 'dolar'},
-          {label: 'Valor del euro', value: 'euro'},
-          {label: 'IPC', value: 'ipc'},
-          {label: 'Tasa de desempleo', value: 'tasa_desempleo'},
-          {label: 'Libra de cobre', value: 'libra_cobre'}
+          {label: 'Unidad de fomento (UF)', value: 'uf'},
+          {label: 'Unidad Tributaria Mensual (UTM)', value: 'utm'},
+          {label: 'Indice de Precios al Consumidor (IPC)', value: 'ipc'},
+          {label: 'Tasa Política Monetaria (TPM)', value: 'tpm'},
+          {label: 'Imacec', value: 'imacec'},
+          {label: 'Indice de valor promedio (IVP)', value: 'ivp'},
+          {label: 'Dólar observado', value: 'dolar'},
+          {label: 'Dólar acuerdo (intercambio)', value: 'dolar_intercambio'},
+          {label: 'Euro', value: 'euro'},
+          {label: 'Libra de cobre', value: 'libra_cobre'},
+          {label: 'Bitcoin', value: 'bitcoin'},
+          {label: 'Tasa de desempleo', value: 'tasa_desempleo'}
         ]
       }
     }
   },
   async getRenderType({options}) {
-    return types[options.indicator] || 'money'
+    const format = types[options.indicator.fixed.value]
+      ? types[options.indicator.fixed.value]
+      : 'number'
+    return format
   },
   async getResult({options}) {
     if (!options.indicator) return

@@ -9,11 +9,19 @@ async function runParallelHooks({hooksIds, params, userId}) {
     try {
       return await hook.execute({params, userId})
     } catch (e) {
-      console.log('Error running hook', e)
+      console.log(
+        `Error trying to execute in parallel the hook: ${hook.name} from env ${
+          hook.environmentId
+        }, err:`,
+        err
+      )
+      throw e
     }
   })
 
-  await Promise.all(hooks)
+  await Promise.all(hooks).catch(e => {
+    throw e
+  })
 }
 
 export {runParallelHooks}

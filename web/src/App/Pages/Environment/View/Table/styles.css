@@ -23,6 +23,7 @@
 
 :local(.container) .paginated-error {
   background-color: #fff;
+  display: none;
 }
 
 :local(.header) {

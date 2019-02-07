@@ -1,6 +1,5 @@
 import {resolver} from '@orion-js/app'
-import Hooks from 'app/collections/Hooks'
-import Promise from 'bluebird'
+import {runSequentialHooks} from 'app/helpers/functionTypes/helpers'
 
 export default resolver({
   params: {
@@ -14,35 +13,33 @@ export default resolver({
   returns: 'blackbox',
   private: true,
   async resolve(hsmRequest, {item, success}, viewer) {
-    let hooks
+    let hooksIds = []
     if (success) {
       if (!hsmRequest.onSuccessHooksIds) return
-      hooks = await Hooks.find({_id: {$in: hsmRequest.onSuccessHooksIds}}).toArray()
+      hooksIds = hsmRequest.onSuccessHooksIds
     } else {
       if (!hsmRequest.onErrorHooksIds) return
-      hooks = await Hooks.find({_id: {$in: hsmRequest.onErrorHooksIds}}).toArray()
+      hooksIds = hsmRequest.onErrorHooksIds
     }
 
-    const userId = hsmRequest.erpUserId
+    const {userId, shouldStopHooksOnError, environmentId} = hsmRequest
     const params = {_id: item._id, ...item.data}
 
-    try {
-      await Promise.each(hooks, async function(hook) {
-        try {
-          await hook.execute({params, userId})
-        } catch (err) {
-          console.log(
-            `Error trying to execute sequentially the hook: ${hook.name} from env ${
-              hook.environmentId
-            }, err:`,
-            err
-          )
-        }
-
-        return
-      })
-    } catch (err) {
-      console.log(`Error executing sequential hooks in ${environmentId}`, err)
-    }
+    await runSequentialHooks({
+      hooksIds,
+      params,
+      userId,
+      shouldStopHooksOnError,
+      environmentId
+    }).catch(err => {
+      const error = {
+        ...err,
+        customError: `An error ocurred when executing the hooks after receiving a request from the HSM`,
+        hsmRequestId: hsmRequest._id,
+        clientId: hsmRequest.clientId,
+        userId: hsmRequest.erpUserId
+      }
+      console.log(error)
+    })
   }
 })

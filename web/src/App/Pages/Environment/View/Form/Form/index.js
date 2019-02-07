@@ -11,6 +11,7 @@ import schemaToField from 'App/components/schemaToField'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import cloneDeep from 'lodash/cloneDeep'
+import isEqual from 'lodash/isEqual'
 import translate from 'App/i18n/translate'
 import {withRouter} from 'react-router'
 
@@ -37,15 +38,25 @@ export default class Form extends React.Component {
     itemId: PropTypes.string,
     parameters: PropTypes.object,
     setEnvironment: PropTypes.func,
-    fields: PropTypes.array
+    fields: PropTypes.array,
+    timezone: PropTypes.string
   }
 
   state = {
-    docData: {}
+    docData: {},
+    formUpdateVariableValue: ''
   }
 
   componentDidMount() {
     this.setState({docData: this.getData()})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props.parameters, prevProps.parameters)) {
+      const currentDoc = this.state.docData
+      const newParams = this.getData()
+      this.setState({docData: {...currentDoc, ...newParams}})
+    }
   }
 
   renderResetButton() {
@@ -66,23 +77,90 @@ export default class Form extends React.Component {
     )
   }
 
+  setEnvironmentVariables({_id, data}) {
+    let environmentVariables = {...this.props.parameters}
+    if (this.props.form.updateVariableName) {
+      environmentVariables = {
+        ...environmentVariables,
+        [this.props.form.updateVariableName]: this.state.formUpdateVariableValue
+      }
+    }
+
+    const {onSuccessEnvironmentVariables} = this.props.form
+    if (!onSuccessEnvironmentVariables || onSuccessEnvironmentVariables.length === 0)
+      return this.props.setEnvironment(environmentVariables)
+
+    for (const field of onSuccessEnvironmentVariables) {
+      if (field === '_id') {
+        environmentVariables = {...environmentVariables, [field]: _id}
+      } else if (Object.keys(data).includes(field)) {
+        environmentVariables = {...environmentVariables, [field]: data[field]}
+      }
+    }
+    this.props.setEnvironment(environmentVariables)
+  }
+
+  parseUrl(url, result) {
+    const viewParameters = Object.keys(this.props.parameters)
+    const resultData = {_id: result._id, ...result.data}
+    const resultParameters = Object.keys(resultData)
+    return new Promise((resolve, reject) => {
+      let path = url
+      const pathVars = path
+        .split('/')
+        .filter(key => /^:/.test(key))
+        .map(key => key.replace(':', ''))
+      if (!pathVars || pathVars.length === 0) resolve(path)
+
+      const missingKeys = []
+      const allKeysIncluded = pathVars.every(key => {
+        if (viewParameters.includes(key) || resultParameters.includes(key)) {
+          return true
+        } else {
+          missingKeys.push(key)
+          return false
+        }
+      })
+      if (!allKeysIncluded) {
+        reject(missingKeys)
+      }
+
+      for (const key of resultParameters) {
+        const value = resultData[key]
+        path = path.replace(`:${key}`, value)
+      }
+      for (const key of viewParameters) {
+        const value = this.props.parameters[key]
+        path = path.replace(`:${key}`, value)
+      }
+      resolve(path)
+    })
+  }
+
   @autobind
-  onSuccess(result) {
-    this.setState({docData: {}})
+  async onSuccess(result) {
+    this.setState({
+      docData: {},
+      formUpdateVariableValue: this.props.parameters[this.props.form.updateVariableName]
+    })
     this.props.setEnvironment({
       [this.props.form.updateVariableName]: null
     })
-    this.props.showMessage('Se completó con exito')
+    this.setEnvironmentVariables(result)
+    this.setState({docData: this.getData()})
+
     const rawPath = this.props.form.onSuccessViewPath
     if (rawPath) {
       let path = rawPath
       path = path.replace(`:_id`, result._id)
-      for (const key of Object.keys(result.data)) {
-        const value = result.data[key]
-        path = path.replace(`:${key}`, value)
+      try {
+        path = await this.parseUrl(path, result)
+        this.props.history.push(path)
+      } catch (missingKeys) {
+        console.log(`Missing the following params ${missingKeys.join('-')}`)
       }
-      this.props.history.push(path)
     }
+    this.props.showMessage('Se completó con éxito')
   }
 
   @autobind
@@ -134,7 +212,7 @@ export default class Form extends React.Component {
       })
       .filter(field => field.formFieldType === 'editable')
       .map(field => {
-        // remove item
+        // remove fields
         if (
           field.requiredValue === this.state.docData[field.requiredField] &&
           field.requiredType !== null
@@ -156,7 +234,18 @@ export default class Form extends React.Component {
           }
         }
       })
-      .filter(field => field)
+
+    let formData = this.state.docData
+    let formDataKeys = Object.keys(formData)
+    let schemaKeys = Object.keys(schema)
+    if (!formDataKeys.every(key => schemaKeys.includes(key))) {
+      for (const key of formDataKeys) {
+        if (!schemaKeys.includes(key)) {
+          delete formData[key]
+        }
+      }
+      this.setState({docData: formData})
+    }
 
     const params = {
       data: {
@@ -165,64 +254,6 @@ export default class Form extends React.Component {
     }
 
     return params
-    // if (filter.showField) {
-    //   console.log('filter true')
-    //   params = {
-    //     data: {
-    //       type: schema
-    //     }
-    //   }
-    // } else {[]
-    //   const response = Object.values(schema).filter(
-    //     field => field.requiredField !== filter.requiredField
-    //   )
-    //   params = {
-    //     data: {
-    //       type: schema
-    //     }
-    //   }
-    // }
-
-    // return params
-    // for (const key of Object.keys(schema)) {
-    //   const field = schema[key]
-    //   if (field.formFieldType !== 'editable') {
-    //     delete schema[key]
-    //   } else {
-    //     if (
-    //       field.requiredType === 'editable' &&
-    //       (!this.state.docData[field.requiredField] ||
-    //         this.state.docData[field.requiredField] !== field.requiredValue)
-    //     ) {
-    //       if (this.state.docData[key]) {
-    //         const state = omit(this.state.docData, key)
-    //         this.setState({docData: state})
-    //       }
-    //       delete schema[key]
-    //     } else if (
-    //       field.requiredType === 'parameter' &&
-    //       !this.props.parameters[field.requiredParameter]
-    //     ) {
-    //       if (this.state.docData[key]) {
-    //         const state = omit(this.state.docData, key)
-    //         this.setState({docData: state})
-    //       }
-    //       delete schema[key]
-    //     }
-    //   }
-
-    //   if (field.requiredValue === this.state.docData[field.requiredField]) {
-    //     if (!field.showField) {
-    //       delete schema[key]
-    //     }
-    //   }
-
-    //   if (field.requiredValue !== this.state.docData[field.requiredField]) {
-    //     if (!field.showField) {
-    //       schema[key] = field
-    //     }
-    //   }
-    // }
   }
 
   needsData() {
@@ -264,6 +295,7 @@ export default class Form extends React.Component {
             params={this.getParams()}
             passProps={{formId: this.props.form._id}}
             fields={this.filterFields()}
+            timezone={this.props.timezone}
           />
         </AutoForm>
         <br />

@@ -38,8 +38,18 @@ export default resolver({
     if (form.requireTwoFactor) {
       await requireTwoFactor(viewer)
     }
-    const item = await getResult({form, itemId, data})
-    await runHooks({form, item, userId: viewer.userId})
-    return item
+
+    const item = await getResult({form, itemId, data, viewer}).catch(err => {
+      throw err
+    })
+
+    await runHooks({form, item, userId: viewer.userId, viewer}).catch(err => {
+      throw err || 'No se han podido ejecutar alguna(s) de la funcionalidades adicionales'
+    })
+
+    const collection = await form.collectionDb()
+    const finalItem = await collection.findOne(item._id)
+
+    return finalItem
   }
 })

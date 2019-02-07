@@ -37,6 +37,12 @@ export default resolver({
     if (!buttonDataCopy.url) {
       buttonDataCopy['url'] = null
     }
+    if (!buttonDataCopy.renderType) {
+      buttonDataCopy['renderType'] = null
+    }
+    if (!buttonDataCopy.title) {
+      buttonDataCopy['title'] = null
+    }
 
     const button = await Buttons.findOne(buttonId)
     await button.update({$set: buttonDataCopy})

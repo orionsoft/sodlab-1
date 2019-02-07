@@ -1,4 +1,4 @@
-import Collections from 'app/collections/Collections'
+import {getItemFromCollection, hookStart, parseValueType, throwHookError} from '../helpers'
 
 export default {
   name: 'Actualizar valor',
@@ -8,14 +8,15 @@ export default {
       type: String,
       fieldType: 'collectionSelect'
     },
+    itemId: {
+      type: String,
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
+    },
     valueKey: {
       type: String,
       label: 'Campo a actualizar',
       fieldType: 'collectionFieldSelect'
-    },
-    itemId: {
-      type: String,
-      label: 'Id del item'
     },
     value: {
       type: String,
@@ -24,7 +25,7 @@ export default {
     },
     fieldValue: {
       type: String,
-      label: 'Valor del campo a insertar',
+      label: '(opcional) Valor del campo a insertar',
       fieldType: 'fieldOptions',
       parentCollection: 'collectionId',
       parentField: 'value',
@@ -32,33 +33,53 @@ export default {
     },
     useParam: {
       type: Boolean,
-      label: 'Usar Parámetro',
-      fieldType: 'checkbox',
+      label: '(opcional) Usar Parámetro',
+      fieldType: 'select',
+      fieldOptions: {
+        options: [{label: 'Si', value: true}, {label: 'No', value: false}]
+      },
+      defaultValue: false,
       optional: true
+    },
+    valueType: {
+      label: '(opcional) Formato del valor a insertar. Por defecto se usará el formato Texto',
+      type: String,
+      fieldType: 'select',
+      fieldOptions: {
+        options: [
+          {label: 'Texto', value: 'string'},
+          {label: 'Número', value: 'number'},
+          {label: 'Verdadero/False', value: 'boolean'}
+        ]
+      },
+      defaultValue: 'string'
     }
   },
-  async execute({options}) {
-    const {collectionId, valueKey, itemId, value, fieldValue, useParam} = options
+  async execute({options, hook, hooksData, viewer}) {
+    const {collectionId, valueKey, itemId, value, fieldValue, useParam, valueType} = options
+    const {shouldThrow} = hook
+    let item = {}
 
     try {
-      const col = await Collections.findOne(collectionId)
-      const collection = await col.db()
-      const item = await collection.findOne(itemId)
-
-      if (!item) return
-
+      item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
       const newValue = useParam ? value : fieldValue ? fieldValue : item.data[value]
+      const formattedValue = parseValueType(valueType, newValue)
 
-      await item.update({$set: {[`data.${valueKey}`]: newValue}})
+      await item.update({$set: {[`data.${valueKey}`]: formattedValue}})
 
-      return {success: true}
+      const newItem = await getItemFromCollection({collectionId, itemId: item._id})
+      return {start: item, result: newItem, success: true}
     } catch (err) {
-      const newValue = useParam ? value : fieldValue ? fieldValue : `item.data.${value}`
-      console.log(
-        `Error when trying to update the docId: ${itemId} from collection ${collectionId}, from value: ${value} to new value: ${newValue}`,
-        err
-      )
-      return {success: false}
+      if (typeof item !== 'undefined') {
+        const newValue = useParam ? value : fieldValue ? fieldValue : `${item.data[value]}`
+        console.log(
+          `Error when trying to update the docId: ${
+            item._id
+          } from collection ${collectionId}, from value: ${value} to new value: ${newValue}`,
+          err
+        )
+      }
+      return throwHookError(err)
     }
   }
 }

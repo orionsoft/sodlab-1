@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Flatpickr from 'react-flatpickr'
 import {Spanish} from 'flatpickr/dist/l10n/es'
-import moment from 'moment'
+import moment from 'moment-timezone/builds/moment-timezone-with-data'
 import autobind from 'autobind-decorator'
 
 export default class DateTime extends React.Component {
@@ -12,7 +12,8 @@ export default class DateTime extends React.Component {
     errorMessage: PropTypes.string,
     format: PropTypes.string,
     enableTime: PropTypes.bool,
-    locale: PropTypes.any
+    locale: PropTypes.any,
+    passProps: PropTypes.object
   }
 
   static defaultProps = {
@@ -25,11 +26,17 @@ export default class DateTime extends React.Component {
   }
 
   getOptions() {
+    const timezone = this.props.passProps.timezone
+      ? this.props.passProps.timezone
+      : 'America/Santiago'
+
     return {
       disableMobile: true,
       locale: this.props.locale,
       formatDate: date => {
-        return moment(date).format(this.props.format)
+        return moment(date)
+          .tz(timezone)
+          .format(this.props.format)
       }
     }
   }

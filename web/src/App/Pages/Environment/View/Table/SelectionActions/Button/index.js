@@ -8,6 +8,7 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import withMutation from 'react-apollo-decorators/lib/withMutation'
 import gql from 'graphql-tag'
 import Button from 'orionsoft-parts/lib/components/Button'
+import {withRouter} from 'react-router'
 
 @withGraphQL(gql`
   query button($buttonId: ID) {
@@ -18,6 +19,11 @@ import Button from 'orionsoft-parts/lib/components/Button'
       buttonText
       url
       icon
+      environmentId
+      parameters {
+        parameterName
+        value
+      }
     }
   }
 `)
@@ -27,6 +33,7 @@ import Button from 'orionsoft-parts/lib/components/Button'
   }
 `)
 @withMessage
+@withRouter
 export default class ButtonView extends React.Component {
   static propTypes = {
     showMessage: PropTypes.func,
@@ -34,21 +41,91 @@ export default class ButtonView extends React.Component {
     buttonSubmitBatch: PropTypes.func,
     items: PropTypes.object,
     all: PropTypes.bool,
-    params: PropTypes.object
+    params: PropTypes.object,
+    viewParams: PropTypes.object
   }
 
-  async onClick({buttonType}) {
+  parseParameters({buttonSubmitBatch}) {
+    const availableParameters = {
+      ...this.props.viewParams,
+      environmentId: this.props.button.environmentId,
+      ...buttonSubmitBatch
+    }
+    if (!this.props.button.parameters || !this.props.button.parameters.length)
+      return availableParameters
+
+    const buttonParameters = this.props.button.parameters
+    let parsedParams = {}
+    for (const obj of buttonParameters) {
+      const existsInView = Object.keys(availableParameters).includes(obj.value)
+      if (existsInView) {
+        parsedParams[obj.parameterName] = availableParameters[obj.value]
+      } else {
+        parsedParams[obj.parameterName] = obj.value
+      }
+    }
+    return {...availableParameters, ...parsedParams}
+  }
+
+  parseUrl(url, parameters) {
+    const parametersArray = Object.keys(parameters)
+    return new Promise((resolve, reject) => {
+      let path = url
+      const pathVars = path
+        .split('/')
+        .filter(key => /^:/.test(key))
+        .map(key => key.replace(':', ''))
+      if (!pathVars || pathVars.length === 0) resolve(path)
+
+      const missingKeys = []
+      const allKeysIncluded = pathVars.every(key => {
+        if (parametersArray.includes(key)) {
+          return true
+        } else {
+          missingKeys.push(key)
+          return false
+        }
+      })
+      if (!allKeysIncluded) {
+        reject(missingKeys)
+      }
+
+      for (const key of parametersArray) {
+        const value = parameters[key]
+        path = path.replace(`:${key}`, value)
+      }
+      resolve(path)
+    })
+  }
+
+  async onClick(data) {
+    let buttonSubmitBatch = {}
     try {
-      await this.props.buttonSubmitBatch({
+      const response = await this.props.buttonSubmitBatch({
         buttonId: this.props.button._id,
         parameters: this.props.items,
-        type: buttonType,
+        type: data.buttonType,
         params: this.props.params
       })
-      this.props.showMessage('Hecho')
+      buttonSubmitBatch = response.buttonSubmitBatch
     } catch (error) {
       this.props.showMessage(error)
     }
+
+    let path = null
+    if (data.url) {
+      try {
+        const parameters = this.parseParameters({buttonSubmitBatch})
+        path = await this.parseUrl(data.url, parameters).catch(missingKeys => {
+          console.log(`Missing the following params ${missingKeys.join('-')}`)
+          throw new Error('No se ha podido redireccionar a la vista deseada')
+        })
+      } catch (error) {
+        this.props.showMessage(error)
+      }
+    }
+    if (path) return this.props.history.push(path)
+    this.props.showMessage('Hecho')
   }
 
   renderWithIcon(data) {

@@ -55,5 +55,12 @@ export default {
   intercom: {
     type: Boolean,
     optional: true
+  },
+  titleColor: {
+    type: String,
+    label: 'Color del título',
+    fieldType: 'colorPicker',
+    fieldOptions: {defaultColor: '#000'},
+    optional: true
   }
 }

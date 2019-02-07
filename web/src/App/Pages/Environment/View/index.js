@@ -22,6 +22,7 @@ import Chart from './Chart'
         _id
         title
         intercom
+        titleColor
         items {
           sizeSmall
           sizeLarge
@@ -55,7 +56,8 @@ export default class View extends React.Component {
     view: PropTypes.object,
     environmentId: PropTypes.string,
     intercomId: PropTypes.string,
-    userByEnvironment: PropTypes.object
+    userByEnvironment: PropTypes.object,
+    timezone: PropTypes.string
   }
 
   state = {fullSize: false, key: null}
@@ -82,10 +84,12 @@ export default class View extends React.Component {
   }
 
   renderItem(item, fullSize, preIndex) {
+    const timezone = this.props.timezone ? this.props.timezone : 'America/Santiago'
     const props = {
       routeParams: this.props.params,
       state: this.state,
       parameters: this.getParameters(),
+      timezone,
       setEnvironment: changes => this.setState(changes)
     }
 
@@ -112,7 +116,10 @@ export default class View extends React.Component {
     }
     if (item.type === 'chart') {
       return (
-        <div className={styles.item}>
+        <div
+          className={styles.item}
+          // style fix needed to show the charts legends
+          style={{padding: '0px 0px 20px 0px'}}>
           <Chart {...props} chartId={item.chartId} fullSize={fullSize} />
         </div>
       )
@@ -190,7 +197,7 @@ export default class View extends React.Component {
       <div className={styles.container}>
         {this.renderFullSizeStyles()}
         <Container>
-          <h1>{view.title && view.title}</h1>
+          <h1 style={{color: view.titleColor}}>{view.title && view.title}</h1>
           {this.renderItems(view.items)}
           {view.intercom && <Intercom intercomId={intercomId} email={userByEnvironment.email} />}
         </Container>

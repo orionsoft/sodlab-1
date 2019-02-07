@@ -1,7 +1,7 @@
 import {validate, clean} from '@orion-js/schema'
 import Validations from 'app/collections/Validations'
 
-export default async function({form, rawData}) {
+export default async function({form, rawData, itemId, viewer = null}) {
   /**
    * Validates with the form schema
    */
@@ -31,9 +31,15 @@ export default async function({form, rawData}) {
     throw error
   }
 
+  const completeData = {_id: itemId, ...rawData, ...data}
   for (const validationId of form.validationsIds || []) {
     const validation = await Validations.findOne(validationId)
-    await validation.execute({params: data})
+    try {
+      await validation.execute({params: data, formId: form._id, data: completeData}, viewer)
+    } catch (err) {
+      console.log(`Error running Validation ${validation.name} from Form ${form.name}`, err)
+      throw err
+    }
   }
 
   return data

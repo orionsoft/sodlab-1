@@ -1,0 +1,28 @@
+{
+  "rut": {
+    "type": "param",
+    "field":"rut"
+  },
+  "nombres": {
+    "type": "fixed",
+    "field":"nombreCompleto", 
+    "value":"Luke Skywalker"
+  },
+  "_id": {
+    "type": "param",
+    "field": "direccion"
+  },
+  "_": {
+    "type": "fixed",
+    "field": "categoriaDocumento",
+    "value": "Documentos Privados"
+  },
+  "user_rut": {
+    "type": "param",
+    "field": "rutFuncionario"
+  },
+  "user_nombre": {
+    "type": "param",
+    "field": "nombreFuncionario"
+  }
+}

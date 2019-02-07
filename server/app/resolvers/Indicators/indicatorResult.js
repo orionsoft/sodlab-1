@@ -9,9 +9,24 @@ const Result = new Model({
     },
     renderType: {
       type: String
+    },
+    renderFormat: {
+      type: String
     }
   }
 })
+
+// temp fix. New feature added to help formatting dates. Since it's not needed by every indicator,
+// this list helps to know from wich indicators we can get call the function
+// In a future PR the renderFormat method should be added to every indicator and erase this list
+// Number types would also benefit from this method
+const renderFormatIndicatorTypes = [
+  'currentDate',
+  'dateOperation',
+  'currentDateTime',
+  'valueOfFieldInItem',
+  'valueOfFieldUniqueId'
+]
 
 export default resolver({
   params: {
@@ -36,9 +51,13 @@ export default resolver({
     const indicator = await Indicators.findOne(indicatorId)
     const value = await indicator.result({filterId, filterOptions, params}, viewer)
     const renderType = await indicator.renderType({filterId, filterOptions}, viewer)
+    const renderFormat = renderFormatIndicatorTypes.includes(indicator.indicatorTypeId)
+      ? await indicator.renderFormat({}, viewer)
+      : ''
     return {
       renderType,
-      value
+      value,
+      renderFormat
     }
   }
 })

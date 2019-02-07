@@ -4,7 +4,6 @@ import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
 import Breadcrumbs from '../../Breadcrumbs'
 import PropTypes from 'prop-types'
-import Section from 'App/components/Section'
 import AutoForm from 'App/components/AutoForm'
 import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import Button from 'orionsoft-parts/lib/components/Button'
@@ -20,6 +19,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import translate from 'App/i18n/translate'
 import range from 'lodash/range'
 import clone from 'lodash/clone'
+import ColorPicker from 'App/components/fields/ColorPicker'
 
 @withGraphQL(gql`
   query getForm($viewId: ID, $environmentId: ID) {
@@ -31,6 +31,7 @@ import clone from 'lodash/clone'
       path
       roles
       intercom
+      titleColor
       items {
         sizeSmall
         sizeMedium
@@ -121,8 +122,8 @@ export default class View extends React.Component {
     if (!option) return null
     const result = this.props[option.result] || {}
     const items = result.items || []
-    const orderedItems = clone(items).sort(
-      (a, b) => (a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1)
+    const orderedItems = clone(items).sort((a, b) =>
+      a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
     )
     return (
       <div className="col-xs-12 col-sm-4">
@@ -206,60 +207,56 @@ export default class View extends React.Component {
     return (
       <div className={styles.container}>
         <Breadcrumbs>{this.props.view.name}</Breadcrumbs>
-        <Section
-          top
-          title={`Editar vista ${this.props.view.name}`}
-          description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
-          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
-          <AutoForm
-            mutation="updateView"
-            getErrorFieldLabel={() => translate('general.thisField')}
-            ref="form"
-            only="view"
-            onSuccess={this.onSuccess}
-            doc={{
-              viewId: this.props.view._id,
-              view: cloneDeep(this.props.view)
-            }}>
-            <Field fieldName="view" type={ObjectField}>
-              <div className="label">Ruta</div>
-              <Field fieldName="path" type={Text} />
-              <div className="description">Debe empezar con /</div>
-              <div className="label">Nombre</div>
-              <Field fieldName="name" type={Text} />
-              <div className="label">Título</div>
-              <Field fieldName="title" type={Text} />
-              <div className="label">Mostrar Intercom</div>
-              <Field fieldName="intercom" type={Checkbox} />
-              <div className="label">Contenido</div>
-              <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
-              <div className="label">Roles</div>
-              <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
-            </Field>
-          </AutoForm>
-          <br />
-          <div className={styles.buttonContainer}>
-            <div>
-              <Button to={`/${this.props.view.environmentId}/views`} style={{marginRight: 10}}>
-                Cancelar
-              </Button>
-              <MutationButton
-                label="Eliminar"
-                title="¿Confirma que desea eliminar esta vista?"
-                confirmText="Confirmar"
-                mutation="removeView"
-                onSuccess={this.removeView}
-                params={{viewId: this.props.view._id}}
-                danger
-              />
-            </div>
-            <div>
-              <Button onClick={() => this.refs.form.submit()} primary>
-                Guardar
-              </Button>
-            </div>
+        <AutoForm
+          mutation="updateView"
+          getErrorFieldLabel={() => translate('general.thisField')}
+          ref="form"
+          only="view"
+          onSuccess={this.onSuccess}
+          doc={{
+            viewId: this.props.view._id,
+            view: cloneDeep(this.props.view)
+          }}>
+          <Field fieldName="view" type={ObjectField}>
+            <div className="label">Ruta</div>
+            <Field fieldName="path" type={Text} />
+            <div className="description">Debe empezar con /</div>
+            <div className="label">Nombre</div>
+            <Field fieldName="name" type={Text} />
+            <div className="label">Título</div>
+            <Field fieldName="title" type={Text} />
+            <div className="label">Color del Título</div>
+            <Field fieldName="titleColor" type={ColorPicker} />
+            <div className="label">Mostrar Intercom</div>
+            <Field fieldName="intercom" type={Checkbox} />
+            <div className="label">Contenido</div>
+            <Field fieldName="items" type={ArrayComponent} renderItem={this.renderItem} />
+            <div className="label">Roles</div>
+            <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
+          </Field>
+        </AutoForm>
+        <br />
+        <div className={styles.buttonContainer}>
+          <div>
+            <Button to={`/${this.props.view.environmentId}/views`} style={{marginRight: 10}}>
+              Cancelar
+            </Button>
+            <MutationButton
+              label="Eliminar"
+              title="¿Confirma que desea eliminar esta vista?"
+              confirmText="Confirmar"
+              mutation="removeView"
+              onSuccess={this.removeView}
+              params={{viewId: this.props.view._id}}
+              danger
+            />
           </div>
-        </Section>
+          <div>
+            <Button onClick={() => this.refs.form.submit()} primary>
+              Guardar
+            </Button>
+          </div>
+        </div>
       </div>
     )
   }

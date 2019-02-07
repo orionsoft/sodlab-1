@@ -29,7 +29,13 @@ export default {
 
     const a = 97
     const scope = {}
-    for (var i = 0; i < values.length; i++) scope[String.fromCharCode(a + i)] = values[i]
+    for (var i = 0; i < values.length; i++) {
+      if (typeof values[i] === 'undefined') {
+        scope[String.fromCharCode(a + i)] = ''
+      } else {
+        scope[String.fromCharCode(a + i)] = values[i]
+      }
+    }
 
     let result = options.operation
     Object.keys(scope).forEach(variable => {

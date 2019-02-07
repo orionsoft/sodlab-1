@@ -27,6 +27,7 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
       functionTypeId
       options
       validationsIds
+      shouldThrow
     }
     functionTypes {
       value: _id
@@ -125,6 +126,15 @@ export default class Hook extends React.Component {
                 options={this.props.validations.items}
               />
               <div className="description">Si pasa todas las validaciones el hook se ejecuta</div>
+              <div className="label">Detener la ejecución si el hook anterior falló</div>
+              <Field
+                fieldName="shouldThrow"
+                type={Select}
+                options={[{label: 'Si', value: true}, {label: 'No', value: false}]}
+              />
+              <div className="description">
+                Opcional. Por defecto se ejecutará aunque falle el anterior
+              </div>
               <WithValue>{this.renderOptions}</WithValue>
             </Field>
           </AutoForm>

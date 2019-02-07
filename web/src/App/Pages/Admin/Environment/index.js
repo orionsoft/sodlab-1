@@ -34,6 +34,7 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
       logo {
         url
       }
+      timezone
     }
     me {
       _id

@@ -31,16 +31,23 @@ export default class CollectionFieldSelect extends React.Component {
   }
 
   getOptions() {
-    if (!this.props.includeId || !this.props.schema) return this.props.collection.fields || []
-    const {only, idField} = this.props.schema
-    const idOption = idField && {label: idField || 'ID', value: '_id'}
-    const items = this.props.collection.fields || []
-    const options = only
-      ? items.filter(item => {
-          return only.includes(item.type)
-        })
-      : items
-    return idOption ? union([idOption], options) : options
+    // !!TODO
+    // Original code that stopped working most likely when "Sections" in forms were introduced
+    // this.props.schema is always missing in props so the option to choose the ID is never available
+    // Adding it like in the return statement makes it available everywhere where collectionFieldSelect is used
+    // though that doesn't mean it will be correctly used/parsed
+
+    // if (!this.props.includeId || !this.props.schema) return this.props.collection.fields || []
+    // const {only, idField} = this.props.schema
+    // const idOption = {label: idField || 'ID', value: '_id'}
+    // const items = this.props.collection.fields || []
+    // const options = only
+    //   ? items.filter(item => {
+    //       return only.includes(item.type)
+    //     })
+    //   : items
+    // return idOption ? union([idOption], options) : options
+    return union([{label: 'ID', value: '_id'}], this.props.collection.fields)
   }
 
   render() {

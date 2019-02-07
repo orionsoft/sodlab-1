@@ -24,6 +24,12 @@
   color: #282828;
 }
 
+@media only screen and (max-width: 899px) {
+  :local(.headerText) {
+    text-align: center;
+  }
+}
+
 :local(.deviceImageContainer) {
   width: 100%;
   height: 70%;

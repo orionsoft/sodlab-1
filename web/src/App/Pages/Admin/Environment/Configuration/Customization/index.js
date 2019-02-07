@@ -27,6 +27,7 @@ export default class Customization extends React.Component {
       fontName
       sideBarColor
       sideBarTextColor
+      backgroundColor
     }
   `
 

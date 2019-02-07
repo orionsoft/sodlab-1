@@ -17,11 +17,15 @@ export default resolver({
     userId: {
       type: 'ID'
     },
-    functionName: {
-      type: String
-    },
     view: {
       type: String,
+      optional: true
+    },
+    hook: {
+      type: 'blackbox'
+    },
+    hooksData: {
+      type: 'blackbox',
       optional: true
     }
   },
@@ -29,7 +33,7 @@ export default resolver({
   private: true,
   async resolve(
     functionType,
-    {options: rawOptions, params, environmentId, functionName, userId, view},
+    {options: rawOptions, params, environmentId, userId, view, hook, hooksData},
     viewer
   ) {
     const schema = functionType.optionsSchema
@@ -38,6 +42,15 @@ export default resolver({
       options = await clean(schema, rawOptions)
       await validate(schema, options)
     }
-    return await functionType.execute({options, params, environmentId, userId, view, functionName})
+    return await functionType.execute({
+      options,
+      params,
+      environmentId,
+      userId,
+      view,
+      hook,
+      hooksData,
+      viewer
+    })
   }
 })

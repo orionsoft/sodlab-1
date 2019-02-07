@@ -3,6 +3,7 @@ import Tables from 'app/collections/Tables'
 import Hooks from 'app/collections/Hooks'
 import Users from 'app/collections/Users'
 import {requireTwoFactor} from '@orion-js/auth'
+import {runSequentialHooks} from 'app/helpers/functionTypes/helpers'
 
 export default resolver({
   params: {
@@ -26,7 +27,8 @@ export default resolver({
     const field = table.fields[fieldIndex]
     if (field.type !== 'deleteRowByUser') throw new Error('Table column is not delete')
 
-    const user = await Users.findOne({_id: viewer.userId})
+    const {userId} = viewer
+    const user = await Users.findOne({_id: userId})
     const twoFactor = await user.hasTwoFactor()
 
     if (!twoFactor && field.options.requireTwoFactor)
@@ -46,19 +48,30 @@ export default resolver({
       }
     }
 
-    await collectionDB.remove(itemId)
-
     if (field.options && field.options.hooksIds && field.options.hooksIds.length) {
       const hooks = await Hooks.find({_id: {$in: field.options.hooksIds}}).toArray()
+      const hooksIds = hooks.map(hook => hook._id)
       const params = {_id: item._id, ...item.data}
-      for (const hook of hooks) {
-        try {
-          await hook.execute({params})
-        } catch (e) {
-          console.log('Error running hook', e)
+      await runSequentialHooks({
+        hooksIds,
+        params,
+        userId,
+        shouldStopHooksOnError: field.options.shouldStopHooksOnError,
+        environmentId: table.environmentId
+      }).catch(err => {
+        const error = {
+          ...err,
+          tableName: table.name,
+          itemIdToDelete: itemId
         }
-      }
+        console.log(error)
+        throw err.originalMsg ||
+          'No se han podido ejecutar alguna(s) de la funcionalidades adicionales'
+      })
     }
+
+    await collectionDB.remove(itemId)
+
     return true
   }
 })

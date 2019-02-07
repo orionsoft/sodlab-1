@@ -81,5 +81,19 @@ export default {
         return 'required'
       }
     }
+  },
+  textColor: {
+    type: String,
+    label: 'Color del texto e icono',
+    fieldType: 'colorPicker',
+    fieldOptions: {defaultColor: '#181818'},
+    optional: true
+  },
+  backgroundColor: {
+    type: String,
+    label: 'Color de fondo',
+    fieldType: 'colorPicker',
+    fieldOptions: {defaultColor: '#fff'},
+    optional: true
   }
 }

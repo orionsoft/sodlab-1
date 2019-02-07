@@ -194,7 +194,6 @@ export default class DocumentEditorPagination extends React.Component {
           src={this.props.pagesSrc[this.props.activePage - 1].src}
           alt=""
           onClick={this.handleImageClick}
-          width="500"
         />
       )
     } else {

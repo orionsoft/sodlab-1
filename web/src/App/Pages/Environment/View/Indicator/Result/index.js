@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import isNil from 'lodash/isNil'
 import NumberIncrement from 'App/components/NumberIncrement'
+import moment from 'moment-timezone/builds/moment-timezone-with-data'
 
 @withGraphQL(gql`
   query getIndicatorResult($indicatorId: ID, $filterId: ID, $filterOptions: JSON, $params: JSON) {
@@ -16,6 +17,7 @@ import NumberIncrement from 'App/components/NumberIncrement'
     ) {
       value
       renderType
+      renderFormat
     }
   }
 `)
@@ -24,7 +26,8 @@ export default class Result extends React.Component {
     result: PropTypes.any,
     indicator: PropTypes.object,
     setRef: PropTypes.func,
-    fullSize: PropTypes.bool
+    fullSize: PropTypes.bool,
+    timezone: PropTypes.string
   }
 
   constructor(props) {
@@ -46,6 +49,28 @@ export default class Result extends React.Component {
     )
   }
 
+  renderDate(value) {
+    const {fullSize} = this.props
+    const renderFormat = this.props.result.renderFormat
+      ? this.props.result.renderFormat
+      : 'MM/DD/YYYY'
+    const date = moment(value)
+      .tz(this.props.timezone)
+      .format(renderFormat)
+    return <div className={fullSize ? styles.fullSizeResult : styles.result}>{date}</div>
+  }
+
+  renderDatetime(value) {
+    const {fullSize} = this.props
+    const renderFormat = this.props.result.renderFormat
+      ? this.props.result.renderFormat
+      : 'MM/DD/YYYY kk:mm'
+    const date = moment(value)
+      .tz(this.props.timezone)
+      .format(renderFormat)
+    return <div className={fullSize ? styles.fullSizeResult : styles.result}>{date}</div>
+  }
+
   getIndicatorType() {
     const {value, renderType} = this.props.result
     if (isNil(value)) return '-'
@@ -61,6 +86,12 @@ export default class Result extends React.Component {
     }
     if (renderType === 'boolean') {
       return this.renderValue(value ? 'Verdadero' : 'Falso')
+    }
+    if (renderType === 'date') {
+      return this.renderDate(value)
+    }
+    if (renderType === 'datetime') {
+      return this.renderDatetime(value)
     }
 
     return this.renderValue(value)

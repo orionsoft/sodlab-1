@@ -9,7 +9,19 @@ import withMessage from 'orionsoft-parts/lib/decorators/withMessage'
 import styles from './styles.css'
 import autobind from 'autobind-decorator'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
+import withMutation from 'react-apollo-decorators/lib/withMutation'
+import gql from 'graphql-tag'
 
+@withMutation(gql`
+  mutation tableDeleteItem($tableId: ID, $fieldIndex: Float, $itemId: ID) {
+    tableDeleteItem(tableId: $tableId, fieldIndex: $fieldIndex, itemId: $itemId)
+  }
+`)
+@withMutation(gql`
+  mutation tableRunHooks($tableId: ID, $fieldIndex: Float, $itemId: ID) {
+    tableRunHooks(tableId: $tableId, fieldIndex: $fieldIndex, itemId: $itemId)
+  }
+`)
 @withMessage
 @withRouter
 export default class Field extends React.Component {
@@ -27,10 +39,34 @@ export default class Field extends React.Component {
     parameters: PropTypes.object,
     fieldIndex: PropTypes.number,
     toggleSelectedItem: PropTypes.func,
-    selected: PropTypes.bool
+    selected: PropTypes.bool,
+    environmentId: PropTypes.string,
+    tableDeleteItem: PropTypes.func,
+    tableRunHooks: PropTypes.func,
+    timezone: PropTypes.string
   }
 
   state = {}
+
+  @autobind
+  async deleteItem({tableId, itemId, fieldIndex}) {
+    try {
+      await this.props.tableDeleteItem({tableId, itemId, fieldIndex})
+      this.props.showMessage('Elemento eliminado satisfactoriamente!')
+    } catch (err) {
+      this.props.showMessage(err)
+    }
+  }
+
+  @autobind
+  async runHooks({tableId, itemId, fieldIndex}) {
+    try {
+      await this.props.tableRunHooks({tableId, itemId, fieldIndex})
+      this.props.showMessage('Se ha ejecutado correctamente')
+    } catch (err) {
+      this.props.showMessage(err)
+    }
+  }
 
   @autobind
   async sendPostItem({url, data}) {
@@ -54,13 +90,24 @@ export default class Field extends React.Component {
   }
 
   renderTypeField() {
-    const {doc, field, collectionField} = this.props
+    const {doc, field, collectionField, timezone} = this.props
+    if (collectionField && collectionField.name === '_id') {
+      return (
+        <ItemValue
+          value={doc._id}
+          field={collectionField}
+          tableField={field}
+          table={this.props.table}
+        />
+      )
+    }
     return (
       <ItemValue
         value={doc.data[field.fieldName]}
         field={collectionField}
         tableField={field}
         table={this.props.table}
+        timezone={timezone}
       />
     )
   }
@@ -109,33 +156,57 @@ export default class Field extends React.Component {
     const {table, doc, field, fieldIndex} = this.props
     const icon = icons[field.options.icon]
     const itemId = doc._id
-    return (
-      <MutationButton
-        label="Eliminar"
-        title={field.options.modalText || '¿Quieres eliminar este documento?'}
-        confirmText="Confirmar"
-        mutation="tableDeleteItem"
-        onSuccess={() => this.props.showMessage('Elemento eliminado satisfactoriamente!')}
-        params={{tableId: table._id, itemId, fieldIndex}}>
-        <IconButton icon={icon} tooltip={field.options.tooltip} size={18} />
-      </MutationButton>
-    )
+
+    if (field.options.modalText) {
+      return (
+        <MutationButton
+          label="Eliminar"
+          title={field.options.modalText || '¿Quieres eliminar este documento?'}
+          confirmText="Confirmar"
+          mutation="tableDeleteItem"
+          onSuccess={() => this.props.showMessage('Elemento eliminado satisfactoriamente!')}
+          params={{tableId: table._id, itemId, fieldIndex}}>
+          <IconButton icon={icon} tooltip={field.options.tooltip} size={18} />
+        </MutationButton>
+      )
+    } else {
+      return (
+        <IconButton
+          icon={icon}
+          tooltip={field.options.tooltip}
+          size={18}
+          onPress={() => this.deleteItem({tableId: table._id, itemId, fieldIndex})}
+        />
+      )
+    }
   }
 
   renderRunHooks() {
     const {table, doc, field, fieldIndex} = this.props
     const icon = icons[field.options.icon]
     const itemId = doc._id
-    return (
-      <MutationButton
-        title={field.options.modalText || field.options.tooltip}
-        confirmText="Confirmar"
-        mutation="tableRunHooks"
-        onSuccess={() => this.props.showMessage('Se ha ejecutado correctamente')}
-        params={{tableId: table._id, itemId, fieldIndex, view: this.props.match.url}}>
-        <IconButton icon={icon} tooltip={field.options.tooltip} size={18} />
-      </MutationButton>
-    )
+
+    if (field.options.modalText) {
+      return (
+        <MutationButton
+          title={field.options.modalText || field.options.tooltip}
+          confirmText="Confirmar"
+          mutation="tableRunHooks"
+          onSuccess={() => this.props.showMessage('Se ha ejecutado correctamente')}
+          params={{tableId: table._id, itemId, fieldIndex, view: this.props.match.url}}>
+          <IconButton icon={icon} tooltip={field.options.tooltip} size={18} />
+        </MutationButton>
+      )
+    } else {
+      return (
+        <IconButton
+          icon={icon}
+          tooltip={field.options.tooltip}
+          size={18}
+          onPress={() => this.runHooks({tableId: table._id, itemId, fieldIndex})}
+        />
+      )
+    }
   }
 
   renderPostItem() {
@@ -143,7 +214,8 @@ export default class Field extends React.Component {
     const icon = icons[field.options.icon]
     const data = {
       _id: doc._id,
-      ...doc.data
+      ...doc.data,
+      environmentId: this.props.environmentId
     }
     const url = field.options.url
     return (

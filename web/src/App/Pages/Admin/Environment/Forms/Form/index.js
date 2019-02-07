@@ -34,6 +34,7 @@ import Fields from './Fields'
       resetButtonText
       requireTwoFactor
       roles
+      onSuccessEnvironmentVariables
       fields {
         fieldName
         type
@@ -153,6 +154,13 @@ export default class Form extends React.Component {
     return <div className={styles.name}>{data.label}</div>
   }
 
+  renderSuccessEnvironmentVariables() {
+    const {collection} = this.props.form
+    let options = collection.fields.map(field => ({label: field.label, value: field.name}))
+    options = [{label: 'ID', value: '_id'}, ...options]
+    return <Field fieldName="onSuccessEnvironmentVariables" type={Select} multi options={options} />
+  }
+
   render() {
     if (!this.props.form) return null
     return (
@@ -198,8 +206,16 @@ export default class Form extends React.Component {
                 multi
                 options={this.props.hooks.items}
               />
+              <div className="label">Detener la ejecución de los hooks si ocurre algún error</div>
+              <Field
+                fieldName="shouldStopHooksOnError"
+                type={Select}
+                options={[{label: 'Si', value: true}, {label: 'No', value: false}]}
+              />
               <div className="label">Roles</div>
               <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
+              <div className="label">Variables a pasar a la vista</div>
+              {this.renderSuccessEnvironmentVariables()}
               <div className="label">Texto de botón para confirmar (opcional)</div>
               <Field fieldName="submitButtonText" type={Text} />
               <div className="label">Habilitar limpiar formulario</div>

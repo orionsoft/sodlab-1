@@ -1,5 +1,6 @@
 import concatValues from './concatValues'
 import economicIndicator from './economicIndicator'
+import economicIndicatorByDate from './economicIndicatorByDate'
 import sum from './sum'
 import count from './count'
 import autoIncrement from './autoIncrement'
@@ -20,6 +21,8 @@ import currentDateCollection from './currentDateCollection'
 import elapsedTimeNumber from './elapsedTimeNumber'
 import valueOfParams from './valueOfParams'
 import valueOfUserSchema from './valueOfUserSchema'
+import valueOfFieldUniqueId from './valueOfFieldUniqueId'
+import dateOperation from './dateOperation'
 
 export default {
   currentDateTime,
@@ -27,6 +30,7 @@ export default {
   currentDateText,
   currentDateValues,
   currentDateCollection,
+  dateOperation,
   formatCurrency,
   transformCurrencyToText,
   formatNumber,
@@ -41,7 +45,9 @@ export default {
   elapsedTime,
   autoIncrement,
   valueOfFieldInItem,
+  valueOfFieldUniqueId,
   valueOfParams,
   economicIndicator,
+  economicIndicatorByDate,
   valueOfUserSchema
 }

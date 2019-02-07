@@ -1,12 +1,31 @@
-import Collections from 'app/collections/Collections'
 import rp from 'request-promise'
 import HsmRequests from 'app/collections/HsmRequests'
 import HsmDocuments from 'app/collections/HsmDocuments'
 import {runParallelHooks, runSequentialHooks} from 'app/helpers/functionTypes/helpers'
+import {getItemFromCollection, hookStart, throwHookError} from '../helpers'
 
 export default {
   name: 'Firmar documento con hsm',
   optionsSchema: {
+    apiUrl: {
+      type: Boolean,
+      label: 'Api HSM',
+      fieldType: 'select',
+      fixed: true,
+      fieldOptions: {
+        options: [{label: 'Producción', value: false}, {label: 'Test', value: true}]
+      }
+    },
+    collectionId: {
+      label: 'Collección',
+      type: String,
+      fieldType: 'collectionSelect'
+    },
+    itemId: {
+      type: String,
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
+    },
     clientId: {
       label: 'Client id',
       type: String
@@ -19,18 +38,9 @@ export default {
       label: 'Layout',
       type: String
     },
-    collectionId: {
-      label: 'Collección',
-      type: String,
-      fieldType: 'collectionSelect'
-    },
     userId: {
       label: 'Id del usuario',
       type: String
-    },
-    itemId: {
-      type: String,
-      label: 'Id del item'
     },
     fileKey: {
       type: String,
@@ -41,15 +51,6 @@ export default {
       type: String,
       label: 'Campo donde se dejará el documento firmado',
       fieldType: 'collectionFieldSelect'
-    },
-    apiUrl: {
-      type: Boolean,
-      label: 'Api HSM',
-      fieldType: 'select',
-      fixed: true,
-      fieldOptions: {
-        options: [{label: 'Producción', value: false}, {label: 'Test', value: true}]
-      }
     },
     onRequestSentHooksIds: {
       label: 'Hooks a ejecutar al solicitar un Request Id',
@@ -96,14 +97,20 @@ export default {
       fieldOptions: {multi: true},
       optional: true,
       defaultValue: []
+    },
+    shouldStopHooksOnError: {
+      label:
+        '(opcional) ¿Detener la ejecución de hooks si ocurre un error? (Por defecto no se detendrá)',
+      type: Boolean,
+      fieldType: 'select',
+      fieldOptions: {
+        options: [{label: 'Si', value: true}, {label: 'No', value: false}]
+      },
+      optional: true,
+      defaultValue: false
     }
   },
-  async execute({options, params, userId: erpUserId, environmentId}) {
-    let errorObject = {
-      envId: environmentId,
-      function: 'hook: Sign document with hsm'
-    }
-
+  async execute({options, params, userId: erpUserId, environmentId, hook, hooksData, viewer}) {
     const {
       clientId,
       signingReason,
@@ -114,30 +121,28 @@ export default {
       signedFileKey,
       userId,
       apiUrl,
-      // new fields
       onRequestSentHooksIds,
       onRequestReceivedHooksIds,
       requestTimeout,
       onRequestErrorHooksIds,
       onSuccessHooksIds,
-      onErrorHooksIds
+      onErrorHooksIds,
+      shouldStopHooksOnError
     } = options
 
-    const col = await Collections.findOne(collectionId)
-    const collection = await col.db()
-    const item = await collection.findOne(itemId)
-    if (!item) {
-      errorObject.level = 'ERROR'
-      errorObject.msg = `Document with id ${itemId} from col ${collectionId} not found`
-      console.log(errorObject)
-      return {success: false}
+    const {shouldThrow} = hook
+    let item = {}
+
+    try {
+      item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
+    } catch (err) {
+      return throwHookError(err)
     }
+
     const file = item.data[fileKey]
     if (!file) {
-      errorObject.level = 'ERROR'
-      errorObject.msg = `Document with id ${itemId} from col ${collectionId} not found doesn't contain a file in the field ${fileKey}`
-      console.log(errorObject)
-      return {success: false}
+      const err = `Document with id ${itemId} from col ${collectionId} doesn't contain a file in the field ${fileKey}`
+      return throwHookError(err)
     }
 
     let fileURL
@@ -160,11 +165,8 @@ export default {
         }
       })
     } catch (err) {
-      errorObject.level = 'ERROR'
-      errorObject.msg = `Error downloading file from ${fileURL}`
-      errorObject.err = err
-      console.log(errorObject)
-      return {success: false}
+      const err = `Error downloading file from ${fileURL}`
+      return throwHookError(err)
     }
 
     const base64 = Buffer.from(fileData).toString('base64')
@@ -203,6 +205,7 @@ export default {
         status: 'initiated',
         onSuccessHooksIds,
         onErrorHooksIds,
+        shouldStopHooksOnError,
         erpUserId,
         createdAt: requestTimestamp
       })
@@ -211,7 +214,7 @@ export default {
       console.log('Sending a single request to the HSM with data: ', hsmRequest)
     } catch (err) {
       console.log('Error inserting to Hsm Requests')
-      return
+      return throwHookError(err)
     }
 
     let result
@@ -225,22 +228,34 @@ export default {
         timeout
       })
       if (Array.isArray(onRequestSentHooksIds) && onRequestSentHooksIds.length > 0) {
-        await runSequentialHooks({hooksIds: onRequestSentHooksIds, params, userId: erpUserId})
+        await runSequentialHooks({
+          hooksIds: onRequestSentHooksIds,
+          params,
+          userId: erpUserId,
+          shouldStopHooksOnError,
+          environmentId
+        })
       }
     } catch (err) {
-      errorObject.level = 'ERROR'
-      errorObject.msg = `Error sending request to HSM`
-      errorObject.body = body
-      errorObject.err = err.toString()
-      console.log(errorObject)
+      console.log(`Error sending request to HSM`, err)
       if (Array.isArray(onRequestErrorHooksIds) && onRequestErrorHooksIds.length > 0) {
         await runParallelHooks({hooksIds: onRequestErrorHooksIds, params, userId: erpUserId})
       }
-      return {success: false}
+      return throwHookError(err)
     }
+
     console.log('Single HSM request made', {result})
     if (Array.isArray(onRequestReceivedHooksIds) && onRequestReceivedHooksIds.length > 0) {
-      await runSequentialHooks({hooksIds: onRequestReceivedHooksIds, params, userId: erpUserId})
+      await runSequentialHooks({
+        hooksIds: onRequestReceivedHooksIds,
+        params,
+        userId: erpUserId,
+        shouldStopHooksOnError,
+        environmentId
+      }).catch(err => {
+        console.log('Error executing hooks after receiving a response from the HSM', err)
+        return throwHookError(err)
+      })
     }
 
     try {
@@ -270,6 +285,7 @@ export default {
     }
 
     console.log(result)
-    return {success: true}
+    const newItem = await getItemFromCollection({collectionId, itemId: item._id})
+    return {start: item, result: newItem, success: true}
   }
 }

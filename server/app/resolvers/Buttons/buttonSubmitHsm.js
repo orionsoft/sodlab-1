@@ -110,6 +110,7 @@ export default resolver({
           status: 'initiated',
           onSuccessHooksIds,
           onErrorHooksIds,
+          shouldStopHooksOnError: button.shouldStopHooksOnError || false,
           erpUserId: viewer.userId,
           createdAt: requestTimestamp
         })
@@ -137,12 +138,21 @@ export default resolver({
               await runSequentialHooks({
                 hooksIds: onRequestSentHooksIds,
                 params: {_id: item._id, ...item.data},
-                userId: viewer.userId
+                userId: viewer.userId,
+                shouldStopHooksOnError: button.shouldStopHooksOnError,
+                environmentId: button.environmentId
               })
           )
         }
       } catch (err) {
-        console.log('Error sending request to HSM', err)
+        const hsmRequestError = typeof err === 'object' ? {...err} : err.toString()
+        const error = {
+          hsmRequestError,
+          customError: 'Error sending request to HSM',
+          hsmError: err.toString(),
+          buttonName: button.name
+        }
+        console.log(error)
         if (Array.isArray(onRequestErrorHooksIds) && onRequestErrorHooksIds.length > 0) {
           obtainedItems.map(
             async item =>
@@ -157,14 +167,25 @@ export default resolver({
       }
       console.log('Batch HSM request made', {result})
       if (Array.isArray(onRequestReceivedHooksIds) && onRequestReceivedHooksIds.length > 0) {
-        obtainedItems.map(
-          async item =>
-            await runSequentialHooks({
-              hooksIds: onRequestReceivedHooksIds,
-              params: {_id: item._id, ...item.data},
-              userId: viewer.userId
-            })
-        )
+        obtainedItems.map(async item => {
+          await runSequentialHooks({
+            hooksIds: onRequestReceivedHooksIds,
+            params: {_id: item._id, ...item.data},
+            userId: viewer.userId,
+            shouldStopHooksOnError: button.shouldStopHooksOnError,
+            environmentId: button.environmentId
+          }).catch(err => {
+            const hsmOnRequestReceivedHooksError =
+              typeof err === 'object' ? {...err} : err.toString()
+            const error = {
+              hsmOnRequestReceivedHooksError,
+              customError: 'Error sending request to HSM',
+              hsmError: err.toString(),
+              buttonName: button.name
+            }
+            console.log(error)
+          })
+        })
       }
 
       try {

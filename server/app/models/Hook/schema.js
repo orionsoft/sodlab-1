@@ -37,5 +37,11 @@ export default {
     type: ['ID'],
     label: 'Validaciones',
     optional: true
+  },
+  shouldThrow: {
+    label: '(opcional) No ejecutar si el hook anterior falló (default: No)',
+    type: Boolean,
+    optional: true,
+    defaultValue: false
   }
 }

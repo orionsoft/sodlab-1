@@ -17,6 +17,7 @@ export default class FieldOptions extends React.Component {
   }
 
   renderTypeField() {
+    const options = [{label: 'ID', value: '_id'}, ...this.props.collection.fields]
     return (
       <div className="col-xs-12 col-sm-12 col-md-8">
         <div className="row">
@@ -26,7 +27,7 @@ export default class FieldOptions extends React.Component {
           </div>
           <div className="col-xs-12 col-sm-12 col-md-6">
             <div className="label">Campo</div>
-            <Field fieldName="fieldName" type={Select} options={this.props.collection.fields} />
+            <Field fieldName="fieldName" type={Select} options={options} />
           </div>
         </div>
       </div>

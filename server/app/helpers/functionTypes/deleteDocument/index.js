@@ -1,4 +1,4 @@
-import Collections from 'app/collections/Collections'
+import {hookStart, throwHookError} from '../helpers'
 
 export default {
   name: 'Borrar un documento',
@@ -7,35 +7,40 @@ export default {
       label: 'Collección',
       type: String,
       fieldType: 'collectionSelect'
+    },
+    itemId: {
+      type: String,
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
     }
   },
-  async execute({options, params, environmentId}) {
-    const {collectionId} = options
-    const {_id} = params
-    let db
-    let item
+  async execute({options, environmentId, hook, hooksData, viewer}) {
+    const {collectionId, itemId} = options
+    const {shouldThrow} = hook
+    let item = {}
 
     try {
-      const collection = await Collections.findOne(collectionId)
-      db = await collection.db()
-      item = await db.findOne(_id)
+      item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
     } catch (err) {
       console.log(
-        `Error finding item to delete from collection ${collectionId} in environment ${environmentId}`
+        `Error finding item to delete from collection ${collectionId} in environment ${environmentId}`,
+        err
       )
-      return {success: false}
+      return throwHookError(err)
     }
 
     if (item) {
       try {
-        await db.remove(_id)
-        return {success: true}
-      } catch (error) {
+        await item.remove()
+        return {start: item, result: item, success: true}
+      } catch (err) {
         console.log(
-          `Error when trying to remove item with ID ${_id} from collection with ID ${collectionId} from env ${environmentId}, err:`,
-          error
+          `Error when trying to remove item with ID ${
+            item._id
+          } from collection with ID ${collectionId} from env ${environmentId}, err:`,
+          err
         )
-        return {success: false}
+        return throwHookError(err)
       }
     }
   }

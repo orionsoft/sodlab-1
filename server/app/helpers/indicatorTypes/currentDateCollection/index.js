@@ -1,12 +1,11 @@
-import Collections from 'app/collections/Collections'
 export default {
   name: 'Fecha: Obtener valores de variable',
-  requireCollection: true,
-  requireField: true,
+  requireCollection: false,
+  requireField: false,
   optionsSchema: {
     date: {
       type: String,
-      label: 'ItemId'
+      label: 'Nombre del campo del cual obtener el valor'
     },
     operation: {
       type: String,

@@ -1,13 +1,9 @@
 import updateValue from './updateValue'
 import updateValueWithIndicator from './updateValueWithIndicator'
 import postItem from './postItem'
-import honorsTicket from './honorsTicket'
 import signDocumentWithHSM from './signDocumentWithHSM'
 import log from './log'
 import validationSwitch from './validationSwitch'
-import generateBill from './generateBill'
-import generateDelivery from './generateDelivery'
-import generateCreditNote from './generateCreditNote'
 import generatePdfFromHTML from './generatePdfFromHTML'
 import notifications from './notifications'
 import bulkUpload from './bulkUpload'
@@ -15,23 +11,31 @@ import mailTo from './mailTo'
 import deleteDocument from './deleteDocument'
 import sequentialHooks from './sequentialHooks'
 import urlToFilemanager from './urlToFilemanager'
+import createDocument from './createDocument'
+import deleteMultipleDocuments from './deleteMultipleDocuments'
+import concatenateValues from './concatenateValues'
+import updateMultipleDocuments from './updateMultipleDocuments'
+import updateMulitpleDocumentsWithIndicator from './updateMultipleDocumentsWithIndicator'
+import batchHooks from './batchHooks'
 
 export default {
   updateValue,
   updateValueWithIndicator,
+  updateMultipleDocuments,
+  updateMulitpleDocumentsWithIndicator,
   postItem,
-  honorsTicket,
   signDocumentWithHSM,
   validationSwitch,
   log,
-  generateBill,
-  generateDelivery,
-  generateCreditNote,
   generatePdfFromHTML,
   notifications,
   bulkUpload,
   mailTo,
   deleteDocument,
+  deleteMultipleDocuments,
   sequentialHooks,
-  urlToFilemanager
+  urlToFilemanager,
+  createDocument,
+  concatenateValues,
+  batchHooks
 }

@@ -11,7 +11,7 @@ import includes from 'lodash/includes'
 import NotAllowed from 'App/Pages/Auth/NotAllowed'
 import withEnvironment from 'App/helpers/auth/withEnvironment'
 
-const adminHosts = ['localhost:3010', 'beta.sodlab.com', 'apps.sodlab.com']
+const adminHosts = ['localhost:3010', 'alpha.sodlab.com', 'beta.sodlab.com', 'apps.sodlab.com']
 
 @withRouter
 @withEnvironmentId

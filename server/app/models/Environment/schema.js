@@ -63,44 +63,10 @@ export default {
     defaultValue: [],
     optional: true
   },
-  liorenId: {
-    type: String,
-    label: 'Lioren ID Boletas',
-    optional: true
-  },
-  liorenIdBill: {
-    type: String,
-    label: 'Lioren ID Facturas',
-    optional: true
-  },
-  liorenIdCreditNote: {
-    type: String,
-    label: 'Lioren ID Nota de Créditos',
-    optional: true
-  },
-  liorenIdDelivery: {
-    type: String,
-    label: 'Lioren Guía de Despachos',
-    optional: true
-  },
   intercomId: {
     type: String,
     label: 'Intercom ID',
     optional: true
-  },
-  exempt: {
-    type: Boolean,
-    label: 'Facturas, Guía de Despachos y Nota de Créditos',
-    fieldType: 'checkbox',
-    fieldOptions: {label: 'Activar exento en documentos'},
-    defaultValue: false
-  },
-  exemptTicket: {
-    type: Boolean,
-    label: 'Boletas',
-    fieldType: 'checkbox',
-    fieldOptions: {label: 'Activar exento en boletas'},
-    defaultValue: false
   },
   sideBarColor: {
     type: String,
@@ -114,6 +80,19 @@ export default {
     label: 'Color de texto de SideBar',
     fieldType: 'colorPicker',
     fieldOptions: {defaultColor: '#fff'},
+    optional: true
+  },
+  backgroundColor: {
+    type: String,
+    label: 'Color de fondo',
+    fieldType: 'colorPicker',
+    fieldOptions: {defaultColor: '#fafafa'},
+    optional: true
+  },
+  timezone: {
+    type: String,
+    label: 'Zona horaria',
+    defaultValue: 'America/Santiago',
     optional: true
   }
 }

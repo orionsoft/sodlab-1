@@ -1,4 +1,3 @@
-import Indicators from 'app/collections/Indicators'
 export default {
   name: 'Fecha: Obtener valores de fecha actual',
   requireCollection: false,
@@ -14,6 +13,7 @@ export default {
           {label: 'Nº día de la semana', value: 'dayNumberWeekend'},
           {label: 'Nº día del mes', value: 'dayNumber'},
           {label: 'Mes', value: 'monthText'},
+          {label: 'Año', value: 'yearText'},
           {label: 'Nº del mes', value: 'monthNumber'},
           {label: 'Semana - Fin de semana', value: 'weekend'},
           {label: 'Semestre', value: 'semester'},
@@ -53,6 +53,9 @@ export default {
         break
       case 'monthText':
         return months[date.getMonth()]
+        break
+      case 'yearText':
+        return date.getFullYear()
         break
       case 'monthNumber':
         return date.getMonth() + 1

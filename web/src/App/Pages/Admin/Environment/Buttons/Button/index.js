@@ -13,6 +13,7 @@ import MutationButton from 'App/components/MutationButton'
 import {withRouter} from 'react-router'
 import {Field, WithValue} from 'simple-react-form'
 import Text from 'orionsoft-parts/lib/components/fields/Text'
+import Number from 'orionsoft-parts/lib/components/fields/numeral/Number'
 import ObjectField from 'App/components/fields/ObjectField'
 import Select from 'orionsoft-parts/lib/components/fields/Select'
 import cloneDeep from 'lodash/cloneDeep'
@@ -28,6 +29,9 @@ import Checkbox from 'App/components/fieldTypes/checkbox/Field'
       title
       environmentId
       afterHooksIds
+      itemNumberResult
+      firstHook
+      lastHook
       buttonType
       buttonText
       icon
@@ -35,6 +39,8 @@ import Checkbox from 'App/components/fieldTypes/checkbox/Field'
       requireTwoFactor
       goBack
       hsmHookId
+      postItemToUrl
+      helperType
       parameters {
         parameterName
         value
@@ -65,7 +71,12 @@ export default class ButtonComponent extends React.Component {
       {label: 'Botón', value: 'button'},
       {label: 'Texto', value: 'text'},
       {label: 'Icon', value: 'icon'},
-      {label: 'HSM', value: 'hsm'}
+      {label: 'Volver atrás', value: 'goBack'},
+      {label: 'HSM', value: 'hsm'},
+      {
+        label: 'Enviar parámetros de la vista, user e item seleccionado en formato JSON',
+        value: 'postItemToUrl'
+      }
     ]
   }
 
@@ -80,8 +91,6 @@ export default class ButtonComponent extends React.Component {
       <div style={{marginTop: 20}}>
         <div className="label">Etiqueta</div>
         <Field fieldName="buttonText" type={Text} />
-        <div className="label">Redireccionar a esta url (opcional)</div>
-        <Field fieldName="url" type={Text} />
       </div>
     )
   }
@@ -91,8 +100,6 @@ export default class ButtonComponent extends React.Component {
       <div style={{marginTop: 20}}>
         <div className="label">Icono</div>
         <Field fieldName="icon" type={Select} options={iconOptions} />
-        <div className="label">Redireccionar a esta url (opcional)</div>
-        <Field fieldName="url" type={Text} />
       </div>
     )
   }
@@ -108,9 +115,45 @@ export default class ButtonComponent extends React.Component {
     )
   }
 
+  renderPostItemOptions() {
+    return (
+      <div style={{marginTop: 20}}>
+        <div className="label">Tipo</div>
+        <Field
+          fieldName="helperType"
+          type={Select}
+          options={[
+            {label: 'Botón', value: 'button'},
+            {label: 'Texto', value: 'text'},
+            {label: 'Icon', value: 'icon'}
+          ]}
+        />
+        <div className="label">Etiqueta</div>
+        <Field fieldName="buttonText" type={Text} />
+        <div className="label">Icono</div>
+        <Field fieldName="icon" type={Select} options={iconOptions} />
+        <div className="label">Url a la cual enviar los datos</div>
+        <Field fieldName="postItemToUrl" type={Text} />
+      </div>
+    )
+  }
+
+  renderGoBack() {
+    return (
+      <div style={{marginTop: 20}}>
+        <div className="label">
+          Volver atrás (si se elige esta opción, se invalida la redirección a otra vista)
+        </div>
+        <Field fieldName="goBack" type={Checkbox} label="Activar volver atrás" />
+      </div>
+    )
+  }
+
   renderButtonOptions(button) {
     if (button.buttonType === 'icon') return this.renderSelectIcon()
     if (button.buttonType === 'hsm') return this.renderHsmOptions()
+    if (button.buttonType === 'goBack') return this.renderGoBack()
+    if (button.buttonType === 'postItemToUrl') return this.renderPostItemOptions()
     if (button.buttonType) {
       return this.renderTextField()
     }
@@ -158,6 +201,14 @@ export default class ButtonComponent extends React.Component {
               <Field fieldName="title" type={Text} />
               <div className="label">Tipo</div>
               <Field fieldName="buttonType" type={Select} options={this.getButtonTypes()} />
+              <div className="label">
+                (opcional) Mensaje a mostrar después de ejecutar exitosamente el botón
+              </div>
+              <Field fieldName="onSuccessMessage" type={Text} />
+              <div className="label">
+                (opcional) Mensaje a mostrar al ocurrir un error al ejecutar el botón
+              </div>
+              <Field fieldName="onErrorMessage" type={Text} />
               <div className="label">Hooks</div>
               <Field
                 fieldName="afterHooksIds"
@@ -165,11 +216,48 @@ export default class ButtonComponent extends React.Component {
                 multi
                 options={this.props.hooks.items}
               />
-              <div className="label">Requerir autenticación de dos factores</div>
+              <div className="label">
+                (opcional) Resultado de los hooks a usar. Influye en la interpretación de la url y
+                envío de datos. Posibles valores: 0 (parámetros iniciales), 1 (resultado del primer
+                hook), N (resultado del hook N), "params" (opción por defecto, es igual al resultado
+                del último hook)
+              </div>
+              <Field fieldName="hookResult" type={Text} />
+              <div className="label">
+                (opcional) Resultado del item a utilizar en las operaciones batch
+              </div>
+              <Field fieldName="itemNumberResult" type={Number} />
+              <div className="label">
+                (opcional) Detener la ejecución de los hooks si ocurre algún error
+              </div>
+              <Field
+                fieldName="shouldStopHooksOnError"
+                type={Select}
+                options={[{label: 'Si', value: true}, {label: 'No', value: false}]}
+              />
+              <div className="label">
+                (opcional) Hook a ejecutar antes de la ejecución de los otros hooks (se ejecuta
+                sobre el primer item que recibe)
+              </div>
+              <Field fieldName="firstHook" type={Select} options={this.props.hooks.items} />
+              <div className="label">
+                (opcional) Hook a ejecutar después de la ejecución de los otros hooks (se ejecuta
+                sobre el primer item que recibe)
+              </div>
+              <Field fieldName="lastHook" type={Select} options={this.props.hooks.items} />
+              <div className="label">(opcional) Redireccionar a esta url</div>
+              <Field fieldName="url" type={Text} />
+              <div className="label">(opcional) Requerir autenticación de dos factores</div>
               <Field fieldName="requireTwoFactor" type={Checkbox} label="Requiere dos factores" />
-              <div className="label">Volver atrás</div>
-              <Field fieldName="goBack" type={Checkbox} label="Activar volver atrás" />
               <WithValue>{button => this.renderButtonOptions(button)}</WithValue>
+              <div className="label">
+                (opcional) Parámetros a usar para la redirección de url, ejecución de hooks o envío
+                de datos. <br />
+                Si se quiere usar el botón por si sólo para ejecutar hooks (no en una tabla), se
+                debe especificar un parámetro llamado "_id" y en valor el nombre de algún parámetro
+                que posea la vista (si el valor entregado no existe como parámetro en la vista, este
+                se interpreta como un valor fijo)
+              </div>
               <Field fieldName="parameters" type={ArrayComponent} renderItem={this.renderItems} />
             </Field>
           </AutoForm>
@@ -182,7 +270,7 @@ export default class ButtonComponent extends React.Component {
               <MutationButton
                 label="Eliminar"
                 title="Eliminar button"
-                message="¿Quieres eliminar este button?"
+                message="¿Quieres eliminar este botón?"
                 confirmText="Eliminar"
                 mutation="deleteButton"
                 onSuccess={() => this.remove()}

@@ -20,6 +20,7 @@ import range from 'lodash/range'
 import iconOptions from 'App/components/Icon/options'
 import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent'
+import ColorPicker from 'App/components/fields/ColorPicker'
 
 @withGraphQL(gql`
   query getForm($linkId: ID, $environmentId: ID) {
@@ -35,6 +36,8 @@ import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent
       sizeSmall
       sizeMedium
       sizeLarge
+      textColor
+      backgroundColor
       fields {
         title
         path
@@ -44,6 +47,8 @@ import ArrayComponent from 'orionsoft-parts/lib/components/fields/ArrayComponent
         sizeSmall
         sizeMedium
         sizeLarge
+        textColor
+        backgroundColor
       }
       environmentId
     }
@@ -131,6 +136,17 @@ export default class Link extends React.Component {
               <div className="col-xs-12 col-sm-4">
                 <div className="label">Columnas Largo</div>
                 <Field fieldName="sizeLarge" type={Select} options={this.getSizeOptions()} />
+              </div>
+            </div>
+            <div className="label">Colores</div>
+            <div className="row">
+              <div className="col-xs-12 col-sm-6">
+                <div className="label">Color del texto e icono</div>
+                <Field fieldName="textColor" type={ColorPicker} />
+              </div>
+              <div className="col-xs-12 col-sm-6">
+                <div className="label">Color de fondo</div>
+                <Field fieldName="backgroundColor" type={ColorPicker} />
               </div>
             </div>
           </div>

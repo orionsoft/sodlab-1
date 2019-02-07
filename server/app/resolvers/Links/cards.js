@@ -31,7 +31,19 @@ export default resolver({
       links.map(link => {
         if (link.type === 'path' && link.showInHome) {
           cards.push(
-            destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], link)
+            destruct(
+              [
+                'icon',
+                'sizeLarge',
+                'sizeMedium',
+                'sizeSmall',
+                'title',
+                'path',
+                'textColor',
+                'backgroundColor'
+              ],
+              link
+            )
           )
         }
         if (link.type === 'category') {
@@ -41,7 +53,19 @@ export default resolver({
             })
             .map(field => {
               cards.push(
-                destruct(['icon', 'sizeLarge', 'sizeMedium', 'sizeSmall', 'title', 'path'], field)
+                destruct(
+                  [
+                    'icon',
+                    'sizeLarge',
+                    'sizeMedium',
+                    'sizeSmall',
+                    'title',
+                    'path',
+                    'textColor',
+                    'backgroundColor'
+                  ],
+                  field
+                )
               )
             })
         }

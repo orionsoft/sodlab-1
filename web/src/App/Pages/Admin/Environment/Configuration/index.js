@@ -13,6 +13,7 @@ import Export from './Export'
 import Import from './Import'
 import RemoveEnvironment from './RemoveEnvironment'
 import Customization from './Customization'
+import Timezone from './Timezone'
 
 @withMessage
 @withGraphQL(gql`
@@ -21,13 +22,7 @@ import Customization from './Customization'
       _id
       name
       url
-      liorenId
       intercomId
-      liorenIdBill
-      liorenIdCreditNote
-      liorenIdDelivery
-      exempt
-      exemptTicket
       ...adminEnvironmentProfilesUpdateFragment
       ...adminEnvironmentCustomizationUpdateFragment
     }
@@ -61,6 +56,7 @@ export default class Configuration extends React.Component {
             Guardar
           </Button>
         </Section>
+        <Timezone environmentId={this.props.environment._id} />
         <ProfileFields environment={this.props.environment} />
         <Customization environment={this.props.environment} />
         <Export environment={this.props.environment} />

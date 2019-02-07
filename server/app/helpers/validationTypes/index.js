@@ -4,6 +4,11 @@ import stringComparison from './stringComparison'
 import verifyType from './verifyType'
 import booleanComparison from './booleanComparison'
 import verifyEmptyField from './verifyEmptyField'
+import itemFieldsComparison from './itemFieldsComparison'
+import itemNumFieldsComparison from './itemNumFieldsComparison'
+import fieldExists from './fieldExists'
+import valueOfAnIndicatorTypeText from './valueOfAnIndicatorTypeText'
+import valueOfAnIndicatorTypeNum from './valueOfAnIndicatorTypeNum'
 
 export default {
   numberComparison,
@@ -11,5 +16,10 @@ export default {
   stringComparison,
   verifyType,
   booleanComparison,
-  verifyEmptyField
+  verifyEmptyField,
+  itemFieldsComparison,
+  itemNumFieldsComparison,
+  fieldExists,
+  valueOfAnIndicatorTypeText,
+  valueOfAnIndicatorTypeNum
 }

@@ -1,10 +1,21 @@
 import Notifications from 'app/collections/Notifications'
 import EnvironmentUsers from 'app/collections/EnvironmentUsers'
 import notificationInserted from 'app/subscriptions/Environments/notificationInserted'
+import {hookStart, throwHookError} from '../helpers'
 
 export default {
   name: 'Notificar',
   optionsSchema: {
+    collectionId: {
+      label: 'Collección',
+      type: String,
+      fieldType: 'collectionSelect'
+    },
+    itemId: {
+      type: String,
+      label: '(opcional) Id del item. Por defecto se utilizará el ID del último documento',
+      optional: true
+    },
     title: {
       type: String,
       label: 'Título'
@@ -35,14 +46,21 @@ export default {
     {
       options: {title, content, path, roles},
       environmentId,
-      params,
       userId
     },
     viewer
   ) {
+    const {shouldThrow} = hook
+    let item = {}
+
+    try {
+      item = await hookStart({shouldThrow, itemId, hooksData, collectionId, hook, viewer})
+    } catch (err) {
+      return throwHookError(err)
+    }
     let newContent = content
     let newTitle = title
-
+    let params = {_id: item._id, ...item.data}
     Object.keys(params).forEach(variable => {
       const regexp = new RegExp(`{${escape(variable)}}`, 'g')
       newContent = newContent.replace(regexp, params[variable])
@@ -55,10 +73,10 @@ export default {
       environmentUser = await EnvironmentUsers.findOne({userId, environmentId})
     } catch (err) {
       console.log(
-        `Error executing notification hook from env ${environmentId}, with user ${userId}`,
+        `Error cannot find the user ${userId} in ${environmentId} to send notifications to`,
         err
       )
-      return {success: false}
+      return throwHookError(err)
     }
 
     try {
@@ -73,16 +91,16 @@ export default {
       })
     } catch (err) {
       console.log(`Error executing notification hook, when trying to create the notification`, err)
-      return {success: false}
+      return throwHookError(err)
     }
 
     try {
       await notificationInserted({environmentId: environmentId}, 'notification')
     } catch (err) {
       console.log(`Error executing notification hook, when trying to notify the user`, err)
-      return {success: false}
+      return throwHookError(err)
     }
 
-    return {success: true}
+    return {start: item, result: item, success: true}
   }
 }

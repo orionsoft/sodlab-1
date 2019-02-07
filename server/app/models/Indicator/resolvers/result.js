@@ -10,9 +10,11 @@ export default resolver({
 
     let query = null
     let collection = null
+    let collectionId = null
     let fieldName = indicator.fieldName
 
     if (indicator.collectionId) {
+      collectionId = indicator.collectionId
       const col = await Collections.findOne(indicator.collectionId)
       collection = await col.db()
     }
@@ -33,7 +35,7 @@ export default resolver({
     const {environmentId} = indicator
     const options = await indicator.getOptions({params})
     return await type.getResult(
-      {query, collection, fieldName, options, environmentId, params, userId},
+      {query, collectionId, collection, fieldName, options, environmentId, params, userId},
       viewer
     )
   }
