@@ -1,0 +1,59 @@
+:local(.container) {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+:local(.hint) {
+  padding: 10px;
+  background: #fff;
+  color: #111;
+  position: absolute;
+  box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+}
+
+:local(.hintLabel) {
+  font-weight: bold;
+}
+
+:local(.hintValue) {
+  align-content: flex-end;
+}
+
+:local(.plot) {
+  display: flex;
+  height: 100%;
+  min-height: 300px;
+}
+
+:local(.plot) {
+  display: flex;
+  height: 100%;
+  min-height: 300px;
+  max-height: 400px;
+}
+
+:local(.plot) .rv-xy-plot__inner {
+  overflow: overlay;
+}
+
+:local(.plot) .rv-discrete-color-legend {
+  overflow-y: inherit;
+}
+
+@media only screen and (max-width: 599px) {
+  :local(.plot) {
+    flex-direction: column-reverse;
+    height: 100%;
+    max-height: none;
+  }
+
+  /* :local(.plot) .rv-xy-plot__inner {
+    padding: 0 0 70px 0;
+  } */
+}
+

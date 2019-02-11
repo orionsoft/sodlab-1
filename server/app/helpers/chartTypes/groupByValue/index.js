@@ -189,7 +189,7 @@ export default {
         titles[index] = {title: filter.title}
       }
 
-      return await filter.createQuery()
+      return await filter.createQuery({filterOptions: {...params}})
     })
 
     const parsedQueries = await Promise.all(getQueries)
