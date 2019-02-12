@@ -18,16 +18,11 @@
 
 :local(.hintLabel) {
   font-weight: bold;
+  margin-right: 5px;
 }
 
 :local(.hintValue) {
   align-content: flex-end;
-}
-
-:local(.plot) {
-  display: flex;
-  height: 100%;
-  min-height: 300px;
 }
 
 :local(.plot) {

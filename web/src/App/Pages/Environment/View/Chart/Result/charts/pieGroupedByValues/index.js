@@ -25,6 +25,27 @@ export default class PieGroupByValues extends React.Component {
     this.setState({datapoint})
   }
 
+  formatNumber(n, c, d, t) {
+    let value = isNaN((c = Math.abs(c))) ? 2 : c
+    let decimal = d === undefined ? '.' : d
+    let thousand = t === undefined ? ',' : t
+    let negative = n < 0 ? '-' : ''
+    let i = String(parseInt((n = Math.abs(Number(n) || 0).toFixed(c)), 10))
+    let j = i.length > 3 ? i % 3 : 0
+
+    return (
+      negative +
+      (j ? i.substr(0, j) + t : '') +
+      i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousand) +
+      (value
+        ? decimal +
+          Math.abs(n - i)
+            .toFixed(c)
+            .slice(2)
+        : '')
+    )
+  }
+
   renderLegend() {
     const width = document.getElementById('root').clientWidth
     const orientation = width < 600 ? 'horizontal' : 'vertical'
@@ -36,6 +57,7 @@ export default class PieGroupByValues extends React.Component {
         />
       )
     }
+    // TODO: pending implementation
     return (
       <ContinuousColorLegend
         startTitle="01"
@@ -52,7 +74,9 @@ export default class PieGroupByValues extends React.Component {
     if (!datapoint) return
     const {label, value} = datapoint
     const {startHintText, endHintText} = this.props.data
-    let modifiedValue = startHintText ? startHintText + ' ' + value : value
+    let modifiedValue =
+      typeof value === 'number' ? this.formatNumber(value, 0, ',', '.').toString() : value
+    modifiedValue = startHintText ? startHintText + ' ' + modifiedValue : value
     modifiedValue = endHintText ? modifiedValue + ' ' + endHintText : modifiedValue
     return (
       <Hint value={value} style={{display: 'flex', minWidth: '15%'}}>

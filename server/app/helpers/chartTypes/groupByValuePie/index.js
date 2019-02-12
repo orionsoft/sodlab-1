@@ -8,8 +8,7 @@ export default {
   optionsSchema: {
     queries: {
       type: [String],
-      label:
-        'Filtros a usar para buscar los datos. (Siempre se tendrá como mínimo la extracción completa de datos)',
+      label: 'Filtros a usar para buscar los datos.',
       fieldType: 'filterSelect',
       fieldOptions: {
         multi: true
@@ -19,14 +18,14 @@ export default {
     filterParams: {
       type: String,
       label:
-        '(opcional) Parámetros personalizados del item para entregar a el filtro (que está por defecto) de la tabla (formato JSON). Ej: {"nombreDelParámetroDelFiltro": "nombreDelCampoDelItem"}. Por defecto se entregan todos los parametros del item para el uso del filtro',
+        '(opcional) Renombramiento de los parametros de la vista, estos se agregan o sobre escriben a los que se reciben de la vista(formato JSON). Ej: {"nombreDelParámetroDelFiltro": "nombreDelParametroDeLaVista"}. Por defecto se entregan todos los parametros de la vista para el uso del filtro',
       fieldType: 'textArea',
       defaultValue: '{}',
       optional: true
     },
     fieldsToGroupBy: {
       type: [String],
-      label: 'Campos a usar para agrupar los resultados de cada tabla',
+      label: 'Campos a usar para agrupar los resultados de cada query',
       fieldType: 'collectionFieldSelect',
       fieldOptions: {
         multi: true
@@ -34,29 +33,21 @@ export default {
       min: 1,
       optional: true
     },
-    xAxisTicks: {
-      type: String,
-      label: 'Campos para agrupar los datos',
-      fieldType: 'collectionFieldSelect',
-      min: 1,
-      optional: true
-    },
     accumulatorOperations: {
       type: String,
       label:
-        'Tipo de operación. Opciones: $sum, $avg, $first, $last, $max, $min, $push, $addToSet, $stdDevPop, $stdDevSamp. Ingresar los datos en el orden en que se quieran aplicar a cada tabla. Ej: $sum,$avg,$max',
+        'Tipo de operación. Opciones: $count, $sum, $avg, $first, $last, $max, $min, $push, $addToSet, $stdDevPop, $stdDevSamp. Ingresar los datos en el orden en que se quieran aplicar a cada query. Ej: $sum,$avg,$max',
       optional: true
     },
     fieldToOperateOn: {
       type: String,
       label: 'Campo sobre el cual realizar la operación',
-      fieldType: 'collectionFieldSelect',
-      only: ['currency', 'number', 'percentage']
+      fieldType: 'collectionFieldSelect'
     },
     colorGradient: {
       type: String,
       label:
-        '(opcional) Colores para asignar a las series como gradientes, en formato rgba. Ej: rgb(85, 88, 218)&&rgb(95, 209, 249)',
+        '(opcional) Colores para asignar a las series de datos como gradientes, en formato rgba. Ej: rgb(85, 88, 218, 1)&&rgb(95, 209, 249, 1)',
       defaultValue: 'rgba(85, 88, 218, 1)&&rgba(95, 209, 249, 1)',
       optional: true
     },
@@ -68,12 +59,12 @@ export default {
     },
     startHintText: {
       type: String,
-      label: '(opcional) Texto a anteponer al valor en el cuadro de detalle',
+      label: '(opcional) Texto a antes del valor en el cuadro de detalle',
       optional: true
     },
     endHintText: {
       type: String,
-      label: '(opcional) Texto a anteponer al valor en el cuadro de detalle',
+      label: '(opcional) Texto a después del valor en el cuadro de detalle',
       optional: true
     },
     sort: {
@@ -96,7 +87,6 @@ export default {
       filterParams,
       fieldsToGroupBy,
       accumulatorOperations,
-      xAxisTicks,
       queries,
       fieldToOperateOn,
       sort,
@@ -129,7 +119,7 @@ export default {
         return await filter.createQuery({filterOptions})
       })
     )
-    const group = groupBuilder([xAxisTicks])
+    const group = groupBuilder([fieldsToGroupBy[0]])
     const operators = accumulatorOperations.split(',').map(op => op)
     const total = getTotal(operators, fieldToOperateOn)
     const [results] = await Promise.all(
