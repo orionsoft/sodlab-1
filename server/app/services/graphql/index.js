@@ -11,10 +11,13 @@ if (process.env.REDIS_URL) {
   pubsub = new RedisPubSub({connection: process.env.REDIS_URL})
 }
 
+const useGraphiql = !process.env.SERVER_URL.includes('apps')
+
 startGraphQL({
   resolvers,
   subscriptions,
-  pubsub
+  pubsub,
+  useGraphiql
 })
 
 setCorsOptions({

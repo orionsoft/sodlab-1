@@ -3,7 +3,7 @@ import getEnv from './getEnv'
 const urls = {
   local: `http://${window.location.hostname}:3000`,
   alpha: 'https://api.alpha.sodlab.com',
-  dev: 'https://api.beta.sodlab.com',
+  beta: 'https://api.beta.sodlab.com',
   prod: 'https://api.apps.sodlab.com'
 }
 
