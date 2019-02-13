@@ -48,7 +48,7 @@ export default {
     },
     itemToUpdateId: {
       label:
-        '(opcional) Campo de la colección de origen en donde está el ID del documento de la colección de destino',
+        '(opcional) Campo de la colección de origen en donde está el ID del documento de la colección de destino. Sólo a usar si se actualizará un item.',
       type: String,
       fieldType: 'collectionFieldSelect',
       parentCollection: 'sourceCollectionId',
