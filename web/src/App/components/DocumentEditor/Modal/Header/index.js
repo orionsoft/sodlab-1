@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {MdNoteAdd} from 'react-icons/lib/md'
 import autobind from 'autobind-decorator'
+import slugify from '@sindresorhus/slugify'
 import apiUrl from 'App/components/DocumentEditor/helpers/url'
 import requestUniqueId from 'App/components/DocumentEditor/helpers/requestUniqueId'
 import requestSignedUrl from 'App/components/DocumentEditor/helpers/requestSignedUrl'
@@ -39,7 +40,11 @@ export default class DocumentEditorHeader extends React.Component {
     try {
       const file = document.getElementById('pdf_file').files[0]
       const size = file.size
-      const filename = file.name.replace(/ /g, '_')
+      const filenameWithoutExtension = file.name.replace('.pdf', '')
+      const filename =
+        slugify(filenameWithoutExtension, {
+          separator: '_'
+        }) + '.pdf'
       const uniqueId = await requestUniqueId()
       const envId = this.props.passProps.collectionId.split('_')[0]
       const params = {

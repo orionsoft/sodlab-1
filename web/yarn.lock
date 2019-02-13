@@ -31,6 +31,14 @@
   dependencies:
     lodash "^4.17.10"
 
+"@sindresorhus/slugify@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@sindresorhus/slugify/-/slugify-0.8.0.tgz#5550b7fa064f3a8a82651463ad635378054c72d0"
+  integrity sha512-Y+C3aG0JHmi4nCfixHgq0iAtqWCjMCliWghf6fXbemRKSGzpcrHdYxGZGDt8MeFg+gH7ounfMbz6WogqKCWvDg==
+  dependencies:
+    escape-string-regexp "^1.0.5"
+    lodash.deburr "^4.1.0"
+
 "@types/async@2.0.50":
   version "2.0.50"
   resolved "https://registry.yarnpkg.com/@types/async/-/async-2.0.50.tgz#117540e026d64e1846093abbd5adc7e27fda7bcb"
@@ -5235,6 +5243,11 @@ lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
   integrity sha1-9HGh2khr5g9quVXRcRVSPdHSVdU=
+
+lodash.deburr@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/lodash.deburr/-/lodash.deburr-4.1.0.tgz#ddb1bbb3ef07458c0177ba07de14422cb033ff9b"
+  integrity sha1-3bG7s+8HRYwBd7oH3hRCLLAz/5s=
 
 lodash.defaults@^4.2.0:
   version "4.2.0"
