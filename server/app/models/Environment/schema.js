@@ -56,7 +56,7 @@ export default {
     type: String,
     optional: true,
     label: 'Tipografía',
-    allowedValues: ['Roboto', 'Open Sans', 'Lato']
+    allowedValues: ['Ubuntu', 'Roboto', 'Open Sans', 'Lato']
   },
   profileFields: {
     type: [Field],

@@ -1,6 +1,7 @@
 :local(.container) {
   width: 200px;
   position: relative;
+  overflow: scroll;
 }
 
 :local(.title) {
