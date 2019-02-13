@@ -8,7 +8,7 @@ import Forms from 'app/collections/Forms'
 import Hooks from 'app/collections/Hooks'
 import Indicators from 'app/collections/Indicators'
 import Links from 'app/collections/Links'
-import Notificactions from 'app/collections/Notificactions'
+import Notifications from 'app/collections/Notifications'
 import Roles from 'app/collections/Roles'
 import Tables from 'app/collections/Tables'
 import Views from 'app/collections/Views'
@@ -27,7 +27,7 @@ export default async function(environmentId) {
   await Hooks.remove({environmentId})
   await Indicators.remove({environmentId})
   await Links.remove({environmentId})
-  await Notificactions.remove({environmentId})
+  await Notifications.remove({environmentId})
   await Roles.remove({environmentId})
   await Tables.remove({environmentId})
   await Views.remove({environmentId})
