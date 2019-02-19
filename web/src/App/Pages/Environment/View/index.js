@@ -4,16 +4,24 @@ import Container from 'orionsoft-parts/lib/components/Container'
 import PropTypes from 'prop-types'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
 import gql from 'graphql-tag'
-import Form from './Form'
-import Table from './Table'
-import Indicator from './Indicator'
-import Button from './Button'
 import {withApollo} from 'react-apollo'
 import {FaArrowsAlt, FaClose} from 'react-icons/lib/fa'
 import prependKey from 'App/helpers/misc/prependKey'
 import autobind from 'autobind-decorator'
 import Intercom from 'App/components/Intercom'
-import Chart from './Chart'
+import Loadable from 'react-loadable'
+import Loading from 'App/components/DynamicComponent/Loading'
+
+function dynamicImport(loader, customProps) {
+  return Loadable({
+    loader,
+    loading: Loading,
+    render(loaded, props) {
+      const Component = loaded.default
+      return <Component {...props} {...customProps} />
+    }
+  })
+}
 
 @withGraphQL(
   gql`
@@ -94,33 +102,40 @@ export default class View extends React.Component {
     }
 
     if (item.type === 'form') {
+      const Form = dynamicImport(() => import('./Form'), {...props, formId: item.formId})
       return (
         <div className={styles.item}>
-          <Form {...props} formId={item.formId} />
+          <Form />
         </div>
       )
     }
     if (item.type === 'table') {
+      const Table = dynamicImport(() => import('./Table'), {...props, tableId: item.tableId})
       return (
         <div className={styles.item}>
-          <Table {...props} tableId={item.tableId} />
+          <Table />
         </div>
       )
     }
     if (item.type === 'indicator') {
+      const Indicator = dynamicImport(() => import('./Indicator'), {
+        ...props,
+        indicatorId: item.indicatorId
+      })
       return (
         <div className={styles.item}>
-          <Indicator {...props} indicatorId={item.indicatorId} fullSize={fullSize} />
+          <Indicator />
         </div>
       )
     }
     if (item.type === 'chart') {
+      const Chart = dynamicImport(() => import('./Chart'), {...props, chartId: item.chartId})
       return (
         <div
           className={styles.item}
           // style fix needed to show the charts legends
           style={{padding: '0px 0px 20px 0px'}}>
-          <Chart {...props} chartId={item.chartId} fullSize={fullSize} />
+          <Chart />
         </div>
       )
     }
@@ -128,9 +143,10 @@ export default class View extends React.Component {
       return this.renderItems(item.subItems, preIndex)
     }
     if (item.type === 'button') {
+      const Button = dynamicImport(() => import('./Button'), {...props, buttonId: item.buttonId})
       return (
         <div className={styles.item}>
-          <Button {...props} buttonId={item.buttonId} />
+          <Button />
         </div>
       )
     }
