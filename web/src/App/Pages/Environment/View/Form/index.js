@@ -15,7 +15,11 @@ import styles from './styles.css'
       updateVariableName
       reset
       submitButtonText
+      submitButtonIcon
+      submitButtonColor
+      submitButtonBgColor
       resetButtonText
+      buttonAlignment
       onSuccessViewPath
       onSuccessEnvironmentVariables
       fieldsList {
@@ -43,10 +47,6 @@ export default class Form extends React.Component {
     return this.props.parameters[this.props.form.updateVariableName]
   }
 
-  renderNoItem() {
-    return <div className={styles.noItem}>Selecciona un documento</div>
-  }
-
   renderForm() {
     const props = {
       form: this.props.form,
@@ -58,16 +58,17 @@ export default class Form extends React.Component {
       timezone: this.props.timezone,
       fields: this.props.form.fieldsList
     }
-    if (props.form.type === 'update' && !props.itemId) return this.renderNoItem()
     return <FormContent {...props} />
   }
 
   render() {
     if (!this.props.form) return null
+    const itemId = this.getItemId()
+    if (this.props.form.type === 'update' && !itemId) return null
     const {form} = this.props
     return (
       <div className={styles.container}>
-        <div className={styles.title}>{form.title}</div>
+        {form.title && <div className={styles.title}>{form.title}</div>}
         {this.renderForm()}
       </div>
     )

@@ -1,0 +1,48 @@
+.os_iconButton {
+  /* color: #131313; */
+  cursor: pointer;
+  position: relative;
+  fill: none;
+}
+
+.os_iconButton:hover {
+  /* color: blue !important; */
+  opacity: 0.8;
+}
+
+.os_iconButton:active {
+  /* color: blue !important; */
+  opacity: 0.8;
+}
+
+.os_iconButton:hover svg {
+  color: inherit;
+  /* fill: currentColor; */
+  /* z-index: -10; */
+}
+
+.os_iconButton:hover svg:hover {
+  /* color: currentColor; */
+  fill: currentColor;
+}
+
+.os_iconButton:hover svg:active {
+  /* color: currentColor; */
+  /* fill: currentColor; */
+}
+
+.os_iconButton:active svg {
+  /* color: inherit; */
+}
+
+.os_iconButton_loading {
+  position: relative;
+  cursor: default;
+  color: #989898;
+}
+
+.os_iconButton_disabled {
+  position: relative;
+  cursor: default;
+  color: #989898;
+}

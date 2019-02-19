@@ -14,6 +14,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import translate from 'App/i18n/translate'
 import {withRouter} from 'react-router'
+import icons from 'App/components/Icon/icons'
+import IconButton from 'orionsoft-parts/lib/components/IconButton'
 
 @withGraphQL(gql`
   query getFormItem($formId: ID, $itemId: ID) {
@@ -68,11 +70,40 @@ export default class Form extends React.Component {
     )
   }
 
-  renderSubmitButton() {
+  renderSubmitButton(formId) {
     const text = this.props.form.type === 'create' ? 'Crear' : 'Guardar'
+    const buttonText = this.props.form.submitButtonText || text
+    const backgroundColor = this.props.form.submitButtonBgColor
+      ? this.props.form.submitButtonBgColor
+      : '#0f2ff1'
+    if (this.props.form.submitButtonIcon) {
+      const icon = icons[this.props.form.submitButtonIcon]
+      const form = document.getElementById(formId)
+      const svgs = form ? form.getElementsByTagName('svg') : null
+      if (svgs) {
+        svgs[0].setAttribute('style', `fill: ${backgroundColor};`)
+      }
+
+      return (
+        <IconButton
+          tooltip={buttonText}
+          icon={icon}
+          size={40}
+          onPress={() => this.refs.form.submit()}
+          style={{color: backgroundColor}}
+        />
+      )
+    }
+    const color = this.props.form.submitButtonColor ? this.props.form.submitButtonColor : 'white'
+    const formButton = document.getElementById(`${formId}_button`)
+    const orionButton = formButton ? formButton.getElementsByClassName('os_button_container') : null
+    if (orionButton) {
+      orionButton[0].setAttribute('style', 'margin-right: 0')
+    }
+
     return (
-      <Button onClick={() => this.refs.form.submit()} primary>
-        {this.props.form.submitButtonText || text}
+      <Button onClick={() => this.refs.form.submit()} style={{color, backgroundColor}}>
+        {buttonText}
       </Button>
     )
   }
@@ -275,8 +306,12 @@ export default class Form extends React.Component {
 
   render() {
     if (this.needsData() && !this.getItemData()) return this.renderItemNotFound()
+    const justifyContent = this.props.form.buttonAlignment
+      ? this.props.form.buttonAlignment
+      : 'flex-start'
+    const formId = this.props.form._id
     return (
-      <div className={styles.container}>
+      <div id={formId} className={styles.container}>
         <AutoForm
           mutation="submitForm"
           ref="form"
@@ -299,8 +334,10 @@ export default class Form extends React.Component {
           />
         </AutoForm>
         <br />
-        {this.renderResetButton()}
-        {this.renderSubmitButton()}
+        <div id={`${formId}_button`} style={{display: 'flex', justifyContent}}>
+          {this.renderResetButton()}
+          {this.renderSubmitButton(formId)}
+        </div>
       </div>
     )
   }

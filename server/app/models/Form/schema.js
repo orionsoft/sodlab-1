@@ -25,7 +25,8 @@ export default {
   },
   title: {
     type: String,
-    label: 'Título'
+    label: 'Título',
+    optional: true
   },
   type: {
     type: String,
@@ -74,7 +75,30 @@ export default {
     type: String,
     optional: true
   },
+  submitButtonIcon: {
+    type: String,
+    label: '(opcional) Icono a usar en el botón (reemplaza al texto)',
+    optional: true
+  },
+  submitButtonColor: {
+    type: String,
+    label: 'Color del botón',
+    fieldType: 'colorPicker',
+    fieldOptions: {defaultColor: '#fff'},
+    optional: true
+  },
+  submitButtonBgColor: {
+    type: String,
+    label: 'Color del botón',
+    fieldType: 'colorPicker',
+    fieldOptions: {defaultColor: '#0f2ff1'},
+    optional: true
+  },
   resetButtonText: {
+    type: String,
+    optional: true
+  },
+  buttonAlignment: {
     type: String,
     optional: true
   },

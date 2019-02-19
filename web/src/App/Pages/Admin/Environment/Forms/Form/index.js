@@ -16,6 +16,8 @@ import Select from 'orionsoft-parts/lib/components/fields/Select'
 import {Field, WithValue} from 'simple-react-form'
 import autobind from 'autobind-decorator'
 import Fields from './Fields'
+import iconOptions from 'App/components/Icon/options'
+import ColorPicker from 'App/components/fields/ColorPicker'
 
 @withGraphQL(gql`
   query getForm($formId: ID, $environmentId: ID) {
@@ -31,7 +33,11 @@ import Fields from './Fields'
       afterHooksIds
       validationsIds
       submitButtonText
+      submitButtonColor
+      submitButtonBgColor
+      submitButtonIcon
       resetButtonText
+      buttonAlignment
       requireTwoFactor
       roles
       onSuccessEnvironmentVariables
@@ -161,6 +167,15 @@ export default class Form extends React.Component {
     return <Field fieldName="onSuccessEnvironmentVariables" type={Select} multi options={options} />
   }
 
+  renderButtonAlignmentOptions() {
+    const options = [
+      {label: 'Izquierda', value: 'flex-start'},
+      {label: 'Centro', value: 'center'},
+      {label: 'Derecha', value: 'flex-end'}
+    ]
+    return <Field fieldName="buttonAlignment" type={Select} options={options} />
+  }
+
   render() {
     if (!this.props.form) return null
     return (
@@ -218,10 +233,18 @@ export default class Form extends React.Component {
               {this.renderSuccessEnvironmentVariables()}
               <div className="label">Texto de botón para confirmar (opcional)</div>
               <Field fieldName="submitButtonText" type={Text} />
-              <div className="label">Habilitar limpiar formulario</div>
+              <div className="label">(Opcional) Icono de botón para confirmar</div>
+              <Field fieldName="submitButtonIcon" type={Select} options={iconOptions} />
+              <div className="label">(Opcional) Color del texto del botón para confirmar</div>
+              <Field fieldName="submitButtonColor" type={ColorPicker} />
+              <div className="label">(Opcional) Color de fondo del botón para confirmar</div>
+              <Field fieldName="submitButtonBgColor" type={ColorPicker} />
+              <div className="label">(opcional) Habilitar limpiar formulario</div>
               <Field fieldName="reset" type={Checkbox} label="Habilitar limpiar formulario" />
-              <div className="label">Texto de botón para limpiar formulario (opcional)</div>
+              <div className="label">(opcional) Texto de botón para limpiar formulario</div>
               <Field fieldName="resetButtonText" type={Text} />
+              <div className="label">(opcional) Alinear botones</div>
+              {this.renderButtonAlignmentOptions()}
               <div className="label">Requerir autenticación de dos factores</div>
               <Field fieldName="requireTwoFactor" type={Checkbox} label="Requiere dos factores" />
             </Field>

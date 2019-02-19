@@ -37,6 +37,10 @@ export default resolver({
       formData['onSuccessViewPath'] = null
     }
 
+    if (!formData.hasOwnProperty('title')) {
+      formData['title'] = null
+    }
+
     const form = await Forms.findOne(formId)
     await form.update({$set: formData})
     return form
