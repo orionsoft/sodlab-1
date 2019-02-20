@@ -1,5 +1,6 @@
 import Notifications from 'app/collections/Notifications'
 import EnvironmentUsers from 'app/collections/EnvironmentUsers'
+import Collections from 'app/collections/Collections'
 import notificationInserted from 'app/subscriptions/Environments/notificationInserted'
 import {hookStart, throwHookError} from '../helpers'
 
@@ -18,11 +19,13 @@ export default {
     },
     title: {
       type: String,
-      label: 'Título'
+      label:
+        'Título. Se pueden referenciar parámetros del item escribiéndolos entre llaves. Ej: Hola {nombre}'
     },
     content: {
       type: String,
-      label: 'Asunto'
+      label:
+        'Asunto. Se pueden referenciar parámetros del item escribiéndolos entre llaves. Ej: Hola {nombre}'
     },
     path: {
       type: String,
@@ -42,14 +45,14 @@ export default {
       }
     }
   },
-  async execute(
-    {
-      options: {title, content, path, roles},
-      environmentId,
-      userId
-    },
+  async execute({
+    options: {collectionId, itemId, title, content, path, roles},
+    environmentId,
+    userId,
+    hook,
+    hooksData,
     viewer
-  ) {
+  }) {
     const {shouldThrow} = hook
     let item = {}
 
@@ -58,14 +61,26 @@ export default {
     } catch (err) {
       return throwHookError(err)
     }
+    const collection = await Collections.findOne(collectionId)
+    const fields = await collection.itemValueFromAnotherCollection({item})
+    const initialParams = {_id: item._id, ...item.data}
+    let completeParams = {}
+    for (const key in initialParams) {
+      const containsKey = fields.filter(field => field.fieldName === key)
+      if (containsKey.length) {
+        const {result} = containsKey[0]
+        completeParams[key] = result
+      } else {
+        completeParams[key] = initialParams[key]
+      }
+    }
     let newContent = content
     let newTitle = title
-    let params = {_id: item._id, ...item.data}
-    Object.keys(params).forEach(variable => {
+    for (const variable in completeParams) {
       const regexp = new RegExp(`{${escape(variable)}}`, 'g')
-      newContent = newContent.replace(regexp, params[variable])
-      newTitle = newTitle.replace(regexp, params[variable])
-    })
+      newContent = newContent.replace(regexp, completeParams[variable])
+      newTitle = newTitle.replace(regexp, completeParams[variable])
+    }
 
     let environmentUser
 
