@@ -42,6 +42,14 @@ export default {
     type: String,
     optional: true
   },
+  hideEmpty: {
+    type: Boolean,
+    optional: true
+  },
+  emptyFormText: {
+    type: String,
+    optional: true
+  },
   fields: {
     type: [Field],
     optional: true

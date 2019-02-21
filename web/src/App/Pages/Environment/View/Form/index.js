@@ -13,6 +13,8 @@ import styles from './styles.css'
       type
       serializedParams
       updateVariableName
+      hideEmpty
+      emptyFormText
       reset
       submitButtonText
       submitButtonIcon
@@ -47,12 +49,12 @@ export default class Form extends React.Component {
     return this.props.parameters[this.props.form.updateVariableName]
   }
 
-  renderForm() {
+  renderForm(itemId) {
     const props = {
       form: this.props.form,
       formId: this.props.form._id,
       data: this.state.data || {},
-      itemId: this.getItemId(),
+      itemId,
       parameters: this.props.parameters || {},
       setEnvironment: this.props.setEnvironment,
       timezone: this.props.timezone,
@@ -61,15 +63,28 @@ export default class Form extends React.Component {
     return <FormContent {...props} />
   }
 
+  renderEmptyForm({hideEmpty, emptyFormText}) {
+    if (hideEmpty) {
+      return null
+    } else {
+      const text = emptyFormText ? emptyFormText : 'Selecciona un item'
+      return (
+        <div className={styles.container}>
+          <div className={styles.noItem}>{text}</div>
+        </div>
+      )
+    }
+  }
+
   render() {
     if (!this.props.form) return null
     const itemId = this.getItemId()
-    if (this.props.form.type === 'update' && !itemId) return null
     const {form} = this.props
+    if (this.props.form.type === 'update' && !itemId) return this.renderEmptyForm(form)
     return (
       <div className={styles.container}>
         {form.title && <div className={styles.title}>{form.title}</div>}
-        {this.renderForm()}
+        {this.renderForm(itemId)}
       </div>
     )
   }

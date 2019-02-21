@@ -29,6 +29,8 @@ import ColorPicker from 'App/components/fields/ColorPicker'
       collectionId
       environmentId
       updateVariableName
+      hideEmpty
+      emptyFormText
       onSuccessViewPath
       afterHooksIds
       validationsIds
@@ -138,17 +140,25 @@ export default class Form extends React.Component {
     return [{label: 'Parametro', value: 'parameter'}, {label: 'Editable', value: 'editable'}]
   }
 
-  renderUpdateOptions(form) {
+  renderUpdateOptions() {
     return (
       <div style={{marginTop: 15}}>
         <div className="label">Nombre de la variable</div>
         <Field fieldName="updateVariableName" type={Text} />
+        <div className="label">Esconder el formulario si no existe la variable</div>
+        <Field
+          fieldName="hideEmpty"
+          type={Select}
+          options={[{label: 'Si', value: true}, {label: 'No', value: false}]}
+        />
+        <div className="label">Texto a mostrar en un formulario vacio</div>
+        <Field fieldName="emptyFormText" type={Text} />
       </div>
     )
   }
 
   renderExtraOptions(form) {
-    if (form.type === 'update') return this.renderUpdateOptions(form)
+    if (form.type === 'update') return this.renderUpdateOptions()
     return null
   }
 
