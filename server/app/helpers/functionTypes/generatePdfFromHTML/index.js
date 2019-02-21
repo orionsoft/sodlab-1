@@ -60,6 +60,7 @@ export default {
       label:
         '(opcional) Parámetros personalizados del item para entregar a el filtro (que está por defecto) de la tabla (formato JSON). Ej: {"nombreDelParámetroDelFiltro": "nombreDelCampoDelItem"}. Por defecto se entregan todos los parametros del item para el uso del filtro',
       fieldType: 'textArea',
+      defaultValue: '{}',
       optional: true
     }
   },

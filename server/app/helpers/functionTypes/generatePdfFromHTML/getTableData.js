@@ -13,11 +13,12 @@ export default async function(
 ) {
   const tables = await getTablesData(item, tablesIds, filterParams).catch(err => {
     console.log({
-      message: 'XXX An error ocurred getting the tables or filters to use when generating an PDF',
+      level: 'ERROR',
+      message: 'An error ocurred getting the tables or filters to use when generating an PDF',
       hookName: hook.name,
       err: err.toString(),
       environmentId,
-      serverTime: new Date()
+      timestamp: new Date()
     })
     return originalTemplate
   })
@@ -31,11 +32,12 @@ export default async function(
     template = await replaceContent(loop, template, tables)
   }).catch(err => {
     console.log({
-      message: 'XXX An error ocurred getting the data fot the tables to use when generating an PDF',
+      level: 'ERROR',
+      message: 'An error ocurred getting the data for the tables to use when generating an PDF',
       hookName: hook.name,
       err: err.toString(),
       environmentId,
-      serverTime: new Date()
+      timestamp: new Date()
     })
     return originalTemplate
   })
@@ -45,8 +47,6 @@ export default async function(
 
 async function getTablesData(item, tablesIds, filterParams) {
   if (!tablesIds || !tablesIds.length) return []
-
-  let filterOptions = {_id: item._id, ...item.data}
 
   try {
     let tables = await Promise.all(
@@ -66,6 +66,7 @@ async function getTablesData(item, tablesIds, filterParams) {
     )
 
     const filterUserParams = JSON.parse(filterParams)
+    let filterOptions = {_id: item._id, ...item.data}
     for (const key in filterUserParams) {
       const param = filterUserParams[key]
       if (param === '_id') {
@@ -95,10 +96,9 @@ async function getTablesData(item, tablesIds, filterParams) {
 
 async function replaceContent(loop, template, tables) {
   const {startIndex, endIndex, tableRef, itemName, content} = loop
-
   let contentReplacement = []
-  const table = tables.filter(table => table.ref === tableRef)[0]
-  const items = tables.filter(table => table.ref === tableRef)[0].items
+  const [table] = tables.filter(table => table.ref === tableRef)
+  const items = table.items
 
   await Promise.each(items, async item => {
     let values = await table.collection.itemValueFromAnotherCollection({item})
