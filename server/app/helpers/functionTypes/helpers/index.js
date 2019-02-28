@@ -8,6 +8,7 @@ import {runSequentialHooks} from './runSequentialHooks'
 import {runValidations} from './runValidations'
 import {throwHookError} from './throwHookError'
 import {getParamFromItem} from './getParamFromItem'
+import {sleep} from './sleep'
 
 export {
   checkPreviousHookError,
@@ -19,5 +20,6 @@ export {
   runSequentialHooks,
   runValidations,
   throwHookError,
-  getParamFromItem
+  getParamFromItem,
+  sleep
 }

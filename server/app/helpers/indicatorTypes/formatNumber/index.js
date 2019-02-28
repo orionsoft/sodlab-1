@@ -1,14 +1,13 @@
-import Collections from 'app/collections/Collections'
 import numeral from 'numeral'
 
 export default {
   name: 'Formatear: Número a miles',
-  requireCollection: true,
-  requireField: true,
+  requireCollection: false,
+  requireField: false,
   optionsSchema: {
     number: {
       type: String,
-      label: 'Número a transformar en miles'
+      label: 'Nombre del parámetro que contiene el número a formatear'
     }
   },
   getRenderType: () => 'text',

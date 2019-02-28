@@ -25,7 +25,7 @@ async function runSequentialHooks({
     if (!hookResult.success) {
       failedHooks.push({
         hookName: hook.name,
-        err: hookResult.err.originalMsg || hookResult.err.originalMsg,
+        err: hookResult.err.originalMsg ? hookResult.err.originalMsg : hookResult.err,
         hookPosition: `${hooksData.currentHookNumber} of ${hooks.length}`
       })
 

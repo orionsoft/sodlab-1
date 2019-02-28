@@ -23,6 +23,7 @@ import valueOfParams from './valueOfParams'
 import valueOfUserSchema from './valueOfUserSchema'
 import valueOfFieldUniqueId from './valueOfFieldUniqueId'
 import dateOperation from './dateOperation'
+import libreDteAdminInfo from './libreDte/libreDteAdminInfo'
 
 export default {
   currentDateTime,
@@ -49,5 +50,6 @@ export default {
   valueOfParams,
   economicIndicator,
   economicIndicatorByDate,
-  valueOfUserSchema
+  valueOfUserSchema,
+  libreDteAdminInfo
 }

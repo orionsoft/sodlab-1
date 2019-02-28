@@ -18,6 +18,7 @@
     "@orion-js/mailing": "^0.9.6",
     "@orion-js/schema": "^0.9.0",
     "aws-sdk": "^2.308.0",
+    "axios": "^0.18.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "countdown": "^2.6.0",
     "escape-string-regexp": "^1.0.5",
@@ -32,6 +33,7 @@
     "numeral": "^2.0.6",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
+    "slug": "^1.0.0",
     "written-number": "^0.8.1",
     "xlsx": "^0.13.5"
   },

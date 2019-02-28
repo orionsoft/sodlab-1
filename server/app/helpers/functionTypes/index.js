@@ -17,6 +17,9 @@ import concatenateValues from './concatenateValues'
 import updateMultipleDocuments from './updateMultipleDocuments'
 import updateMulitpleDocumentsWithIndicator from './updateMultipleDocumentsWithIndicator'
 import batchHooks from './batchHooks'
+import dteNotes from './libreDte/hooks/notes'
+import dteBills from './libreDte/hooks/bills'
+import deliveries from './libreDte/hooks/deliveries'
 
 export default {
   updateValue,
@@ -37,5 +40,8 @@ export default {
   urlToFilemanager,
   createDocument,
   concatenateValues,
-  batchHooks
+  batchHooks,
+  dteNotes,
+  dteBills,
+  deliveries
 }

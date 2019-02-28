@@ -1,14 +1,13 @@
-import Collections from 'app/collections/Collections'
 import numeral from 'numeral'
 
 export default {
   name: 'Formatear: Moneda a pesos',
-  requireCollection: true,
-  requireField: true,
+  requireCollection: false,
+  requireField: false,
   optionsSchema: {
     currency: {
       type: String,
-      label: 'Moneda a transformar en pesos'
+      label: 'Nombre del parámetro que contiene el número a formatear'
     }
   },
   getRenderType: () => 'text',
