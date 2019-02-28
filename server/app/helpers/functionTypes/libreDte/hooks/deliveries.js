@@ -19,7 +19,7 @@ import s3 from 'app/services/aws/s3'
 import {checkField} from '../helpers'
 
 export default {
-  name: 'Libre DTE: Emitir Factura Electrónica o Factura Electrónica Exenta o no Afecta',
+  name: 'Libre DTE: Emitir Guía de Despacho',
   optionsSchema: {
     collectionId: {
       label: 'Collección',

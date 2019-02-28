@@ -19,7 +19,7 @@ import updateMulitpleDocumentsWithIndicator from './updateMultipleDocumentsWithI
 import batchHooks from './batchHooks'
 import dteNotes from './libreDte/hooks/notes'
 import dteBills from './libreDte/hooks/bills'
-import deliveries from './libreDte/hooks/deliveries'
+import dteDeliveries from './libreDte/hooks/deliveries'
 
 export default {
   updateValue,
@@ -43,5 +43,5 @@ export default {
   batchHooks,
   dteNotes,
   dteBills,
-  deliveries
+  dteDeliveries
 }
