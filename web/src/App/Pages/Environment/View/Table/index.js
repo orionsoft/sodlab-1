@@ -276,7 +276,6 @@ export default class Table extends React.Component {
   @autobind
   renderPaginated({filterId, filterOptions}) {
     const {table, parameters} = this.props
-    console.log(table)
     return (
       <div>
         {this.renderSelectionActions({

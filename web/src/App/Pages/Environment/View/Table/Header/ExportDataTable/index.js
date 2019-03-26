@@ -14,6 +14,7 @@ export default class ExportDataTable extends React.Component {
   }
 
   downloadFile(result, name) {
+    console.log(result)
     XLSX.writeFile(result, `${name}.xlsx`)
   }
 

@@ -1,5 +1,5 @@
 import XLSX from 'xlsx'
-import renderValues from './renderValues'
+import formatValues from './formatValues'
 
 export default async function(
   items,
@@ -16,7 +16,7 @@ export default async function(
     })
   const data = await Promise.all(
     items.map(async item => {
-      const renderedFields = await renderValues(_id, item.data, collectionFields, tableFields)
+      const renderedFields = await formatValues(_id, item.data, collectionFields, tableFields)
       return {
         ...(exportWithId && {_id: item._id}),
         ...renderedFields

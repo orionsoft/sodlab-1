@@ -29,7 +29,6 @@ export default class Result extends React.Component {
   }
 
   renderNumberValue(value, format) {
-    console.log(value, 'value')
     return <div>{this.renderValue(<NumberIncrement value={value} format={format} />)}</div>
   }
 
