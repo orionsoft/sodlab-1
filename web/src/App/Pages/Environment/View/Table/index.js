@@ -29,6 +29,9 @@ import Tooltip from 'orionsoft-parts/lib/components/Tooltip'
       exportable
       filterByDefault
       defaultLimit
+      filterSizeSmall
+      filterSizeMedium
+      filterSizeLarge
       filters {
         _id
         title
@@ -322,6 +325,11 @@ export default class Table extends React.Component {
           <div className={styles.title}>{table.title}</div>
         </div>
         <WithFilter
+          sizes={{
+            sizeSmall: table.filterSizeSmall,
+            sizeLarge: table.filterSizeLarge,
+            sizeMedium: table.filterSizeMedium
+          }}
           filters={table.filters}
           allowsNoFilter={table.allowsNoFilter}
           parameters={parameters}

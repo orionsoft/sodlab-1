@@ -21,6 +21,7 @@ import Checkbox from 'App/components/fieldTypes/checkbox/Field'
 import FieldOptions from './FieldOptions'
 import FooterOptions from './FooterOptions'
 import NumberField from 'orionsoft-parts/lib/components/fields/numeral/Number'
+import range from 'lodash/range'
 
 @withGraphQL(gql`
   query getForm($tableId: ID, $environmentId: ID) {
@@ -124,6 +125,10 @@ export default class Link extends React.Component {
     return translate('general.thisField')
   }
 
+  getSizeOptions() {
+    return range(12).map(index => ({label: `${12 - index}/12`, value: String(12 - index)}))
+  }
+
   @autobind
   removeTable() {
     const {environmentId} = this.props.match.params
@@ -217,7 +222,7 @@ export default class Link extends React.Component {
           top
           title={`Editar table ${this.props.table.title}`}
           description="Ita multos efflorescere. Non te export possumus nam tamen praesentibus voluptate
-          ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
+        ipsum voluptate. Amet consequat admodum. Quem fabulas offendit.">
           <AutoForm
             mutation="updateTable"
             getErrorFieldLabel={this.getErrorFieldLabel}
@@ -244,6 +249,34 @@ export default class Link extends React.Component {
                   />
                 )}
               </WithValue>
+              <div className="label">Tamaño Filtro</div>
+              <div className="row">
+                <div className="col-xs-12 col-sm-4">
+                  <div className="label">Columnas Móvil</div>
+                  <Field
+                    fieldName="filterSizeSmall"
+                    type={Select}
+                    options={this.getSizeOptions()}
+                  />
+                </div>
+                <div className="col-xs-12 col-sm-4">
+                  <div className="label">Columnas Mediano</div>
+                  <Field
+                    fieldName="filterSizeMedium"
+                    type={Select}
+                    options={this.getSizeOptions()}
+                  />
+                </div>
+                <div className="col-xs-12 col-sm-4">
+                  <div className="label">Columnas Largo</div>
+                  <Field
+                    fieldName="filterSizeLarge"
+                    type={Select}
+                    options={this.getSizeOptions()}
+                  />
+                </div>
+              </div>
+
               <div className="label">Roles</div>
               <Field fieldName="roles" type={Select} multi options={this.props.roles.items} />
               <div className="row">

@@ -60,6 +60,18 @@ export default {
       }
     }
   },
+  filterSizeSmall: {
+    type: String,
+    optinal: true
+  },
+  filterSizeMedium: {
+    type: String,
+    optinal: true
+  },
+  filterSizeLarge: {
+    type: String,
+    optinal: true
+  },
   fields: {
     label: 'Campos de tabla',
     type: [TableField],

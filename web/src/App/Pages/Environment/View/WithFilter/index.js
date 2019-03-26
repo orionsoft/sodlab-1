@@ -13,6 +13,7 @@ export default class WithFilter extends React.Component {
     allowsNoFilter: PropTypes.bool,
     filterByDefault: PropTypes.string,
     parameters: PropTypes.object,
+    sizes: PropTypes.object,
     children: PropTypes.func
   }
 
@@ -92,7 +93,7 @@ export default class WithFilter extends React.Component {
   }
 
   renderFilterForm() {
-    const {filters, allowsNoFilter} = this.props
+    const {filters, allowsNoFilter, sizes} = this.props
     const options = []
     for (const filter of filters) {
       options.push({label: filter.title, value: filter._id})
@@ -101,10 +102,15 @@ export default class WithFilter extends React.Component {
     if (!hasOptions) return
     return (
       <div className={styles.container}>
-        <Form state={this.state} onChange={changes => this.setState(changes)}>
-          <div className="label">Elige un filtro</div>
-          <Field fieldName="filterId" placeholder="Sin filtro" type={Select} options={options} />
-        </Form>
+        <div
+          className={`col-xs-${sizes.sizeSmall} col-sm-${sizes.sizeMedium} col-md-${
+            sizes.sizeLarge
+          }`}>
+          <Form state={this.state} onChange={changes => this.setState(changes)}>
+            <div className="label">Elige un filtro</div>
+            <Field fieldName="filterId" placeholder="Sin filtro" type={Select} options={options} />
+          </Form>
+        </div>
       </div>
     )
   }
