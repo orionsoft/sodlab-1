@@ -132,15 +132,15 @@ export default class Table extends React.Component {
       field.fieldName !== '_id'
         ? this.getCollectionField(field.fieldName)
         : {
-            label: field.label,
-            name: field.fieldName,
-            options: {
-              collectionId: this.props.table.collectionId,
-              labelKey: 'ID',
-              valueKey: '_id'
-            },
-            type: 'string'
-          }
+          label: field.label,
+          name: field.fieldName,
+          options: {
+            collectionId: this.props.table.collectionId,
+            labelKey: 'ID',
+            valueKey: '_id'
+          },
+          type: 'string'
+        }
 
     const {collectionId} = this.props.table
     try {
@@ -276,6 +276,7 @@ export default class Table extends React.Component {
   @autobind
   renderPaginated({filterId, filterOptions}) {
     const {table, parameters} = this.props
+    console.log(table)
     return (
       <div>
         {this.renderSelectionActions({

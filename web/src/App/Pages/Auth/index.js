@@ -7,6 +7,7 @@ import Login from './Login'
 import VerifyEmail from './VerifyEmail'
 import Forgot from './Forgot'
 import Reset from './Reset'
+import Register from './Register'
 import Enroll from './Enroll'
 import {Route, Switch, withRouter} from 'react-router-dom'
 import withGraphQL from 'react-apollo-decorators/lib/withGraphQL'
@@ -85,7 +86,7 @@ export default class Auth extends React.Component {
           {this.renderLogo()}
           <Switch>
             <Route path="/login" render={() => <Login {...otherProps} />} />
-            {/* <Route path="/register" render={() => <Register {...otherProps} />} /> */}
+            <Route path="/register" render={() => <Register {...otherProps} />} />
             <Route
               path="/verify-email/:token"
               render={({match}) => <VerifyEmail token={match.params.token} {...otherProps} />}

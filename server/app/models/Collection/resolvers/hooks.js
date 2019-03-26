@@ -12,7 +12,7 @@ export default resolver({
             collectionId: collection._id,
             environmentId: collection.environmentId
           },
-          type.replace('after.')
+          type.replace('after.', '')
         )
       })
     })

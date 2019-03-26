@@ -7,6 +7,7 @@ let envId = null
 let envFetched = false
 
 const fetchEnvironment = async function(apollo, url) {
+  console.log(url)
   envFetched = true
   const {data} = await apollo.query({
     query: gql`
@@ -34,7 +35,7 @@ export default function(ComposedComponent) {
 
     async componentWillMount() {
       if (envFetched) return this.setState({loading: false, envId})
-      await fetchEnvironment(this.props.client, window.location.host)
+      await fetchEnvironment(this.props.client, 'testing.localhost')
       this.setState({envId, loading: false})
     }
 

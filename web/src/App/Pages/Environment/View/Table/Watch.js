@@ -23,7 +23,9 @@ export default class Watch extends React.Component {
 
   @autobind
   onUpdate(data) {
+    console.log(data)
     this.props.client.queryManager.refetchQueryByName(`paginated_${this.props.collectionId}`)
+    this.props.client.queryManager.refetchQueryByName(`getIndicatorResult`)
   }
 
   render() {
